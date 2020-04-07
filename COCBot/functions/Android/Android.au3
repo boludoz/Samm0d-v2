@@ -774,17 +774,17 @@ Func DetectInstalledAndroid()
 EndFunc   ;==>DetectInstalledAndroid
 
 ; Find preferred Adb Path. Current Android ADB is used and saved in profile.ini and shared across instances.
-Func FindPreferredAdbPath() ;mod
+Func FindPreferredAdbPath()
 	Local $aDll = ["AdbWinApi.dll", "AdbWinUsbApi.dll"]
 	Local $adbPath = Execute("Get" & $g_sAndroidEmulator & "AdbPath()")
 	Local $sAdbFolder = StringLeft($adbPath, StringInStr($adbPath, "\", 0, -1))
 	Local $sAdbFile = StringMid($adbPath, StringLen($sAdbFolder) + 1)
 	Local $sRealAdb = @ScriptDir & "\lib\adb\adb.exe"
 	Local $sDummyAdb = @ScriptDir & "\lib\DummyExe.exe"
-	Local $bDummy =  (FileExists($sDummyAdb)) ? (True) : (False)
+	Local $bDummy = $g_iAndroidAdbReplace = 2 And FileExists($sDummyAdb)
 	Local $sAdb = ($bDummy ? $sDummyAdb : $sRealAdb)
 
-	If $adbPath And FileExists($sAdb) And (Not $bDummy Or (FileExists(@ScriptDir & "\lib\adb\" & $aDll[0]) And FileExists(@ScriptDir & "\lib\adb\" & $aDll[1]))) _
+	If $g_iAndroidAdbReplace And $adbPath And FileExists($sAdb) And (Not $bDummy Or (FileExists(@ScriptDir & "\lib\adb\" & $aDll[0]) And FileExists(@ScriptDir & "\lib\adb\" & $aDll[1]))) _
 			And (FileGetSize($adbPath) <> FileGetSize($sAdb) Or (Not $bDummy And (FileGetSize($sAdbFolder & $aDll[0]) <> FileGetSize(@ScriptDir & "\lib\adb\" & $aDll[0]) Or FileGetSize($sAdbFolder & $aDll[1]) <> FileGetSize(@ScriptDir & "\lib\adb\" & $aDll[1])))) Then
 		Local $aAdbProcess = ProcessesExist($adbPath)
 		For $i = 0 To UBound($aAdbProcess) -1
@@ -3632,7 +3632,7 @@ Func AndroidMinitouchClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect =
 		ElseIf $ReleaseClicks = True Then
 		EndIf
 		Local $sleepTimer = __TimerInit()
-;~ 		If True Then
+		If True Then
 			;SetDebugLog("AndroidFastClick: $times=" & $times & ", $loops=" & $loops & ", $remaining=" & $remaining)
 			For $j = 0 To $recordsClicks - 1
 				Local $BTN_TOUCH_DOWN = True
@@ -3689,11 +3689,7 @@ Func AndroidMinitouchClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect =
 					Else
 						AndroidAdbSendMinitouchShellCommand($send)
 					EndIf
-
-					#Region - Random Sleep - Team AIO Mod++
-;~ 					_SleepMicro(($iDelay + $sleep) * 1000)
-				    If _Sleep(($iDelay + $sleep)) Then Return
-					#EndRegion
+					_SleepMicro(($iDelay + $sleep) * 1000)
 					If $g_bDebugClick Then SetDebugLog("minitouch: d 0 " & $x & " " & $y & " 50, speed=" & $sleep & ", delay=" & $iDelay)
 					;_SleepMicro(10000)
 				EndIf
@@ -3703,39 +3699,39 @@ Func AndroidMinitouchClick($x, $y, $times = 1, $speed = 0, $checkProblemAffect =
 				EndIf
 				;TCPRecv($g_bAndroidAdbMinitouchSocket, 256, 1)
 			Next
-;~ 		EndIf
+		EndIf
 		$g_bSilentSetLog = True
 		$g_bSilentSetLog = $_SilentSetLog
-;~ 		If False Then
-;~ 			; disabled for now
-;~ 			If $speed > 0 Then
-;~ 				; speed was overwritten with $g_iAndroidAdbClickGroupDelay
-;~ 				;AndroidAdbSendShellCommand($sleep)
-;~ 				If $g_bDebugClick Then SetDebugLog("minitouch: wait between group clicks: " & $speed & " ms.")
-;~ 				$send = "w " & $speed & @LF
-;~ 				If $g_iAndroidAdbMinitouchMode = 0 Then
-;~ 					$bytes += TCPSend($g_bAndroidAdbMinitouchSocket, $send)
-;~ 				Else
-;~ 					AndroidAdbSendMinitouchShellCommand($send)
-;~ 				EndIf
-;~ 				_SleepMicro($speed * 1000)
-;~ 				;Local $sleepTime = $speed - __TimerDiff($sleepTimer)
-;~ 				;If $sleepTime > 0 Then _Sleep($sleepTime, False)
-;~ 			EndIf
-;~ 			If $adjustSpeed > 0 Then
-;~ 				; wait remaining time
-;~ 				Local $wait = Round($adjustSpeed - __TimerDiff($timer))
-;~ 				If $wait > 0 Then
-;~ 					If $g_bDebugAndroid Or $g_bDebugClick Then
-;~ 						$g_bSilentSetLog = True
-;~ 						SetDebugLog("AndroidMinitouchClick: Sleep " & $wait & " ms.")
-;~ 						$g_bSilentSetLog = $_SilentSetLog
-;~ 					EndIf
-;~ 					_Sleep($wait, False)
-;~ 				EndIf
-;~ 			EndIf
-;~ 		EndIf
-;~ 		$timeSlept += __TimerDiff($sleepTimer)
+		If False Then
+			; disabled for now
+			If $speed > 0 Then
+				; speed was overwritten with $g_iAndroidAdbClickGroupDelay
+				;AndroidAdbSendShellCommand($sleep)
+				If $g_bDebugClick Then SetDebugLog("minitouch: wait between group clicks: " & $speed & " ms.")
+				$send = "w " & $speed & @LF
+				If $g_iAndroidAdbMinitouchMode = 0 Then
+					$bytes += TCPSend($g_bAndroidAdbMinitouchSocket, $send)
+				Else
+					AndroidAdbSendMinitouchShellCommand($send)
+				EndIf
+				_SleepMicro($speed * 1000)
+				;Local $sleepTime = $speed - __TimerDiff($sleepTimer)
+				;If $sleepTime > 0 Then _Sleep($sleepTime, False)
+			EndIf
+			If $adjustSpeed > 0 Then
+				; wait remaining time
+				Local $wait = Round($adjustSpeed - __TimerDiff($timer))
+				If $wait > 0 Then
+					If $g_bDebugAndroid Or $g_bDebugClick Then
+						$g_bSilentSetLog = True
+						SetDebugLog("AndroidMinitouchClick: Sleep " & $wait & " ms.")
+						$g_bSilentSetLog = $_SilentSetLog
+					EndIf
+					_Sleep($wait, False)
+				EndIf
+			EndIf
+		EndIf
+		$timeSlept += __TimerDiff($sleepTimer)
 		If $g_bRunState = False Then ExitLoop
 		If $__TEST_ERROR_SLOW_ADB_CLICK_DELAY > 0 Then Sleep($__TEST_ERROR_SLOW_ADB_CLICK_DELAY)
 		;If $speed > 0 Then Sleep($speed)
@@ -4238,6 +4234,46 @@ Func AndroidPicturePathAutoConfig($myPictures = Default, $subDir = Default, $bSe
 	Return $Result
 EndFunc   ;==>AndroidPicturePathAutoConfig
 
+Func ConfigureSharedFolder($iMode = 0, $bSetLog = Default)
+	If $bSetLog = Default Then $bSetLog = True
+	Local $Result = Execute("ConfigureSharedFolder" & $g_sAndroidEmulator & "(" & $iMode & "," & $bSetLog & ")")
+	If Not ($Result = "" And @error <> 0) Then
+		Return $Result
+	EndIf
+
+	; Not implemented, use default
+	Local $bResult = False
+
+	Switch $iMode
+		Case 0 ; check that shared folder is configured in VM
+			Local $aRegexResult = StringRegExp($__VBoxVMinfo, "Name: '" & $g_sAndroidSharedFolderName & "', Host path: '(.*)'.*", $STR_REGEXPARRAYGLOBALMATCH)
+			If Not @error Then
+				$bResult = True
+				$g_bAndroidSharedFolderAvailable = True
+				$g_sAndroidPicturesHostPath = $aRegexResult[UBound($aRegexResult) - 1] & "\"
+			Else
+				SetLog($g_sAndroidEmulator & " shared folder is not available", $COLOR_ERROR)
+				$g_sAndroidPicturesHostPath = ""
+				$g_bAndroidAdbScreencap = False
+				$g_bAndroidSharedFolderAvailable = False
+			EndIf
+		Case 1 ; create missing shared folder
+			$bResult = AndroidPicturePathAutoConfig(Default, Default, $bSetLog)
+		Case 2 ; Configure VM and add missing shared folder
+			If $g_bAndroidSharedFolderAvailable = False And $g_bAndroidPicturesPathAutoConfig = True And FileExists($g_sAndroidPicturesHostPath) = 1 Then
+				Local $cmdOutput, $process_killed
+				Local $path = $g_sAndroidPicturesHostPath
+				; remove tailing backslash
+				If StringRight($path, 1) = "\" Then $path = StringLeft($path, StringLen($path) - 1)
+				$cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder remove " & $g_sAndroidInstance & " --name " & $g_sAndroidSharedFolderName, $process_killed)
+				$cmdOutput = LaunchConsole($__VBoxManage_Path, "sharedfolder add " & $g_sAndroidInstance & " --name " & $g_sAndroidSharedFolderName & " --hostpath """ & $path & """  --automount", $process_killed)
+				$bResult = True
+			EndIf
+	EndSwitch
+
+	Return SetError(0,0, $bResult)
+EndFunc
+
 Func OpenAdbShell()
 	Local $bWasRunState = $g_bRunState
 	$g_bRunState = True
@@ -4359,9 +4395,6 @@ Func UpdateAndroidBackgroundMode()
 	; update Android Brackground Mode support
 	Local $iMode = (($g_iAndroidBackgroundMode = 0) ? ($g_iAndroidBackgroundModeDefault) : ($g_iAndroidBackgroundMode))
 	Local $iBackgroundMode = Execute("Get" & $g_sAndroidEmulator & "BackgroundMode()")
-
-	If _Sleep(150) Then Return ; Team AIO Mod++
-
 	If $iBackgroundMode = "" And @error <> 0 Then
 		; Not implemented
 		Local $sMode = "Unknown"
@@ -4398,8 +4431,6 @@ Func UpdateAndroidBackgroundMode()
 				SetLog($g_sAndroidEmulator & " (" & $g_sAndroidInstance & ") unsupported Graphics Engine / Render Mode, using " & $sMode, $COLOR_WARNING)
 		EndSwitch
 	EndIf
-
-	If _Sleep(150) Then Return ; Team AIO Mod++
 
 	Switch $iMode
 		Case 1 ; WinAPI mode (faster, but requires Android DirectX)
@@ -4477,10 +4508,10 @@ Func PullSharedPrefs($sProfile = $g_sProfileCurrentName)
 	Local $iFiles = 5
 	Local $iFilesPulled = 0
 
-;~ 	If Not $g_sAndroidPicturesPathAvailable Then
-;~ 		SetLog("Shard folder in Android not availble, cannot pull shared_prefs", $COLOR_RED)
-;~ 		Return SetError(0, 0, $Result)
-;~ 	EndIf
+	If Not $g_sAndroidPicturesPathAvailable Then
+		SetLog("Shard folder in Android not availble, cannot pull shared_prefs", $COLOR_RED)
+		Return SetError(0, 0, $Result)
+	EndIf
 
 	SetDebugLog("Pulling shared_pref of profile " & $sProfile)
 	Local $sProfileMD5 = _Crypt_HashData($sProfile, $CALG_MD5)
@@ -4721,7 +4752,7 @@ Func PushSharedPrefs($sProfile = $g_sProfileCurrentName, $bCloseGameIfRunning = 
 		SetLog("Pushed shared_prefs of profile " & $sProfile & " (" & $iFilesPushed & " files)")
 		$g_PushedSharedPrefsProfile = $sProfile
 		$g_PushedSharedPrefsProfile_Timer = __TimerInit()
-;~ 		If $g_bUpdateSharedPrefs And $g_iAndroidZoomoutMode = 4 Then $g_bAndroidZoomoutModeFallback = True
+		If $g_bUpdateSharedPrefs And $g_iAndroidZoomoutMode = 4 Then $g_bAndroidZoomoutModeFallback = True
 		_Sleep(3000)
 	Else
 		; something went wrong

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: ProMac (05-2017)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -23,10 +23,10 @@ Func BuilderBaseReport($bBypass = False, $bSetLog = True)
 		Case True
 			If $bSetLog Then SetLog("Updating Builder Base Resource Values", $COLOR_INFO)
 		Case Else
-			If $bSetLog Then SetLog("Village Report Error, You have been a BAD programmer!", $COLOR_ERROR)
+			If $bSetLog Then SetLog("Builder Base Village Report Error, You have been a BAD programmer!", $COLOR_ERROR)
 	EndSwitch
 
-	If Not $bSetLog Then SetLog("Village Report", $COLOR_INFO)
+	If Not $bSetLog Then SetLog("Builder Base Village Report", $COLOR_INFO)
 
 	getBuilderCount($bSetLog, True) ; update builder data
 	If _Sleep($DELAYRESPOND) Then Return

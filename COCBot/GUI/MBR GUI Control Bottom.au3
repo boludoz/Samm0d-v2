@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: GkevinOD (2014)
 ; Modified ......: Hervidero (2015), KnowJack(July 2015), CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -43,9 +43,11 @@ Func Initiate()
 			SetLogCentered(" Warning Debug Mode Enabled! ", "-", $COLOR_ERROR)
 		EndIf
 
-		$g_bFirstStart = True
 		$g_bInitiateSwitchAcc = True
-		$g_iFirstTimeLab = 0
+		$g_sLabUpgradeTime = ""
+		For $i = 0 To $eLootCount - 1
+			$g_abFullStorage[$i] = False
+		Next
 
 ;~ 		If $g_bNotifyDeleteAllPushesOnStart Then _DeletePush()
 
@@ -153,12 +155,6 @@ Func UpdateChkBackground()
 	EndIf
 EndFunc   ;==>UpdateChkBackground
 
-Func IsStopped()
-	If $g_bRunState Then Return False
-	If $g_bRestart Then Return True
-	Return False
-EndFunc   ;==>IsStopped
-
 Func btnStart()
 	; decide when to run
 	EnableControls($g_hFrmBotBottom, False, $g_aFrmBotBottomCtrlState)
@@ -212,13 +208,6 @@ Func btnAttackNowLB()
 		$g_iMatchMode = $LB
 	EndIf
 EndFunc   ;==>btnAttackNowLB
-
-Func btnAttackNowTS()
-	If $g_bRunState Then
-		$g_bBtnAttackNowPressed = True
-		$g_iMatchMode = $TS
-	EndIf
-EndFunc   ;==>btnAttackNowTS
 
 ;~ Hide Android Window again without overwriting $botPos[0] and [1]
 Func reHide()

@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........: KnowJack (April-2015)
 ; Modified ......: KnowJack (Jun/Aug-2015),Sardo 2015-08,Monkeyhunter(2106-2)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -40,7 +40,7 @@ Func LocateUpgrades()
 	Local $wasDown = AndroidShieldForcedDown()
 	AndroidShield("LocateUpgrades") ; Update shield status due to manual $g_bRunState
 
-	;	SetLog("Upgrade Buildings and Auto Wall Upgrade Can Not Use same Loot Type!", $COLOR_SUCCESS)  = disabled due v7.0 skipwallupgrade code
+	;SetLog("Upgrade Buildings and Auto Wall Upgrade Can Not Use same Loot Type!", $COLOR_SUCCESS)  = disabled due v7.0 skipwallupgrade code
 	Local $MsgBox, $stext
 	Local $icount = 0
 	Local $hGraphic = 0
@@ -104,7 +104,7 @@ Func LocateUpgrades()
 						SetDebugLog("Updgrade #" & $icount & " added at " & $g_avBuildingUpgrades[$icount][0] & "/" & $g_avBuildingUpgrades[$icount][1] & ", marker drawn: " & $bMarkerDrawn)
 						_GUICtrlSetImage($g_hPicUpgradeStatus[$icount], $g_sLibIconPath, $eIcnYellowLight) ; Set GUI Status to Yellow showing ready for upgrade
 						$g_aiPicUpgradeStatus[$icount] = $eIcnYellowLight
-						_Sleep(750)
+						If _Sleep(750) Then Return
 					Else
 						SetLog("Bad location recorded, location skipped?", $COLOR_ERROR)
 						$g_avBuildingUpgrades[$icount][0] = -1
@@ -185,12 +185,12 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 	Local $inputbox, $iLoot, $aString, $aResult, $ButtonPixel
 	Local $bOopsFlag = False
 
-	If $bRepeat = True Or $g_abUpgradeRepeatEnable[$inum] = True Then ; check for upgrade in process when continiously upgrading
+	If $bRepeat Or $g_abUpgradeRepeatEnable[$inum] Then ; check for upgrade in process when continiously upgrading
 		ClickP($aAway, 1, 0, "#0999") ;Click Away to close windows
 		If _Sleep($DELAYUPGRADEVALUE1) Then Return
 		BuildingClick($g_avBuildingUpgrades[$inum][0], $g_avBuildingUpgrades[$inum][1]) ;Select upgrade trained
 		If _Sleep($DELAYUPGRADEVALUE4) Then Return
-		If $bOopsFlag = True Then DebugImageSave("ButtonView")
+		If $bOopsFlag = True Then SaveDebugImage("ButtonView")
 		; check if upgrading collector type building, and reselect in case previous click only collect resource
 		If StringInStr($g_avBuildingUpgrades[$inum][4], "collect", $STR_NOCASESENSEBASIC) Or _
 				StringInStr($g_avBuildingUpgrades[$inum][4], "mine", $STR_NOCASESENSEBASIC) Or _
@@ -252,16 +252,11 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 	EndIf
 	SetLog("Upgrade Name = " & $g_avBuildingUpgrades[$inum][4] & ", Level = " & $g_avBuildingUpgrades[$inum][5], $COLOR_INFO) ;Debug
 
-	If QuickMIS("BC1", $g_sImgAUpgradeUpgradeBtn, 120, 630, 740, 680) Then
-		Local $ButtonPixel[2]
-		$ButtonPixel[0] = 120 + $g_iQuickMISX
-		$ButtonPixel[1] = 630 + $g_iQuickMISY
-		If $g_bDebugSetlog Or $bOopsFlag Then SetLog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
-
-		Click($ButtonPixel[0] + 20, $ButtonPixel[1] + 20, 1, 0, "#0213") ; Click Upgrade Button
+	Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
+	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
+		ClickP($aUpgradeButton, 1, 0, "#0213") ; Click Upgrade Button
 		If _Sleep($DELAYUPGRADEVALUE5) Then Return
-
-		If $bOopsFlag = True And $g_bDebugImageSave Then DebugImageSave("UpgradeView")
+		If $bOopsFlag And $g_bDebugImageSave Then SaveDebugImage("UpgradeView")
 
 		_CaptureRegion()
 		Select ;Ensure the right upgrade window is open!
@@ -292,7 +287,8 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 				If $g_avBuildingUpgrades[$inum][2] = "" Then $g_avBuildingUpgrades[$inum][2] = Number(getUpgradeResource(366, 487 + $g_iMidOffsetY)) ;read RED upgrade text
 				If $g_avBuildingUpgrades[$inum][2] = "" And $g_abUpgradeRepeatEnable[$inum] = False Then $bOopsFlag = True ; set error flag for user to set value if not repeat upgrade
 
-				$g_avBuildingUpgrades[$inum][6] = getBldgUpgradeTime(195, 307 + $g_iMidOffsetY) ; Try to read white text showing time for upgrade
+				;HArchH X value was 195
+				$g_avBuildingUpgrades[$inum][6] = getBldgUpgradeTime(185, 307 + $g_iMidOffsetY) ; Try to read white text showing time for upgrade
 				SetLog("Upgrade #" & $inum + 1 & " Time = " & $g_avBuildingUpgrades[$inum][6], $COLOR_INFO)
 				If $g_avBuildingUpgrades[$inum][6] <> "" Then $g_avBuildingUpgrades[$inum][7] = "" ; Clear old upgrade end time
 
@@ -351,9 +347,9 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
 			Local $stext = GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_09", "Save copy of upgrade image for developer analysis ?")
 			Local $MsgBox = _ExtMsgBox(48, GetTranslatedFileIni("MBR Popups", "YES_NO", "YES|NO"), GetTranslatedFileIni("MBR Popups", "Notice", "Notice"), $stext, 60, $g_hFrmBot)
-			If $MsgBox = 1 And $g_bDebugImageSave Then DebugImageSave("UpgradeReadError_")
+			If $MsgBox = 1 And $g_bDebugImageSave Then SaveDebugImage("UpgradeReadError_")
 		EndIf
-		If $g_avBuildingUpgrades[$inum][3] = "" And $bOopsFlag = True And $bRepeat = False Then
+		If $g_avBuildingUpgrades[$inum][3] = "" And $bOopsFlag And Not $bRepeat Then
 			_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 10, "Comic Sans MS", 500)
 			$inputbox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_10", "   GOLD   |  ELIXIR  |DARK ELIXIR"), GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_11",  "Need User Help"), GetTranslatedFileIni("MBR Popups", "Func_Locate_Building_12", "Select Upgrade Type:"), 0, $g_hFrmBot)
 			If $g_bDebugSetlog Then SetDebugLog(" _MsgBox returned = " & $inputbox, $COLOR_DEBUG)
@@ -370,7 +366,7 @@ Func UpgradeValue($inum, $bRepeat = False) ;function to find the value and type 
 			EndSwitch
 			SetLog("User selected type = " & $g_avBuildingUpgrades[$inum][3], $COLOR_DEBUG)
 		EndIf
-		If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][3] = "" And $g_abUpgradeRepeatEnable[$inum] = False Then ;report loot error if exists
+		If $g_avBuildingUpgrades[$inum][2] = "" Or $g_avBuildingUpgrades[$inum][3] = "" And Not $g_abUpgradeRepeatEnable[$inum] Then ;report loot error if exists
 			SetLog("Error finding loot info " & $inum & ", Loot = " & $g_avBuildingUpgrades[$inum][2] & ", Type= " & $g_avBuildingUpgrades[$inum][3], $COLOR_ERROR)
 			$g_avBuildingUpgrades[$inum][0] = -1 ; Clear upgrade location value as it is invalid
 			$g_avBuildingUpgrades[$inum][1] = -1 ; Clear upgrade location value as it  is invalid

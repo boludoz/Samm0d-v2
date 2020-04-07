@@ -1,4 +1,3 @@
-
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: ClickRemove
 ; Description ...: checks if shield information window is open, finds remove button and clicks if found
@@ -7,7 +6,7 @@
 ; Return values .: Returns True if button found, if button not found, then returns False and sets @error = 1
 ; Author ........: MonkeyHunter (2015-12)(2017-06)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -30,7 +29,7 @@ Func ClickRemove($FeatureName = "Remove")
 			EndIf
 			If $i > 15 Then
 				SetLog("Can not find button for " & $FeatureName & ", giving up", $COLOR_ERROR)
-				If $g_bDebugImageSave Then DebugImageSave($FeatureName & "_ButtonCheck_")
+				If $g_bDebugImageSave Then SaveDebugImage($FeatureName & "_ButtonCheck_")
 				SetError(1, @extended, False)
 				Return
 			EndIf

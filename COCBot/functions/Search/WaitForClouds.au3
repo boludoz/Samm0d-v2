@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........: MonkeyHunter (08-2016)
 ; Modified ......: MonkeyHunter (05-2017) MMHK (07-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -16,7 +16,8 @@
 Func WaitForClouds()
 
 	If $g_bDebugSetlog Then SetDebugLog("Begin WaitForClouds:", $COLOR_DEBUG1)
-
+	$g_bCloudsActive = True
+	
 	Local $iCount = 0
 	Local $bigCount = 0, $iLastTime = 0
 	Local $hMinuteTimer, $iSearchTime
@@ -80,7 +81,7 @@ Func WaitForClouds()
 			$g_bIsClientSyncError = True
 			$g_bRestart = True
 			CloseCoC(True)
-			Return
+			ExitLoop
 		EndIf
 		If $g_bDebugSetlog Then _GUICtrlStatusBar_SetTextEx($g_hStatusBar, " Status: Loop to clean screen without Clouds, # " & $iCount)
 		$iSearchTime = __TimerDiff($hMinuteTimer) / 60000 ;get time since minute timer start in minutes

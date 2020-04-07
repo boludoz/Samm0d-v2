@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run team
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -113,18 +113,33 @@ Func chkLab()
 		GUICtrlSetState($g_hPicLabUpgrade, $GUI_SHOW)
 		GUICtrlSetState($g_hLblNextUpgrade, $GUI_ENABLE)
 		GUICtrlSetState($g_hCmbLaboratory, $GUI_ENABLE)
-		;GUICtrlSetState($g_hBtnLocateLaboratory, $GUI_SHOW)
-		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][4])
+		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 	Else
 		$g_bAutoLabUpgradeEnable = False
 		GUICtrlSetState($g_hPicLabUpgrade, $GUI_HIDE)
 		GUICtrlSetState($g_hLblNextUpgrade, $GUI_DISABLE)
 		GUICtrlSetState($g_hCmbLaboratory, $GUI_DISABLE)
-		;GUICtrlSetState($g_hBtnLocateLaboratory, $GUI_HIDE)
-		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[0][4])
+		_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[0][1])
 	EndIf
 	LabStatusGUIUpdate()
 EndFunc   ;==>chkLab
+
+Func chkStarLab()
+	If GUICtrlRead($g_hChkAutoStarLabUpgrades) = $GUI_CHECKED Then
+		$g_bAutoStarLabUpgradeEnable = True
+		GUICtrlSetState($g_hPicStarLabUpgrade, $GUI_SHOW)
+		GUICtrlSetState($g_hLblNextSLUpgrade, $GUI_ENABLE)
+		GUICtrlSetState($g_hCmbStarLaboratory, $GUI_ENABLE)
+		_GUICtrlSetImage($g_hPicStarLabUpgrade, $g_sLibIconPath, $g_avStarLabTroops[$g_iCmbStarLaboratory][4])
+	Else
+		$g_bAutoStarLabUpgradeEnable = False
+		GUICtrlSetState($g_hPicStarLabUpgrade, $GUI_HIDE)
+		GUICtrlSetState($g_hLblNextSLUpgrade, $GUI_DISABLE)
+		GUICtrlSetState($g_hCmbStarLaboratory, $GUI_DISABLE)
+		_GUICtrlSetImage($g_hPicStarLabUpgrade, $g_sLibIconPath, $g_avStarLabTroops[0][4])
+	EndIf
+	StarLabStatusGUIUpdate()
+EndFunc   ;==>chkStarLab
 
 Func LabStatusGUIUpdate()
 	If _DateIsValid($g_sLabUpgradeTime) Then
@@ -143,10 +158,32 @@ Func LabStatusGUIUpdate()
 	EndIf
 EndFunc   ;==>LabStatusGUIUpdate
 
+Func StarLabStatusGUIUpdate()
+	If _DateIsValid($g_sStarLabUpgradeTime) Then
+		_GUICtrlSetTip($g_hBtnResetStarLabUpgradeTime, GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_01", "Visible Red button means that laboratory upgrade in process") & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_02", "This will automatically disappear when near time for upgrade to be completed.") & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_03", "If upgrade has been manually finished with gems before normal end time,") & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_04", "Click red button to reset internal upgrade timer BEFORE STARTING NEW UPGRADE") & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_05", "Caution - Unnecessary timer reset will force constant checks for lab status") & @CRLF & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_06", "Troop Upgrade started") & ", " & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_07", "Will begin to check completion at:") & " " & $g_sStarLabUpgradeTime & @CRLF & " ")
+		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_SHOW)
+		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_HIDE)
+		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>StarLabStatusGUIUpdate
+
 Func cmbLab()
 	$g_iCmbLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbLaboratory)
-	_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][4])
+	_GUICtrlSetImage($g_hPicLabUpgrade, $g_sLibIconPath, $g_avLabTroops[$g_iCmbLaboratory][1])
 EndFunc   ;==>cmbLab
+
+Func cmbStarLab()
+	$g_iCmbStarLaboratory = _GUICtrlComboBox_GetCurSel($g_hCmbStarLaboratory)
+	_GUICtrlSetImage($g_hPicStarLabUpgrade, $g_sLibIconPath, $g_avStarLabTroops[$g_iCmbStarLaboratory][4])
+EndFunc   ;==>cmbStarLab
 
 Func ResetLabUpgradeTime()
 	; Display are you sure message
@@ -173,23 +210,33 @@ Func ResetLabUpgradeTime()
 	EndIf
 EndFunc   ;==>ResetLabUpgradeTime
 
+Func ResetStarLabUpgradeTime()
+	; Display are you sure message
+	_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
+	Local $stext = @CRLF & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_07", "Are you 100% sure you want to reset lab upgrade timer?") & @CRLF & _
+			GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_08", "Click OK to reset") & @CRLF & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_09", "Or Click Cancel to exit") & @CRLF
+	Local $MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_10", "Reset timer") & "|" & GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_11", "Cancel and Return"), _
+							   GetTranslatedFileIni("MBR Func_Village_Upgrade", "Lab_GUIUpdate_Info_12", "Reset laboratory upgrade timer?"), $stext, 120, $g_hFrmBot)
+	If $g_bDebugSetlog Then SetDebugLog("$MsgBox= " & $MsgBox, $COLOR_DEBUG)
+	If $MsgBox = 1 Then
+		$g_sStarLabUpgradeTime = ""
+		_GUICtrlSetTip($g_hBtnResetStarLabUpgradeTime, GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_01", "Visible Red button means that laboratory upgrade in process") & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_02", "This will automatically disappear when near time for upgrade to be completed.") & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_03", "If upgrade has been manually finished with gems before normal end time,") & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_04", "Click red button to reset internal upgrade timer BEFORE STARTING NEW UPGRADE") & @CRLF & _
+				GetTranslatedFileIni("MBR Func_Village_Upgrade", "BtnResetLabUpgradeTime_Info_05", "Caution - Unnecessary timer reset will force constant checks for lab status"))
+	EndIf
+	If _DateIsValid($g_sStarLabUpgradeTime) Then
+		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_SHOW)
+		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_ENABLE)
+	Else
+		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_HIDE)
+		GUICtrlSetState($g_hBtnResetStarLabUpgradeTime, $GUI_DISABLE)
+	EndIf
+EndFunc   ;==>ResetLabUpgradeTime
+
 Func chkUpgradeKing()
 	If $g_iTownHallLevel > 6 Then ; Must be TH7 or above to have King
-		GUICtrlSetState($g_hChkUpgradeKing, $GUI_ENABLE)
-		If GUICtrlRead($g_hChkUpgradeKing) = $GUI_CHECKED Then
-			$g_bUpgradeKingEnable = True
-			GUICtrlSetState($g_hChkDBKingWait, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkABKingWait, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkDBKingWait, $GUI_DISABLE)
-			GUICtrlSetState($g_hChkABKingWait, $GUI_DISABLE)
-			_GUI_Value_STATE("SHOW", $groupKingSleeping)
-		Else
-			$g_bUpgradeKingEnable = False
-			GUICtrlSetState($g_hChkDBKingWait, $GUI_ENABLE)
-			GUICtrlSetState($g_hChkABKingWait, $GUI_ENABLE)
-			_GUI_Value_STATE("HIDE", $groupKingSleeping)
-		EndIf
-
 		If GUICtrlRead($g_hCmbBoostBarbarianKing) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeKing, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
@@ -197,6 +244,25 @@ Func chkUpgradeKing()
 		Else
 			GUICtrlSetState($g_hChkUpgradeKing, $GUI_ENABLE)
 		EndIf
+
+		Local $ahGroupKingWait[4] = [$g_hChkDBKingWait, $g_hChkABKingWait, $g_hPicDBKingWait, $g_hPicABKingWait]
+		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_01", -1) & @CRLF & _
+						GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_02", -1)
+		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtKingWait_Info_03", "ATTENTION: King auto upgrade is currently enable.")
+		If GUICtrlRead($g_hChkUpgradeKing) = $GUI_CHECKED Then
+			$g_bUpgradeKingEnable = True
+			_GUI_Value_STATE("SHOW", $groupKingSleeping)
+			For $i In $ahGroupKingWait
+				_GUICtrlSetTip($i, $TxtTip & @CRLF & $TxtWarningTip)
+			Next
+		Else
+			$g_bUpgradeKingEnable = False
+			_GUI_Value_STATE("HIDE", $groupKingSleeping)
+			For $i In $ahGroupKingWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+		EndIf
+
 	Else
 		GUICtrlSetState($g_hChkUpgradeKing, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 	EndIf
@@ -204,27 +270,30 @@ EndFunc   ;==>chkUpgradeKing
 
 Func chkUpgradeQueen()
 	If $g_iTownHallLevel > 8 Then ; Must be TH9 or above to have Queen
-		GUICtrlSetState($g_hChkUpgradeQueen, $GUI_ENABLE)
-		If GUICtrlRead($g_hChkUpgradeQueen) = $GUI_CHECKED Then
-			$g_bUpgradeQueenEnable = True
-			GUICtrlSetState($g_hChkDBQueenWait, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkABQueenWait, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkDBQueenWait, $GUI_DISABLE)
-			GUICtrlSetState($g_hChkABQueenWait, $GUI_DISABLE)
-			_GUI_Value_STATE("SHOW", $groupQueenSleeping)
-		Else
-			$g_bUpgradeQueenEnable = False
-			GUICtrlSetState($g_hChkDBQueenWait, $GUI_ENABLE)
-			GUICtrlSetState($g_hChkABQueenWait, $GUI_ENABLE)
-			_GUI_Value_STATE("HIDE", $groupQueenSleeping)
-		EndIf
-
 		If GUICtrlRead($g_hCmbBoostArcherQueen) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
 			$g_bUpgradeQueenEnable = False
 		Else
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_ENABLE)
+		EndIf
+
+		Local $ahGroupQueenWait[4] = [$g_hChkDBQueenWait, $g_hChkABQueenWait, $g_hPicDBQueenWait, $g_hPicABQueenWait]
+		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_01", -1) & @CRLF & _
+						GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_02", -1)
+		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtQueenWait_Info_03", "ATTENTION: Queen auto upgrade is currently enable.")
+		If GUICtrlRead($g_hChkUpgradeQueen) = $GUI_CHECKED Then
+			$g_bUpgradeQueenEnable = True
+			_GUI_Value_STATE("SHOW", $groupQueenSleeping)
+			For $i In $ahGroupQueenWait
+				_GUICtrlSetTip($i, $TxtTip & @CRLF & $TxtWarningTip)
+			Next
+		Else
+			$g_bUpgradeQueenEnable = False
+			_GUI_Value_STATE("HIDE", $groupQueenSleeping)
+			For $i In $ahGroupQueenWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
 		EndIf
 	Else
 		GUICtrlSetState($g_hChkUpgradeQueen, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -233,21 +302,6 @@ EndFunc   ;==>chkUpgradeQueen
 
 Func chkUpgradeWarden()
 	If $g_iTownHallLevel > 10 Then ; Must be TH11 to have warden
-		GUICtrlSetState($g_hChkUpgradeWarden, $GUI_ENABLE)
-		If GUICtrlRead($g_hChkUpgradeWarden) = $GUI_CHECKED Then
-			$g_bUpgradeWardenEnable = True
-			GUICtrlSetState($g_hChkDBWardenWait, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkABWardenWait, $GUI_UNCHECKED)
-			GUICtrlSetState($g_hChkDBWardenWait, $GUI_DISABLE)
-			GUICtrlSetState($g_hChkABWardenWait, $GUI_DISABLE)
-			_GUI_Value_STATE("SHOW", $groupWardenSleeping)
-		Else
-			$g_bUpgradeWardenEnable = False
-			GUICtrlSetState($g_hChkDBWardenWait, $GUI_ENABLE)
-			GUICtrlSetState($g_hChkABWardenWait, $GUI_ENABLE)
-			_GUI_Value_STATE("HIDE", $groupWardenSleeping)
-		EndIf
-
 		If GUICtrlRead($g_hCmbBoostWarden) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
@@ -255,15 +309,67 @@ Func chkUpgradeWarden()
 		Else
 			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_ENABLE)
 		EndIf
+
+		Local $ahGroupWardenWait[4] = [$g_hChkDBWardenWait, $g_hChkABWardenWait, $g_hPicDBWardenWait, $g_hPicABWardenWait]
+		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_01", -1) & @CRLF & _
+						GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_02", -1)
+		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtWardenWait_Info_03", "ATTENTION: Warden auto upgrade is currently enable.")
+		If GUICtrlRead($g_hChkUpgradeWarden) = $GUI_CHECKED Then
+			$g_bUpgradeWardenEnable = True
+			_GUI_Value_STATE("SHOW", $groupWardenSleeping)
+			For $i In $ahGroupWardenWait
+				_GUICtrlSetTip($i, $TxtTip & @CRLF & $TxtWarningTip)
+			Next
+		Else
+			$g_bUpgradeWardenEnable = False
+			_GUI_Value_STATE("HIDE", $groupWardenSleeping)
+			For $i In $ahGroupWardenWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+		EndIf
 	Else
 		GUICtrlSetState($g_hChkUpgradeWarden, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
 	EndIf
 EndFunc   ;==>chkUpgradeWarden
 
+Func chkUpgradeChampion()
+	If $g_iTownHallLevel > 12 Then ; Must be TH13 to have Champion
+		If GUICtrlRead($g_hCmbBoostChampion) > 0 Then
+			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_DISABLE)
+			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)
+			$g_bUpgradeChampionEnable = False
+		Else
+			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_ENABLE)
+		EndIf
+
+		Local $ahGroupChampionWait[4] = [$g_hChkDBChampionWait, $g_hChkABChampionWait, $g_hPicDBChampionWait, $g_hPicABChampionWait]
+		Local $TxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_01", -1) & @CRLF & _
+						GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_02", -1)
+		Local $TxtWarningTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Search", "TxtChampionWait_Info_03", "ATTENTION: Champion auto upgrade is currently enable.")
+		If GUICtrlRead($g_hChkUpgradeChampion) = $GUI_CHECKED Then
+			$g_bUpgradeChampionEnable = True
+			_GUI_Value_STATE("SHOW", $groupChampionSleeping)
+			For $i In $ahGroupChampionWait
+				_GUICtrlSetTip($i, $TxtTip & @CRLF & $TxtWarningTip)
+			Next
+		Else
+			$g_bUpgradeChampionEnable = False
+			_GUI_Value_STATE("HIDE", $groupChampionSleeping)
+			For $i In $ahGroupChampionWait
+				_GUICtrlSetTip($i, $TxtTip)
+			Next
+		EndIf
+	Else
+		GUICtrlSetState($g_hChkUpgradeChampion, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
+	EndIf
+EndFunc   ;==>chkUpgradeChampion
+
 Func cmbHeroReservedBuilder()
 	$g_iHeroReservedBuilder = _GUICtrlComboBox_GetCurSel($g_hCmbHeroReservedBuilder)
 	If $g_iTownHallLevel > 6 Then ; Must be TH7 or above to have Heroes
-		If $g_iTownHallLevel > 10 Then ; For TH11 enable up to 3 reserved builders
+		If $g_iTownHallLevel > 12 Then ; For TH13 enable up to 4 reserved builders
+			GUICtrlSetData($g_hCmbHeroReservedBuilder, "|0|1|2|3|4", "0")
+		ElseIf $g_iTownHallLevel > 10 Then ; For TH11 enable up to 3 reserved builders
 			GUICtrlSetData($g_hCmbHeroReservedBuilder, "|0|1|2|3", "0")
 		ElseIf $g_iTownHallLevel > 8 Then ; For TH9 enable up to 2 reserved builders
 			GUICtrlSetData($g_hCmbHeroReservedBuilder, "|0|1|2", "0")
@@ -280,7 +386,7 @@ Func cmbHeroReservedBuilder()
 	EndIf
 	_GUICtrlComboBox_SetCurSel($g_hCmbHeroReservedBuilder, $g_iHeroReservedBuilder)
 EndFunc   ;==>cmbHeroReservedBuilder
-	
+
 Func chkWalls()
 	If GUICtrlRead($g_hChkWalls) = $GUI_CHECKED Then
 		$g_bAutoUpgradeWallsEnable = True
@@ -322,7 +428,7 @@ Func cmbWalls()
 	  GUICtrlSetState($g_ahWallsCurrentCount[$i], $GUI_SHOW)
 	  GUICtrlSetState($g_ahPicWallsLevel[$i], $GUI_SHOW)
    Next
-   For $i = $g_iCmbUpgradeWallsLevel+6 To 13
+   For $i = $g_iCmbUpgradeWallsLevel+6 To 14
 	  GUICtrlSetState($g_ahWallsCurrentCount[$i], $GUI_HIDE)
 	  GUICtrlSetState($g_ahPicWallsLevel[$i], $GUI_HIDE)
    Next
@@ -346,12 +452,12 @@ EndFunc   ;==>btnWalls
 
 Func chkAutoUpgrade()
 	If GUICtrlRead($g_hChkAutoUpgrade) = $GUI_CHECKED Then
-		$g_iChkAutoUpgrade = 1
+		$g_bAutoUpgradeEnabled = True
 		For $i = $g_hLblAutoUpgrade To $g_hTxtAutoUpgradeLog
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
 	Else
-		$g_iChkAutoUpgrade = 0
+		$g_bAutoUpgradeEnabled = False
 		For $i = $g_hLblAutoUpgrade To $g_hTxtAutoUpgradeLog
 			GUICtrlSetState($i, $GUI_DISABLE)
 		Next
@@ -378,7 +484,7 @@ Func chkResourcesToIgnore()
 EndFunc   ;==>chkResourcesToIgnore
 
 Func chkUpgradesToIgnore()
-	For $i = 0 To 12
+	For $i = 0 To 13
 		$g_iChkUpgradesToIgnore[$i] = GUICtrlRead($g_hChkUpgradesToIgnore[$i]) = $GUI_CHECKED ? 1 : 0
 	Next
 EndFunc   ;==>chkUpgradesToIgnore

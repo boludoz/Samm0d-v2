@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: cosote (2016)
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -15,17 +15,29 @@
 
 Func BotStart($bAutostartDelay = 0)
 	FuncEnter(BotStart)
+
+	If Not $g_bSearchMode Then
+		If $g_hLogFile = 0 Then CreateLogFile() ; only create new log file when doesn't exist yet
+		CreateAttackLogFile()
+		If $g_iFirstRun = -1 Then $g_iFirstRun = 1
+	EndIf
+	SetLogCentered(" BOT LOG ", Default, Default, True)
+
 	ResumeAndroid()
 	CleanSecureFiles()
 	CalCostCamp()
 	CalCostSpell()
 	CalCostSiege()
+	sldAdditionalClickDelay(True)
 
 	$g_bRunState = True
 	$g_bTogglePauseAllowed = True
 	$g_bSkipFirstZoomout = False
 	$g_bIsSearchLimit = False
 	$g_bIsClientSyncError = False
+	$g_bZoomoutFailureNotRestartingAnything = False
+	$g_bRestart = False
+	$g_bStayOnBuilderBase = False
 
 	EnableControls($g_hFrmBotBottom, False, $g_aFrmBotBottomCtrlState)
 	;$g_iFirstAttack = 0
@@ -35,13 +47,7 @@ Func BotStart($bAutostartDelay = 0)
 	$g_bMeetCondStop = False
 	$g_bIsClientSyncError = False
 	$g_bDisableBreakCheck = False ; reset flag to check for early warning message when bot start/restart in case user stopped in middle
-
-	If Not $g_bSearchMode Then
-		If $g_hLogFile = 0 Then CreateLogFile() ; only create new log file when doesn't exist yet
-		CreateAttackLogFile()
-		If $g_iFirstRun = -1 Then $g_iFirstRun = 1
-	EndIf
-	SetLogCentered(" BOT LOG ", Default, Default, True)
+	$g_bFirstStart = True
 
 	SaveConfig()
 	readConfig()
@@ -155,6 +161,7 @@ Func BotStop()
 	$g_bRunState = False
 	$g_bBotPaused = False
 	$g_bTogglePauseAllowed = True
+	$g_bRestart = False
 
 	;WinSetState($g_hFrmBotBottom, "", @SW_DISABLE)
 	Local $aCtrlState
@@ -165,7 +172,9 @@ Func BotStop()
 
 	;DistributorsUpdateGUI()
 	AndroidBotStopEvent() ; signal android that bot is now stopping
-	AndroidAdbTerminateShellInstance() ; terminate shell instance
+	If $g_bTerminateAdbShellOnStop Then
+		AndroidAdbTerminateShellInstance() ; terminate shell instance
+	EndIf
 	AndroidShield("btnStop", Default)
 
 	EnableControls($g_hFrmBotBottom, Default, $g_aFrmBotBottomCtrlState)
@@ -173,6 +182,7 @@ Func BotStop()
 	; update bottom buttons
 	GUICtrlSetState($g_hChkBackgroundMode, $GUI_ENABLE)
 	GUICtrlSetState($g_hBtnStart, $GUI_SHOW)
+	GUICtrlSetState($g_hBtnStart, $GUI_ENABLE)
 	GUICtrlSetState($g_hBtnStop, $GUI_HIDE)
 	GUICtrlSetState($g_hBtnPause, $GUI_HIDE)
 	GUICtrlSetState($g_hBtnResume, $GUI_HIDE)
@@ -180,13 +190,19 @@ Func BotStop()
 	GUICtrlSetState($g_hBtnSearchMode, $GUI_SHOW)
 	;GUICtrlSetState($g_hBtnMakeScreenshot, $GUI_ENABLE)
 
+	; update task bar buttons
+	_ITaskBar_UpdateTBButton($g_hTblStart, $THBF_ENABLED)
+	_ITaskBar_UpdateTBButton($g_hTblStop, $THBF_DISABLED)
+	_ITaskBar_UpdateTBButton($g_hTblPause, $THBF_DISABLED)
+	_ITaskBar_UpdateTBButton($g_hTblResume, $THBF_DISABLED)
+
 	; hide attack buttons if show
-		GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
-		GUICtrlSetState($g_hBtnAttackNowLB, $GUI_HIDE)
-		GUICtrlSetState($g_hBtnAttackNowTS, $GUI_HIDE)
-		HideShields(False)
-		;GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
-		$g_bBtnAttackNowPressed = False
+	GUICtrlSetState($g_hBtnAttackNowDB, $GUI_HIDE)
+	GUICtrlSetState($g_hBtnAttackNowLB, $GUI_HIDE)
+	GUICtrlSetState($g_hBtnAttackNowTS, $GUI_HIDE)
+	HideShields(False)
+	;GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
+	$g_bBtnAttackNowPressed = False
 
 	; update try items
 	TrayItemSetText($g_hTiStartStop, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Start", "Start bot"))
@@ -204,7 +220,7 @@ Func BotStop()
 		If Not $g_bBotPaused Then $g_iTimePassed += Int(__TimerDiff($g_hTimerSinceStarted))
 		If ProfileSwitchAccountEnabled() And Not $g_bBotPaused Then $g_aiRunTime[$g_iCurAccount] += Int(__TimerDiff($g_ahTimerSinceSwitched[$g_iCurAccount]))
 		;AdlibUnRegister("SetTime")
-		$g_bRestart = True
+		;$g_bRestart = True
 
 	   If $g_hLogFile <> 0 Then
 		  FileClose($g_hLogFile)
@@ -240,7 +256,7 @@ Func BotSearchMode()
 	CheckIfArmyIsReady()
 	ClickP($aAway, 2, 0, "") ;Click Away
 	If _Sleep(100) Then Return FuncReturn()
-	If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Or IsSearchModeActive($TS) Then
+	If (IsSearchModeActive($DB) And checkCollectors(True, False)) Or IsSearchModeActive($LB) Then
 		If _Sleep(100) Then Return FuncReturn()
 		PrepareSearch()
 		If _Sleep(1000) Then Return FuncReturn()

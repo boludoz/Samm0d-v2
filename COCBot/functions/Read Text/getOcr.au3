@@ -3,13 +3,12 @@
 ; Description ...: Gets complete value of gold/Elixir/DarkElixir/Trophy/Gem xxx,xxx
 ; Author ........: Didipe (2015)
 ; Modified ......: ProMac (2015), Hervidero (2015-12), MMHK (2016-12), MR.ViPER (2017-4)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-
 
 Func getNameBuilding($x_start, $y_start) ; getNameBuilding(242,520) -> Gets complete name and level of the buildings, bottom of screen
 	Return getOcrAndCapture("coc-build", $x_start, $y_start, 377, 27)
@@ -134,10 +133,6 @@ EndFunc   ;==>getArmyCampCap
 Func getCastleDonateCap($x_start, $y_start) ;  -> Gets clan castle capacity,  --> donatecc.au3
 	Return getOcrAndCapture("coc-army", $x_start, $y_start, 30, 14, True)
 EndFunc   ;==>getCastleDonateCap
-
-Func getBarracksTroopQuantity($x_start, $y_start) ;  -> Gets quantity of troops in training --> train.au3
-	Return getOcrAndCapture("coc-train", $x_start, $y_start, 52, 16, True)
-EndFunc   ;==>getBarracksTroopQuantity
 
 Func getAttackDisable($x_start, $y_start) ;  -> 346, 182 - Gets red text disabled for early warning of Personal Break
 	Return getOcrAndCapture("coc-dis", $x_start, $y_start, 118, 24, True)
@@ -378,7 +373,7 @@ Func getOcrImgLoc(ByRef Const $_hHBitmap, $sLanguage)
 		If $g_bDebugSetlog Then SetDebugLog(" imgloc DLL Error : " & $error & " --- " & $extError)
 		Return SetError(2, $extError, "") ; Set external error code = 2 for DLL error
 	EndIf
-	If $g_bDebugImageSave Then DebugImageSave($sLanguage, False)
+	If $g_bDebugImageSave Then SaveDebugImage($sLanguage, False)
 
 	If IsArray($result) Then
 		Return $result[0]

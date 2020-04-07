@@ -45,7 +45,7 @@ Func LocateTownHall($bLocationOnly = False)
 			$g_aiTownHallPos[0] = $aPos[0]
 			$g_aiTownHallPos[1] = $aPos[1]
 			If _Sleep($DELAYLOCATETH1) Then Return
-			If isInsideDiamond($g_aiTownHallPos) = False Then
+			If Not isInsideDiamond($g_aiTownHallPos) Then
 				$iStupid += 1
 				Select
 					Case $iStupid = 1
@@ -75,14 +75,14 @@ Func LocateTownHall($bLocationOnly = False)
 			ClickP($aAway, 1, 0, "#0393")
 			Return
 		EndIf
-		If $bLocationOnly = False Then
-			$Success = GetTownHallLevel() ; Get/Save the users updated TH level
+		If Not $bLocationOnly Then
+			$bGotTHLevel = GetTownHallLevel() ; Get/Save the users updated TH level
 			$iSilly += 1
-			If IsArray($Success) Or $Success = False Then
-				If $Success = False Then
+			If IsArray($bGotTHLevel) Or Not $bGotTHLevel Then
+				If Not $bGotTHLevel Then
 					$sLocMsg = "Nothing"
 				Else
-					$sLocMsg = $Success[1]
+					$sLocMsg = $bGotTHLevel[1]
 				EndIf
 				Select
 					Case $iSilly = 1

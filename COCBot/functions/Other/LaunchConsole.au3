@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Cosote (2015-12)
 ; Modified ......: Cosote (2016-08)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -21,14 +21,7 @@
 #include <APISysConstants.au3>
 #include <NamedPipes.au3>
 
-Global $g_RunPipe_StdIn = [0, 0] ; pipe read/write handles
-Global $g_RunPipe_StdOut = [0, 0] ; pipe read/write handles
-Global $g_RunPipe_hProcess = 0
-Global $g_RunPipe_hThread = 0
-
-Func LaunchConsole($cmd, $param, ByRef $process_killed, $timeout = 10000, $bUseSemaphore = False)
-
-	Local $bDebug = $g_bDebugSetlog Or $g_bDebugAndroid
+Func LaunchConsole($cmd, $param, ByRef $process_killed, $timeout = 10000, $bUseSemaphore = False, $bNoLog = False)
 
 	If $bUseSemaphore Then
 		Local $hSemaphore = LockSemaphore(StringReplace($cmd, "\", "/"), "Waiting to launch: " & $cmd)
@@ -36,19 +29,17 @@ Func LaunchConsole($cmd, $param, ByRef $process_killed, $timeout = 10000, $bUseS
 
 	Local $data, $pid, $hStdIn[2], $hStdOut[2], $hTimer, $hProcess, $hThread
 
-
 	If StringLen($param) > 0 Then $cmd &= " " & $param
 
 	$hTimer = __TimerInit()
 	$process_killed = False
 
-	If $bDebug Then SetLog("Func LaunchConsole: " & $cmd, $COLOR_DEBUG) ; Debug Run
+	If Not $bNoLog Then SetDebugLog("Func LaunchConsole: " & $cmd, $COLOR_DEBUG) ; Debug Run
 	$pid = RunPipe($cmd, "", @SW_HIDE, $STDERR_MERGED, $hStdIn, $hStdOut, $hProcess, $hThread)
-	If $bDebug Then SetLog("Func LaunchConsole: command launched", $COLOR_DEBUG)
 	If $pid = 0 Then
-		SetLog("Launch faild: " & $cmd, $COLOR_ERROR)
+		SetLog("Launch failed: " & $cmd, $COLOR_ERROR)
 		If $bUseSemaphore = True Then UnlockSemaphore($hSemaphore)
-		Return
+		Return SetError(1, 0, "")
 	EndIf
 
 	Local $timeout_sec = Round($timeout / 1000)
@@ -61,19 +52,17 @@ Func LaunchConsole($cmd, $param, ByRef $process_killed, $timeout = 10000, $bUseS
 
 	If ProcessExists($pid) Then
 		If ClosePipe($pid, $hStdIn, $hStdOut, $hProcess, $hThread) = 1 Then
-			If $bDebug Then SetLog("Process killed: " & $cmd, $COLOR_ERROR)
+			If Not $bNoLog Then SetDebugLog("Process killed: " & $cmd, $COLOR_ERROR)
 			$process_killed = True
 		EndIf
 	Else
 		ClosePipe($pid, $hStdIn, $hStdOut, $hProcess, $hThread)
 	EndIf
-	$g_RunPipe_hProcess = 0
-	$g_RunPipe_hThread = 0
 	CleanLaunchOutput($data)
 
-	If $bDebug Then SetLog("Func LaunchConsole Output: " & $data, $COLOR_DEBUG) ; Debug Run Output
+	If Not $bNoLog Then SetDebugLog("Func LaunchConsole Output: " & $data, $COLOR_DEBUG) ; Debug Run Output
 	If $bUseSemaphore Then UnlockSemaphore($hSemaphore)
-	Return $data
+	Return SetError(0, 0, $data)
 EndFunc   ;==>LaunchConsole
 
 ; Special version of ProcessExists that checks process based on full process image path AND parameters
@@ -180,7 +169,7 @@ Func ProcessesExist($ProgramPath, $ProgramParameter = Default, $CompareMode = De
 	Local $PIDs[0]
 
 	For $Process In WmiQuery($query)
-		SetDebugLog($Process[0] & " = " & $Process[1])
+		SetDebugLog($Process[0] & " = " & $Process[2])
 		Local $processCommandLineCompare = StringReplace(StringReplace(StringReplace(StringReplace($Process[2], ".exe", "", 1), " ", ""), '"', ""), "'", "")
 		If ($CompareMode = 0 And $commandLineCompare = $processCommandLineCompare) Or _
 				($CompareMode = 0 And StringRight($commandLineCompare, StringLen($processCommandLineCompare)) = $processCommandLineCompare) Or _
@@ -253,9 +242,9 @@ Func ProcessGetWmiProcess($pid, $strComputer = ".")
 EndFunc   ;==>ProcessGetWmiProcess
 
 Func CleanLaunchOutput(ByRef $output)
-	;$output = StringReplace($output, @LF & @LF, "")
-	$output = StringReplace($output, @CR & @CR, "")
-	$output = StringReplace($output, @CRLF & @CRLF, "")
+	$output = StringReplace($output, @LF & @LF, @LF, 0, 2)
+	$output = StringReplace($output, @CR & @CR, @LF, 0, 2)
+	$output = StringReplace($output, @CRLF & @CRLF, @LF, 0, 2)
 	If StringRight($output, 1) = @LF Then $output = StringLeft($output, StringLen($output) - 1)
 	If StringRight($output, 1) = @CR Then $output = StringLeft($output, StringLen($output) - 1)
 EndFunc   ;==>CleanLaunchOutput
@@ -296,12 +285,13 @@ Func RunPipe($program, $workdir, $show_flag, $opt_flag, ByRef $hStdIn, ByRef $hS
 		$hProcess = DllStructGetData($ProcessInformation, "hProcess")
 		$hThread = DllStructGetData($ProcessInformation, "hThread")
 		;_WinAPI_CloseHandle($hStdOut[1])
-		Return $pid
+		Return SetError(0, 0, $pid)
 	EndIf
 
-	SetDebugLog("RunPipe: Failed creating new process: " & $program)
+	SetLog("Failed creating new process: " & $program, $COLOR_ERROR)
 	; close handles
 	ClosePipe(0, $hStdIn, $hStdOut, 0, 0)
+	Return SetError(1, 0, 0)
 
 EndFunc   ;==>RunPipe
 
@@ -324,7 +314,7 @@ Func ReadPipe(ByRef $hPipe)
 	If _WinAPI_ReadFile($hPipe, DllStructGetPtr($tBuffer), 4096, $iRead) Then
 		Return SetError(0, 0, DllStructGetData($tBuffer, "Text"))
 	EndIf
-	Return SetError(@error, @extended, "")
+	Return SetError( _WinAPI_GetLastError(), 0, "")
 EndFunc   ;==>ReadPipe
 
 Func WritePipe(ByRef $hPipe, Const $s)
@@ -335,12 +325,12 @@ Func WritePipe(ByRef $hPipe, Const $s)
 	If _WinAPI_WriteFile($hPipe, DllStructGetPtr($tBuffer), $iToWrite, $iWritten) Then
 		Return SetError(0, 0, $iWritten)
 	EndIf
-	Return SetError(@error, @extended, 0)
+	Return SetError( _WinAPI_GetLastError(), 0, 0)
 EndFunc   ;==>WritePipe
 
 Func DataInPipe(ByRef $hPipe)
 	Local $aResult = DllCall("kernel32.dll", "bool", "PeekNamedPipe", "handle", $hPipe, "ptr", 0, "int", 0, "dword*", 0, "dword*", 0, "dword*", 0)
-	If @error Then Return SetError(@error, @extended, 0)
+	If @error Then Return SetError(@error, 0, 0)
 	Return SetError(0, 0, $aResult[5])
 EndFunc   ;==>DataInPipe
 

@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........: Fliegerfaust(06-2018)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -15,7 +15,7 @@
 
 Func getArmyCCSiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckWindow = False, $bSetLog = True, $bNeedCapture = True)
 
-	If $g_bDebugSetlogTrain Then SetLog("getArmySiegeMachines():", $COLOR_DEBUG)
+	If $g_bDebugSetlogTrain Then SetLog("getArmyCCSiegeMachines():", $COLOR_DEBUG)
 
 	If Not $bOpenArmyWindow Then
 		If $bCheckWindow And Not IsTrainPage() Then ; check for train page
@@ -23,7 +23,7 @@ Func getArmyCCSiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False,
 			Return ; not open, not requested to be open - error.
 		EndIf
 	ElseIf $bOpenArmyWindow Then
-		If Not OpenArmyOverview(True, "getArmySiegeMachines()") Then
+		If Not OpenArmyOverview(True, "getArmyCCSiegeMachines()") Then
 			SetError(2)
 			Return ; not open, requested to be open - error.
 		EndIf
@@ -38,7 +38,9 @@ Func getArmyCCSiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False,
 	Local $aTempCCSiegeArray, $aCCSiegeCoords
 	Local $sCCSiegeName = ""
 	Local $iCCSiegeIndex = -1
-	Local $aCurrentCCSiegeEmpty[$eSiegeMachineCount] = [0, 0] ; Local Copy to reset Siege Machine Array
+	Local $aCurrentCCSiegeEmpty[$eSiegeMachineCount] = [0, 0, 0, 0] ; Local Copy to reset Siege Machine Array
+
+	$g_aiCurrentCCSiegeMachines = $aCurrentCCSiegeEmpty ; Reset Current Siege Machine Array
 
 	; Get CC Siege Capacities
 	Local $sSiegeInfo = getArmyCampCap(650, 468, $bNeedCapture) ; OCR read Siege built and total
@@ -51,7 +53,6 @@ Func getArmyCCSiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False,
 		Return
 	EndIf
 
-	$g_aiCurrentCCSiegeMachines = $aCurrentCCSiegeEmpty ; Reset Current Siege Machine Array
 	If UBound($aCurrentCCSiegeMachines, 1) >= 1 Then
 		For $i = 0 To UBound($aCurrentCCSiegeMachines, 1) - 1 ; Loop through found Troops
 			$aTempCCSiegeArray = $aCurrentCCSiegeMachines[$i] ; Declare Array to Temp Array
@@ -60,7 +61,7 @@ Func getArmyCCSiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False,
 
 			$aCCSiegeCoords = StringSplit($aTempCCSiegeArray[1], ",", $STR_NOCOUNT) ; Split the Coordinates where the Troop got found into X and Y
 
-			If $iCCSiegeIndex = -1 Then ContinueLoop
+			If $iCCSiegeIndex < 0 Then ContinueLoop
 
 			$g_aiCurrentCCSiegeMachines[$iCCSiegeIndex] = Number(getBarracksNewTroopQuantity(650, 498, $bNeedCapture)) ; Get The Quantity of the Troop, Slot() Does return the exact spot to read the Number from
 

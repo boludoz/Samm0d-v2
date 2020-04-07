@@ -18,7 +18,7 @@
 ;							 5 = Failed to send a MouseMove command.
 ;							 7 = Failed to send a MouseUp command.
 ; Author(s):		KillerDeluxe
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -112,8 +112,11 @@ Func ClickDrag($X1, $Y1, $X2, $Y2, $Delay = 50)
 	If TestCapture() Then Return
 	;Return _PostMessage_ClickDrag($X1, $Y1, $X2, $Y2, "left", $Delay)
 	Local $error = 0
-	If $g_bAndroidAdbClickDrag = True Then
-		If $g_bAndroidAdbClickDragScript = True Then
+	If $g_bDebugClick Then
+		SetLog("ClickDrag " & $X1 & "," & $Y1 & " to " & $X2 & "," & $Y2 & " delay=" & $Delay, $COLOR_ACTION, "Verdana", "7.5", 0)
+	EndIf
+	If $g_bAndroidAdbClickDrag Then
+		If $g_bAndroidAdbClickDragScript Then
 			AndroidClickDrag($X1, $Y1, $X2, $Y2, $g_bRunState)
 			$error = @error
 		Else
@@ -122,7 +125,7 @@ Func ClickDrag($X1, $Y1, $X2, $Y2, $Delay = 50)
 		EndIf
 		If _Sleep($Delay / 5) Then Return SetError(-1, "", False)
 	EndIf
-	If $g_bAndroidAdbClickDrag = False Or $error <> 0 Then
+	If Not $g_bAndroidAdbClickDrag Or $error <> 0 Then
 		Return _PostMessage_ClickDrag($X1, $Y1, $X2, $Y2, "left", $Delay)
 	EndIf
 	Return SetError(0, 0, ($error = 0 ? True : False))

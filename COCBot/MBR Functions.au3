@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -18,7 +18,7 @@
 #include "functions\Other\StopWatch.au3"
 ;#include "functions\Other\Synchronization.au3" ; now included in LaunchConsole.au3
 #include "functions\Other\OnAutoItErrorRegisterBot.au3"
-#include "functions\Other\TcpTable.au3"
+#Include "functions\Other\Json.au3"
 ;===========Samm0d collection==============================
 #include "SamM0d\Functions\SamM0dZap.au3"
 #include "SamM0d\Functions\AreCollectorsNearRedline.au3"
@@ -78,11 +78,9 @@
 #include "functions\Attack\PrepareAttack.au3"
 #include "functions\Attack\ReturnHome.au3"
 #include "functions\Attack\Unbreakable.au3"
+#include "functions\Attack\GetAttackBar.au3"
 
 #include "functions\Attack\Attack Algorithms\algorithm_AllTroops.au3"
-;#include "functions\Attack\Attack Algorithms\algorithm_Barch.au3"
-#include "functions\Attack\Attack Algorithms\algorithmTH.au3"
-#include "functions\Attack\Attack Algorithms\THAttackTypes.au3"
 #include "functions\Attack\Attack Algorithms\AttackFromCSV.au3"
 #include "functions\Attack\Attack Algorithms\SmartFarm.au3"
 
@@ -102,23 +100,6 @@
 #include "functions\Attack\AttackCSV\ChkAttackCSVConfig.au3"
 #include "functions\Attack\AttackCSV\ParseAttackCSV_Settings_variables.au3"
 
-#include "functions\Attack\MilkingAttack\Algorithm_MilkingAttack.au3"
-#include "functions\Attack\MilkingAttack\AmountOfResourcesInStructure.au3"
-#include "functions\Attack\MilkingAttack\DetectAmountOfResourceInStructure.au3"
-#include "functions\Attack\MilkingAttack\MilkFarmObjectivesSTR_INSERT.au3"
-#include "functions\Attack\MilkingAttack\LoadAmountOfResourcesImages.au3"
-#include "functions\Attack\MilkingAttack\MilkFarmObjectivesDebugImage.au3"
-#include "functions\Attack\MilkingAttack\MilkingAttackStructure.au3"
-#include "functions\Attack\MilkingAttack\MilkingAttackStructureDestroyed.au3"
-#include "functions\Attack\MilkingAttack\_RandomUnique.au3"
-#include "functions\Attack\MilkingAttack\MilkingDetectElixirExtractors.au3"
-#include "functions\Attack\MilkingAttack\MilkingDetectMineExtractors.au3"
-#include "functions\Attack\MilkingAttack\MilkingDetectDarkExtractors.au3"
-#include "functions\Attack\MilkingAttack\MilkingDetectRedArea.au3"
-#include "functions\Attack\MilkingAttack\MilkingDebug.au3"
-#include "functions\Attack\MilkingAttack\MilkingRedAreaPointsNearStructure.au3"
-#include "functions\Attack\MilkingAttack\MilkingCheckMilkingBase.au3"
-
 #include "functions\Attack\RedArea\_FindPixelCloser.au3"
 #include "functions\Attack\RedArea\_GetOffsetTroopFurther.au3"
 #include "functions\Attack\RedArea\_GetRedArea.au3"
@@ -130,9 +111,7 @@
 #include "functions\Attack\RedArea\GetOffestPixelRedArea2.au3"
 #include "functions\Attack\RedArea\GetPixelDropTroop.au3"
 #include "functions\Attack\RedArea\GetPixelSide.au3"
-;#include "functions\Attack\RedArea\GetVectorPixelAverage.au3"
 #include "functions\Attack\RedArea\GetVectorPixelOnEachSide.au3"
-;#include "functions\Attack\RedArea\GetVectorPixelToDeploy.au3"
 #include "functions\Attack\RedArea\PointInPoly.au3"
 
 #include "functions\Attack\Troops\CheckHeroesHealth.au3"
@@ -141,10 +120,8 @@
 #include "functions\Attack\Troops\DropOnEdge.au3"
 #include "functions\Attack\Troops\DropOnEdges.au3"
 #include "functions\Attack\Troops\DropOrderTroops.au3"
-#include "functions\Attack\Troops\GetXPosOfArmySlot.au3"
 #include "functions\Attack\Troops\GetSlotIndexFromXPos.au3"
 #include "functions\Attack\Troops\LaunchTroop.au3"
-#include "functions\Attack\Troops\NameOfTroop.au3"
 #include "functions\Attack\Troops\OldDropTroop.au3"
 #include "functions\Attack\Troops\ReadTroopQuantity.au3"
 #include "functions\Attack\Troops\SelectDropTroop.au3"
@@ -153,6 +130,11 @@
 #include "functions\Attack\SmartZap\drillSearch.au3"
 #include "functions\Attack\SmartZap\easyPreySearch.au3"
 #include "functions\Attack\SmartZap\smartZap.au3"
+
+; Builder Base Attack
+#include "functions\Attack\BuilderBase\PrepareAttackBB.au3"
+#include "functions\Attack\BuilderBase\AttackBB.au3"
+#include "functions\Attack\BuilderBase\GetAttackBarBB.au3"
 
 #Region CreateArmy / Train
 #include "functions\CreateArmy\CheckFullArmy.au3"
@@ -164,6 +146,7 @@
 #include "functions\CreateArmy\TrainSiege.au3"
 #include "functions\CreateArmy\TrainIt.au3"
 #include "functions\CreateArmy\DoubleTrain.au3" ; DoubleTrain Demen
+#include "functions\CreateArmy\QuickTrain.au3"
 
 #include "functions\CreateArmy\getArmyTroops\getArmyTroopTime.au3"
 #include "functions\CreateArmy\getArmyTroops\getArmyTroopCapacity.au3"
@@ -180,7 +163,7 @@
 #include "functions\CreateArmy\getArmySiegeMachines\getArmySiegeMachines.au3"
 
 #include "functions\CreateArmy\getArmyCCTroops\getArmyCCStatus.au3"
-#include "functions\CreateArmy\getArmyCCTroops\getArmyCCTroops.au3" ;for check & remove unwanted CC Troops
+#include "functions\CreateArmy\getArmyCCTroops\getArmyCCTroops.au3"
 
 #include "functions\CreateArmy\getArmyCCSpells\getArmyCCSpellCapacity.au3"
 #include "functions\CreateArmy\getArmyCCSpells\getArmyCCSpell.au3"
@@ -188,14 +171,13 @@
 #include "functions\CreateArmy\getArmyCCSiegeMachines\getArmyCCSiegeMachines.au3"
 #EndRegion CreateArmy / Train
 
-#include "functions\Image Search\ImageSearch.au3"
 #include "functions\Image Search\checkDeadBase.au3"
 #include "functions\Image Search\CheckTombs.au3"
 #include "functions\Image Search\imglocAuxiliary.au3"
 #include "functions\Image Search\imglocCheckWall.au3"
 #include "functions\Image Search\imglocTHSearch.au3"
-#include "functions\Image Search\imglocAttackBar.au3"
 #include "functions\Image Search\QuickMIS.au3"
+#include "functions\Image Search\IsWindowOpen.au3"
 
 #include "functions\Main Screen\checkMainScreen.au3"
 #include "functions\Main Screen\checkObstacles.au3"
@@ -227,6 +209,7 @@
 #include "functions\Android\AndroidEmbed.au3"
 
 #include "functions\Other\WerFaultClose.au3"
+#include "functions\Other\TcpTable.au3"
 #include "functions\Other\_NumberFormat.au3"
 #include "functions\Other\_PadStringCenter.au3"
 #include "functions\Other\_ProcessSuspendResume2.au3"
@@ -238,7 +221,7 @@
 #include "functions\Other\ClickOkay.au3"
 #include "functions\Other\ClickRemove.au3"
 #include "functions\Other\CreateLogFile.au3"
-#include "functions\Other\DebugImageSave.au3"
+#include "functions\Other\SaveDebugImage.au3"
 #include "functions\Other\ExtendedErrorInfo.au3"
 #include "functions\Other\FindPos.au3"
 #include "functions\Other\StringSize.au3"
@@ -256,7 +239,6 @@
 #include "functions\Other\CloseRunningBot.au3"
 #include "functions\Other\RestartBot.au3"
 #include "functions\Other\WindowSystemMenu.au3"
-#include "functions\Other\image_get_info.au3"
 #include "functions\Other\SetWakeUpTime.au3"
 #include "functions\Other\ScriptingDictionaryTools.au3"
 
@@ -289,7 +271,6 @@
 #include "functions\Search\PrepareSearch.au3"
 #include "functions\Search\VillageSearch.au3"
 #include "functions\Search\CheckZoomOut.au3"
-#include "functions\Search\SearchTownHallloc.au3"
 #include "functions\Search\FindTownHall.au3"
 #include "functions\Search\IsSearchModeActive.au3"
 #include "functions\Search\IsSearchAttackEnabled.au3"
@@ -341,15 +322,18 @@
 #include "functions\Village\SwitchAccountVariablesReload.au3"
 #include "functions\Village\Clan Games\ClanGames.au3"
 #include "functions\Village\FreeMagicItems.au3"
+#include "functions\Village\Personal Challenges\DailyChallenges.au3"
 
 #include "functions\Village\BuilderBase\Collect.au3"
 #include "functions\Village\BuilderBase\StartClockTowerBoost.au3"
 #include "functions\Village\BuilderBase\BuilderBaseReport.au3"
 #include "functions\Village\BuilderBase\SuggestedUpgrades.au3"
 #include "functions\Village\BuilderBase\CleanBBYard.au3"
+#include "functions\Village\BuilderBase\StarLaboratory.au3"
 
 #include "functions\Other\Api.au3"
 #include "functions\Other\ApiClient.au3"
+#include "functions\Other\ForumAuthentication.au3"
 
 ; moved to the end to avoid any global declare issues
 #include "functions\Config\profileFunctions.au3"

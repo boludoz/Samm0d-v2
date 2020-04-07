@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: KnowJack (07-2015), MonkeyHunter (01-2016), CodeSlinger69 (01-2017), MonkeyHunter (03-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -18,6 +18,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	Local $counter = 0
 	Local $hBitmap_Scaled
 	Local $i, $j
+	Local $aiSurrenderButton
 
 	If $g_bDESideDisableOther And $g_iMatchMode = $LB And $g_aiAttackStdDropSides[$LB] = 4 And $g_bDESideEndEnable And ($g_bDropQueen Or $g_bDropKing) Then
 		SaveandDisableEBO()
@@ -54,6 +55,10 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 						SetLog("Activating Warden's power to restore some health before EndBattle", $COLOR_INFO)
 						If IsAttackPage() Then SelectDropTroop($g_iWardenSlot) ;If Queen was not activated: Boost Queen before EndBattle to restore some health
 					EndIf
+					If $g_bCheckChampionPower Then
+						SetLog("Activating Royal Champion's power to restore some health before EndBattle", $COLOR_INFO)
+						If IsAttackPage() Then SelectDropTroop($g_iChampionSlot) ;If Champion was not activated: Boost Champion before EndBattle to restore some health
+					EndIf
 				EndIf
 			EndIf
 		Else
@@ -69,17 +74,18 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 	$g_bCheckKingPower = False
 	$g_bCheckQueenPower = False
 	$g_bCheckWardenPower = False
+	$g_bCheckChampionPower = False
 	$g_bDropKing = False
 	$g_bDropQueen = False
 	$g_bDropWarden = False
+	$g_bDropChampion = False
 	$g_aHeroesTimerActivation[$eHeroBarbarianKing] = 0
 	$g_aHeroesTimerActivation[$eHeroArcherQueen] = 0
 	$g_aHeroesTimerActivation[$eHeroGrandWarden] = 0
+	$g_aHeroesTimerActivation[$eHeroRoyalChampion] = 0
 
 	; Reset building info used to attack base
 	_ObjDeleteKey($g_oBldgAttackInfo, "") ; Remove all Keys from dictionary
-
-	If $g_abAttackTypeEnable[$TS] = 1 And $g_iMatchMode = $TS Then $g_bFirstStart = True ;reset barracks upon return when TH sniping w/custom army
 
 	SetLog("Returning Home", $COLOR_INFO)
 	If $g_bRunState = False Then Return
@@ -175,7 +181,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
 EndFunc   ;==>ReturnHome
 
 Func ReturnHomeMainPage()
-	If IsMainPage(2) Then
+	If IsMainPage(1) Then
 		SetLogCentered(" BOT LOG ", Default, Default, True)
 		Return True
 	EndIf
@@ -183,43 +189,48 @@ Func ReturnHomeMainPage()
 EndFunc   ;==>ReturnHomeMainPage
 
 Func ReturnfromDropTrophies()
-
+	Local $aiSurrenderButton
 	If $g_bDebugSetlog Then SetDebugLog(" -- ReturnfromDropTrophies -- ")
 
 	For $i = 0 To 5 ; dynamic wait loop for surrender button to appear (if end battle or surrender button are not found in 5*(200)ms + 10*(200)ms or 3 seconds, then give up.)
-		If $g_bDebugSetlog Then SetDebugLog("Wait for surrender button to appear #" & $i)
-		ClickP($aSurrenderButton, 1, 0, "#0099") ;Click Surrender
-		Local $j = 0
-		While 1 ; dynamic wait for Okay button
-			If $g_bDebugSetlog Then SetDebugLog("Wait for OK button to appear #" & $j)
-			If IsEndBattlePage(True) Then
-				ClickOkay("SurrenderOkay") ; Click Okay to Confirm surrender
-				ExitLoop 2
-			Else
-				$j += 1
-			EndIf
-			If $j > 10 Then ExitLoop ; if Okay button not found in 10*(200)ms or 2 seconds, then give up.
+		$aiSurrenderButton = findButton("Surrender", Default, 1, True)
+		If IsArray($aiSurrenderButton) And UBound($aiSurrenderButton, 1) = 2 Then
+			ClickP($aiSurrenderButton, 1, 0, "#0099") ;Click Surrender
+			If _Sleep(500) Then Return
+			Local $j = 0
+			While 1 ; dynamic wait for Okay button
+				If $g_bDebugSetlog Then SetDebugLog("Wait for OK button to appear #" & $j)
+				If IsEndBattlePage(True) Then
+					ClickOkay("SurrenderOkay") ; Click Okay to Confirm surrender
+					ExitLoop 2
+				Else
+					$j += 1
+				EndIf
+				If $j > 10 Then ExitLoop ; if Okay button not found in 10*(200)ms or 2 seconds, then give up.
+				If _Sleep(100) Then Return
+			WEnd
 			If _Sleep(100) Then Return
-			If _CheckPixel($aSurrenderButton, $g_bCapturePixel) Then ;is surrender button is visible?
-				ClickP($aSurrenderButton, 1, 0, "#0099") ;Click Surrender
-			EndIf
-		WEnd
-		If _Sleep(100) Then Return
+		Else
+			SetDebugLog("Cannot Find Surrender Button", $COLOR_ERROR)
+		EndIf
 	Next
 
-	Local $i = 0 ; Reset Loop counter
+	$i = 0 ; Reset Loop counter
+	Local $iExitLoop = -1
 	While 1
 		If $g_bDebugSetlog Then SetDebugLog("Wait for End Fight Scene to appear #" & $i)
 		If _CheckPixel($aEndFightSceneAvl, $g_bCapturePixel) Then ; check for the gold ribbon in the end of battle data screen
-			If IsReturnHomeBattlePage() Then ClickP($aReturnHomeButton, 1, 0, "#0101") ;Click Return Home Button
-			ExitLoop
-		Else
-			$i += 1
+			If IsReturnHomeBattlePage(True) Then
+				ClickP($aReturnHomeButton, 1, 0, "#0101") ;Click Return Home Button
+				; sometimes 1st click is not closing, so try again
+				$iExitLoop = $i
+			EndIf
 		EndIf
-		If $i > 10 Then ExitLoop ; if end battle window is not found in 10*200mms or 2 seconds, then give up.
-		If _Sleep(100) Then Return
+		If $i > 25 Or ($iExitLoop > -1 And $i > $iExitLoop) Then ExitLoop ; if end battle window is not found in 25*200mms or 5 seconds, then give up.
+		If _Sleep($DELAYRETURNHOME5) Then Return
+		$i += 1
 	WEnd
-	If _Sleep(100) Then Return ; short wait for screen to close
+	If _Sleep($DELAYRETURNHOME2) Then Return ; short wait for screen to close
 	$g_bFullArmy = False ; forcing check the army
 	$g_bIsFullArmywithHeroesAndSpells = False ; forcing check the army
 	If ReturnHomeMainPage() Then Return

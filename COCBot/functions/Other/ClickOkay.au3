@@ -1,4 +1,3 @@
-
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: ClickOkay
 ; Description ...: checks for window with "Okay" button, and clicks it
@@ -7,8 +6,8 @@
 ; ...............; $bCheckOneTime       - (optional) Boolean flag - only checks for Okay button once
 ; Return values .: Returns True if button found, if button not found, then returns False and sets @error = 1
 ; Author ........: MonkeyHunter (2015-12)
-; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+;~ ; Modified ......: TFKNazGul (12/11/2019)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

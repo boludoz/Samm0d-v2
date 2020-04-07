@@ -5,8 +5,8 @@
 ; Parameters ....: $debug               - [optional]
 ; Return values .: None
 ; Author ........: Sardo (2016)
-; Modified ......: MMHK (07-2017)(01-2018)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Modified ......: MMHK (07/2017)(01/2018), TripleM (03/2019)
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -50,6 +50,7 @@ Func ParseAttackCSV($debug = False)
 			If $acommand[0] >= 8 Then
 				$command = StringStripWS(StringUpper($acommand[1]), $STR_STRIPTRAILING)
 				If $command = "TRAIN" Or $command = "REDLN" Or $command = "DRPLN" Or $command = "CCREQ" Then ContinueLoop ; discard setting commands
+				If $command = "SIDE" Or $command = "SIDEB" Then ContinueLoop ; discard attack side commands
 				; Set values
 				For $i = 2 To (UBound($acommand) - 1)
 					Assign("value" & Number($i - 1), StringStripWS(StringUpper($acommand[$i]), $STR_STRIPTRAILING))
@@ -355,7 +356,7 @@ Func ParseAttackCSV($debug = False)
 								$sleep2 = 1
 							EndIf
 						Else
-							If Int($value3) > 0 Then
+							If Int($value1) > 0 Then
 								$sleep1 = Int($value1)
 								$sleep2 = Int($value1)
 							Else
@@ -369,18 +370,130 @@ Func ParseAttackCSV($debug = False)
 							Local $sleep = Int($sleep1)
 						EndIf
 						debugAttackCSV("wait " & $sleep)
-						;If _Sleep($sleep) Then Return
 						Local $Gold = 0
 						Local $Elixir = 0
 						Local $DarkElixir = 0
 						Local $Trophies = 0
+						Local $Damage = 0
 						Local $exitOneStar = 0
 						Local $exitTwoStars = 0
 						Local $exitNoResources = 0
-						Local $hSleepTimer = __TimerInit()
+						Local $exitAttackEnded = 0
+						Local $bBreakImmediately = False
+						Local $bBreakOnTH = False
+						Local $bBreakOnSiege = False
+						Local $bBreakOnTHAndSiege = False
+						Local $bBreakOn50Percent = False
+						Local $bBreakOnAQAct = False
+						Local $bBreakOnBKAct = False
+						Local $bBreakOnAQandBKAct = False
+						Local $bBreakOnGWAct = False
+						Local $bBreakOnRCAct = False
+						Local $aSiegeSlotPos = [0,0]
+						Local $tempvalue2 = StringStripWS($value2, $STR_STRIPALL) ; remove all whitespaces from parameter
+						If StringLen($tempvalue2) > 0 Then ; If parameter is not empty
+							$bBreakImmediately = True ; when non of the set parameters fits, break the wait immediately
+							Local $aParam = StringSplit($tempvalue2, ",", $STR_NOCOUNT) ; split parameter into subparameters
+							For $iParam = 0 To UBound($aParam) - 1
+								Switch $aParam[$iParam]
+									Case "TH"
+										$bBreakImmediately = False
+										$bBreakOnTH = True
+									Case "SIEGE"
+										$bBreakOnSiege = True
+									Case "TH+SIEGE"
+										$bBreakImmediately = False
+										$bBreakOnTHAndSiege = True
+									Case "50%"
+										$bBreakImmediately = False
+										$bBreakOn50Percent = True
+									Case "AQ"
+										If $g_bCheckQueenPower Then ; Queen is dropped, automatic activation on and not activated yet
+											$bBreakImmediately = False
+											$bBreakOnAQAct = True
+										EndIf
+									Case "BK"
+										If $g_bCheckKingPower Then ; King is dropped, automatic activation on and not activated yet
+											$bBreakImmediately = False
+											$bBreakOnBKAct = True
+										EndIf
+									Case "GW"
+										If $g_bCheckWardenPower Then ; Warden is dropped, automatic activation on and not activated yet
+											$bBreakImmediately = False
+											$bBreakOnGWAct = True
+										EndIf
+									Case "RC"
+										If $g_bCheckChampionPower Then ; Champion is dropped, automatic activation on and not activated yet
+											$bBreakImmediately = False
+											$bBreakOnRCAct = True
+										EndIf
+									Case "AQ+BK", "BK+AQ"
+										If $g_bCheckQueenPower AND $g_bCheckKingPower Then ; Queen and King are dropped, automatic activation on and not activated yet
+											$bBreakImmediately = False
+											$bBreakOnAQandBKAct = True
+										ElseIf $g_bCheckQueenPower Then ; Only Queen is dropped, automatic activation on and not activated yet
+											$bBreakImmediately = False
+											$bBreakOnAQAct = True
+										ElseIf $g_bCheckKingPower Then ; Only King is dropped, automatic activation on and not activated yet
+											$bBreakImmediately = False
+											$bBreakOnBKAct = True
+										EndIf
+								EndSwitch
+							Next
+							SetDebugLog("$bBreakImmediately = " & $bBreakImmediately & ", $bBreakOnTH = " & $bBreakOnTH & ", $bBreakOnSiege = " & $bBreakOnSiege & ", $bBreakOnTHAndSiege = " & $bBreakOnTHAndSiege, $COLOR_INFO)
+							SetDebugLog("$bBreakOn50Percent = " & $bBreakOn50Percent & ", $bBreakOnAQAct = " & $bBreakOnAQAct & ", $bBreakOnBKAct = " & $bBreakOnBKAct & ", $bBreakOnGWAct = " & $bBreakOnGWAct & ", $bBreakOnRCAct = " & $bBreakOnRCAct, $COLOR_INFO)
+							If $bBreakOnSiege Or $bBreakOnTHAndSiege Then
+								debugAttackCSV("WAIT Condition Break on Siege Troop Drop set")
+								;Check if Siege is Available In Attackbar
+								For $i = 0 To UBound($g_avAttackTroops) - 1
+									If $g_avAttackTroops[$i][0] = $eCastle Then
+										SetDebugLog("WAIT Break on Siege Machine is set but Clan Castle Troop selected.", $COLOR_INFO)
+										ExitLoop
+									ElseIf $g_avAttackTroops[$i][0] = $eWallW Or $g_avAttackTroops[$i][0] = $eBattleB Or $g_avAttackTroops[$i][0] = $eStoneS Or $g_avAttackTroops[$i][0] = $eSiegeB Then
+										Local $sSiegeName = GetTroopName($g_avAttackTroops[$i][0])
+										SetDebugLog("	" & $sSiegeName & " found. Let's Check If is Dropped Or Not?", $COLOR_SUCCESS)
+										;Check Siege Slot Quantity If It's 0 Means Siege Is Dropped
+										If ReadTroopQuantity($i) = 0 Then
+											SetDebugLog("	" & $sSiegeName & " is dropped.", $COLOR_SUCCESS)
+											;Get Siege Machine Slot For Checking Slot Grayed Out or Not
+											$aSiegeSlotPos = GetSlotPosition($i, True)
+										Else
+											SetDebugLog("	" & $sSiegeName & " is not dropped yet.", $COLOR_SUCCESS)
+										EndIf
+										ExitLoop
+									EndIf
+								Next
+								If $aSiegeSlotPos[0] = 0 And $aSiegeSlotPos[1] = 0 Then ; no dropped Siege found
+									SetDebugLog("WAIT no dropped Siege found, so unset Break on Siege.", $COLOR_INFO)
+									If $bBreakOnTHAndSiege Then $bBreakOnTH = True ; When "TH+Siege" is set, set it to only "TH"
+									$bBreakOnSiege = False
+									$bBreakOnTHAndSiege = False
+								Else
+									$bBreakImmediately = False
+								EndIf
+							EndIf
+						EndIf
+						If $bBreakImmediately Then ContinueLoop ; Don't wait, when no condition fits
 						While __TimerDiff($hSleepTimer) < $sleep
 							CheckHeroesHealth()
-							;READ RESOURCES
+							; Break on Queen AND King Activation
+							If $bBreakOnAQandBKAct And Not $g_bCheckQueenPower And Not $g_bCheckKingPower Then ContinueLoop 2
+							; Break on Queen Activation
+							If $bBreakOnAQAct And Not $g_bCheckQueenPower Then ContinueLoop 2
+							; Break on King Activation
+							If $bBreakOnBKAct And Not $g_bCheckKingPower Then ContinueLoop 2
+							; Break on Warden Activation
+							If $bBreakOnGWAct And Not $g_bCheckWardenPower Then ContinueLoop 2
+							; Break on Champion Activation
+							If $bBreakOnRCAct And Not $g_bCheckChampionPower Then ContinueLoop 2
+							; When Break on Siege is active and troops dropped, return ASAP
+							If $bBreakOnSiege And CheckIfSiegeDroppedTheTroops($hSleepTimer, $aSiegeSlotPos) Then ContinueLoop 2
+							; When Break on TH Kill is active in case townhall destroyed, return ASAP
+							If $bBreakOnTH And CheckIfTownHallGotDestroyed($hSleepTimer) Then ContinueLoop 2
+							; When Break on TH Kill And Siege is active, if both TH is destroyed and Siege troops are dropped, return ASAP
+							If $bBreakOnTHAndSiege And CheckIfSiegeDroppedTheTroops($hSleepTimer, $aSiegeSlotPos) And CheckIfTownHallGotDestroyed($hSleepTimer) Then ContinueLoop 2
+							; Read Resources and Damage
+							$Damage = getOcrOverAllDamage(780, 527 + $g_iBottomOffsetY)
 							$Gold = getGoldVillageSearch(48, 69)
 							$Elixir = getElixirVillageSearch(48, 69 + 29)
 							If _Sleep($DELAYRESPOND) Then Return ; check for pause/stop
@@ -391,7 +504,25 @@ Func ParseAttackCSV($debug = False)
 								$DarkElixir = ""
 								$Trophies = getTrophyVillageSearch(48, 69 + 69)
 							EndIf
+							If $bBreakOn50Percent And Number($Damage) > 49 Then ContinueLoop 2
 							CheckHeroesHealth()
+							; Break on Queen AND King Activation
+							If $bBreakOnAQandBKAct And Not $g_bCheckQueenPower And Not $g_bCheckKingPower Then ContinueLoop 2
+							; Break on Queen Activation
+							If $bBreakOnAQAct And Not $g_bCheckQueenPower Then ContinueLoop 2
+							; Break on King Activation
+							If $bBreakOnBKAct And Not $g_bCheckKingPower Then ContinueLoop 2
+							; Break on Warden Activation
+							If $bBreakOnGWAct And Not $g_bCheckWardenPower Then ContinueLoop 2
+							; Break on Champion Activation
+							If $bBreakOnRCAct And Not $g_bCheckChampionPower Then ContinueLoop 2
+							; When Break on Siege is active and troops dropped, return ASAP
+							If $bBreakOnSiege And CheckIfSiegeDroppedTheTroops($hSleepTimer, $aSiegeSlotPos) Then ContinueLoop 2
+							; When Break on TH Kill is active in case townhall destroyed, return ASAP
+							If $bBreakOnTH And CheckIfTownHallGotDestroyed($hSleepTimer) Then ContinueLoop 2
+							; When Break on TH Kill And Siege is active, if both TH is destroyed and Siege troops are dropped, return ASAP
+							If $bBreakOnTHAndSiege And CheckIfSiegeDroppedTheTroops($hSleepTimer, $aSiegeSlotPos) And CheckIfTownHallGotDestroyed($hSleepTimer) Then ContinueLoop 2
+
 							If $g_bDebugSetlog Then SetDebugLog("detected [G]: " & $Gold & " [E]: " & $Elixir & " [DE]: " & $DarkElixir, $COLOR_INFO)
 							;EXIT IF RESOURCES = 0
 							If $g_abStopAtkNoResources[$g_iMatchMode] And Number($Gold) = 0 And Number($Elixir) = 0 And Number($DarkElixir) = 0 Then
@@ -653,6 +784,24 @@ Func ParseAttackCSV($debug = False)
 									$heightBottomLeft += Int($value1)
 							EndSwitch
 
+							If IsArray($g_aiCSVScatterPos) Then
+								For $i = 0 To UBound($g_aiCSVScatterPos) - 1
+									Local $pixel = $g_aiCSVScatterPos[$i]
+									If UBound($pixel) = 2 Then
+										Switch StringLeft(Slice8($pixel), 1)
+											Case 1, 2
+												$heightBottomRight += Int($value4)
+											Case 3, 4
+												$heightTopRight += Int($value4)
+											Case 5, 6
+												$heightTopLeft += Int($value4)
+											Case 7, 8
+												$heightBottomLeft += Int($value4)
+										EndSwitch
+									EndIf
+								Next
+							EndIf
+
 							If IsArray($g_aiCSVInfernoPos) Then
 								For $i = 0 To UBound($g_aiCSVInfernoPos) - 1
 									Local $pixel = $g_aiCSVInfernoPos[$i]
@@ -804,32 +953,14 @@ Func ParseAttackCSV($debug = False)
 						EndSwitch
 
 					Case Else
-						Switch StringLeft($command, 1)
-							Case ";", "#", "'"
-								; also comment
-								debugAttackCSV("comment line")
-							Case Else
-								SetLog("attack row bad, discard: row " & $iLine + 1, $COLOR_ERROR)
-						EndSwitch
+						SetLog("No 'SIDE' or 'SIDEB' csv line found, using default attack side: " & $MAINSIDE)
 				EndSwitch
-			Else
-				If StringLeft($line, 7) <> "NOTE  |" And StringLeft($line, 7) <> "      |" And StringStripWS(StringUpper($line), 2) <> "" Then SetLog("attack row error, discard: row " & $iLine + 1, $COLOR_ERROR)
 			EndIf
-			If $bWardenDrop = True Then ;Check hero, but skip Warden if was dropped with sleepafter to short to allow icon update
-				Local $bHold = $g_bCheckWardenPower ; store existing flag state, should be true?
-				$g_bCheckWardenPower = False ;temp disable warden health check
-				CheckHeroesHealth()
-				$g_bCheckWardenPower = $bHold ; restore flag state
-			Else
-				CheckHeroesHealth()
-			EndIf
-			If _Sleep($DELAYRESPOND) Then Return ; check for pause/stop after each line of CSV
-		Next
-		For $i = 0 To 3
-			If $sides2drop[$i] Then $g_iSidesAttack += 1
+		If _Sleep($DELAYRESPOND) Then Return ; check for pause/stop after each line of CSV
 		Next
 		ReleaseClicks()
 	Else
 		SetLog("Cannot find attack file " & $g_sCSVAttacksPath & "\" & $filename & ".csv", $COLOR_ERROR)
 	EndIf
-EndFunc   ;==>ParseAttackCSV
+EndFunc   ;==>ParseAttackCSV_MainSide
+

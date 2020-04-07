@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........: Hervidero (02-2015), Sardo (05-2015), Hervidero (12-2015)
 ; Modified ......: Sardo (05-2015), Hervidero (05-2015), Knowjack (07-2015)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -195,6 +195,7 @@ Func AttackReport()
 	$g_sBonusGold = $g_iStatsBonusLast[$eLootGold]
 	$g_sBonusElixir = $g_iStatsBonusLast[$eLootElixir]
 	$g_sBonusDE = $g_iStatsBonusLast[$eLootDarkElixir]
+	$g_sStarsEarned = $starsearned
 
 	Local $AtkLogTxtExtend
 	$AtkLogTxtExtend = "|"
@@ -213,10 +214,10 @@ Func AttackReport()
 	; Share Replay
 	If $g_bShareAttackEnable Then
 		If (Number($g_iStatsLastAttack[$eLootGold]) >= Number($g_iShareMinGold)) And (Number($g_iStatsLastAttack[$eLootElixir]) >= Number($g_iShareMinElixir)) And (Number($g_iStatsLastAttack[$eLootDarkElixir]) >= Number($g_iShareMinDark)) Then
-			SetLog("Reached miminum Loot values... Share Replay")
+			SetLog("Reached miminum Loot values. Share Replay")
 			$g_bShareAttackEnableNow = True
 		Else
-			SetLog("Below miminum Loot values... No Share Replay")
+			SetLog("Below miminum Loot values. No Share Replay")
 			$g_bShareAttackEnableNow = False
 		EndIf
 	EndIf
@@ -232,13 +233,6 @@ Func AttackReport()
 	EndIf
 	$g_iStatsTotalGain[$eLootTrophy] += $g_iStatsLastAttack[$eLootTrophy]
 	$g_aiTotalTrophyGain[$g_iMatchMode] += $g_iStatsLastAttack[$eLootTrophy]
-	If $g_iMatchMode = $TS Then
-		If $starsearned > 0 Then
-			$g_iNbrOfTHSnipeSuccess += 1
-		Else
-			$g_iNbrOfTHSnipeFails += 1
-		EndIf
-	EndIf
 	$g_aiAttackedVillageCount[$g_iMatchMode] += 1
 	UpdateStats()
 	UpdateSDataBase()

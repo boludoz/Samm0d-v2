@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........: Trlopes (06-2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -21,11 +21,11 @@ Func imglocCheckWall()
 	Local $iLastGoodWallx = $g_aiLastGoodWallPos[0]
 	Local $iLastGoodWally = $g_aiLastGoodWallPos[1]
 	ConvertToVillagePos($iLastGoodWallx, $iLastGoodWally)
-	
+
 	If _Sleep(500) Then Return
 
 	Local $levelWall = $g_iCmbUpgradeWallsLevel + 4
-	
+
 	Switch $levelWall
 	Case 10
 		$iXClickOffset = 2
@@ -43,7 +43,7 @@ Func imglocCheckWall()
 	If ($g_aiLastGoodWallPos[0] > 0) And ($g_aiLastGoodWallPos[1] > 0) Then ; Last known good position exists, trying to find upgradeable walls there
 		_CaptureRegion2($iLastGoodWallx - $iXRange, $iLastGoodWally - $iYRange, $iLastGoodWallx + $iXRange, $iLastGoodWally + $iYRange)
 		$FoundWalls = imglocFindWalls($levelWall, "FV", "FV", 4) ; lets get up to 4 surrounding points
-		If $g_bDebugImageSave Then DebugImageSave("WallUpgrade", False)
+		If $g_bDebugImageSave Then SaveDebugImage("WallUpgrade", False)
 	EndIf
 	If ($FoundWalls[0] = "") Then ; nothing found
 		$g_aiLastGoodWallPos[0] = -1
@@ -113,8 +113,8 @@ Func imglocFindWalls($walllevel, $searcharea = "DCD", $redline = "", $maxreturn 
 	Local $FoundWalls[1] = [""] ;
 
 	Local $redLines = $redline
-	Local $minLevel = $walllevel
-	Local $maxLevel = $walllevel
+	Local $minLevel = (IsNumber($walllevel) ? $walllevel : 1)
+	Local $maxLevel = (IsNumber($walllevel) ? $walllevel : 13)
 	Local $maxReturnPoints = $maxreturn
 
 	; Perform the search
@@ -126,7 +126,7 @@ Func imglocFindWalls($walllevel, $searcharea = "DCD", $redline = "", $maxreturn 
 		_logErrorDLLCall($g_sLibMyBotPath, $error)
 		SetLog(" imgloc DLL Error imgloc " & $error & " --- " & $extError, $COLOR_RED)
 		SetError(2, $extError, $error) ; Set external error code = 2 for DLL error
-		Return
+		Return $FoundWalls
 	EndIf
 
 	If checkImglocError($result, "imglocFindWalls", $g_sImgCheckWallDir) = True Then

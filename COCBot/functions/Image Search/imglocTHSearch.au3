@@ -6,7 +6,7 @@
 ; Return values .: None , sets several global variables
 ; Author ........: Trlopes (10-2016)
 ; Modified ......: CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -20,8 +20,9 @@ Global $IMGLOCTHFAR
 Global $IMGLOCTHRDISTANCE
 
 Func imglocTHSearch($bReTest = False, $myVillage = False, $bForceCapture = True)
-	Local $xdirectory = "imglocth-bundle"
+	Local $xdirectorya = "imglocth-bundle"
 	Local $xdirectoryb = "imglocth2-bundle"
+	Local $xdirectory
 	Local $sCocDiamond = "ECD"
 	Local $redLines = ""
 	Local $minLevel = 6 ; We only support TH6+
@@ -41,12 +42,19 @@ Func imglocTHSearch($bReTest = False, $myVillage = False, $bForceCapture = True)
 	Local $propsNames = StringSplit($returnProps, ",", $STR_NOCOUNT)
 	If $g_bDebugSetlog Then SetDebugLog("imgloc TH search Start", $COLOR_DEBUG)
 	Local $numRetry = 1 ; try to find TH twice (one retry)
+	If $g_iDetectedImageType = 1 Then
+		$numRetry = 3 ; try to find TH 4 times (three retries also without snow)
+	EndIf
 
 	For $retry = 0 To $numRetry
 		Local $iLvlFound = 0
-		If $retry > 0 Then $xdirectory = $xdirectoryb
+		If Mod($retry, 2) = 0 Then
+			$xdirectory = $xdirectorya
+		Else
+			$xdirectory = $xdirectoryb
+		EndIf
 
-		If $g_iDetectedImageType = 1 Then ;Snow theme on
+		If $g_iDetectedImageType = 1 And $retry < 2 Then ;Snow theme on
 			$xdirectory = "snow-" & $xdirectory
 		EndIf
 
@@ -116,7 +124,7 @@ Func imglocTHSearch($bReTest = False, $myVillage = False, $bForceCapture = True)
 						Case "objectpoints"
 							If $propsValues[$pv] = "0" Then
 								;there was an error inside imgloc and location is empty or error
-								DebugImageSave("imglocTHSearch_NoTHFound_", True)
+								SaveDebugImage("imglocTHSearch_NoTHFound_", True)
 								ResetTHsearch()
 								Return
 							EndIf
@@ -199,7 +207,7 @@ Func imglocTHSearch($bReTest = False, $myVillage = False, $bForceCapture = True)
 			If $g_bDebugSetlog Then SetDebugLog("imgloc THSearch Calculated  (in " & Round($iFindTime / 1000, 2) & " seconds) :")
 			ExitLoop ; TH was found
 		Else
-			If $g_bDebugImageSave And $retry > 0 Then DebugImageSave("imglocTHSearch_NoTHFound_", True)
+			If $g_bDebugImageSave And $retry > 0 Then SaveDebugImage("imglocTHSearch_NoTHFound_", True)
 			If $g_bDebugSetlog Then SetDebugLog("imgloc THSearch Notfound, Retry:  " & $retry)
 		EndIf
 

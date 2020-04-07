@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: KnowJack (07-2015) , TheMaster1st(2015), Fliegerfaust (06-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......: checkObstacles(), waitMainScreen()
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -22,7 +22,7 @@ EndFunc   ;==>checkMainScreen
 Func _checkMainScreen($bSetLog = Default, $bBuilderBase = Default) ;Checks if in main screen
 
 	If $bSetLog = Default Then $bSetLog = True
-	If $bBuilderBase = Default Then $bBuilderBase = False
+	If $bBuilderBase = Default Then $bBuilderBase = $g_bStayOnBuilderBase
 
 	Local $i, $iErrorCount, $iCheckBeforeRestartAndroidCount, $bObstacleResult, $bContinue
 	Local $aPixelToCheck = $aIsMain
@@ -66,7 +66,7 @@ Func _checkMainScreen($bSetLog = Default, $bBuilderBase = Default) ;Checks if in
 				$bContinue = True
 			Else
 				If $i > $iCheckBeforeRestartAndroidCount Then
-					DebugImageSave("checkMainScreen_RestartCoC", False) ; why do we need to restart ?
+					SaveDebugImage("checkMainScreen_RestartCoC", False) ; why do we need to restart ?
 					RestartAndroidCoC() ; Need to try to restart CoC
 					$bContinue = True
 				EndIf
@@ -89,7 +89,11 @@ Func _checkMainScreen($bSetLog = Default, $bBuilderBase = Default) ;Checks if in
 			If _Sleep($DELAYCHECKMAINSCREEN1) Then Return
 		EndIf
 	WEnd
-	If $bLocated Then ZoomOut()
+	If $bLocated Then
+		; check that shared_prefs are pulled
+		If $g_bUpdateSharedPrefs And Not HaveSharedPrefs() Then PullSharedPrefs()
+		ZoomOut()
+	EndIf
 	If Not $g_bRunState Then Return False
 
 	If $bSetLog Then
@@ -109,7 +113,13 @@ Func _checkMainScreen($bSetLog = Default, $bBuilderBase = Default) ;Checks if in
 	Return $bLocated
 EndFunc   ;==>_checkMainScreen
 
-Func _checkMainScreenImage(ByRef $bLocated, $aPixelToCheck)
-	$bLocated = _CheckPixel($aPixelToCheck, $g_bNoCapturePixel) And Not checkObstacles_Network(False, False)
+Func _checkMainScreenImage(ByRef $bLocated, $aPixelToCheck, $bNeedCaptureRegion = $g_bNoCapturePixel)
+	$bLocated = _CheckPixel($aPixelToCheck, $bNeedCaptureRegion) And Not checkObstacles_Network(False, False)
 	Return $bLocated
+EndFunc
+
+Func isOnMainVillage($bNeedCaptureRegion = $g_bNoCapturePixel)
+	Local $aPixelToCheck = $aIsMain
+	Local $bLocated = False
+	Return _checkMainScreenImage($bLocated, $aPixelToCheck)
 EndFunc

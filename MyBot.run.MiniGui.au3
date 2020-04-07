@@ -1,9 +1,9 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
-; Author ........:  (2014)
+; Author ........: cosote (2017)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -50,8 +50,6 @@ Opt("GUIEventOptions", 1) ; Handle minimize and restore for dock android support
 Opt("GUICloseOnESC", 0) ; Don't send the $GUI_EVENT_CLOSE message when ESC is pressed.
 Opt("WinTitleMatchMode", 3) ; Window Title exact match mode
 Opt("GUIOnEventMode", 1)
-Opt("MouseClickDelay", 10)
-Opt("MouseClickDownDelay", 10)
 
 Global $hNtDll = DllOpen("ntdll.dll")
 #cs
@@ -153,6 +151,11 @@ EndFunc   ;==>UpdateBotTitle
 Func _SleepMilli($iMilliSec)
 	_SleepMicro(Int($iMilliSec * 1000))
 EndFunc   ;==>_SleepMilli
+
+; added to avoid SciTE warning
+Func ResumeAndroid()
+EndFunc   ;==>ResumeAndroid
+
 
 Func ProcessCommandLine()
 
@@ -363,6 +366,7 @@ Func InitAndroid($bCheckOnly = False, $bLogChangesOnly = True)
 			, ((IsArray($g_avAndroidProgramFileVersionInfo) ? _ArrayToString($g_avAndroidProgramFileVersionInfo, ",", 1) : "not available")) _
 			, $g_iAndroidSecureFlags _
 			, $g_sAndroidAdbPath _
+			, $g_sAndroidAdbGlobalOptions _
 			, $__VBoxManage_Path _
 			, $g_sAndroidAdbDevice _
 			, $g_sAndroidPicturesPath _
@@ -437,6 +441,7 @@ Func InitAndroid($bCheckOnly = False, $bLogChangesOnly = True)
 		If CompareAndUpdate($aPriorValues[IncrUpdate($i)], $sText) Or $bLogChangesOnly = False Then SetDebugLog("Android Program FileVersionInfo: " & $sText)
 		If CompareAndUpdate($aPriorValues[IncrUpdate($i)], $g_iAndroidSecureFlags) Or $bLogChangesOnly = False Then SetDebugLog("Android SecureME setting: " & $g_iAndroidSecureFlags)
 		If CompareAndUpdate($aPriorValues[IncrUpdate($i)], $g_sAndroidAdbPath) Or $bLogChangesOnly = False Then SetDebugLog("Android ADB Path: " & $g_sAndroidAdbPath)
+		If CompareAndUpdate($aPriorValues[IncrUpdate($i)], $g_sAndroidAdbGlobalOptions) Or $bLogChangesOnly = False Then SetDebugLog("Android ADB Global Options: " & $g_sAndroidAdbGlobalOptions)
 		If CompareAndUpdate($aPriorValues[IncrUpdate($i)], $__VBoxManage_Path) Or $bLogChangesOnly = False Then SetDebugLog("Android VBoxManage Path: " & $__VBoxManage_Path)
 		If CompareAndUpdate($aPriorValues[IncrUpdate($i)], $g_sAndroidAdbDevice) Or $bLogChangesOnly = False Then SetDebugLog("Android ADB Device: " & $g_sAndroidAdbDevice)
 		If CompareAndUpdate($aPriorValues[IncrUpdate($i)], $g_sAndroidPicturesPath) Or $bLogChangesOnly = False Then SetDebugLog("Android ADB Shared Folder: " & $g_sAndroidPicturesPath)
@@ -767,15 +772,17 @@ Func GUIControl_WM_COMMAND($hWind, $iMsg, $wParam, $lParam)
 		Case $g_hLblDonate
 			; Donate URL is not in text nor tooltip
 			ShellExecute("https://mybot.run/forums/index.php?/donate/make-donation/")
-		Case $g_hBtnStop
+		Case $g_hBtnStart, $g_hTblStart
+			btnStart()
+		Case $g_hBtnStop, $g_hTblStop
 			btnStop()
-		Case $g_hBtnPause
+		Case $g_hBtnPause, $g_hTblPause
 			btnPause()
-		Case $g_hBtnResume
+		Case $g_hBtnResume, $g_hTblResume
 			btnResume()
 		Case $g_hBtnHide
 			btnHide()
-		Case $g_hBtnMakeScreenshot
+		Case $g_hBtnMakeScreenshot, $g_hTblMakeScreenshot
 			btnMakeScreenshot()
 		Case $g_hPicTwoArrowShield
 			btnVillageStat()
@@ -1004,13 +1011,21 @@ Func BotStarted()
 	GUICtrlSetState($g_hBtnResume, $g_bBotPaused ? $GUI_SHOW : $GUI_HIDE)
 	GUICtrlSetState($g_hBtnSearchMode, $GUI_HIDE)
 	GUICtrlSetState($g_hChkBackgroundMode, $GUI_DISABLE)
+
 	; enable buttons
 	GUICtrlSetState($g_hBtnStart, $GUI_ENABLE)
 	GUICtrlSetState($g_hBtnStop, $GUI_ENABLE)
+
 	; update try items
 	TrayItemSetText($g_hTiStartStop, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Stop", "Stop bot"))
 	TrayItemSetState($g_hTiPause, $TRAY_ENABLE)
 	TrayItemSetText($g_hTiPause, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Pause", "Pause bot"))
+
+	; update task bar buttons
+	_ITaskBar_UpdateTBButton($g_hTblStop, $THBF_ENABLED)
+	_ITaskBar_UpdateTBButton($g_hTblStart, $THBF_DISABLED)
+	_ITaskBar_UpdateTBButton($g_hTblPause, $THBF_ENABLED)
+	_ITaskBar_UpdateTBButton($g_hTblResume, $THBF_DISABLED)
 EndFunc   ;==>BotStarted
 
 Func BotStopped()
@@ -1038,6 +1053,12 @@ Func BotStopped()
 	; update try items
 	TrayItemSetText($g_hTiStartStop, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Start", "Start bot"))
 	TrayItemSetState($g_hTiPause, $TRAY_DISABLE)
+
+	; update task bar buttons
+	_ITaskBar_UpdateTBButton($g_hTblStart, $THBF_ENABLED)
+	_ITaskBar_UpdateTBButton($g_hTblStop, $THBF_DISABLED)
+	_ITaskBar_UpdateTBButton($g_hTblPause, $THBF_DISABLED)
+	_ITaskBar_UpdateTBButton($g_hTblResume, $THBF_DISABLED)
 EndFunc   ;==>BotStopped
 
 Func BotPaused()
@@ -1045,6 +1066,8 @@ Func BotPaused()
 	GUICtrlSetState($g_hBtnPause, $GUI_HIDE)
 	GUICtrlSetState($g_hBtnResume, $GUI_SHOW)
 	TrayItemSetText($g_hTiPause, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Resume", "Resume bot"))
+	_ITaskBar_UpdateTBButton($g_hTblPause, $THBF_DISABLED)
+	_ITaskBar_UpdateTBButton($g_hTblResume, $THBF_ENABLED)
 EndFunc   ;==>BotPaused
 
 Func BotResumed()
@@ -1052,6 +1075,8 @@ Func BotResumed()
 	GUICtrlSetState($g_hBtnPause, $GUI_SHOW)
 	GUICtrlSetState($g_hBtnResume, $GUI_HIDE)
 	TrayItemSetText($g_hTiPause, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Pause", "Pause bot"))
+	_ITaskBar_UpdateTBButton($g_hTblPause, $THBF_ENABLED)
+	_ITaskBar_UpdateTBButton($g_hTblResume, $THBF_DISABLED)
 EndFunc   ;==>BotResumed
 
 Func UpdateManagedMyBot($aBotDetails)
@@ -1316,6 +1341,7 @@ EndFunc   ;==>ReferenceGlobals
 
 ProcessCommandLine()
 
+_ITaskBar_Init(False)
 _Crypt_Startup()
 _GDIPlus_Startup() ; Start GDI+ Engine (incl. a new thread)
 

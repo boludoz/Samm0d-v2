@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........: Demen
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -15,27 +15,14 @@
 ; ===============================================================================================================================
 #include-once
 
-Func DoubleTrain($bQuickTrain = False, $bSetlog = True)
+Func DoubleTrain()
 
 	If Not $g_bDoubleTrain Then Return
 	Local $bDebug = $g_bDebugSetlogTrain Or $g_bDebugSetlog
-	If $bDebug Then $bSetlog = True
 
-	If $bDebug then SetLog($bQuickTrain ? " ==  Double Quick Train == " : " ==  Double Train == ", $COLOR_ACTION)
-
-	StartGainCost()
-	CheckIfArmyIsReady()
+	If $bDebug then SetLog(" == Double Train Army == ", $COLOR_ACTION)
 
 	Local $bNeedReCheckTroopTab = False, $bNeedReCheckSpellTab = False
-	Local $bSavedFullArmyValue = $g_bIsFullArmywithHeroesAndSpells
-	$g_bIsFullArmywithHeroesAndSpells = False ; this is to force RemoveExtraTroopsQueue()
-
-	If $bQuickTrain Then
-		DoubleQuickTrain($bSetlog, $bDebug)
-		$g_bIsFullArmywithHeroesAndSpells = $bSavedFullArmyValue ; release
-		EndGainCost("Train")
-		Return
-	EndIf
 
 	; Troop
 	If Not OpenTroopsTab(False, "DoubleTrain()") Then Return
@@ -44,10 +31,10 @@ Func DoubleTrain($bQuickTrain = False, $bSetlog = True)
 	Local $Step = 1
 	While 1
 		Local $TroopCamp = GetCurrentArmy(48, 160)
-		If $bSetlog Then SetLog("Checking Troop tab: " & $TroopCamp[0] & "/" & $TroopCamp[1] * 2)
+		SetLog("Checking Troop tab: " & $TroopCamp[0] & "/" & $TroopCamp[1] * 2)
 		If $TroopCamp[1] = 0 Then ExitLoop
-		If $bSetlog And $TroopCamp[1] <> $g_iTotalCampSpace Then _
-			SetLog("Incorrect Troop combo: " & $g_iTotalCampSpace & " vs Total camp: " & $TroopCamp[1] & @CRLF & "                 Double train may not work well", $COLOR_DEBUG)
+		If $TroopCamp[1] <> $g_iTotalCampSpace Then _
+			SetLog("Incorrect Troop combo: " & $g_iTotalCampSpace & " vs Total camp: " & $TroopCamp[1] & @CRLF & @TAB & "Double train may not work well", $COLOR_DEBUG)
 
 		If $TroopCamp[0] < $TroopCamp[1] Then ; <280/280
 			If $g_bDonationEnabled And $g_bChkDonate And MakingDonatedTroops("Troops") Then
@@ -61,8 +48,8 @@ Func DoubleTrain($bQuickTrain = False, $bSetlog = True)
 			If $bDebug Then SetLog($Step & ". DeleteQueued('Troops'). $bNeedReCheckTroopTab: " & $bNeedReCheckTroopTab, $COLOR_DEBUG)
 
 		ElseIf $TroopCamp[0] = $TroopCamp[1] Then ; 280/280
-			TrainFullQueue()
-			If $bDebug Then SetLog($Step & ". TrainFullQueue() done!", $COLOR_DEBUG)
+			TrainFullTroop(True)
+			If $bDebug Then SetLog($Step & ". TrainFullTroop(True) done!", $COLOR_DEBUG)
 
 		ElseIf $TroopCamp[0] <= $TroopCamp[1] * 2 Then ; 281-540/540
 			If CheckQueueTroopAndTrainRemain($TroopCamp, $bDebug) Then
@@ -80,8 +67,9 @@ Func DoubleTrain($bQuickTrain = False, $bSetlog = True)
 	WEnd
 
 	; Spell
-	Local $TotalSpellsToBrewInGUI = Number(TotalSpellsToBrewInGUI())
-	If $TotalSpellsToBrewInGUI = 0 Then
+	Local $iUnbalancedSpell = 0
+	Local $TotalSpell = _Min(Number(TotalSpellsToBrewInGUI()), Number($g_iTotalSpellValue))
+	If $TotalSpell = 0 Then
 		If $bDebug Then SetLog("No spell is required, skip checking spell tab", $COLOR_DEBUG)
 	Else
 		If Not OpenSpellsTab(False, "DoubleTrain()") Then Return
@@ -89,14 +77,12 @@ Func DoubleTrain($bQuickTrain = False, $bSetlog = True)
 		$Step = 1
 		While 1
 			Local $SpellCamp = GetCurrentArmy(43, 160)
-			If $bSetlog Then SetLog("Checking Spell tab: " & $SpellCamp[0] & "/" & $SpellCamp[1] * 2)
-			If $SpellCamp[1] = 0 Then ExitLoop
-			Local $TotalSpell = _Min(Number($TotalSpellsToBrewInGUI), Number($g_iTotalSpellValue))
-			If $bDebug Then SetLog("$TotalSpellsToBrewInGUI = " & $TotalSpellsToBrewInGUI & ", $g_iTotalSpellValue = " & $g_iTotalSpellValue & ", _Min = " & $TotalSpell, $COLOR_DEBUG)
-			If $SpellCamp[1] <> $TotalSpellsToBrewInGUI Or $SpellCamp[1] <> $g_iTotalSpellValue Then
-				If $bSetlog And Not $g_bForceBrewSpells Then SetLog("Incorrect Spell combo: " & $TotalSpellsToBrewInGUI & "/" & $g_iTotalSpellValue & _
-																	" vs Total camp: " & $SpellCamp[1] & @CRLF & "                 Double train may not work well", $COLOR_DEBUG)
-				If $g_bForceBrewSpells And $SpellCamp[1] > $TotalSpell Then $SpellCamp[1] = $TotalSpell
+			SetLog("Checking Spell tab: " & $SpellCamp[0] & "/" & $SpellCamp[1] * 2)
+
+			If $SpellCamp[1] > $TotalSpell Then
+				SetLog("Unbalance Total spell setting vs actual spell capacity: " & $TotalSpell & "/" & $SpellCamp[1] & @CRLF & @TAB & "Double train may not work well", $COLOR_DEBUG)
+				$iUnbalancedSpell = $SpellCamp[1] - $TotalSpell
+				$SpellCamp[1] = $TotalSpell
 			EndIf
 
 			If $SpellCamp[0] < $SpellCamp[1] Then ; 0-10/11
@@ -110,12 +96,14 @@ Func DoubleTrain($bQuickTrain = False, $bSetlog = True)
 				$bNeedReCheckSpellTab = True
 				If $bDebug Then SetLog($Step & ". DeleteQueued('Spells'). $bNeedReCheckSpellTab: " & $bNeedReCheckSpellTab, $COLOR_DEBUG)
 
-			ElseIf $SpellCamp[0] = $SpellCamp[1] Then ; 11/22
-				TrainFullQueue(True) ;
-				If $bDebug Then SetLog($Step & ". TrainFullQueue(True) done!", $COLOR_DEBUG)
+			ElseIf $SpellCamp[0] = $SpellCamp[1] Or $SpellCamp[0] <= $SpellCamp[1] + $iUnbalancedSpell Then ; 11/22
+				BrewFullSpell(True)
+				If $iUnbalancedSpell > 0 Then TopUpUnbalancedSpell($iUnbalancedSpell)
+				If $bDebug Then SetLog($Step & ". BrewFullSpell(True) done!", $COLOR_DEBUG)
 
-			ElseIf $SpellCamp[0] <= $SpellCamp[1] * 2 Then ; 12-22/22
-				If CheckQueueSpellAndTrainRemain($SpellCamp, $bDebug) Then
+			Else ; If $SpellCamp[0] <= $SpellCamp[1] * 2 Then ; 12-22/22
+				If CheckQueueSpellAndTrainRemain($SpellCamp, $bDebug, $iUnbalancedSpell) Then
+					If $SpellCamp[0] < ($SpellCamp[1] + $iUnbalancedSpell) * 2 Then TopUpUnbalancedSpell($iUnbalancedSpell)
 					If $bDebug Then SetLog($Step & ". CheckQueueSpellAndTrainRemain() done!", $COLOR_DEBUG)
 				Else
 					RemoveExtraTroopsQueue()
@@ -135,45 +123,28 @@ Func DoubleTrain($bQuickTrain = False, $bSetlog = True)
 		Local $rRemoveExtraTroops = RemoveExtraTroops($aWhatToRemove)
 		If $bDebug Then SetLog("RemoveExtraTroops(): " & $rRemoveExtraTroops, $COLOR_DEBUG)
 
-		If $rRemoveExtraTroops = 1 Or $rRemoveExtraTroops = 2 Then
-			For $i = 0 To UBound($aWhatToRemove) - 1
-				If _ArraySearch($g_asTroopShortNames, $aWhatToRemove[$i][0]) >= 0 Then $bNeedReCheckTroopTab = True
-				If _ArraySearch($g_asSpellShortNames, $aWhatToRemove[$i][0]) >= 0 Then $bNeedReCheckSpellTab = True
-				If $bNeedReCheckTroopTab And $bNeedReCheckSpellTab Then ExitLoop
-			Next
-			If $bDebug Then SetLog("$bNeedReCheckTroopTab: " & $bNeedReCheckTroopTab & "$bNeedReCheckSpellTab: " & $bNeedReCheckSpellTab, $COLOR_DEBUG)
+		Local $aWhatToTrain = WhatToTrain(False, False)
+		If DoWhatToTrainContainTroop($aWhatToTrain) Then
+			TrainUsingWhatToTrain($aWhatToTrain)
+			TrainFullTroop(True)
+			If $bDebug Then SetLog("TrainFullTroop(True) done.", $COLOR_DEBUG)
 		EndIf
-
-		Local $aWhatToTrain = WhatToTrain()
-		If $bNeedReCheckTroopTab Then
-			TrainUsingWhatToTrain($aWhatToTrain) ; troop
-			TrainFullQueue(False)
-			If $bDebug Then SetLog("TrainFullQueue() done.", $COLOR_DEBUG)
-		EndIf
-		If $bNeedReCheckSpellTab Then
-			TrainUsingWhatToTrain($aWhatToTrain, True) ; spell
-			TrainFullQueue(True)
-			If $bDebug Then SetLog("TrainFullQueue('True') done.", $COLOR_DEBUG)
+		If DoWhatToTrainContainSpell($aWhatToTrain) Then
+			BrewUsingWhatToTrain($aWhatToTrain)
+			BrewFullSpell(True)
+			If $iUnbalancedSpell > 0 Then TopUpUnbalancedSpell($iUnbalancedSpell)
+			If $bDebug Then SetLog("BrewFullSpell(True) done.", $COLOR_DEBUG)
 		EndIf
 	EndIf
 
 	If _Sleep(250) Then Return
-    DoubleTrainSiege($bDebug)
-
-	ClickP($aAway, 2, 0, "#0346") ;Click Away
-	If _Sleep(250) Then Return
-
-	$g_bIsFullArmywithHeroesAndSpells = $bSavedFullArmyValue ; release
-
-	If $g_bDonationEnabled And $g_bChkDonate Then ResetVariables("donated")
-	EndGainCost("Train")
-	checkAttackDisable($g_iTaBChkIdle) ; Check for Take-A-Break after opening train page
 
 EndFunc   ;==>DoubleTrain
 
-Func TrainFullQueue($bSpellOnly = False)
+Func TrainFullTroop($bQueue = False)
+	SetLog("Training " & ($bQueue ? "2nd Army..." : "1st Army..."))
+
 	Local $ToReturn[1][2] = [["Arch", 0]]
-	; Troops
 	For $i = 0 To $eTroopCount - 1
 		Local $troopIndex = $g_aiTrainOrder[$i]
 		If $g_aiArmyCompTroops[$troopIndex] > 0 Then
@@ -182,11 +153,23 @@ Func TrainFullQueue($bSpellOnly = False)
 			ReDim $ToReturn[UBound($ToReturn) + 1][2]
 		EndIf
 	Next
-	; Spells
+
+	If $ToReturn[0][0] = "Arch" And $ToReturn[0][1] = 0 Then Return
+
+	TrainUsingWhatToTrain($ToReturn, $bQueue)
+	If _Sleep(500) Then Return
+
+	Local $CampOCR = GetCurrentArmy(48, 160)
+	SetDebugLog("Checking troop tab: " & $CampOCR[0] & "/" & $CampOCR[1] * 2)
+EndFunc   ;==>TrainFullTroop
+
+Func BrewFullSpell($bQueue = False)
+	SetLog("Brewing " & ($bQueue ? "2nd Army..." : "1st Army..."))
+
+	Local $ToReturn[1][2] = [["Arch", 0]]
 	For $i = 0 To $eSpellCount - 1
 		Local $BrewIndex = $g_aiBrewOrder[$i]
-		If TotalSpellsToBrewInGUI() = 0 Then ExitLoop
-		If $g_aiArmyCompSpells[$BrewIndex] > 0 Then
+        If $g_aiArmyCompSpells[$BrewIndex] > 0 Then
 			$ToReturn[UBound($ToReturn) - 1][0] = $g_asSpellShortNames[$BrewIndex]
 			$ToReturn[UBound($ToReturn) - 1][1] = $g_aiArmyCompSpells[$BrewIndex]
 			ReDim $ToReturn[UBound($ToReturn) + 1][2]
@@ -195,84 +178,39 @@ Func TrainFullQueue($bSpellOnly = False)
 
 	If $ToReturn[0][0] = "Arch" And $ToReturn[0][1] = 0 Then Return
 
-	Local $bSavedFullArmyValue = $g_bIsFullArmywithHeroesAndSpells
-	$g_bIsFullArmywithHeroesAndSpells = True
+	BrewUsingWhatToTrain($ToReturn, $bQueue)
+	If _Sleep(750) Then Return
 
-	TrainUsingWhatToTrain($ToReturn, $bSpellOnly)
-	If _Sleep($bSpellOnly ? 1000 : 500) Then Return
+	Local $CampOCR = GetCurrentArmy(43, 160)
+	SetDebugLog("Checking spell tab: " & $CampOCR[0] & "/" & $CampOCR[1] * 2)
+EndFunc   ;==>BrewFullSpell
 
-	$g_bIsFullArmywithHeroesAndSpells = $bSavedFullArmyValue
+Func TopUpUnbalancedSpell($iUnbalancedSpell = 0)
 
-	Local $CampOCR = GetCurrentArmy($bSpellOnly ? 43 : 48, 160)
-	SetDebugLog("Checking " & ($bSpellOnly ? "spell tab: " : "troop tab: ") & $CampOCR[0] & "/" & $CampOCR[1] * 2)
-
-EndFunc   ;==>TrainFullQueue
-
-Func DoubleQuickTrain($bSetlog, $bDebug)
-
-	Local $bDoubleTrainTroop = False, $bDoubleTrainSpell = False
-
-	; Troop
-	If Not OpenTroopsTab(False, "DoubleQuickTrain()") Then Return
-	If _Sleep(250) Then Return
-	Local $Step = 1
-	While 1
-		If $g_bDonationEnabled And $g_bChkDonate Then MakingDonatedTroops("Troops")
-		Local $TroopCamp = GetCurrentArmy(48, 160)
-		If $bSetlog Then SetLog("Checking Troop tab: " & $TroopCamp[0] & "/" & $TroopCamp[1] * 2)
-		If $TroopCamp[0] > $TroopCamp[1] And $TroopCamp[0] < $TroopCamp[1] * 2 Then ; 500/520
-			RemoveExtraTroopsQueue()
-			If _Sleep(500) Then Return
-			If $bDebug Then SetLog($Step & ". RemoveExtraTroopsQueue()", $COLOR_DEBUG)
-			$Step += 1
-			If $Step = 6 Then ExitLoop
-			ContinueLoop
-		ElseIf $TroopCamp[0] = $TroopCamp[1] * 2 Then
-			$bDoubleTrainTroop = True
-			If $bDebug Then SetLog($Step & ". $bDoubleTrainTroop: " & $bDoubleTrainTroop, $COLOR_DEBUG)
+	If $iUnbalancedSpell = 0 Then Return
+	Local $iTypeOfSpell = 0, $iSpellIndex
+	For $i = 0 To UBound($g_aiArmyCompSpells) - 1
+		If $g_aiArmyCompSpells[$i] > 0 Then
+			$iSpellIndex = $i
+			$iTypeOfSpell += 1
 		EndIf
-		ExitLoop
-	WEnd
+		If $iTypeOfSpell > 1 Then ExitLoop
+	Next
 
-	; Spell
-	If Not OpenSpellsTab(False, "DoubleQuickTrain()") Then Return
-	If _Sleep(250) Then Return
-	$Step = 1
-	While 1
-		If $g_bDonationEnabled And $g_bChkDonate Then MakingDonatedTroops("Spells")
-		Local $SpellCamp = GetCurrentArmy(43, 160)
-		If $bSetlog Then SetLog("Checking Spell tab: " & $SpellCamp[0] & "/" & $SpellCamp[1] * 2)
-		If $SpellCamp[0] > $SpellCamp[1] And $SpellCamp[0] < $SpellCamp[1] * 2 Then ; 20/22
-			RemoveExtraTroopsQueue()
-			If _Sleep(500) Then Return
-			If $bDebug Then SetLog($Step & ". RemoveExtraTroopsQueue()", $COLOR_DEBUG)
-			$Step += 1
-			If $Step = 6 Then ExitLoop
-			ContinueLoop
-		ElseIf $SpellCamp[0] = $SpellCamp[1] * 2 Then
-			$bDoubleTrainSpell = True
-			If $bDebug Then SetLog($Step & ". $bDoubleTrainSpell: " & $bDoubleTrainSpell, $COLOR_DEBUG)
+	If $iTypeOfSpell = 1 Then
+		Local $aSpell[1][2]
+		$aSpell[0][0] = $g_asSpellShortNames[$iSpellIndex]
+		$aSpell[0][1] = Int($iUnbalancedSpell * 2 / $g_aiSpellSpace[$iSpellIndex])
+
+		If $aSpell[0][1] >= 1 Then
+			SetLog("Topping up " & $g_asSpellNames[$iSpellIndex] & " Spell x" & $aSpell[0][1])
+			BrewUsingWhatToTrain($aSpell, True)
 		EndIf
-		ExitLoop
-	WEnd
-
-	If Not $bDoubleTrainTroop Or Not $bDoubleTrainSpell Then
-		If Not OpenQuickTrainTab(False, "DoubleQuickTrain()") Then Return
-		If _Sleep(500) Then Return
-		TrainArmyNumber($g_bQuickTrainArmy)
-	Else
-		If $bSetlog Then SetLog("Full queue, skip Double Quick Train")
 	EndIf
 
-	If _Sleep(250) Then Return
-    DoubleTrainSiege($bDebug)
+	If _Sleep(750) Then Return
 
-	ClickP($aAway, 2, 0, "#0346") ;Click Away
-	If _Sleep(250) Then Return
-
-	If $g_bDonationEnabled And $g_bChkDonate Then ResetVariables("donated")
-
-EndFunc   ;==>DoubleQuickTrain
+EndFunc   ;==>IsBrewOnlyOneType
 
 Func GetCurrentArmy($x_start, $y_start)
 
@@ -340,10 +278,7 @@ Func CheckQueueTroopAndTrainRemain($ArmyCamp, $bDebug)
 				ReDim $rWTT[UBound($rWTT) + 1][2]
 			EndIf
 		Next
-		Local $bIsFullArmywithHeroesAndSpells = $g_bIsFullArmywithHeroesAndSpells
-		$g_bIsFullArmywithHeroesAndSpells = True
-		TrainUsingWhatToTrain($rWTT)
-		$g_bIsFullArmywithHeroesAndSpells = $bIsFullArmywithHeroesAndSpells ; release
+		TrainUsingWhatToTrain($rWTT, True)
 
 		If _Sleep(1000) Then Return
 		$ArmyCamp = GetCurrentArmy(48, 160)
@@ -353,7 +288,7 @@ Func CheckQueueTroopAndTrainRemain($ArmyCamp, $bDebug)
 	Return True
 EndFunc   ;==>CheckQueueTroopAndTrainRemain
 
-Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug)
+Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug, $iUnbalancedSpell = 0)
 	If $ArmyCamp[0] = $ArmyCamp[1] * 2 And ((ProfileSwitchAccountEnabled() And $g_abAccountNo[$g_iCurAccount] And $g_abDonateOnly[$g_iCurAccount]) Or $g_iCommandStop = 0) Then Return True ; bypass Donate account when full queue
 
 	Local $iTotalQueue = 0
@@ -373,15 +308,20 @@ Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug)
 		If $aiQueueSpells[$i] > 0 Then $iTotalQueue += $aiQueueSpells[$i] * $g_aiSpellSpace[$i]
 	Next
 	; Check block spell
-	If $ArmyCamp[0] < $ArmyCamp[1] + $iTotalQueue And Not $g_bForceBrewSpells Then
+	If $ArmyCamp[0] < $ArmyCamp[1] + $iTotalQueue Then
 		SetLog("A big guy blocks our camp")
 		Return False
 	EndIf
 	; check wrong queue
+	Local $iUnbalancedSlot = 0, $iTypeOfSpell = 0
 	For $i = 0 To UBound($aiQueueSpells) - 1
+		If $aiQueueSpells[$i] > 0 Then $iTypeOfSpell += 1
 		If $aiQueueSpells[$i] - $g_aiArmyCompSpells[$i] > 0 Then
-			SetLog("Some wrong spells in queue")
-			Return False
+			$iUnbalancedSlot += ($aiQueueSpells[$i] - $g_aiArmyCompSpells[$i]) * $g_aiSpellSpace[$i]
+			If $iTypeOfSpell > 1 Or $iUnbalancedSlot > $iUnbalancedSpell * 2 Then ; more than 2 spell types
+				SetLog("Some wrong spells in queue (" & $g_asSpellNames[$i] & " x" & $aiQueueSpells[$i] & "/" & $g_aiArmyCompSpells[$i] & ")")
+				Return False
+			EndIf
 		EndIf
 	Next
 	If $ArmyCamp[0] < $ArmyCamp[1] * 2 Then
@@ -398,10 +338,7 @@ Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug)
 				ReDim $rWTT[UBound($rWTT) + 1][2]
 			EndIf
 		Next
-		Local $bIsFullArmywithHeroesAndSpells = $g_bIsFullArmywithHeroesAndSpells
-		$g_bIsFullArmywithHeroesAndSpells = True
-		TrainUsingWhatToTrain($rWTT, True)
-		$g_bIsFullArmywithHeroesAndSpells = $bIsFullArmywithHeroesAndSpells ; release
+		BrewUsingWhatToTrain($rWTT, True)
 
 		If _Sleep(1000) Then Return
 		Local $NewSpellCamp = GetCurrentArmy(43, 160)
@@ -410,49 +347,3 @@ Func CheckQueueSpellAndTrainRemain($ArmyCamp, $bDebug)
 	EndIf
 	Return True
 EndFunc   ;==>CheckQueueSpellAndTrainRemain
-
-Func DoubleTrainSiege($bDebug)
-    If $g_iTotalTrainSpaceSiege < 1 Then Return; train no siege
-
-	If Not OpenSiegeMachinesTab(True, "DoubleTrainSiege()") Then Return
-	If _Sleep(500) Then Return
-
-	Local $checkPixel[4] = [58, 556, 0x47717E, 10] ; WallW = 58, BlimpB = 229, Slammer = 400
-	; build 1st Army
-	For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-		$checkPixel[0] = 58 + $i * 171 ; 58 + 1 * 171 = 229, 58 + 2 * 171 = 400
-		If _CheckPixel($checkPixel, True, Default, $g_asSiegeMachineNames[$i]) Then
-			If $g_aiCurrentSiegeMachines[$i] < $g_aiArmyCompSiegeMachine[$i] Then
-				Local $HowMany = $g_aiArmyCompSiegeMachine[$i] - $g_aiCurrentSiegeMachines[$i]
-				PureClick($checkPixel[0], $checkPixel[1], $HowMany, $g_iTrainClickDelay)
-				Setlog("Build " & $HowMany & " " & $g_asSiegeMachineNames[$i] & ($HowMany >= 2 ? "s" : ""), $COLOR_SUCCESS)
-				If _Sleep(250) Then Return
-			EndIf
-		EndIf
-	Next
-	; build 2nd Army
-	Local $iTotalSiegeTypeToBuild = 0, $iSiegeType = -1
-	For $i = $eSiegeWallWrecker To $eSiegeMachineCount - 1
-		If $g_aiArmyCompSiegeMachine[$i] > 0 Then
-			$iTotalSiegeTypeToBuild += 1
-			$iSiegeType = $i
-		EndIf
-		If $iTotalSiegeTypeToBuild >= 2 Then ExitLoop
-	Next
-
-    If $iTotalSiegeTypeToBuild >= 2 Then ; train more than 1 type of siege $eSiegeStoneSlammer
-        If $bDebug Then SetLog("Army has more than 1 type of siege. Double train siege might cause unbalance.", $COLOR_DEBUG)
-	ElseIf $iSiegeType >= $eSiegeWallWrecker And $iSiegeType <= $eSiegeMachineCount - 1 Then
-		$checkPixel[0] = 58 + $iSiegeType * 171 ; 58 + 1 * 171 = 229, 58 + 2 * 171 = 400
-		Local $iTotalMachineBuilt = 0
-		For $i = 1 To _Min(Number($g_aiArmyCompSiegeMachine[$iSiegeType]), 3) ; Maximum workshop space is 3
-			If _CheckPixel($checkPixel, True, Default, $g_asSiegeMachineNames[$iSiegeType]) Then
-				PureClick($checkPixel[0], $checkPixel[1], 1, $g_iTrainClickDelay)
-				$iTotalMachineBuilt += 1
-				If _Sleep(250) Then Return
-			EndIf
-		Next
-		If $iTotalMachineBuilt > 0 Then Setlog("Build " & $iTotalMachineBuilt & " " & $g_asSiegeMachineNames[$iSiegeType] & ($iTotalMachineBuilt >= 2 ? "s" : ""), $COLOR_SUCCESS)
-	EndIf
-	If _Sleep(250) Then Return
-EndFunc   ;==>DoubleTrainSiege

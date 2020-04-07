@@ -2,3 +2,6 @@ Nueva carpeta/
 profiles/
 build/
 *.bat
+BuildMBR.exe
+MyBot.run_stripped.exe
+MyBot.run_stripped.au3

@@ -6,7 +6,7 @@
 ; Return values .: True: Successfully switched Bases  -  False: Failed to switch Bases
 ; Author ........: Fliegerfaust (05-2017)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -37,18 +37,10 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 			$sRegionToSearch = "66,432,388,627"
 		EndIf
 
-		If $i = 1 Then
-			For $j = 0 To 6
-				AndroidShield("AndroidOnlyZoomOut") ; Update shield status
-				AndroidZoomOut(False, $j) ; use new ADB zoom-out, just incase forcing a zoomout without images detections
-				If Not $g_bRunState Then Return
-				If _sleep(100) Then Return
-			Next
-		Else
-			ZoomOut() ; ensure boat is visible
-		EndIf
-
 		If _sleep(1000) Then Return
+		If Not $g_bRunState Then Return
+
+		ZoomOut() ; ensure boat is visible
 		If Not $g_bRunState Then Return
 
 		$aButtonCoords = decodeSingleCoord(findImageInPlace($sTile, $sTileDir, $sRegionToSearch))
@@ -68,7 +60,6 @@ Func SwitchBetweenBases($bCheckMainScreen = True)
 			WEnd
 
 			If $bSwitched Then
-				;SetLog("Successfully went" & $sBack & " to the " & $sSwitchTo, $COLOR_SUCCESS)
 				If $bCheckMainScreen Then checkMainScreen(True, Not $bIsOnBuilderBase)
 				Return True
 			Else

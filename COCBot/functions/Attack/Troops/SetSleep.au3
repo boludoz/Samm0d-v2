@@ -50,17 +50,17 @@ EndFunc   ;==>SetSleep
 ; Return values .: see _Sleep
 ; Author ........: cosote (2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
 Func _SleepAttack($iDelay, $iSleep = True)
-	If $g_bRunState = False Then
+	If Not $g_bRunState Then
 		ResumeAndroid()
 		Return True
 	EndIf
-	If IsKeepClicksActive() = True Then Return False
+	If IsKeepClicksActive() Then Return False
 	Return _Sleep($iDelay, $iSleep)
 EndFunc   ;==>_SleepAttack

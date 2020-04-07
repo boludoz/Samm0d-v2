@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: ProMac 2015
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -43,7 +43,7 @@ Func BoostQueen()
 		If _Sleep($DELAYBOOSTHEROES4) Then Return
 	EndIf
 
-	If BoostStructure("Archer Queen", "Quee", $g_aiQueenAltarPos, $g_iCmbBoostArcherQueen, $g_hCmbBoostArcherQueen) Then $g_aiHeroBoost[$eHeroArcherQueen] = _NowCalc()
+	If BoostStructure("Archer Queen", "Queen", $g_aiQueenAltarPos, $g_iCmbBoostArcherQueen, $g_hCmbBoostArcherQueen) Then $g_aiHeroBoost[$eHeroArcherQueen] = _NowCalc()
 	$g_aiTimeTrain[2] = 0 ; reset Heroes remaining time
 
 	If _Sleep($DELAYBOOSTBARRACKS3) Then Return
@@ -67,3 +67,21 @@ Func BoostWarden()
 	If _Sleep($DELAYBOOSTBARRACKS3) Then Return
 	checkMainScreen(False) ; Check for errors during function
 EndFunc   ;==>BoostWarden
+
+Func BoostChampion()
+	; Verifying existent Variables to run this routine
+	If AllowBoosting("Royal Champion", $g_iCmbBoostChampion) = False Then Return
+
+	SetLog("Boost Royal Champion...", $COLOR_INFO)
+	If $g_aiChampionAltarPos[0] = "" Or $g_aiChampionAltarPos[0] = -1 Then
+		LocateChampionAltar()
+		SaveConfig()
+		If _Sleep($DELAYBOOSTHEROES4) Then Return
+	EndIf
+
+	If BoostStructure("Royal Champion", "Champion", $g_aiChampionAltarPos, $g_iCmbBoostChampion, $g_hCmbBoostChampion) Then $g_aiHeroBoost[$eHeroRoyalChampion] = _NowCalc()
+	$g_aiTimeTrain[2] = 0 ; reset Heroes remaining time
+
+	If _Sleep($DELAYBOOSTBARRACKS3) Then Return
+	checkMainScreen(False) ; Check for errors during function
+EndFunc   ;==>BoostChampion

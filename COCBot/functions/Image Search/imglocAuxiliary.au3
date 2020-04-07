@@ -6,18 +6,20 @@
 ; Return values .: None
 ; Author ........: Trlopes (2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func decodeMultipleCoords($coords, $iDedupX = -1, $iDedupY = -1, $iSorted = -1)
+Func decodeMultipleCoords($coords, $iDedupX = Default, $iDedupY = Default, $iSorted = Default)
+	If $iDedupX = Default Then $iDedupX = -1
+	If $iDedupY = Default Then $iDedupY = -1
+	If $iSorted = Default Then $iSorted = -1
 	;returns array of N coordinates [0=x, 1=y][0=x1, 1=y1]
-	Local $retCoords
-	Local $aEmpty[1] = [""]
-	Local $p, $pOff = 0
+	Local $retCoords, $c
+	Local $pOff = 0
 	;	SetDebugLog("**decodeMultipleCoords: " & $coords, $COLOR_DEBUG)
 	Local $aCoordsSplit = StringSplit($coords, "|", $STR_NOCOUNT)
 	If StringInStr($aCoordsSplit[0], ",") > 0 Then
@@ -26,11 +28,22 @@ Func decodeMultipleCoords($coords, $iDedupX = -1, $iDedupY = -1, $iSorted = -1)
 		$pOff = 1
 		Local $retCoords[Number($aCoordsSplit[0])]
 	EndIf
+	Local $iErr = 0
 	For $p = 0 To UBound($retCoords) - 1
-		$retCoords[$p] = decodeSingleCoord($aCoordsSplit[$p + $pOff])
+		$c = decodeSingleCoord($aCoordsSplit[$p + $pOff])
+		If UBound($c) > 1 Then
+			$retCoords[$p - $iErr] = $c
+		Else
+			; not a coordinate
+			$iErr += 1
+		EndIf
 	Next
+	If $iErr > 0 Then ReDim $retCoords[UBound($retCoords) - $iErr]
 
-	If UBound($retCoords) = 0 Then Return $aEmpty
+	If UBound($retCoords) = 0 Then
+		Local $aEmpty[0]
+		Return $aEmpty
+	EndIf
 	If UBound($retCoords) = 1 Or ($iDedupX < 1 And $iDedupY < 1 And $iSorted = -1) Then Return $retCoords ; no dedup, return array
 
 	; dedup coords
@@ -57,7 +70,7 @@ Func decodeMultipleCoords($coords, $iDedupX = -1, $iDedupY = -1, $iSorted = -1)
 		Local $aFinalCoords = $retCoords
 	EndIf
 	If $iSorted = 0 Or $iSorted = 1 Then
-		Local $a[UBound($aFinalCoords)][2]
+		Local $a[UBound($aFinalCoords)][2], $c1
 		For $i = 0 To UBound($aFinalCoords) - 1
 			$c1 = $aFinalCoords[$i]
 			$a[$i][0] = $c1[0]
@@ -95,14 +108,14 @@ Func RetrieveImglocProperty($key, $property)
 	Return $aValue[0]
 EndFunc   ;==>RetrieveImglocProperty
 
-Func checkImglocError(ByRef $imglocvalue, $funcName, $sTileSource = "")
+Func checkImglocError(ByRef $imglocvalue, $funcName, $sTileSource = "", $sImageArea = "")
 	;Return true if there is an error in imgloc return string
 	If IsArray($imglocvalue) Then ;despite beeing a string, AutoIt receives a array[0]
 		If $imglocvalue[0] = "0" Or $imglocvalue[0] = "" Then
-			If $g_bDebugSetlog Then SetDebugLog($funcName & " imgloc search returned no results" & ($sTileSource ? " for '" & $sTileSource & "' !" : "!"), $COLOR_WARNING)
+			If $g_bDebugSetlog Then SetDebugLog($funcName & " imgloc search returned no results" & ($sImageArea ? " in " & $sImageArea : "") & ($sTileSource ? " for '" & $sTileSource & "' !" : "!"), $COLOR_WARNING)
 			Return True
 		ElseIf StringLeft($imglocvalue[0], 2) = "-1" Then ;error
-			If $g_bDebugSetlog Then SetDebugLog($funcName & " - Imgloc DLL Error: " + $imglocvalue[0], $COLOR_ERROR)
+			If $g_bDebugSetlog Then SetDebugLog($funcName & " - Imgloc DLL Error: " & $imglocvalue[0], $COLOR_ERROR)
 			Return True
 		ElseIf StringLeft($imglocvalue[0], 2) = "-2" Then ;critical error
 			SetLog($funcName & " - Imgloc DLL Critical Error", $COLOR_RED)
@@ -122,6 +135,16 @@ Func checkImglocError(ByRef $imglocvalue, $funcName, $sTileSource = "")
 		Return True
 	EndIf
 EndFunc   ;==>checkImglocError
+
+Func ClickB($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $iDelay = 100)
+	Local $aiButton = findButton($sButtonName, $buttonTileArrayOrPatternOrFullPath, 1, True)
+	If IsArray($aiButton) And UBound($aiButton) >= 2 Then
+		ClickP($aiButton, 1)
+		If _Sleep($iDelay) Then Return
+		Return True
+	EndIf
+	Return False
+EndFunc   ;==>ClickB
 
 Func findButton($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $maxReturnPoints = 1, $bForceCapture = True)
 
@@ -197,9 +220,12 @@ Func findButton($sButtonName, $buttonTileArrayOrPatternOrFullPath = Default, $ma
 			;[1] -  coordinates
 			If $maxReturnPoints = 1 Then
 				Return StringSplit($aCoords[1], ",", $STR_NOCOUNT) ; return just X,Y coord
-			Else
-				; @TODO return 2 dimensional array
-				Return $result[0] ; return full string with count and points
+			ElseIf IsArray($aCoords) Then
+				Local $aReturnResult[0][2]
+				For $i = 1 To UBound($aCoords) - 1
+					_ArrayAdd($aReturnResult, $aCoords[$i], 0, ",", @CRLF, $ARRAYFILL_FORCE_NUMBER)
+				Next
+				Return $aReturnResult ; return 2D array
 			EndIf
 		EndIf
 
@@ -358,8 +384,8 @@ Func findImage($sImageName, $sImageTile, $sImageArea, $maxReturnPoints = 1, $bFo
 		Return
 	EndIf
 
-	If checkImglocError($result, "findImage", $sImageTile) = True Then
-		If $g_bDebugSetlog And $g_bDebugImageSave Then DebugImageSave("findImage_" & $sImageName, True)
+	If checkImglocError($result, "findImage", $sImageTile, $sImageArea) Then
+		If $g_bDebugSetlog And $g_bDebugImageSave Then SaveDebugImage("findImage_" & $sImageName, True)
 		Return $aCoords
 	EndIf
 
@@ -375,7 +401,7 @@ Func findImage($sImageName, $sImageTile, $sImageArea, $maxReturnPoints = 1, $bFo
 		EndIf
 	Else
 		If $g_bDebugSetlog Then SetDebugLog("findImage : " & $sImageName & " NOT FOUND " & $sImageTile)
-		If $g_bDebugSetlog And $g_bDebugImageSave Then DebugImageSave("findImage_" & $sImageName, True)
+		If $g_bDebugSetlog And $g_bDebugImageSave Then SaveDebugImage("findImage_" & $sImageName, True)
 		Return $aCoords
 	EndIf
 
@@ -699,165 +725,6 @@ Func SearchRedLinesMultipleTimes($sCocDiamond = "ECD", $iCount = 3, $iDelay = 30
 	Return $g_sImglocRedline
 EndFunc   ;==>SearchRedLinesMultipleTimes
 
-Func decodeTroopEnum($tEnum)
-	Switch $tEnum
-		Case $eBarb
-			Return "Barbarian"
-		Case $eArch
-			Return "Archer"
-		Case $eBall
-			Return "Balloon"
-		Case $eDrag
-			Return "Dragon"
-		Case $eGiant
-			Return "Giant"
-		Case $eGobl
-			Return "Goblin"
-		Case $eGole
-			Return "Golem"
-		Case $eHeal
-			Return "Healer"
-		Case $eHogs
-			Return "HogRider"
-		Case $eKing
-			Return "King"
-		Case $eLava
-			Return "LavaHound"
-		Case $eMini
-			Return "Minion"
-		Case $ePekk
-			Return "Pekka"
-		Case $eQueen
-			Return "Queen"
-		Case $eValk
-			Return "Valkyrie"
-		Case $eWall
-			Return "WallBreaker"
-		Case $eWarden
-			Return "Warden"
-		Case $eWitc
-			Return "Witch"
-		Case $eWiza
-			Return "Wizard"
-		Case $eBabyD
-			Return "BabyDragon"
-		Case $eMine
-			Return "Miner"
-		Case $eEDrag
-			Return "ElectroDragon"
-		Case $eBowl
-			Return "Bowler"
-		Case $eIceG
-			Return "IceGolem"	
-		Case $eESpell
-			Return "EarthquakeSpell"
-		Case $eFSpell
-			Return "FreezeSpell"
-		Case $eHaSpell
-			Return "HasteSpell"
-		Case $eHSpell
-			Return "HealSpell"
-		Case $eJSpell
-			Return "JumpSpell"
-		Case $eLSpell
-			Return "LightningSpell"
-		Case $ePSpell
-			Return "PoisonSpell"
-		Case $eRSpell
-			Return "RageSpell"
-		Case $eSkSpell
-			Return "SkeletonSpell"
-		Case $eBtSpell
-			Return "BatSpell"	
-		Case $eCSpell
-			Return "CloneSpell"
-		Case $eCastle
-			Return "Castle"
-	EndSwitch
-
-EndFunc   ;==>decodeTroopEnum
-
-
-Func decodeTroopName($sName)
-
-	Switch $sName
-		Case "Barbarian"
-			Return $eBarb
-		Case "Archer"
-			Return $eArch
-		Case "Balloon"
-			Return $eBall
-		Case "Dragon"
-			Return $eDrag
-		Case "Giant"
-			Return $eGiant
-		Case "Goblin"
-			Return $eGobl
-		Case "Golem"
-			Return $eGole
-		Case "Healer"
-			Return $eHeal
-		Case "HogRider"
-			Return $eHogs
-		Case "King"
-			Return $eKing
-		Case "LavaHound"
-			Return $eLava
-		Case "Minion"
-			Return $eMini
-		Case "Pekka"
-			Return $ePekk
-		Case "Queen"
-			Return $eQueen
-		Case "Valkyrie"
-			Return $eValk
-		Case "WallBreaker"
-			Return $eWall
-		Case "Warden"
-			Return $eWarden
-		Case "Witch"
-			Return $eWitc
-		Case "Wizard"
-			Return $eWiza
-		Case "BabyDragon"
-			Return $eBabyD
-		Case "Miner"
-			Return $eMine
-		Case "ElectroDragon"
-			Return $eEDrag
-		Case "Bowler"
-			Return $eBowl
-		Case "IceGolem"
-			Return $eIceG	
-		Case "EarthquakeSpell"
-			Return $eESpell
-		Case "FreezeSpell"
-			Return $eFSpell
-		Case "HasteSpell"
-			Return $eHaSpell
-		Case "HealSpell"
-			Return $eHSpell
-		Case "JumpSpell"
-			Return $eJSpell
-		Case "LightningSpell"
-			Return $eLSpell
-		Case "PoisonSpell"
-			Return $ePSpell
-		Case "RageSpell"
-			Return $eRSpell
-		Case "SkeletonSpell"
-			Return $eSkSpell
-		Case "BatSpell"
-			Return $eBtSpell	
-		Case "CloneSpell"
-			Return $eCSpell
-		Case "Castle"
-			Return $eCastle
-
-	EndSwitch
-
-EndFunc   ;==>decodeTroopName
-
 Func Slot($iX, $iY) ; Return Slots for Quantity Reading on Army Window
 	If $iY < 490 Then
 		Switch $iX ; Troops & Spells Slots
@@ -873,30 +740,32 @@ Func Slot($iX, $iY) ; Return Slots for Quantity Reading on Army Window
 				If $iY < 315 Then Return 184 ; Troops
 				If $iY > 315 Then Return 195 ; Spell
 
-			Case 244 To 307 ; Slot 4
+			Case 244 To 314 ; Slot 4
 				If $iY < 315 Then Return 255 ; Troops
 				If $iY > 315 Then Return 272 ; Spell
 
-			Case 308 To 392 ; Slot 5
+			Case 315 To 387 ; Slot 5
 				If $iY < 315 Then Return 330 ; Troops
 				If $iY > 315 Then Return 341 ; Spell
 
-			Case 393 To 464 ; Slot 6
+			Case 388 To 460 ; Slot 6
 				If $iY < 315 Then Return 403 ; Troops
 				If $iY > 315 Then Return 415 ; Spell
 
-			Case 465 To 540 ; Slot 7
+			Case 461 To 533 ; Slot 7
 				If $iY < 315 Then Return 477 ; Troops
 				If $iY > 315 Then Return 485 ; Spell
-			Case 538 To 610 ; Slot 8
-				Return 551 ; Troops
+;~ 			Case 534 To 600 ; Slot 7.5 (8)
+;~ 				Return 551 ; Troops
 
-			Case 611 To 682 ; Slot 9
-				Return 620 ; Siege Machines & Heroes
+			Case 605 To 677 ; Slot 8
+				Return 620 ; Siege Machines slot 1
 
-			Case 683 To 752 ; Slot 10
-				If $iY > 315 Then Return 691 ; Heroes & Siege Machine slot 0
-				Return 700 ; Siege Machines slot 1
+			Case 678 To 752 ; Slot 9
+				Return 693 ; Siege Machines slot 2
+
+			Case 754 To 826 ; Slot 10
+				Return 769 ; Siege Machines slot 2
 		EndSwitch
 	Else ;CC Troops & Spells
 		Switch $iX
@@ -915,14 +784,14 @@ Func Slot($iX, $iY) ; Return Slots for Quantity Reading on Army Window
 			Case 308 To 392 ; CC Troops Slot 5
 				Return 330
 
-			Case 393 To 464 ; CC Troops Slot 6
+			Case 393 To 435 ; CC Troops Slot 6
 				Return 403
 
-			Case 450 To 510; CC Spell Slot 1
+			Case 450 To 510 ; CC Spell Slot 1
 				Return 475
-			Case 511 To 550 ; CC Spell Middle ( Happens with Clan Castles with the max. Capacity of 1!)
+			Case 511 To 535 ; CC Spell Middle ( Happens with Clan Castles with the max. Capacity of 1!)
 				Return 510
-			Case 551 To 605 ; CC Spell Slot 2
+			Case 536 To 605 ; CC Spell Slot 2
 				Return 555
 			Case 625 To 700 ; CC Siege Machines
 				Return 650
@@ -935,7 +804,6 @@ Func GetDummyRectangle($sCoords, $ndistance)
 	Local $aCoords = StringSplit($sCoords, ",", $STR_NOCOUNT)
 	Return Number($aCoords[0]) - $ndistance & "," & Number($aCoords[1]) - $ndistance & "," & Number($aCoords[0]) + $ndistance & "," & Number($aCoords[1]) + $ndistance
 EndFunc   ;==>GetDummyRectangle
-
 
 Func ImgLogDebugProps($result)
 	If UBound($result) < 1 Then Return False

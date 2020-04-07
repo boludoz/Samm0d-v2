@@ -6,7 +6,6 @@
 ; Return values .: None
 ; Author ........: Sardo (2015-06)
 ; Modified ......: Sardo (2015-08), MonkeyHunter(2016-01), CodeSlinger69 (2017-01), Fliegerfaust(2017-08)
-; Modified ......: Sardo (2015-08), MonkeyHunter(2016-01), CodeSlinger69 (2018-01), Fliegerfaust(2018-08)
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki

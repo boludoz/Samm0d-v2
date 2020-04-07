@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run Team
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -365,26 +365,6 @@ Func cmbSwitchAccProfileX()
 	Next
 EndFunc   ;==>cmbSwitchAccProfileX
 
-Func chkAccSwitchMode()
-	If GUICtrlRead($g_hRadSwitchGooglePlay) = $GUI_CHECKED Then
-		$g_bChkGooglePlay = True
-		$g_bChkSuperCellID = False
-		$g_bChkSharedPrefs = False
-	ElseIf GUICtrlRead($g_hRadSwitchSuperCellID) = $GUI_CHECKED Then
-		$g_bChkGooglePlay = False
-		$g_bChkSuperCellID = True
-		$g_bChkSharedPrefs = False
-	ElseIf GUICtrlRead($g_hRadSwitchSharedPrefs) = $GUI_CHECKED Then
-		$g_bChkGooglePlay = False
-		$g_bChkSuperCellID = False
-		$g_bChkSharedPrefs = True
-	Else
-		$g_bChkGooglePlay = False
-		$g_bChkSuperCellID = False
-		$g_bChkSharedPrefs = False
-	EndIf
-EndFunc   ;==>chkAccSwitchMode
-
 ; #DEBUG FUNCTION# ==============================================================================================================
 
 Func chkDebugSetLog()
@@ -563,14 +543,12 @@ Func btnTestAttackBar()
 
 	SetLog(_PadStringCenter(" Begin AttackBar Detection", 54, "="), $COlOR_INFO)
 
-	Local $aAttackBar = StringSplit(AttackBarCheck(False, $DB, True), "|", $STR_NOCOUNT)
-	Local $aTroop
+	Local $avAttackBar = GetAttackBar(False, $DB, True)
 
-	If IsArray($aAttackBar) And UBound($aAttackBar, 1) >= 1 Then
-	SetLog("Found " & UBound($aAttackBar, 1) & " Slots", $COlOR_SUCCESS)
-	For $i = 0 To UBound($aAttackBar, 1) - 1
-		$aTroop = StringSplit($aAttackBar[$i], "#", $STR_NOCOUNT)
-		If IsArray($aTroop) And UBound($aTroop, 1) = 4 Then SetLog("- Slot " & $aTroop[1] & ": " & $aTroop[2] & " " & GetTroopName($aTroop[0], $aTroop[2]), $COLOR_SUCCESS)
+	If IsArray($avAttackBar) And UBound($avAttackBar, 1) >= 1 Then
+	SetLog("Found " & UBound($avAttackBar, 1) & " Slots", $COlOR_SUCCESS)
+	For $i = 0 To UBound($avAttackBar, 1) - 1
+		SetLog("- Slot " & $avAttackBar[$i][1] & ": " & $avAttackBar[$i][2] & " " & GetTroopName($avAttackBar[$i][0], $avAttackBar[$i][2]) & " (X: " & $avAttackBar[$i][3] & "|Y: " & $avAttackBar[$i][4] & "|OCR X: " & $avAttackBar[$i][5] & "|OCR Y: " & $avAttackBar[$i][6] & ")", $COLOR_SUCCESS)
 	Next
 	EndIf
 	SetLog(_PadStringCenter(" End AttackBar Detection ", 54, "="), $COlOR_INFO)
@@ -600,10 +578,10 @@ Func btnTestClickDrag()
 	SetLog("Sleep 3 seconds...", $COLOR_DEBUG)
 	_Sleep(3000, True, False)
 
-	SetLog("Save the image...", $COLOR_DEBUG)
-	DebugImageSave("TestClickDrag", Default, Default, Default, "_" & $asCoor[1] & "x." & $asCoor[2] & "y." & $asCoor[3] & "x." & $asCoor[4] & "y_")
+	SetLog("Save the image", $COLOR_DEBUG)
+	SaveDebugImage("TestClickDrag", Default, Default, "_" & $asCoor[1] & "x." & $asCoor[2] & "y." & $asCoor[3] & "x." & $asCoor[4] & "y_")
 
-	SetLog("Sleep 1 seconds...", $COLOR_DEBUG)
+	SetLog("Sleep 1 seconds", $COLOR_DEBUG)
 	_Sleep(1000, True, False)
 
 	SetLog("Drag back", $COLOR_DEBUG)
@@ -643,16 +621,6 @@ Func btnTestImage()
 		SetLog("$aNoCloudsAttack pixel check: " & _CheckPixel($aNoCloudsAttack, $g_bCapturePixel))
 		SetLog("Testing WaitForClouds DONE", $COLOR_SUCCESS)
 
-		#cs
-			SetLog("Testing checkAttackDisable...", $COLOR_SUCCESS)
-			SetLog("Testing checkAttackDisable($g_iTaBChkAttack)...", $COLOR_SUCCESS)
-			SetLog("checkAttackDisable($g_iTaBChkAttack) = " & checkAttackDisable($g_iTaBChkAttack))
-			SetLog("Testing checkAttackDisable($g_iTaBChkIdle)...", $COLOR_SUCCESS)
-			SetLog("checkAttackDisable($g_iTaBChkIdle) = " & checkAttackDisable($g_iTaBChkIdle))
-			SetLog("Testing checkAttackDisable($g_iTaBChkTime)...", $COLOR_SUCCESS)
-			SetLog("checkAttackDisable($g_iTaBChkTime) = " & checkAttackDisable($g_iTaBChkTime))
-			SetLog("Testing checkAttackDisable DONE", $COLOR_SUCCESS)
-		#ce
 	Next
 
 	SetLog("Testing finished", $COLOR_INFO)
@@ -668,6 +636,7 @@ Func btnTestVillageSize()
 	BeginImageTest()
 	Local $currentRunState = $g_bRunState
 	$g_bRunState = True
+	$g_bRestart = False
 
 	_CaptureRegion()
 	_CaptureRegion2Sync()
@@ -768,7 +737,13 @@ Func btnTestAttackCSV()
 
 	$g_iMatchMode = $DB ; define which script to use
 
-	SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestAttackCSV")
+	; reset village measures
+	setVillageOffset(0, 0, 1)
+	ConvertInternalExternArea()
+	;SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestAttackCSV")
+	If CheckZoomOut("btnTestAttackCSV", True, False) = False Then
+		SetLog("CheckZoomOut failed", $COLOR_INFO)
+	EndIf
 	ResetTHsearch()
 	SetLog("Testing FindTownhall()", $COLOR_INFO)
 	SetLog("FindTownhall() = " & FindTownhall(True), $COLOR_INFO)
@@ -806,7 +781,13 @@ Func btnTestGetLocationBuilding()
 	$g_bDebugBuildingPos = True
 	$g_bDebugSetlog = True
 
-	SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestAttackCSV")
+	; reset village measures
+	setVillageOffset(0, 0, 1)
+	ConvertInternalExternArea()
+	;SearchZoomOut($aCenterEnemyVillageClickDrag, True, "btnTestAttackCSV")
+	If CheckZoomOut("btnTestGetLocationBuilding", True, False) = False Then
+		SetLog("CheckZoomOut failed", $COLOR_INFO)
+	EndIf
 	ResetTHsearch()
 	SetLog("Testing FindTownhall()", $COLOR_INFO)
 	SetLog("FindTownhall() = " & FindTownhall(True), $COLOR_INFO)
@@ -816,7 +797,7 @@ Func btnTestGetLocationBuilding()
 
 	SetLog("Testing GetLocationBuilding() with all buildings", $COLOR_INFO)
 
-	For $b = $eBldgGoldS To $eBldgAirDefense
+	For $b = $eBldgGoldS To $eBldgScatter
 		If $b = $eBldgDarkS Then ContinueLoop ; skip dark elixir as images not available
 		$aResult = GetLocationBuilding($b, $g_iSearchTH, False)
 		If $aResult = -1 Then SetLog("Monkey ate bad banana: " & "GetLocationBuilding " & $g_sBldgNames[$b], $COLOR_ERROR)
@@ -824,6 +805,7 @@ Func btnTestGetLocationBuilding()
 
 	_LogObjList($g_oBldgAttackInfo) ; log dictionary contents
 	btnTestGetLocationBuildingImage() ; create image of locations
+	;AttackCSVDEBUGIMAGE()
 
 	Local $string, $iFindBldgTotalTestTime
 	Local $iKeys = $g_oBldgAttackInfo.Keys
@@ -918,6 +900,17 @@ Func btnTestGetLocationBuildingImage()
 		If IsArray($g_aiCSVXBowPos) Then
 			For $i = 0 To UBound($g_aiCSVXBowPos) - 1
 				$pixel = $g_aiCSVXBowPos[$i]
+				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 10, $pixel[1] - 25, 25, 25, $hPenBlue)
+			Next
+		EndIf
+	EndIf
+
+	; - DRAW Scatter Shot -------------------------------------------------------------------
+	If $g_oBldgAttackInfo.exists($eBldgScatter & "_LOCATION") Then
+		$g_aiCSVScatterPos = $g_oBldgAttackInfo.item($eBldgScatter & "_LOCATION")
+		If IsArray($g_aiCSVScatterPos) Then
+			For $i = 0 To UBound($g_aiCSVScatterPos) - 1
+				$pixel = $g_aiCSVScatterPos[$i]
 				_GDIPlus_GraphicsDrawRect($hGraphic, $pixel[0] - 10, $pixel[1] - 25, 25, 25, $hPenBlue)
 			Next
 		EndIf
@@ -1114,7 +1107,12 @@ Func btnTestWeakBase()
 	Local $currentRunState = $g_bRunState
 	$g_bRunState = True
 	BeginImageTest()
-	IsWeakBase()
+	FindTownhall(True)
+	If ($g_iSearchTH <> "-") Then
+		IsWeakBase($g_iImglocTHLevel, $g_sImglocRedline, False)
+	Else
+		IsWeakBase($g_iMaxTHLevel, "", False)
+	EndIf
 	EndImageTest()
 	$g_bRunState = $currentRunState
 EndFunc   ;==>btnTestWeakBase
@@ -1141,16 +1139,16 @@ Func btnTestUpgradeWindow()
 EndFunc   ;==>btnTestUpgradeWindow
 
 Func btnTestSmartWait()
-	Local $currentRunState = $g_bRunState
-	Local $bCloseWhileTrainingEnable = $g_bCloseWhileTrainingEnable
+    Local $currentRunState = $g_bRunState
+    Local $bCloseWhileTrainingEnable = $g_bCloseWhileTrainingEnable
 
-	$g_bRunState = True
-	$g_bCloseWhileTrainingEnable = True
+    $g_bRunState = True
+    $g_bCloseWhileTrainingEnable = True
 
-	SmartWait4Train(20)
+    SmartWait4Train(20)
 
-	$g_bRunState = $currentRunState
-	$g_bCloseWhileTrainingEnable = $bCloseWhileTrainingEnable
+    $g_bRunState = $currentRunState
+    $g_bCloseWhileTrainingEnable = $bCloseWhileTrainingEnable
 EndFunc   ;==>btnTestSmartWait
 
 Func btnConsoleWindow()

@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........: Fliegerfaust(06-2018)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -36,7 +36,7 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 		If $bSetLog Then SetLog("Detected Clan Castle Message Blocking Troop Images. Waiting until it's gone", $COLOR_INFO)
 		_CaptureRegion2()
 		While _CheckPixel($aRecievedTroops, False)
-			_Sleep($DELAYTRAIN1)
+			IF _Sleep($DELAYTRAIN1) Then Return
 		WEnd
 	EndIf
 
@@ -48,7 +48,7 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 	Local $aTempSiegeArray, $aSiegeCoords
 	Local $sSiegeName = ""
 	Local $iSiegeIndex = -1
-	Local $aCurrentTroopsEmpty[$eSiegeMachineCount] = [0, 0] ; Local Copy to reset Siege Machine Array
+	Local $aCurrentTroopsEmpty[$eSiegeMachineCount] = [0, 0, 0, 0] ; Local Copy to reset Siege Machine Array
 
 	; Get Siege Capacities
 	Local $sSiegeInfo = getArmyCampCap(758, 164, $bNeedCapture) ; OCR read Siege built and total
@@ -70,7 +70,7 @@ Func getArmySiegeMachines($bOpenArmyWindow = False, $bCloseArmyWindow = False, $
 
 			$aSiegeCoords = StringSplit($aTempSiegeArray[1], ",", $STR_NOCOUNT) ; Split the Coordinates where the Troop got found into X and Y
 
-			If $iSiegeIndex = -1 Then ContinueLoop
+			If $iSiegeIndex < 0 Then ContinueLoop
 
 			$g_aiCurrentSiegeMachines[$iSiegeIndex] = Number(getBarracksNewTroopQuantity(Slot($aSiegeCoords[0], $aSiegeCoords[1]), 196, $bNeedCapture)) ; Get The Quantity of the Troop, Slot() Does return the exact spot to read the Number from
 

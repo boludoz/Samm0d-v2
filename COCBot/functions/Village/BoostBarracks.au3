@@ -1,12 +1,12 @@
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: BoostBarracks.au3
 ; Description ...:
-; Syntax ........: BoostBarracks(), BoostSpellFactory()
+; Syntax ........: BoostBarracks(), BoostSpellFactory(), BoostWorkshop()
 ; Parameters ....:
 ; Return values .: None
 ; Author ........: MR.ViPER (9/9/2016)
 ; Modified ......: MR.ViPER (17/10/2016), Fliegerfaust (21/12/2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -20,15 +20,19 @@ Func BoostSpellFactory()
 	Return BoostTrainBuilding("Spell Factory", $g_iCmbBoostSpellFactory, $g_hCmbBoostSpellFactory)
 EndFunc   ;==>BoostSpellFactory
 
-Func BoostTrainBuilding($sName, $iCmbBoost, $iCmbBoostCtrl)
-	Local $boosted = False
+Func BoostWorkshop()
+	Return BoostTrainBuilding("Workshop", $g_iCmbBoostWorkshop, $g_hCmbBoostWorkshop)
+EndFunc   ;==>BoostWorkshop
 
-	If Not $g_bTrainEnabled Or $iCmbBoost <= 0 Then Return $boosted
+Func BoostTrainBuilding($sName, $iCmbBoost, $iCmbBoostCtrl)
+	Local $bBoosted = False
+
+	If Not $g_bTrainEnabled Or $iCmbBoost <= 0 Then Return $bBoosted
 
 	Local $aHours = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
 	If Not $g_abBoostBarracksHours[$aHours[0]] Then
 		SetLog("Boosting " & $sName & " isn't planned, skipping", $COLOR_INFO)
-		Return $boosted
+		Return $bBoosted
 	EndIf
 
 	Local $sIsAre = "are"
@@ -40,11 +44,14 @@ Func BoostTrainBuilding($sName, $iCmbBoost, $iCmbBoostCtrl)
 		ElseIf $sName = "Spell Factory" Then
 			OpenSpellsTab(True, "BoostTrainBuilding()")
 			$sIsAre = "is"
+		ElseIf $sName = "Workshop" Then
+			OpenSiegeMachinesTab(True, "BoostTrainBuilding()")
+			$sIsAre = "is"
 		Else
 			SetDebugLog("BoostTrainBuilding(): $sName called with a wrong Value.", $COLOR_ERROR)
 			ClickP($aAway, 1, 0, "#0161")
 			_Sleep($DELAYBOOSTBARRACKS2)
-			Return $boosted
+			Return $bBoosted
 		EndIf
 		Local $aBoostBtn = findButton("BoostBarrack")
 		If IsArray($aBoostBtn) Then
@@ -64,7 +71,7 @@ Func BoostTrainBuilding($sName, $iCmbBoost, $iCmbBoostCtrl)
 					ElseIf $iCmbBoost = 25 Then
 						SetLog("Remain " & $sName & " Boosts: Unlimited", $COLOR_SUCCESS)
 					EndIf
-					$boosted = True
+					$bBoosted = True
 					; Force to get the Remain Time
 					If $sName = "Barracks" Then
 						$g_aiTimeTrain[0] = 0 ; reset Troop remaining time
@@ -84,21 +91,22 @@ Func BoostTrainBuilding($sName, $iCmbBoost, $iCmbBoostCtrl)
 
 	ClickP($aAway, 1, 0, "#0161")
 	_Sleep($DELAYBOOSTBARRACKS2)
-	Return $boosted
+
+	Return $bBoosted
 EndFunc   ;==>BoostTrainBuilding
 
 Func BoostEverything()
 	; Verifying existent Variables to run this routine
-	If AllowBoosting("Everything", $g_iCmbBoostEverything) = False Then Return
+	If Not AllowBoosting("Everything", $g_iCmbBoostEverything) Then Return
 
-	SetLog("Boosting Everything .....", $COLOR_INFO)
-	If $g_aiClanCastlePos[0] = "" Or $g_aiClanCastlePos[0] = -1 Then
-		LocateClanCastle()
+	SetLog("Boosting Everything", $COLOR_INFO)
+	If $g_aiTownHallPos[0] = "" Or $g_aiTownHallPos[0] = -1 Then
+		LocateTownHall()
 		SaveConfig()
 		If _Sleep($DELAYBOOSTBARRACKS2) Then Return
 	EndIf
 
-	Return BoostPotion("Everything", "Castle", $g_aiClanCastlePos, $g_iCmbBoostEverything, $g_hCmbBoostEverything) = _NowCalc()
+	Return BoostPotion("Everything", "Town Hall", $g_aiTownHallPos, $g_iCmbBoostEverything, $g_hCmbBoostEverything) = _NowCalc()
 	$g_aiTimeTrain[0] = 0 ; reset Troop remaining time
 	$g_aiTimeTrain[1] = 0 ; reset Spells remaining time
 	$g_aiTimeTrain[2] = 0 ; reset Heroes remaining time

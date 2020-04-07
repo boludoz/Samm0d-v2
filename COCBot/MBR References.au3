@@ -14,52 +14,25 @@ Func ReferenceFunctions()
 	WaitForAndroidBootCompleted()
 	RebootAndroidSetScreenDefault()
 	AndroidSetFontSizeNormal()
-	;__GDIPlus_BitmapCreateFromMemory(0)
-	;AndroidSlowClick(0, 0)
-	;AndroidSwipeNotWorking(0, 0, 0, 0)
-	;AndroidInputSwipe(0, 0, 0, 0)
 	AndroidCloseSystemBar()
 	AndroidOpenSystemBar()
 	AndroidPicturePathAutoConfig()
 	_ShortcutAppId(0)
 	_GUICtrlGetControlID()
-	IsStopped()
 	GetFont()
-	btnConfigureCollectors()
-	btnConfigureReduction()
-	btnConfigureTHBully()
-	btnConfigureDBWeakBase()
-	btnConfigureABWeakBase()
 	EnableSearchPanels(0)
-	btnMilkingOptions()
-	btnDBAttackConfigure()
-	btnABAttackConfigure()
-	btnTestTHcsv()
-	btnConfigureReplayShare()
-	btnLoots()
-	btnLogs()
 	AttackCSVAssignDefaultScriptName()
 	GUIControl_WM_SYSCOMMAND(0, 0, 0, 0)
 	RedrawBotWindowNow()
 	_GUICtrlListView_SetItemHeightByFont(0, 0)
 	_GUICtrlListView_GetHeightToFitRows(0, 0)
-	;Barch()
-	MilkingDebug()
-	CheckMilkingBaseTest()
 	SortRedline(0, 0, 0)
 	_SortRedline(0)
 	FindClosestToAxis(0)
 	GetSlotIndexFromXPos(0)
-	CheckFullBarrack()
-	GetCurTotalDarkSpell()
 	IsElixirTroop(0)
-	TestTroopsCoords()
-	TestSpellsCoords()
-	TestTrainRevamp2()
 	checkDeadBaseNew()
 	GetDeployableNextTo(0)
-	decodeTroopEnum(0)
-	decodeTroopName(0)
 	GUISetFont_DPI(0)
 	SetDPI()
 	_SysTrayIconTitles()
@@ -198,15 +171,11 @@ Func ReferenceFunctions()
 	GemClickP(0, 0)
 	SetGuiLog(0)
 	Tab(0, 0)
-	isNetFramework4Installed()
 	WinGetPos2(0)
 	ControlGetPos2(0, 0, 0)
 	WindowSystemMenu(0, 0)
 	IsMainChatOpenPage()
 	IsClanInfoPage()
-	IsPixelColorGray(0)
-	_MultiPixelSearch2(0, 0, 0, 0, 0, 0, 0, 0, 0)
-	getBarracksTroopQuantity(0, 0)
 	getOcrOverAllDamage(0, 0)
 	returnAllMatches(0)
 	returnLowestLevelSingleMatch(0)
@@ -218,6 +187,8 @@ Func ReferenceFunctions()
 	GetKOPLAYERBackgroundMode()
 	GetMEmuBackgroundMode()
 	GetNoxBackgroundMode()
+	ConfigureSharedFolderBlueStacks()
+	ConfigureSharedFolderBlueStacks2()
 	; DonateCC.au3
 	getChatString(0, 0, 0)
 	getChatStringChinese(0, 0)
@@ -230,9 +201,6 @@ Func ReferenceGlobals()
 	; Reference to variables
 	Local $a1
 	$a1 = $g_aaiTroopsToBeUsed
-	$a1 = $g_asMilkFarmOffsetMine
-	$a1 = $g_asMilkFarmOffsetElixir
-	$a1 = $g_asMilkFarmOffsetDark
 	$a1 = $aArmyCCRemainTime
 	$a1 = $aIsReloadError
 	$a1 = $g_iAndroidControlClickWindow
@@ -410,11 +378,14 @@ Func ReferenceGlobals()
 	$a1 = $eIcnSkeletonSpell
 	$a1 = $eIcnBabyDragon
 	$a1 = $eIcnDonBabyDragon
+	$a1 = $eIcnElectroDragon
+	$a1 = $eIcnYeti
 	$a1 = $eIcnMiner
 	$a1 = $eIcnDonMiner
 	$a1 = $eIcnNoShield
 	$a1 = $eIcnDonCustomB
 	$a1 = $eIcnAirdefense
+	$a1 = $eIcnScattershot
 	$a1 = $eIcnDarkBarrackBoost
 	$a1 = $eIcnDarkElixirStorage
 	$a1 = $eIcnSpellsCost
@@ -438,13 +409,14 @@ Func ReferenceGlobals()
 	$a1 = $eHdV10
 	$a1 = $eHdV11
 	$a1 = $eHdV12
+	$a1 = $eHdV13
 	$a1 = $eUnranked
 	$a1 = $eBronze
 	$a1 = $eSilver
 	$a1 = $eGold
 	$a1 = $eCrystal
 	$a1 = $eMaster
-	$a1 = $eChampion
+	$a1 = $eLChampion
 	$a1 = $eTitan
 	$a1 = $eLegend
 	$a1 = $eWall04
@@ -494,6 +466,7 @@ Func ReferenceGlobals()
 	$a1 = $eTroopBabyDragon
 	$a1 = $eTroopMiner
 	$a1 = $eTroopElectroDragon
+	$a1 = $eTroopYeti
 
 	$a1 = $eTroopMinion
 	$a1 = $eTroopHogRider
@@ -529,6 +502,8 @@ Func ReferenceGlobals()
 	$a1 = $eDrag
 	$a1 = $ePekk
 	$a1 = $eBabyD
+	$a1 = $eEDrag
+	$a1 = $eYeti
 	$a1 = $eMine
 
 	$a1 = $eMini
@@ -567,6 +542,8 @@ Func ReferenceGlobals()
 	$a1 = $aTrainDrag
 	$a1 = $aTrainPekk
 	$a1 = $aTrainBabyD
+	$a1 = $aTrainEDrag
+	$a1 = $aTrainYeti
 	$a1 = $aTrainMine
 	$a1 = $aTrainMini
 	$a1 = $aTrainHogs
@@ -589,11 +566,15 @@ Func ReferenceGlobals()
 	$a1 = $aTrainBtSpell
 	$a1 = $aTrainArmy
 
-	$a1 = $aLoginWithSupercellID
-	$a1 = $aButtonLogOutSCID
-	$a1 = $aButtonConfirmSCID
+	$a1 = $eIcnChampion
+	$a1 = $eIcnChampionBoostLocate
+	$a1 = $eIcnChampionUpgr
+	$a1 = $eIcnChampionBoost
+	$a1 = $eIcnSleepingChampion
+	$a1 = $eChampion
 
-	$a1 = $aiCloseDefaultPOS
+	$a1 = $aLoginWithSupercellID
+
 	$a1 = $TELEGRAM_URL
 	$a1 = $HTTP_STATUS_OK
 

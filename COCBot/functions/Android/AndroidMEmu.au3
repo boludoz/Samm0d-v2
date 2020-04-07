@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Cosote (12-2015)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -30,7 +30,6 @@ Func OpenMEmu($bRestart = False)
 		EndIf
 	EndIf
 
-	SetLog("Please wait while " & $g_sAndroidEmulator & " and CoC start...", $COLOR_SUCCESS)
 	$hTimer = __TimerInit()
 
 	; Test ADB is connected
@@ -172,8 +171,18 @@ Func InitMEmu($bCheckOnly = False)
 
 	; Read ADB host and Port
 	If Not $bCheckOnly Then
+		;$g_iAndroidRecoverStrategy = 0
+		; newer MEmu doesn't support yet ADB mouse click/minitouch
+		local $memuCurr = GetVersionNormalized($MEmuVersion)
+		Local $memu6 = GetVersionNormalized("6.0")
+		If $memuCurr > $memu6 Then
+			;SetDebugLog("Disable ADB Mouse Click as not support for " & $g_sAndroidEmulator & " version " & $MEmuVersion)
+			;AndroidSupportFeaturesRemove(4) ; disable ADB Mouse Click support
+		EndIf
+
 		InitAndroidConfig(True) ; Restore default config
 		If Not GetAndroidVMinfo($__VBoxVMinfo, $MEmu_Manage_Path) Then Return False
+
 		; update global variables
 		$g_sAndroidProgramPath = $MEmu_Path & "MEmu.exe"
 		$g_sAndroidAdbPath = $sPreferredADB
@@ -208,15 +217,8 @@ Func InitMEmu($bCheckOnly = False)
 
 		; get screencap paths: Name: 'picture', Host path: 'C:\Users\Administrator\Pictures\MEmu Photo' (machine mapping), writable
 		$g_sAndroidPicturesPath = "/mnt/shell/emulated/0/Pictures/"
-		$aRegExResult = StringRegExp($__VBoxVMinfo, "Name: 'picture', Host path: '(.*)'.*", $STR_REGEXPARRAYMATCH)
-		If Not @error Then
-			$g_sAndroidPicturesHostPath = $aRegExResult[0] & "\"
-		Else
-			$oops = 1
-			$g_bAndroidAdbScreencap = False
-			$g_sAndroidPicturesHostPath = ""
-			SetLog($g_sAndroidEmulator & " Background Mode is not available", $COLOR_ERROR)
-		EndIf
+		$g_sAndroidSharedFolderName = "picture"
+		ConfigureSharedFolder(0) ; something like C:\Users\Administrator\Pictures\MEmu Photo\
 
 		$__VBoxGuestProperties = LaunchConsole($__VBoxManage_Path, "guestproperty enumerate " & $g_sAndroidInstance, $process_killed)
 
@@ -242,6 +244,9 @@ Func SetScreenMEmu()
 	$cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $g_sAndroidInstance & " is_customed_resolution 1", $process_killed)
 	; Set dpi
 	$cmdOutput = LaunchConsole($__VBoxManage_Path, "guestproperty set " & $g_sAndroidInstance & " vbox_dpi 160", $process_killed)
+
+	ConfigureSharedFolder(1, True)
+	ConfigureSharedFolder(2, True)
 
 	Return True
 
@@ -290,6 +295,10 @@ Func CheckScreenMEmu($bSetLog = True)
 			$iErrCnt += 1
 		EndIf
 	Next
+
+	; check if shared folder exists
+	If ConfigureSharedFolder(1, $bSetLog) Then $iErrCnt += 1
+
 	If $iErrCnt > 0 Then Return False
 	Return True
 

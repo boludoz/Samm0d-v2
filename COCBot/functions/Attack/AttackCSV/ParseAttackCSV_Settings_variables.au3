@@ -7,7 +7,7 @@
 ;				   Failure: 0
 ; Author ........: MMHK (01-2018)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -104,7 +104,7 @@ Func ParseAttackCSV_Settings_variables(ByRef $aiCSVTroops, ByRef $aiCSVSpells, B
 								If int($asCommand[$iFlexCol]) > 0 Then $iFlexTroopIndex = $iTroopIndex
 							Case $eLSpell To $eBtSpell
 								$aiCSVSpells[$iTroopIndex - $eLSpell] = int($asCommand[$iTHCol])
-							Case $eKing To $eWarden
+							Case $eKing To $eChampion
 								Local $iHeroRadioItem = int(StringLeft($asCommand[$iTHCol], 1))
 								Local $iHeroTimed = Int(StringTrimLeft($asCommand[$iTHCol], 1))
 								If $iHeroRadioItem <= 0 Or $iHeroRadioItem > $iHeroRadioItemTotal Or $iHeroTimed < 0 Or $iHeroTimed > $iHeroTimedLimit Then

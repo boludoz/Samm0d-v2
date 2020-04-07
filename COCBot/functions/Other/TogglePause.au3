@@ -7,7 +7,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -34,6 +34,9 @@ EndFunc   ;==>TogglePauseImpl
 Func TogglePauseUpdateState($Source)
 	$g_iActualTrainSkip = 0
 
+	; always resume Android (CoC game)
+	ResumeAndroid()
+
 	$g_bTogglePauseUpdateState = False
     If $g_bBotPaused Then
 		AndroidShield("TogglePauseImpl paused", False)
@@ -49,6 +52,8 @@ Func TogglePauseUpdateState($Source)
 		GUICtrlSetState($g_hBtnPause, $GUI_HIDE)
 		GUICtrlSetState($g_hBtnResume, $GUI_SHOW)
 		TrayItemSetText($g_hTiPause, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Resume", "Resume bot"))
+		_ITaskBar_UpdateTBButton($g_hTblResume, $THBF_ENABLED)
+		_ITaskBar_UpdateTBButton($g_hTblPause, $THBF_DISABLED)
 		;GUICtrlSetState($btnMakeScreenshot, $GUI_ENABLE)
 	Else
 		AndroidShield("TogglePauseImpl resumed")
@@ -64,6 +69,8 @@ Func TogglePauseUpdateState($Source)
 		GUICtrlSetState($g_hBtnPause, $GUI_SHOW)
 		GUICtrlSetState($g_hBtnResume, $GUI_HIDE)
 		TrayItemSetText($g_hTiPause, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Pause", "Pause bot"))
+		_ITaskBar_UpdateTBButton($g_hTblPause, $THBF_ENABLED)
+		_ITaskBar_UpdateTBButton($g_hTblResume, $THBF_DISABLED)
 		;GUICtrlSetState($btnMakeScreenshot, $GUI_DISABLE)
 		;ZoomOut()
 	EndIf

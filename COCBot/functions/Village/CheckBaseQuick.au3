@@ -8,7 +8,7 @@
 ; Return values .: None
 ; Author ........: MonkeyHunter (12-2015, 09-2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -17,7 +17,7 @@
 
 Func CheckBaseQuick($bStopRecursion = False, $sReturnHome = "")
 
-	If $bStopRecursion = True Then $g_bDisableBreakCheck = True ; Set flag to stop checking for attackdisable messages, stop recursion
+	If $bStopRecursion Then $g_bDisableBreakCheck = True ; Set flag to stop checking for attackdisable messages, stop recursion
 
 	Switch $sReturnHome
 		Case "cloud" ; PB found while in clouds searching for base, must press return home and wait for main base
@@ -99,6 +99,6 @@ Func CheckBaseQuick($bStopRecursion = False, $sReturnHome = "")
 		If $g_bDebugSetlog Then SetDebugLog("Not on main page, CheckBaseQuick skipped", $COLOR_WARNING)
 	EndIf
 
-	If $bStopRecursion = True Then $g_bDisableBreakCheck = False ; reset flag to stop checking for attackdisable messages, stop recursion
+	If $bStopRecursion Then $g_bDisableBreakCheck = False ; reset flag to stop checking for attackdisable messages, stop recursion
 
 EndFunc   ;==>CheckBaseQuick

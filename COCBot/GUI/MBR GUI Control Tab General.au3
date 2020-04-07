@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: GkevinOD (2014)
 ; Modified ......: Hervidero (2015), CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -26,6 +26,7 @@ Func btnAtkLogCopyClipboard()
 EndFunc   ;==>btnAtkLogCopyClipboard
 
 Func cmbLog()
+	If $g_iGuiMode <> 1 Then Return
 	Local $x = 0, $y = 0, $w = $_GUI_MAIN_WIDTH - 20, $h = $_GUI_MAIN_HEIGHT - 490 + Int($g_iFrmBotAddH / 2) ; default GUI values, used as reference
 	If ($g_iLogDividerY > $h + Int($h / 2) + $y And $g_iLogDividerY < $h * 2 + $g_iLogDividerHeight + $y) Or $g_iLogDividerY > $h * 2 + $g_iLogDividerHeight + $y Then $g_iLogDividerY = $h + Int($h / 2) + $y
 	If ($g_iLogDividerY < Int($h / 2) + $y And $g_iLogDividerY > 0) Or $g_iLogDividerY < 0 Then $g_iLogDividerY = Int($h / 2)

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: kaganus (06-2015)
 ; Modified ......: CodeSlinger69 (01-2017), Fliegerfaust (02-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -36,6 +36,7 @@ Func UpdateStats($bForceUpdate = False)
 	Static $iOldAttackedCount, $iOldAttackedVillageCount[$g_iModeCount + 1] ; number of attack villages for DB, LB, TB, TS
 	Static $iOldTotalGoldGain[$g_iModeCount + 1], $iOldTotalElixirGain[$g_iModeCount + 1], $iOldTotalDarkGain[$g_iModeCount + 1], $iOldTotalTrophyGain[$g_iModeCount + 1] ; total resource gains for DB, LB, TB, TS
 	Static $iOldNbrOfDetectedMines[$g_iModeCount + 1], $iOldNbrOfDetectedCollectors[$g_iModeCount + 1], $iOldNbrOfDetectedDrills[$g_iModeCount + 1] ; number of mines, collectors, drills detected for DB, LB, TB
+	Static $sOldClanGamesScore, $sOldClanGameTimeRemaining
 	; Builder Base old values
 	Static $iOldCurrentLootBB[$eLootCountBB] ; current stats
 
@@ -151,13 +152,7 @@ Func UpdateStats($bForceUpdate = False)
 
 	Local $bStatsUpdated = False
 
-	If $g_iFirstAttack = 1 Then
-		;GUICtrlSetState($lblLastAttackTemp, $GUI_HIDE)
-		;GUICtrlSetState($lblLastAttackBonusTemp, $GUI_HIDE)
-		;GUICtrlSetState($lblTotalLootTemp, $GUI_HIDE)
-		;GUICtrlSetState($lblHourlyStatsTemp, $GUI_HIDE)
-		$g_iFirstAttack = 2
-	EndIf
+	If $g_iFirstAttack = 1 Then $g_iFirstAttack = 2
 
 	If Number($g_iStatsLastAttack[$eLootGold]) > Number($topgoldloot) Then
 		$bStatsUpdated = True
@@ -409,18 +404,6 @@ Func UpdateStats($bForceUpdate = False)
 		$iOldNbrOfOoS = $g_iNbrOfOoS
 	EndIf
 
-	If $iOldNbrOfTHSnipeFails <> $g_iNbrOfTHSnipeFails Then
-		$bStatsUpdated = True
-		GUICtrlSetData($g_hLblNbrOfTSFailed, $g_iNbrOfTHSnipeFails)
-		$iOldNbrOfTHSnipeFails = $g_iNbrOfTHSnipeFails
-	EndIf
-
-	If $iOldNbrOfTHSnipeSuccess <> $g_iNbrOfTHSnipeSuccess Then
-		$bStatsUpdated = True
-		GUICtrlSetData($g_hLblNbrOfTSSuccess, $g_iNbrOfTHSnipeSuccess)
-		$iOldNbrOfTHSnipeSuccess = $g_iNbrOfTHSnipeSuccess
-	EndIf
-
 	If $iOldGoldFromMines <> $g_iGoldFromMines Then
 		$bStatsUpdated = True
 		GUICtrlSetData($g_hLblGoldFromMines, _NumberFormat($g_iGoldFromMines, True))
@@ -525,7 +508,7 @@ Func UpdateStats($bForceUpdate = False)
 
 	$g_aiAttackedCount = 0
 
-	For $i = 0 To $g_iModeCount
+	For $i = 0 To $g_iModeCount - 1
 
 		If $iOldAttackedVillageCount[$i] <> $g_aiAttackedVillageCount[$i] Then
 			$bStatsUpdated = True
@@ -567,9 +550,7 @@ Func UpdateStats($bForceUpdate = False)
 		$iOldAttackedCount = $g_aiAttackedCount
 	EndIf
 
-	For $i = 0 To $g_iModeCount
-
-		If $i = $TS Then ContinueLoop
+	For $i = 0 To $g_iModeCount - 1
 
 		If $iOldNbrOfDetectedMines[$i] <> $g_aiNbrOfDetectedMines[$i] Then
 			$bStatsUpdated = True
@@ -629,6 +610,16 @@ Func UpdateStats($bForceUpdate = False)
 		$bStatsUpdated = True
 		$topTrophyloot = $g_iStatsLastAttack[$eLootTrophy]
 		GUICtrlSetData($g_ahLblStatsTop[$eLootTrophy], _NumberFormat($topTrophyloot))
+	EndIf
+
+	If $g_sClanGamesTimeRemaining <> $sOldClanGameTimeRemaining Then
+		GUICtrlSetData($g_hLblRemainTime, $g_sClanGamesTimeRemaining)
+		$sOldClanGameTimeRemaining = $g_sClanGamesTimeRemaining
+	EndIf
+
+	If  $g_sClanGamesScore <> $sOldClanGamesScore Then
+		GUICtrlSetData($g_hLblYourScore, $g_sClanGamesScore)
+		$sOldClanGamesScore = $g_sClanGamesScore
 	EndIf
 
 	; update Builder Base stats
@@ -801,15 +792,13 @@ Func ResetStats()
 	$g_iTrainCostDElixir = 0
 	$g_iTrainCostGold = 0
 	$g_iNbrOfOoS = 0
-	$g_iNbrOfTHSnipeFails = 0
-	$g_iNbrOfTHSnipeSuccess = 0
 	$g_iGoldFromMines = 0
 	$g_iElixirFromCollectors = 0
 	$g_iDElixirFromDrills = 0
 	$g_iSmartZapGain = 0
 	$g_iNumLSpellsUsed = 0
 	$g_iNumEQSpellsUsed = 0
-	For $i = 0 To $g_iModeCount
+	For $i = 0 To $g_iModeCount - 1
 		$g_aiAttackedVillageCount[$i] = 0
 		$g_aiTotalGoldGain[$i] = 0
 		$g_aiTotalElixirGain[$i] = 0
@@ -857,6 +846,7 @@ Func ResetStats()
 		For $i = 0 To 7
 			GUICtrlSetData($g_ahLblResultRuntimeNowAcc[$i], "00:00:00")
 			$g_aiRunTime[$i] = 0
+			GUICtrlSetData($g_hLbLLabTime, "")
 		Next
 	EndIf
 	UpdateStats()
@@ -866,7 +856,7 @@ Func WallsStatsMAJ()
 	$g_aiWallsCurrentCount[$g_iCmbUpgradeWallsLevel + 4] -= Number($g_iNbrOfWallsUpped)
 	$g_aiWallsCurrentCount[$g_iCmbUpgradeWallsLevel + 5] += Number($g_iNbrOfWallsUpped)
 	$g_iNbrOfWallsUpped = 0
-	For $i = 4 To 13
+	For $i = 4 To 14
 		GUICtrlSetData($g_ahWallsCurrentCount[$i], $g_aiWallsCurrentCount[$i])
 	Next
 	SaveConfig()

@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: MyBot.run team
 ; Modified ......: CodeSlinger69 (2017), MMHK (01-2008)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -266,9 +266,9 @@ EndFunc   ;==>DuplicateScriptAB
 
 Func ApplyScriptDB()
 	Local $iApply = 0
-	Local $aiCSVTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiCSVTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiCSVSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	Local $aiCSVHeros[$eHeroCount][2] = [[0, 0], [0, 0], [0, 0]]
+	Local $aiCSVHeros[$eHeroCount][2] = [[0, 0], [0, 0], [0, 0], [0, 0]]
 	Local $iCSVRedlineRoutineItem = 0, $iCSVDroplineEdgeItem = 0
 	Local $sCSVCCReq = ""
 	Local $aTemp = _GUICtrlComboBox_GetListArray($g_hCmbScriptNameDB)
@@ -292,11 +292,11 @@ Func ApplyScriptDB()
 		For $t = 0 To UBound($aiCSVTroops) - 1 ; set troops to level 1 if none on GUI
 			If $aiCSVTroops[$t] > 0 And $g_aiTrainArmyTroopLevel[$t] = 0 Then $g_aiTrainArmyTroopLevel[$t] = 1
 		Next
-		$g_aiArmyCompTroops = $aiCSVTroops
+		$g_aiArmyCustomTroops = $aiCSVTroops
 		For $s = 0 To UBound($aiCSVSpells) - 1 ; set spells to level 1 if none on GUI
 			If $aiCSVSpells[$s] > 0 And $g_aiTrainArmySpellLevel[$s] = 0 Then $g_aiTrainArmySpellLevel[$s] = 1
 		Next
-		$g_aiArmyCompSpells = $aiCSVSpells
+		$g_aiArmyCustomSpells = $aiCSVSpells
 		ApplyConfig_600_52_2("Read")
 		SetComboTroopComp() ; GUI refresh
 		lblTotalCountSpell2()
@@ -320,6 +320,9 @@ Func ApplyScriptDB()
 					Case $eHeroGrandWarden
 						$g_iActivateWarden = $aiCSVHeros[$h][0] - 1
 						$g_iDelayActivateWarden = $aiCSVHeros[$h][1]
+					Case $eHeroRoyalChampion
+						$g_iActivateChampion = $aiCSVHeros[$h][0] - 1
+						$g_iDelayActivateChampion = $aiCSVHeros[$h][1]
 				EndSwitch
 			EndIf
 		Next
@@ -329,6 +332,7 @@ Func ApplyScriptDB()
 		GUICtrlSetState($g_hChkDBKingAttack, $aiCSVHeros[$eHeroBarbarianKing][0] > 0 ? $GUI_CHECKED : GUICtrlGetState($g_hChkDBKingAttack))
 		GUICtrlSetState($g_hChkDBQueenAttack, $aiCSVHeros[$eHeroArcherQueen][0] > 0 ? $GUI_CHECKED : GUICtrlGetState($g_hChkDBQueenAttack))
 		GUICtrlSetState($g_hChkDBWardenAttack, $aiCSVHeros[$eHeroGrandWarden][0] > 0 ? $GUI_CHECKED : GUICtrlGetState($g_hChkDBWardenAttack))
+		GUICtrlSetState($g_hChkDBChampionAttack, $aiCSVHeros[$eHeroRoyalChampion][0] > 0 ? $GUI_CHECKED : GUICtrlGetState($g_hChkDBChampionAttack))
 		SetLog("CSV 'Attack with' Hero settings applied", $COLOR_SUCCESS)
 	EndIf
 
@@ -372,9 +376,9 @@ EndFunc   ;==>ApplyScriptDB
 
 Func ApplyScriptAB()
 	Local $iApply = 0
-	Local $aiCSVTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	Local $aiCSVTroops[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 	Local $aiCSVSpells[$eSpellCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	Local $aiCSVHeros[$eHeroCount][2] = [[0, 0], [0, 0], [0, 0]]
+	Local $aiCSVHeros[$eHeroCount][2] = [[0, 0], [0, 0], [0, 0], [0, 0]]
 	Local $iCSVRedlineRoutineItem = 0, $iCSVDroplineEdgeItem = 0
 	Local $sCSVCCReq = ""
 	Local $aTemp = _GUICtrlComboBox_GetListArray($g_hCmbScriptNameAB)
@@ -398,11 +402,11 @@ Func ApplyScriptAB()
 		For $t = 0 To UBound($aiCSVTroops) - 1 ; set troops to level 1 if none on GUI
 			If $aiCSVTroops[$t] > 0 And $g_aiTrainArmyTroopLevel[$t] = 0 Then $g_aiTrainArmyTroopLevel[$t] = 1
 		Next
-		$g_aiArmyCompTroops = $aiCSVTroops
+		$g_aiArmyCustomTroops = $aiCSVTroops
 		For $s = 0 To UBound($aiCSVSpells) - 1 ; set spells to level 1 if none on GUI
 			If $aiCSVSpells[$s] > 0 And $g_aiTrainArmySpellLevel[$s] = 0 Then $g_aiTrainArmySpellLevel[$s] = 1
 		Next
-		$g_aiArmyCompSpells = $aiCSVSpells
+		$g_aiArmyCustomSpells = $aiCSVSpells
 		ApplyConfig_600_52_2("Read")
 		SetComboTroopComp() ; GUI refresh
 		lblTotalCountSpell2()
@@ -426,6 +430,9 @@ Func ApplyScriptAB()
 					Case $eHeroGrandWarden
 						$g_iActivateWarden = $aiCSVHeros[$h][0] - 1
 						$g_iDelayActivateWarden = $aiCSVHeros[$h][1]
+					Case $eHeroRoyalChampion
+						$g_iActivateChampion = $aiCSVHeros[$h][0] - 1
+						$g_iDelayActivateChampion = $aiCSVHeros[$h][1]
 				EndSwitch
 			EndIf
 		Next
@@ -435,6 +442,7 @@ Func ApplyScriptAB()
 		GUICtrlSetState($g_hChkABKingAttack, $aiCSVHeros[$eHeroBarbarianKing][0] > 0 ? $GUI_CHECKED : GUICtrlGetState($g_hChkABKingAttack))
 		GUICtrlSetState($g_hChkABQueenAttack, $aiCSVHeros[$eHeroArcherQueen][0] > 0 ? $GUI_CHECKED : GUICtrlGetState($g_hChkABQueenAttack))
 		GUICtrlSetState($g_hChkABWardenAttack, $aiCSVHeros[$eHeroGrandWarden][0] > 0 ? $GUI_CHECKED : GUICtrlGetState($g_hChkABWardenAttack))
+		GUICtrlSetState($g_hChkABChampionAttack, $aiCSVHeros[$eHeroRoyalChampion][0] > 0 ? $GUI_CHECKED : GUICtrlGetState($g_hChkABChampionAttack))
 		SetLog("CSV 'Attack with' Hero settings applied", $COLOR_SUCCESS)
 	EndIf
 
@@ -510,6 +518,7 @@ Func AttackNow()
 	$g_aiCurrentSiegeMachines[$eSiegeWallWrecker] = 1
 	$g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] = 1
 	$g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] = 1
+	$g_aiCurrentSiegeMachines[$eSiegeBarracks] = 1
 	$g_aiAttackAlgorithm[$LB] = 1										; Select Scripted Attack
 	$g_sAttackScrScriptName[$LB] = GuiCtrlRead($g_hCmbScriptNameAB)		; Select Scripted Attack File From The Combo Box, Cos it wasn't refreshing until pressing Start button
 	$g_iMatchMode = $LB													; Select Live Base As Attack Type

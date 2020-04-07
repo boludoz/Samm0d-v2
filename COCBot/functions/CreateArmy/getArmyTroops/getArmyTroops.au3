@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........: Fliegerfaust(11-2017)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -34,7 +34,7 @@ Func getArmyTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckW
 		If $bSetLog Then SetLog("Detected Clan Castle Message Blocking Troop Images. Waiting until it's gone", $COLOR_INFO)
 		_CaptureRegion2()
 		While _CheckPixel($aRecievedTroops, False)
-			_Sleep($DELAYTRAIN1)
+			If _Sleep($DELAYTRAIN1) Then Return
 		WEnd
 	EndIf
 
@@ -46,7 +46,7 @@ Func getArmyTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckW
 	Local $aTempTroopArray, $aTroopCoords
 	Local $sTroopName = ""
 	Local $iTroopIndex = -1, $iDropTrophyIndex = -1
-	Local $aCurrentTroopsEmpty[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Troops Array
+	Local $aCurrentTroopsEmpty[$eTroopCount] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] ; Local Copy to reset Troops Array
 	Local $aTroopsForTropyDropEmpty[8][2] = [["Barb", 0], ["Arch", 0], ["Giant", 0], ["Wall", 0], ["Gobl", 0], ["Mini", 0], ["Ball", 0], ["Wiza", 0]] ; Local Copy to reset Troop Drop Trophy Array
 	Local $aCurrentTroopsLog[$eTroopCount][3] ; [0] = Name [1] = Quantities [3] Xaxis
 
@@ -68,7 +68,6 @@ Func getArmyTroops($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bCheckW
 			If $iDropTrophyIndex <> -1 Then $g_avDTtroopsToBeUsed[$iDropTrophyIndex][1] += $g_aiCurrentTroops[$iTroopIndex] ; If there was a Match in the Array then add the Troop Quantity to it
 
 			$sTroopName = $g_aiCurrentTroops[$iTroopIndex] >= 2 ? $g_asTroopNamesPlural[$iTroopIndex] : $g_asTroopNames[$iTroopIndex] ; Select the right Troop Name, If more than one then use the Plural
-			;If $bSetLog Then SetLog(" - " & $g_aiCurrentTroops[$iTroopIndex] & " " & $sTroopName & " Available", $COLOR_SUCCESS) ; Log What Troop is available and How many
 			$aCurrentTroopsLog[$iTroopIndex][0] = $sTroopName
 			$aCurrentTroopsLog[$iTroopIndex][1] = $g_aiCurrentTroops[$iTroopIndex]
 			$aCurrentTroopsLog[$iTroopIndex][2] = Slot($aTroopCoords[0], $aTroopCoords[1])

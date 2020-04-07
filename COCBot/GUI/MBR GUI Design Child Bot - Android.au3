@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -14,8 +14,10 @@
 ; ===============================================================================================================================
 #include-once
 
-Global $g_hCmbCOCDistributors = 0, $g_hCmbAndroidBackgroundMode = 0, $g_hCmbSuspendAndroid = 0, $g_hChkAndroidAdbClickDragScript = 0, $g_hBtnAndroidAdbShell = 0, $g_hBtnAndroidHome = 0, $g_hBtnAndroidBack = 0, _
-	$g_hTxtAndroidRebootHours = 0, $g_hChkAndroidCloseWithBot = 0 , $g_hBtnAndroidEnableTouch = 0 , $g_hBtnAndroidDisableTouch = 0, $g_lblHelpBot = 0
+Global $g_hCmbCOCDistributors = 0, $g_hCmbAndroidBackgroundMode = 0, $g_hCmbAndroidZoomoutMode = 0, $g_hCmbSuspendAndroid = 0, $g_hChkAndroidAdbClick = 0, _
+	$g_hChkAndroidAdbClickDragScript = 0, $g_hBtnAndroidAdbShell = 0, $g_hBtnAndroidHome = 0, $g_hBtnAndroidBack = 0, $g_hTxtAndroidRebootHours = 0, _
+	$g_hChkAndroidCloseWithBot = 0, $g_hChkUpdateSharedPrefs = 0, $g_hBtnAndroidEnableTouch = 0, $g_hBtnAndroidDisableTouch = 0, $g_lblHelpBot = 0, _
+	$g_hLblAdditionalClickDelay = 0, $g_hSldAdditionalClickDelay = 0, $g_hChkUseDedicatedAdbPort = 0, $g_hCmbAndroidReplaceAdb = 0
 
 Func CreateBotAndroid()
 
@@ -43,8 +45,31 @@ Func CreateBotAndroid()
 			_GUICtrlComboBox_SetCurSel(-1, $g_iAndroidBackgroundMode)
 			GUICtrlSetOnEvent(-1, "cmbAndroidBackgroundMode")
 	$y += 25
-		$g_hChkAndroidAdbClickDragScript = GUICtrlCreateCheckbox(GetTranslatedFileIni("Android", "ChkAdbClickDragScript", "Use script for accurate Click && Drag"), $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("Android", "ChkAdbClickDragScript_Info", "Use Android specific script file for Click & Drag.\r\nIf unchecked use more compatible 'input swipe'."))
+		GUICtrlCreateLabel(GetTranslatedFileIni("Android", "LblZoomoutMode", "Zoomout Mode"), $x - 8, $y + 5, 180, 22, $SS_RIGHT)
+		$g_hCmbAndroidZoomoutMode = GUICtrlCreateCombo("", $x - 8 + 180 + 5, $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslatedFileIni("Android", "CmbZoomoutMode", "Default|Use Minitouch script|Use dd script|WinAPI|Update shared_prefs"))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("Android", "CmbZoomoutMode_Info", 'Control how the zoomout is done. Default chooses usually Minitouch script, which is most stable.'))
+			_GUICtrlComboBox_SetCurSel(-1, $g_iAndroidZoomoutMode)
+	$y += 25
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Distributors", "LblAdvanced_Android_Options", "Suspend/Resume Android"), $x - 8, $y + 5, 180, 22, $SS_RIGHT)
+		$g_hCmbSuspendAndroid = GUICtrlCreateCombo("", $x - 8 + 180 + 5, $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslatedFileIni("MBR Distributors", "CmbSuspendAndroid_Item_01", "Disabled|Only during Search/Attack|For every Image processing call"))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR Distributors", "CmbSuspendAndroid_Info_01", 'Specify if Android will be suspended for brief time only during search and attack or\r\nfor every ImgLoc/Image processing call. If you experience more frequent network issues\r\ntry to use "Only during Search/Attack" option or disable this feature.'))
+			_GUICtrlComboBox_SetCurSel(-1, AndroidSuspendFlagsToIndex($g_iAndroidSuspendModeFlags))
+			GUICtrlSetOnEvent(-1, "cmbSuspendAndroid")
+	$y += 25
+		GUICtrlCreateLabel(GetTranslatedFileIni("Android", "LblReplaceAdb", "Replace ADB"), $x - 8, $y + 5, 180, 22, $SS_RIGHT)
+		$g_hCmbAndroidReplaceAdb = GUICtrlCreateCombo("", $x - 8 + 180 + 5, $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			GUICtrlSetData(-1, GetTranslatedFileIni("Android", "CmbReplaceAdb", "Don't replace adb.exe|With My Bot adb.exe|With dummy exe"))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("Android", "CmbReplaceAdb_Info", 'Configure if Android Emulator adb.exe should be replaced with My Bot adb.exe or a dummy.exe to solve adb issues.'))
+			_GUICtrlComboBox_SetCurSel(-1, $g_iAndroidAdbReplace)
+	$y += 25
+		$g_hChkAndroidAdbClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("Android", "ChkAdbClick", "Use minitouch for Click"), $x, $y, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("Android", "ChkAdbClick_Info", "Use minitouch for Android clicks.\r\nIf unchecked use WinAPI control messages."))
+			GUICtrlSetState(-1, (($g_bAndroidAdbClickEnabled) ? ($GUI_CHECKED) : ($GUI_UNCHECKED)))
+	$y += 25
+		$g_hChkAndroidAdbClickDragScript = GUICtrlCreateCheckbox(GetTranslatedFileIni("Android", "ChkAdbClickDragScript", "Use minitouch for accurate Click && Drag"), $x, $y, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("Android", "ChkAdbClickDragScript_Info", "Use minitouch for accurate Click & Drag.\r\nIf unchecked use more compatible 'input swipe' or WinAPI."))
 			GUICtrlSetState(-1, (($g_bAndroidAdbClickDragScript) ? ($GUI_CHECKED) : ($GUI_UNCHECKED)))
 
 	$y += 25
@@ -52,30 +77,25 @@ Func CreateBotAndroid()
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("Android", "ChkAndroidCloseWithBot_Info", "Close also Android Emulator when bot exists."))
 			GUICtrlSetState(-1, (($g_bAndroidCloseWithBot) ? ($GUI_CHECKED) : ($GUI_UNCHECKED)))
 
+		$g_hChkUseDedicatedAdbPort = GUICtrlCreateCheckbox(GetTranslatedFileIni("Android", "ChkUseDedicatedAdbPort", "Use dedicated ADB port"), $x + 227, $y, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("Android", "ChkUseDedicatedAdbPort_Info", "Use dedicated ADB instance on unique port. Disable can fix ""device offline"" issues."))
+			GUICtrlSetState(-1, (($g_bAndroidAdbPortPerInstance) ? ($GUI_CHECKED) : ($GUI_UNCHECKED)))
+
 	$y += 25
-		GUICtrlCreateLabel(GetTranslatedFileIni("Android", "LblAndroidRebootHours", "Reboot Android in") & ":", $x + 17, $y + 2, -1, -1)
+		$g_hChkUpdateSharedPrefs = GUICtrlCreateCheckbox(GetTranslatedFileIni("Android", "ChkUpdateSharedPrefs", "Update shared_prefs"), $x, $y, -1, -1)
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("Android", "ChkUpdateSharedPrefs_Info", "Pull and push shared_prefs to reset zoom,\nset language to English, disable snow and rate popup."))
+			GUICtrlSetState(-1, (($g_bUpdateSharedPrefs) ? ($GUI_CHECKED) : ($GUI_UNCHECKED)))
+
+		GUICtrlCreateLabel(GetTranslatedFileIni("Android", "LblAndroidRebootHours", "Reboot Android in") & ":", $x + 227, $y + 2, -1, -1)
 			$sTxtTip = GetTranslatedFileIni("Android", "LblAndroidRebootHours_Info", "Enter hours when Android will be automatically rebooted after specified run-time.")
 			_GUICtrlSetTip(-1, $sTxtTip)
-		$g_hTxtAndroidRebootHours = GUICtrlCreateInput($g_iAndroidRebootHours, $x + 177, $y + 1, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+		$g_hTxtAndroidRebootHours = GUICtrlCreateInput($g_iAndroidRebootHours, $x + 327, $y + 1, 30, 16, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, $sTxtTip)
 			GUICtrlSetLimit(-1, 4)
-		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "hrs", -1), $x + 212, $y + 2, -1, -1)
+		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design", "hrs", -1), $x + 362, $y + 2, -1, -1)
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	$y = $y2 + $h + 5
-	$w = $g_iSizeWGrpTab2 - 2
-	$h = 50
-	GUICtrlCreateGroup(GetTranslatedFileIni("MBR Distributors", "Group_02", "Advanced Android Options"), $x - 20, $y - 20, $w, $h)
-	$y -= 2
-		GUICtrlCreateLabel(GetTranslatedFileIni("MBR Distributors", "LblAdvanced_Android_Options", "Suspend/Resume Android"), $x - 8, $y + 5, 180, 22, $SS_RIGHT)
-		$g_hCmbSuspendAndroid = GUICtrlCreateCombo("", $x - 8 + 180 + 5, $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			GUICtrlSetData(-1, GetTranslatedFileIni("MBR Distributors", "CmbSuspendAndroid_Item_01", "Disabled|Only during Search/Attack|For every Image processing call"))
-			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR Distributors", "CmbSuspendAndroid_Info_01", 'Specify if Android will be suspended for brief time only during search and attack or\r\nfor every ImgLoc/Image processing call. If you experience more frequent network issues\r\ntry to use "Only during Search/Attack" option or disable this feature.'))
-			_GUICtrlComboBox_SetCurSel(-1, AndroidSuspendFlagsToIndex($g_iAndroidSuspendModeFlags))
-			GUICtrlSetOnEvent(-1, "cmbSuspendAndroid")
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-	$y += $h + 5
 	$y2 = $y
 	$w = 240
 	$h = 120
@@ -98,21 +118,24 @@ Func CreateBotAndroid()
 	;$x = 25 + $g_iSizeWGrpTab2 - 2 - 10 - $w
 	$x = 25 + 240 + 10 + 30
 	$y = $y2
-	$w = 125
-	$h = 80
+	$w = 145
+	$h = 110
 	GUICtrlCreateGroup(GetTranslatedFileIni("Android Control", "Group_04", "Install Play Store Apps"), $x - 20, $y - 20, $w, $h)
 	$y -= 2
-		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnPlayStoreGame", "Clash of Clans"), $x - 8, $y, 100, 25)
+		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnPlayStoreGame", "Clash of Clans"), $x - 8, $y, $w - 24, 25)
 			GUICtrlSetOnEvent(-1, "OpenPlayStoreGame")
 	$y += 30
-		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnPlayStoreNovaLauncher", "Nova Launcher"), $x - 8, $y, 100, 25)
+		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnPlayStoreGooglePlayServices", "Google Play Services"), $x - 8, $y, $w - 24, 25)
+			GUICtrlSetOnEvent(-1, "OpenPlayStoreGooglePlayServices")
+	$y += 30
+		GUICtrlCreateButton(GetTranslatedFileIni("Android Control", "BtnPlayStoreNovaLauncher", "Nova Launcher"), $x - 8, $y, $w - 24, 25)
 			GUICtrlSetOnEvent(-1, "OpenPlayStoreNovaLauncher")
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-	$y += 130
+	$y += $h
 	$x -= 60
 		$g_lblHelpBot = GUICtrlCreateLabel("Command line Help ?", $x - 20, $y - 20, 220, 24, $SS_RIGHT)
-			GUICtrlSetOnEvent($g_lblHelpBot, "ShowCommandLineHelp")
+			GUICtrlSetOnEvent($g_lblHelpBot, "ShowControlHelp")
 			GUICtrlSetCursor(-1, 0)
 			GUICtrlSetFont(-1, 8.5, $FW_BOLD)
 			_GUICtrlSetTip(-1, "Click here to get help about command line and option for MyBot.run!")

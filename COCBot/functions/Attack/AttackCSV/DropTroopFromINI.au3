@@ -19,7 +19,7 @@
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......: MonkeyHunter (03-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -197,7 +197,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 				Else
 					$delayDrop = $delayDropMin
 				EndIf
-				debugAttackCSV(">> delay change drop point: " & $delayDrop)
+				debugAttackCSV("- delay change drop point: " & $delayDrop)
 			EndIf
 
 			For $j = 1 To $numbersOfVectors
@@ -245,7 +245,13 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 							Else
 								dropHeroes($pixel[0], $pixel[1], -1, -1, $troopPosition) ; was $g_iWardenSlot, Slot11+
 							EndIf
-						Case $eCastle, $eWallW, $eBattleB, $eStoneS
+						Case $eChampion
+							If $debug = True Then
+								SetLog("dropHeroes(" & $pixel[0] & ", " & $pixel[1] & ",-1," & $troopPosition & ", -1) ")
+							Else
+								dropHeroes($pixel[0], $pixel[1], -1, $troopPosition, -1) ; was $g_iChampionSlot, Slot11+
+							EndIf
+						Case $eCastle, $eWallW, $eBattleB, $eStoneS, $eSiegeB
 							If $debug = True Then
 								SetLog("dropCC(" & $pixel[0] & ", " & $pixel[1] & ", " & $troopPosition & ")")
 							Else
@@ -297,7 +303,7 @@ Func DropTroopFromINI($vectors, $indexStart, $indexEnd, $indexArray, $qtaMin, $q
 			$sleepafter = Int($sleepafterMin)
 		EndIf
 		If $sleepafter > 0 And IsKeepClicksActive() = False Then
-			debugAttackCSV(">> delay after drop all troops: " & $sleepafter)
+			debugAttackCSV("- delay after drop all troops: " & $sleepafter)
 			If $sleepafter <= 1000 Then ; check SLEEPAFTER value is less than 1 second?
 				If _Sleep($sleepafter) Then Return
 				If $bHeroDrop = True Then ;Check hero but skip Warden if was dropped with sleepafter to short to allow icon update

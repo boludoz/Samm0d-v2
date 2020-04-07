@@ -1,4 +1,3 @@
-
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: CloseCoC
 ; Description ...: Kill then restart CoC
@@ -7,7 +6,7 @@
 ; Return values .: None
 ; Author ........: The Master (06-2015)
 ; Modified ......: cosote (12-2015)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -53,8 +52,6 @@ Func CloseCoC($ReOpenCoC = False, $bCheckRunState = True)
 	EndIf
 	FuncReturn()
 EndFunc   ;==>CloseCoC
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: OpenCoC
@@ -64,7 +61,7 @@ EndFunc   ;==>CloseCoC
 ; Return values .: None
 ; Author ........: The Master (2015)
 ; Modified ......: cosote (Dec 2015)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -79,20 +76,12 @@ Func OpenCoC()
 	Local $RunApp = "", $iCount = 0
 	WinGetAndroidHandle()
 	;AndroidHomeButton()
-	If _Sleep(500) Then Return FuncReturn()
+	If _Sleep($DELAYCLOSEOPEN500) Then Return FuncReturn()
 	If Not $g_bRunState Then Return FuncReturn()
 	If Not StartAndroidCoC() Then Return FuncReturn()
-	While _CheckPixel($aIsMain, True) = False ; Wait for MainScreen
-		$iCount += 1
-		If _Sleep(100) Then Return FuncReturn()
-		If checkObstacles() Then $iCount += 1
-		If $iCount > 250 Then ExitLoop
-		If Not $g_bRunState Then ExitLoop
-	WEnd
+	waitMainScreenMini()
 	FuncReturn()
 EndFunc   ;==>OpenCoC
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: WaitnOpenCoC
@@ -104,7 +93,7 @@ EndFunc   ;==>OpenCoC
 ; Return values .: None
 ; Author ........: KnowJack (Aug 2015)
 ; Modified ......: TheMaster (2015), cosote (Dec 2015)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -165,7 +154,7 @@ EndFunc   ;==>_WaitnOpenCoC
 ; Return values .: None
 ; Author ........: MonkeyHunter (05-2016), MMHK (11-2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -194,7 +183,7 @@ Func PoliteCloseCoC($sSource = "Unknown_", $bPoliteCloseCoC = $g_bPoliteCloseCoC
 				If ClickOkay("ExitOkay_" & $sSource, True) = True Then ExitLoop ; Confirm okay to exit
 				If $i > 10 Then
 					SetLog("Can not find Okay button to exit CoC, Forcefully Closing CoC", $COLOR_ERROR)
-					If $g_bDebugImageSave Then DebugImageSave($sSource)
+					If $g_bDebugImageSave Then SaveDebugImage($sSource)
 					CloseCoC()
 					ExitLoop
 				EndIf
@@ -244,13 +233,13 @@ Func PoliteCloseCoC($sSource = "Unknown_", $bPoliteCloseCoC = $g_bPoliteCloseCoC
 						ContinueCase
 					Case Else
 						SetLog("Polite Close Unsupported - " & $g_sAndroidGameDistributor & ", Forcefully Closing CoC", $COLOR_ERROR)
-						If $g_bDebugImageSave Then DebugImageSave($sSource)
+						If $g_bDebugImageSave Then SaveDebugImage($sSource)
 						CloseCoC()
 						ExitLoop
 				EndSwitch
 				If $i > 10 Then
 					SetLog("Can not find exit button: " & $g_sAndroidGameDistributor & ", Forcefully Closing CoC", $COLOR_ERROR)
-					If $g_bDebugImageSave Then DebugImageSave($sSource)
+					If $g_bDebugImageSave Then SaveDebugImage($sSource)
 					CloseCoC()
 					ExitLoop
 				EndIf

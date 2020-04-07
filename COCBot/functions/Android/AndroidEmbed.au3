@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Cosote (07-2016)
 ; Modified ......: CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -559,6 +559,11 @@ Func _AndroidEmbed($Embed = True, $CallWinGetAndroidHandle = True, $bForceEmbed 
 	_WinAPI_RedrawWindow($g_hFrmBot, 0, 0, BitOR($RDW_FRAME, $RDW_UPDATENOW, $RDW_INVALIDATE))
 
 	AndroidShield("AndroidEmbed dock", Default, $CallWinGetAndroidHandle, 100)
+
+	If $g_bBotLaunchOption_HideAndroid Then
+		; hide bot
+		BotMinimizeRequest()
+	EndIf
 
 	Return True
 EndFunc   ;==>_AndroidEmbed

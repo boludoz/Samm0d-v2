@@ -6,7 +6,7 @@
 ; Return values .:
 ; Author ........: Fliegerfaust(11-2017)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -47,7 +47,8 @@ Func getArmyCCSpells($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bChec
 			$aTempSpellArray = $aCurrentCCSpells[$i] ; Declare Array to Temp Array
 
 			$iSpellIndex = TroopIndexLookup($aTempSpellArray[0], "getArmyCCSpells()") - $eLSpell ; Get the Index of the Spell from the ShortName
-
+			If $iSpellIndex < 0 Then ContinueLoop
+			
 			If StringInStr($aTempSpellArray[1], "|") Then
 				$aSpells = StringSplit($aTempSpellArray[1], "|")
 				Local $X_Coord

@@ -343,7 +343,7 @@ Func AttackRemainingTime($bInitialze = Default)
 
 	EndIf
 
-	If $bInitialze = False Then Return
+;~ 	If Not $bInitialze Then Return
 
 	; Return remaining attack time
 	Local $iAttackTime = 3 * 60 * 1000
@@ -352,5 +352,3 @@ Func AttackRemainingTime($bInitialze = Default)
 	Return $iRemaining
 
 EndFunc   ;==>AttackRemainingTime
-
-

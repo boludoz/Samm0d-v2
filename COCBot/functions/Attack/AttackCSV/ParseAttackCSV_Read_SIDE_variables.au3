@@ -6,7 +6,7 @@
 ; Return values .: None
 ; Author ........: Sardo (2016)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -22,11 +22,13 @@ Func ParseAttackCSV_Read_SIDE_variables()
 	$g_bCSVLocateStorageDarkElixir = False
 	$g_bCSVLocateStorageTownHall = False
 	$g_bCSVLocateEagle = False
+	$g_bCSVLocateScatter = False
 	$g_bCSVLocateInferno = False
 	$g_bCSVLocateXBow = False
 	$g_bCSVLocateWizTower = False
 	$g_bCSVLocateMortar = False
 	$g_bCSVLocateAirDefense = False
+	$g_bCSVLocateWall = False
 	; $g_bCSVLocateGemBox = False
 
 	If $g_iMatchMode = $DB Then
@@ -87,7 +89,7 @@ Func ParseAttackCSV_Read_SIDE_variables()
 							If Int($value4) > 0 Then $g_bCSVLocateWizTower = True
 							If Int($value5) > 0 Then $g_bCSVLocateMortar = True
 							If Int($value6) > 0 Then $g_bCSVLocateAirDefense = True
-							; If Int($value7) > 0 Then $g_bCSVLocateGemBox = True IE unused
+							If Int($value7) > 0 Then $g_bCSVLocateScatter = True
 							; If Int($value8) > 0 Then $g_bCSVLocateGemBox = True IE unused
 						EndIf
 					Case "MAKE" ; check if targeted building vectors are used im MAKE commands >> starting in V7.2+
@@ -101,12 +103,18 @@ Func ParseAttackCSV_Read_SIDE_variables()
 									$g_bCSVLocateInferno = True
 								Case "XBOW"
 									$g_bCSVLocateXBow = True
+								Case "SCATTER"
+									$g_bCSVLocateScatter = True
 								Case "WIZTOWER"
 									$g_bCSVLocateWizTower = True
 								Case "MORTAR"
 									$g_bCSVLocateMortar = True
 								Case "AIRDEFENSE"
 									$g_bCSVLocateAirDefense = True
+								Case "EX-WALL"
+									$g_bCSVLocateWall = True
+								Case "IN-WALL"
+									$g_bCSVLocateWall = True
 								Case Else
 									SetDebugLog("Invalid MAKE building target name: " & $value8, $COLOR_WARNING)
 									debugAttackCSV("Invalid MAKE building target name: " & $value8)

@@ -1,4 +1,3 @@
-
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: checkObstacles
 ; Description ...: Checks whether something is blocking the pixel for mainscreen and tries to unblock
@@ -7,16 +6,17 @@
 ; Return values .: Returns True when there is something blocking
 ; Author ........: Hungle (2014)
 ; Modified ......: KnowJack (2015), Sardo (08-2015), TheMaster1st(10-2015), MonkeyHunter (08-2016), MMHK (12-2016)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
 ;
-Func checkObstacles($bBuilderBase = False) ;Checks if something is in the way for mainscreen
+Func checkObstacles($bBuilderBase = Default) ;Checks if something is in the way for mainscreen
 	FuncEnter(checkObstacles)
-	Static $checkObstaclesActive = False
+	If $bBuilderBase = Default Then $bBuilderBase = $g_bStayOnBuilderBase
+	Static $iRecursive = 0
 
 	If TestCapture() = False And WinGetAndroidHandle() = 0 Then
 		; Android not available
@@ -33,11 +33,10 @@ Func checkObstacles($bBuilderBase = False) ;Checks if something is in the way fo
 	;	Return FuncReturn(True)
 	;EndIf
 	Local $wasForce = OcrForceCaptureRegion(False)
-	Local $checkObstaclesWasActive = $checkObstaclesActive
-	$checkObstaclesActive = True
-	Local $Result = _checkObstacles($bBuilderBase, $checkObstaclesWasActive)
+	$iRecursive += 1
+	Local $Result = _checkObstacles($bBuilderBase, $iRecursive > 5)
 	OcrForceCaptureRegion($wasForce)
-	$checkObstaclesActive = $checkObstaclesWasActive
+	$iRecursive -= 1
 	Return FuncReturn($Result)
 EndFunc   ;==>checkObstacles
 
@@ -52,8 +51,13 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 		If checkObstacles_GfxError() Then Return True
 	EndIf
 	Local $bIsOnBuilderIsland = isOnBuilderBase()
-	If $bBuilderBase = False And $bIsOnBuilderIsland = True Then
-		SetLog("Detected Builder Base, trying to switch back to Main Village")
+	Local $bIsOnMainVillage = isOnMainVillage()
+	If $bBuilderBase <> $bIsOnBuilderIsland And ($bIsOnBuilderIsland Or $bIsOnBuilderIsland <> $bIsOnMainVillage) Then
+		If $bIsOnBuilderIsland Then
+			SetLog("Detected Builder Base, trying to switch back to Main Village")
+		Else
+			SetLog("Detected Main Village, trying to switch back to Builder Base")
+		EndIf
 		If SwitchBetweenBases() Then
 			$g_bMinorObstacle = True
 			If _Sleep($DELAYCHECKOBSTACLES1) Then Return
@@ -135,10 +139,11 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
 				SetLog("Connection lost, Reloading CoC...", $COLOR_ERROR)
-				If $g_bChkSharedPrefs And HaveSharedPrefs() Then
+				If ($g_bChkSharedPrefs Or $g_bUpdateSharedPrefs) And HaveSharedPrefs() Then
 					SetLog("Please wait for loading CoC...!")
 					PushSharedPrefs()
-					OpenCoC()
+					If Not $bRecursive Then OpenCoC()
+					Return True
 				EndIf
 			Case _CheckPixel($aIsCheckOOS, $g_bNoCapturePixel) Or (UBound(decodeSingleCoord(FindImageInPlace("OOS", $g_sImgOutOfSync, "355,335,435,395", False, $g_iAndroidLollipop))) > 1) ; Check OoS
 				SetLog("Out of Sync Error, Reloading CoC...", $COLOR_ERROR)
@@ -173,7 +178,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 				checkObstacles_ResetSearch()
 			Case Else
 				;  Add check for game update and Rate CoC error messages
-				If $g_bDebugImageSave Then DebugImageSave("ChkObstaclesReloadMsg_", False) ; debug only
+				If $g_bDebugImageSave Then SaveDebugImage("ChkObstaclesReloadMsg_", False) ; debug only
 				;$Result = getOcrRateCoc(228, 390 + $g_iMidOffsetY, "Check Obstacles getOCRRateCoC= ")
 				Local $sRegion = "220,420(60,25)"
 				If $g_iAndroidVersionAPI >= $g_iAndroidLollipop Then
@@ -222,7 +227,7 @@ Func _checkObstacles($bBuilderBase = False, $bRecursive = False) ;Checks if some
 					BanMsgBox()
 					Return checkObstacles_StopBot($msg) ; stop bot
 				EndIf
-				SetLog("Warning: Can not find type of Reload error message", $COLOR_ERROR)
+				SetLog("Warning: Cannot find type of Reload error message", $COLOR_ERROR)
 		EndSelect
 		If TestCapture() Then Return "Village is out of sync or inactivity or connection lost or maintenance"
 		Return checkObstacles_ReloadCoC($aReloadButton, "#0131", $bRecursive) ; Click for out of sync or inactivity or connection lost or maintenance
@@ -477,7 +482,7 @@ Func checkObstacles_GfxError($bForceCapture = False, $bRebootAndroid = True)
 	If UBound($aResult) >= 8 Then
 		SetLog(UBound($aResult) & " Gfx Errors detected, Reloading Android...", $COLOR_ERROR)
 		; Save debug image
-		DebugImageSave("GfxError", False)
+		SaveDebugImage("GfxError", False)
 		If $bRebootAndroid Then Return checkObstacles_RebootAndroid()
 		Return True
 	EndIf

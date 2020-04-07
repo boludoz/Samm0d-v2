@@ -1,4 +1,3 @@
-
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: getBuilderCount
 ; Description ...: updates global builder count variables
@@ -8,7 +7,7 @@
 ; Return values .: None
 ; Author ........: MonkeyHunter (06-2016)
 ; Modified ......: Fliegerfaust (06-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -53,7 +52,7 @@ Func getBuilderCount($bSuppressLog = False, $bBuilderBase = False)
 		SetLog("Unable to read Builders info at this time", $COLOR_ERROR)
 		; drop down to error handling code
 	EndIf
-	If $g_bDebugSetlog Or $g_bDebugImageSave Then DebugImageSave("getBuilderCount_")
+	If $g_bDebugSetlog Or $g_bDebugImageSave Then SaveDebugImage("getBuilderCount_")
 	If checkObstacles() Then checkMainScreen() ; trap common error messages
 	Return False
 

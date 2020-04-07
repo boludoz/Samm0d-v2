@@ -7,7 +7,7 @@
 ; Author ........: Code Monkey #6
 ; Modified ......: kaganus (Jun/Aug 2015), Sardo 2015-07, KnowJack(Aug 2015) , The Master (2015), MonkeyHunter (02/08-2016),
 ;				   CodeSlinger69 (2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -42,10 +42,10 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 	Local $logwrited = False
 	Local $iSkipped = 0
 	Local $bReturnToPickupHero = False
-	Local $abHeroUse[3] = [False, False, False]
-	For $i = 0 to 2
-		$abHeroUse[$i] = ($g_abSearchSearchesEnable[$DB] ? IsSpecialTroopToBeUsed($DB, $eKing + $i) : False) _
-							Or ($g_abSearchSearchesEnable[$LB] ? IsSpecialTroopToBeUsed($LB, $eKing + $i) : False)
+	Local $abHeroUse[$eHeroCount] = [False, False, False, False]
+	For $i = 0 To $eHeroCount - 1
+		$abHeroUse[$i] = ($g_abSearchSearchesEnable[$DB] ? IsUnitUsed($DB, $eKing + $i) : False) _
+							Or ($g_abSearchSearchesEnable[$LB] ? IsUnitUsed($LB, $eKing + $i) : False)
 	Next
 
 	If $g_bDebugDeadBaseImage Or $g_aiSearchEnableDebugDeadBaseImage > 0 Then
@@ -96,6 +96,9 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 
 	If $g_bIsSearchLimit = True Then $g_bIsSearchLimit = False
 
+	; reset page errors
+	InitAndroidPageError()
+
 	While 1 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;### Main Search Loop ###;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 		; cleanup some vars used by imgloc just in case. usend in TH and DeadBase ( imgloc functions)
@@ -103,7 +106,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 
 		_ObjDeleteKey($g_oBldgAttackInfo, "") ; Remove all keys from building dictionary
 
-		If $g_bDebugVillageSearchImages Then DebugImageSave("villagesearch")
+		If $g_bDebugVillageSearchImages Then SaveDebugImage("villagesearch")
 		$logwrited = False
 		$g_bBtnAttackNowPressed = False
 		$g_iSearchTHLResult = -1
@@ -111,17 +114,17 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
 		Local $Time = @HOUR & "." & @MIN & "." & @SEC
 
-		If $g_bRestart = True Then Return ; exit func
+		If $g_bRestart Then Return ; exit func
 
 		; ----------------- READ ENEMY VILLAGE RESOURCES  -----------------------------------
 		WaitForClouds() ; Wait for clouds to disappear
 		AttackRemainingTime(True) ; Timer for knowing when attack starts, in 30 Sec. attack automatically starts and lasts for 3 Minutes
-		If $g_bRestart = True Then Return ; exit func
+		If $g_bRestart Then Return ; exit func
 
 		$g_bCloudsActive = False
 
 		GetResources(False) ;Reads Resource Values
-		If $g_bRestart = True Then Return ; exit func
+		If $g_bRestart Then Return ; exit func
 
 		SuspendAndroid()
 
@@ -147,14 +150,21 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			EndIf
 		Next
 
+		; reset village measures
+		setVillageOffset(0, 0, 1)
+		ConvertInternalExternArea()
+
 		; only one capture here, very important for consistent debug images, zombies, redline calc etc.
 		ForceCaptureRegion()
 		_CaptureRegion2()
 
 		; measure enemy village (only if resources match)
+		Local $bAlwaysMeasure = $g_bVillageSearchAlwaysMeasure
 		For $i = 0 To $g_iModeCount - 1
-			If $match[$i] Then
-				If CheckZoomOut("VillageSearch", True, False) = False Then
+			If $match[$i] Or $bAlwaysMeasure Then
+				If Not CheckZoomOut("VillageSearch", True, False) Then
+					SaveDebugImage("VillageSearchMeasureFailed", False) ; make clean snapshot as well
+					ExitLoop ; disable exiting search for December 2018 update due to zoomout issues
 					; check two more times, only required for snow theme (snow fall can make it easily fail), but don't hurt to keep it
 					$i = 0
 					Local $bMeasured
@@ -165,16 +175,18 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 						_CaptureRegion2()
 						$bMeasured = CheckZoomOut("VillageSearch", $i < 2, False)
 					Until $bMeasured = True Or $i >= 2
-					If $bMeasured = False Then Return ; exit func
+					If Not $bMeasured Then Return ; exit func
 				EndIf
 				ExitLoop
 			EndIf
 		Next
+		If $g_bRestart Then Return
+
 		; ----------------- FIND TARGET TOWNHALL -------------------------------------------
 		; $g_iSearchTH name of level of townhall (return "-" if no th found)
 		; $g_iTHx and $g_iTHy coordinates of townhall
 		Local $THString = ""
-		If $match[$DB] Or $match[$LB] Or $match[$TS] Then ; make sure resource conditions are met
+		If $match[$DB] Or $match[$LB] Then ; make sure resource conditions are met
 			$THString = FindTownhall(False, False) ;find TH, but only if TH condition is checked
 		ElseIf ($g_abFilterMeetOneConditionEnable[$DB] Or $g_abFilterMeetOneConditionEnable[$LB]) Then ; meet one then attack, do not need correct resources
 			$THString = FindTownhall(True, False)
@@ -212,8 +224,8 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 
 		; ----------------- CHECK DEAD BASE -------------------------------------------------
 		If Not $g_bRunState Then Return
-		; check deadbase if no milking attack or milking attack but low cpu settings  ($g_iMilkAttackType=1)
-		Local $checkDeadBase = ($match[$DB] And $g_aiAttackAlgorithm[$DB] <> 2) Or $match[$LB] Or ($match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 1)
+		; check deadbase
+		Local $checkDeadBase = $match[$DB] Or $match[$LB]
 		If $checkDeadBase Then
 			$dbBase = checkDeadBase()
 		EndIf
@@ -221,51 +233,57 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		; ----------------- CHECK WEAK BASE -------------------------------------------------
 		If (IsWeakBaseActive($DB) And $dbBase And ($match[$DB] Or $g_abFilterMeetOneConditionEnable[$DB])) Or _
 				(IsWeakBaseActive($LB) And ($match[$LB] Or $g_abFilterMeetOneConditionEnable[$LB])) Then
-
-			;let try to reduce weekbase time
-			If ($g_iSearchTH <> "-") Then
-				$weakBaseValues = IsWeakBase($g_iImglocTHLevel, $g_sImglocRedline, False)
-			Else
-				$weakBaseValues = IsWeakBase(11, "", False)
-			EndIf
-
+			; check twice if Eagle is active
+			Local $maxTry = 1
 			For $i = 0 To $g_iModeCount - 2
-				If IsWeakBaseActive($i) And (($i = $DB And $dbBase) Or $i <> $DB) And ($match[$i] Or $g_abFilterMeetOneConditionEnable[$i]) Then
-					If getIsWeak($weakBaseValues, $i) Then
-						$match[$i] = True
-					Else
-						$match[$i] = False
-						$noMatchTxt &= ", Not a Weak Base for " & $g_asModeText[$i]
+				If $g_abFilterMaxEagleEnable[$i] Then $maxTry = 2
+			Next
+			For $try = 1 To $maxTry ; check twice to be sure due to walking heroes
+				;let try to reduce weekbase time
+				If ($g_iSearchTH <> "-") Then
+					$weakBaseValues = IsWeakBase($g_iImglocTHLevel, $g_sImglocRedline, False)
+				Else
+					$weakBaseValues = IsWeakBase($g_iMaxTHLevel, "", False)
+				EndIf
+				Local $bIsWeak = False
+				For $i = 0 To $g_iModeCount - 2
+					If IsWeakBaseActive($i) And (($i = $DB And $dbBase) Or $i <> $DB) And ($match[$i] Or $g_abFilterMeetOneConditionEnable[$i]) Then
+						If getIsWeak($weakBaseValues, $i) Then
+							$match[$i] = True
+							$bIsWeak = True
+						Else
+							$match[$i] = False
+							$noMatchTxt &= ", Not a Weak Base for " & $g_asModeText[$i]
+							; don't check again
+							$try = 2
+						EndIf
 					EndIf
+				Next
+
+				If $bIsWeak And $try = 1 Then
+					ResumeAndroid()
+					If _Sleep(3000) Then Return ; wait 5 Seconds to give heroes time to "walk away"
+					ForceCaptureRegion()
+					_CaptureRegion2()
+					SuspendAndroid()
 				EndIf
 			Next
 		EndIf
 
-		; ----------------- CHECK MILKING ----------------------------------------------------
-		CheckMilkingBase($match[$DB], $dbBase) ;update  $milkingAttackOutside, $g_sMilkFarmObjectivesSTR, $g_iSearchTH  etc.
-
 		ResumeAndroid()
 
+		If $g_bLeagueAttack Then
+			If $dbBase And Not $match[$DB] Then
+				SetLog("Force attacking League Dead Base")
+				$match[$DB] = True
+			ElseIf Not $match[$LB] Then
+				SetLog("Force attacking League Live Base")
+				$match[$LB] = True
+			EndIf
+		EndIf
+
 		; ----------------- WRITE LOG VILLAGE FOUND AND ASSIGN VALUE AT $g_iMatchMode and exitloop  IF CONTITIONS MEET ---------------------------
-		If $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_bMilkingAttackOutside = True Then
-			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-			SetLog("      " & "Milking Attack th outside Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
-			$logwrited = True
-			$g_iMatchMode = $DB
-			ExitLoop
-		ElseIf $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 0 And StringLen($g_sMilkFarmObjectivesSTR) > 0 Then
-			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-			SetLog("      " & "Milking Attack HIGH CPU SETTINGS Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
-			$logwrited = True
-			$g_iMatchMode = $DB
-			ExitLoop
-		ElseIf $match[$DB] And $g_aiAttackAlgorithm[$DB] = 2 And $g_iMilkAttackType = 1 And StringLen($g_sMilkFarmObjectivesSTR) > 0 And $dbBase Then
-			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-			SetLog("      " & "Milking Attack LOW CPU SETTINGS Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
-			$logwrited = True
-			$g_iMatchMode = $DB
-			ExitLoop
-		ElseIf $match[$DB] And $dbBase Then
+		If $match[$DB] And $dbBase Then
 			SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
 			SetLog("      " & "Dead Base Found!", $COLOR_SUCCESS, "Lucida Console", 7.5)
 			$logwrited = True
@@ -391,18 +409,6 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			EndIf
 		EndIf
 
-		If SearchTownHallLoc() And $match[$TS] Then ; attack this base anyway because outside TH found to snipe
-			If CompareResources($TS) Then
-				SetLog($GetResourcesTXT, $COLOR_SUCCESS, "Lucida Console", 7.5)
-				SetLog("      " & "TH Outside Found! ", $COLOR_SUCCESS, "Lucida Console", 7.5)
-				$logwrited = True
-				$g_iMatchMode = $TS
-				ExitLoop
-			Else
-				$noMatchTxt &= ", Not a " & $g_asModeText[$TS] & ", fails resource min"
-			EndIf
-		EndIf
-
 		If $match[$DB] And Not $dbBase Then
 			$noMatchTxt &= ", Not a " & $g_asModeText[$DB]
 		ElseIf $match[$LB] And $dbBase Then
@@ -410,7 +416,6 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 
 		If $noMatchTxt <> "" Then
-			;SetLog(_PadStringCenter(" " & StringMid($noMatchTxt, 3) & " ", 50, "~"), $COLOR_DEBUG)
 			SetLog($GetResourcesTXT, $COLOR_BLACK, "Lucida Console", 7.5)
 			SetLog("      " & StringMid($noMatchTxt, 3), $COLOR_ACTION, "Lucida Console", 7.5)
 			$logwrited = True
@@ -421,7 +426,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 		EndIf
 
 		If $g_bSearchRestartPickupHero Then
-			For $i = 0 To 2 ; check all 3 hero
+			For $i = 0 To $eHeroCount - 1 ; check all heros
 				If Not $abHeroUse[$i] Or Not _DateIsValid($g_asHeroHealTime[$i]) Then ContinueLoop
 				Local $iTimeTillHeroHealed = Int(_DateDiff('s', _NowCalc(), $g_asHeroHealTime[$i])) ; hero time in seconds
 				SetDebugLog($g_asHeroNames[$i] & " will be ready in " & $iTimeTillHeroHealed & " seconds")
@@ -475,11 +480,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 			_CaptureRegions()
 			If ( _ColorCheck(_GetPixelColor($NextBtn[0], $NextBtn[1]), Hex($NextBtn[2], 6), $NextBtn[3])) And IsAttackPage(False) Then
 				$g_bCloudsActive = True
-				If $g_bUseRandomClick = False Then
-					ClickP($NextBtn, 1, 0, "#0155") ;Click Next
-				Else
-					ClickR($NextBtnRND, $NextBtn[0], $NextBtn[1], 1, 0)
-				EndIf
+				ClickP($NextBtn, 1, 0, "#0155") ;Click Next
 				ExitLoop
 			Else
 				If $g_bDebugSetlog Then SetDebugLog("Wait to see Next Button... " & $i, $COLOR_DEBUG)
@@ -538,7 +539,7 @@ Func _VillageSearch() ;Control for searching a village that meets conditions
 
 	;--- write in log match found ----
 	If $g_bSearchAlertMe Then
-		TrayTip($g_asModeText[$g_iMatchMode] & " Match Found!", "Gold: " & $g_iSearchGold & "; Elixir: " & $g_iSearchElixir & "; Dark: " & $g_iSearchDark & "; Trophy: " & $g_iSearchTrophy, "", 0)
+		TrayTip($g_sProfileCurrentName & ": " & $g_asModeText[$g_iMatchMode] & " Match Found!", "Gold: " & $g_iSearchGold & "; Elixir: " & $g_iSearchElixir & "; Dark: " & $g_iSearchDark & "; Trophy: " & $g_iSearchTrophy, "", 0)
 		If FileExists(@WindowsDir & "\media\Festival\Windows Exclamation.wav") Then
 			SoundPlay(@WindowsDir & "\media\Festival\Windows Exclamation.wav", 1)
 		ElseIf FileExists(@WindowsDir & "\media\Windows Exclamation.wav") Then
@@ -580,7 +581,7 @@ EndFunc   ;==>SearchLimit
 
 
 Func WriteLogVillageSearch($x)
-	;this function write in BOT LOG the values setting for each attack mode ($DB,$LB, $TS)
+	;this function write in BOT LOG the values setting for each attack mode ($DB,$LB)
 	;example
 	;[18.07.30] ============== Searching For Dead Base ===============
 	;[18.07.30] Enable Dead Base search IF

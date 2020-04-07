@@ -6,71 +6,17 @@
 ; Return values .: None
 ; Author ........: GKevinOD (2014)
 ; Modified ......: DkEd, Hervidero (2015), CodeSlinger69 (01-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-
-#Tidy_Off
-#cs
-The MBR GUI is a nested tabbed design.  This file is called from MyBot.run.au3 to begin the build.  Other files are called as follows:
-
-MBR GUI Design.au3; CreateMainGUI()
-   MBR GUI Design Bottom.au3; CreateBottomPanel()
-
-   MBR GUI Design Log.au3; CreateLogTab()
-
-   MBR GUI Design Village.au3; CreateVillageTab()
-	  MBR GUI Design Child Village - Misc.au3; CreateVillageMisc()
-	  MBR GUI Design Child Village - Donate.au3; CreateVillageDonate()
-	  MBR GUI Design Child Village - Upgrade.au3; CreateVillageUpgrade()
-	  MBR GUI Design Child Village - Achievements.au3; CreateVillageAchievements()
-	  MBR GUI Design Child Village - Notify.au3; CreateVillageNotify()
-
-   MBR GUI Design Attack.au3; CreateAttackTab()
-	  MBR GUI Design Child Attack - Troops.au3; CreateAttackTroops()
-	  MBR GUI Design Child Attack - Search.au3; CreateAttackSearch()
-		 MBR GUI Design Child Attack - Deadbase.au3; CreateAttackSearchDeadBase()
-			MBR GUI Design Child Attack - Deadbase Attack Standard.au3; CreateAttackSearchDeadBaseStandard()
-			MBR GUI Design Child Attack - Deadbase Attack Scripted.au3; CreateAttackSearchDeadBaseScripted()
-			MBR GUI Design Child Attack - Deadbase Attack Milking.au3; CreateAttackSearchDeadBaseMilking()
-			MBR GUI Design Child Attack - Deadbase-Search.au3; CreateAttackSearchDeadBaseSearch()
-			MBR GUI Design Child Attack - Deadbase-Attack.au3; CreateAttackSearchDeadBaseAttack()
-			MBR GUI Design Child Attack - Deadbase-EndBattle.au3; CreateAttackSearchDeadBaseEndBattle()
-			MBR GUI Design Child Attack - Deadbase-Collectors.au3; CreateAttackSearchDeadBaseCollectors()
-		 MBR GUI Design Child Attack - Activebase.au3; CreateAttackSearchActiveBase()
-			MBR GUI Design Child Attack - Activebase Attack Standard.au3; CreateAttackSearchActiveBaseStandard()
-			MBR GUI Design Child Attack - Activebase Attack Scripted.au3; CreateAttackSearchActiveBaseScripted()
-			MBR GUI Design Child Attack - Activebase-Search.au3; CreateAttackSearchActiveBaseSearch()
-			MBR GUI Design Child Attack - Activebase-Attack.au3; CreateAttackSearchActiveBaseAttack()
-			MBR GUI Design Child Attack - Activebase-EndBattle.au3; CreateAttackSearchActiveBaseEndBattle()
-		 MBR GUI Design Child Attack - THSnipe.au3; CreateAttackSearchTHSnipe()
-			MBR GUI Design Child Attack - THSnipe-Search.au3; CreateAttackSearchTHSnipeSearch()
-			MBR GUI Design Child Attack - THSnipe-Attack.au3; CreateAttackSearchTHSnipeAttack()
-			MBR GUI Design Child Attack - THSnipe-EndBattle.au3; CreateAttackSearchTHSnipeEndBattle()
-		 MBR GUI Design Child Attack - Bully.au3; CreateAttackSearchBully()
-		 MBR GUI Design Child Attack - Options.au3; CreateAttackSearchOptions()
-			MBR GUI Design Child Attack - Options-Search.au3; CreateAttackSearchOptionsSearch()
-			MBR GUI Design Child Attack - Options-Attack.au3; CreateAttackSearchOptionsAttack()
-			MBR GUI Design Child Attack - NewSmartZap.au3; CreateAttackNewSmartZap()
-			MBR GUI Design Child Attack - Options-EndBattle.au3;CreateAttackSearchOptionsEndBattle()
-			MBR GUI Design Child Attack - Options-TrophySettings.au3; CreateAttackSearchOptionsTrophySettings()
-	  MBR GUI Design Child Attack - Strategies.au3; CreateAttackStrategies()
-
-   MBR GUI Design Bot.au3; CreateBotTab()
-	  MBR GUI Design Child Bot - Options.au3; CreateBotOptions()
-	  MBR GUI Design Child Bot - Android.au3; CreateBotAndroid()
-	  MBR GUI Design Child Bot - Debug.au3; CreateBotDebug()
-	  MBR GUI Design Child Bot - Profiles.au3; CreateBotProfiles()
-	  MBR GUI Design Child Bot - Stats.au3; CreateBotStats()
-#ce
 #Tidy_On
-
 #include-once
 
 #include "Functions\Other\AppUserModelId.au3"
+#include "Functions\Other\ITaskBarList.au3"
 #include "Functions\GUI\_GUICtrlSetTip.au3"
 #include "functions\GUI\_GUICtrlCreatePic.au3"
 #include "functions\GUI\GUI_State.au3"
@@ -111,6 +57,7 @@ Global $g_hTiShow = 0, $g_hTiHide = 0, $g_hTiDonate = 0, $g_hTiAbout = 0, $g_hTi
 Global $g_aFrmBotPosInit[8] = [0, 0, 0, 0, 0, 0, 0, 0]
 Global $g_hFirstControlToHide = 0, $g_hLastControlToHide = 0, $g_aiControlPrevState[1]
 Global $g_bFrmBotMinimized = False ; prevents bot flickering
+Global $g_hTblStart = 0, $g_hTblStop = 0, $g_hTblPause = 0, $g_hTblResume = 0, $g_hTblMakeScreenshot = 0 ; TaskBarList buttons
 
 Global $g_oCtrlIconData = ObjCreate("Scripting.Dictionary")
 Global $g_oGuiNotInMini = ObjCreate("Scripting.Dictionary")
@@ -150,6 +97,10 @@ Func CreateMainGUI()
 
 	$g_hFrmBot = GUICreate($g_sBotTitle, $_GUI_MAIN_WIDTH, $_GUI_MAIN_HEIGHT + $_GUI_MAIN_TOP, ($g_iFrmBotPosX = $g_WIN_POS_DEFAULT ? -1 : $g_iFrmBotPosX), ($g_iFrmBotPosY = $g_WIN_POS_DEFAULT ? -1 : $g_iFrmBotPosY), _
 			BitOR($WS_MINIMIZEBOX, $WS_POPUP, $WS_SYSMENU, $WS_CLIPCHILDREN, $WS_CLIPSIBLINGS, $iStyle))
+
+	; see https://github.com/Microsoft/Windows-classic-samples/blob/master/Samples/Win7Samples/winui/shell/appshellintegration/TaskbarThumbnailToolbar/ThumbnailToolbar.cpp
+	_WinAPI_ChangeWindowMessageFilterEx($g_hFrmBot, $g_WM_TaskbarButtonCreated, $MSGFLT_ALLOW)
+	_WinAPI_ChangeWindowMessageFilterEx($g_hFrmBot, $WM_COMMAND, $MSGFLT_ALLOW)
 
 	; update $g_iFrmBotPosX and $g_iFrmBotPosY for default position
 	If $g_iFrmBotPosX = $g_WIN_POS_DEFAULT Or $g_iFrmBotPosY = $g_WIN_POS_DEFAULT Then
@@ -425,7 +376,6 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Static $g_hGUI_SEARCH_TAB_ImageList = 0
 	Static $g_hGUI_DEADBASE_TAB_ImageList = 0
 	Static $g_hGUI_ACTIVEBASE_TAB_ImageList = 0
-	Static $g_hGUI_THSNIPE_TAB_ImageList = 0
 	Static $g_hGUI_ATTACKOPTION_TAB_ImageList = 0
 	Static $g_hGUI_STRATEGIES_TAB_ImageList = 0
 	Static $g_hGUI_BOT_TAB_ImageList = 0
@@ -444,7 +394,6 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 	Bind_ImageList($g_hGUI_SEARCH_TAB, $g_hGUI_SEARCH_TAB_ImageList)
 	Bind_ImageList($g_hGUI_DEADBASE_TAB, $g_hGUI_DEADBASE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_ACTIVEBASE_TAB, $g_hGUI_ACTIVEBASE_TAB_ImageList)
-	Bind_ImageList($g_hGUI_THSNIPE_TAB, $g_hGUI_THSNIPE_TAB_ImageList)
 	Bind_ImageList($g_hGUI_ATTACKOPTION_TAB, $g_hGUI_ATTACKOPTION_TAB_ImageList)
 	Bind_ImageList($g_hGUI_STRATEGIES_TAB, $g_hGUI_STRATEGIES_TAB_ImageList)
 
@@ -458,7 +407,6 @@ Func CreateMainGUIControls($bGuiModeUpdate = False)
 
 	; Create log window
 	cmbLog()
-
 
 ;~ -------------------------------------------------------------
 	SetDebugLog("$g_hFrmBot=" & $g_hFrmBot, Default, True)
@@ -485,6 +433,24 @@ Func ShowMainGUI()
 		;Local $lCurExStyle = _WinAPI_GetWindowLong($g_hFrmBot, $GWL_EXSTYLE)
 		;_WinAPI_SetWindowLong($g_hAndroidWindow, $GWL_EXSTYLE, BitOR($lCurExStyle, $WS_EX_TOPMOST))
 		;_WinAPI_SetWindowLong($g_hAndroidWindow, $GWL_EXSTYLE, $lCurExStyle)
+	EndIf
+
+	; create task bar object
+	If IsObj($g_ITBL_oTaskBar) = 0 Then
+		_ITaskBar_CreateTaskBarObj(True, False)
+		If @error Then
+			SetLog("Cannot create Taskbar icons, error: " & @error, $COLOR_ERROR)
+		EndIf
+	EndIf
+
+	; add taskbar buttons
+	If IsObj($g_ITBL_oTaskBar) And $g_hTblStart = 0 Then
+		$g_hTblStart = _ITaskBar_CreateTBButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnStart", "Start Bot"), @ScriptDir & '\images\Icons\TaskBar_start.ico')
+		$g_hTblStop = _ITaskBar_CreateTBButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnStop", "Stop Bot"), @ScriptDir & '\images\Icons\TaskBar_stop.ico', -1, -1, $THBF_DISABLED)
+		$g_hTblPause = _ITaskBar_CreateTBButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnPause", "Pause"), @ScriptDir & '\images\Icons\TaskBar_pause.ico', -1, -1, $THBF_DISABLED)
+		$g_hTblResume = _ITaskBar_CreateTBButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnResume", "Resume"), @ScriptDir & '\images\Icons\TaskBar_resume.ico', -1, -1, $THBF_DISABLED)
+		$g_hTblMakeScreenshot = _ITaskBar_CreateTBButton(GetTranslatedFileIni("MBR GUI Design Bottom", "BtnMakeScreenshot", "Photo"), @ScriptDir & '\images\Icons\TaskBar_photo.ico')
+		_ITaskBar_AddTBButtons($g_hFrmBot)
 	EndIf
 
 	GUISetState(@SW_SHOWNOACTIVATE, $g_hFrmBotButtons)
@@ -533,9 +499,10 @@ Func CheckDpiAwareness($bCheckOnlyIfAlreadyAware = False, $bForceDpiAware = Fals
 		; DPI is different, check if awareness needs to be set
 		$bDpiAware = $bForceDpiAware = True _ ; override to set DPI Awareness regardless of current state
 				Or $g_bChkBackgroundMode = False _ ; in non background mode Desktop screen capture is totally wrong due to the scaling
-				Or ($g_bAndroidAdbScreencap = False And GetProcessDpiAwareness(GetAndroidPid())) ; in normal background mode using WinAPI and Android is DPI Aware, bot must be too or window will be scaled and blury
+				Or GetProcessDpiAwareness(GetAndroidPid()) ; in normal background mode using WinAPI and Android is DPI Aware, bot must be too or window will be scaled and blury
+				; 2019-04-19 cosote: removed "$g_bAndroidAdbScreencap = False And" from line above
 		$bChanged = $bDpiAware And Not $sbDpiAware
-		If $bChanged Then ; only required when not running with screencap
+		If $bChanged Then ; only required when not running with screencap, but even if screencap is running, change it
 			$sbDpiAware = True ; do it only once, assume bot will become DPI aware
 			Local $bWasEmbedded = AndroidEmbedded()
 			If $bWasEmbedded Then AndroidEmbed(False)

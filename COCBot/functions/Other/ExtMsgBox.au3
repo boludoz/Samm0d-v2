@@ -9,7 +9,7 @@
 ; Author(s) .....: Melba23, based on some original code by photonbuddy & YellowLab, and KaFu (default font data)
 ; Link ..........: https://www.autoitscript.com/forum/topic/109096-extended-message-box-bugfix-version-9-aug-16/
 ;
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -288,7 +288,7 @@ Func _ExtMsgBox($vIcon, $vButton, $sTitle, $sText, $iTimeOut = 0, $hWin = $g_hFr
 	Local $iButton_Width_Def = 80, $iButton_Width_Min = 50
 
 	; Declare local variables
-	Local $iParent_Win = 0, $fCountdown = False, $cCheckbox, $aLabel_Size, $aRet, $iRet_Value, $iHpos
+	Local $iParent_Win = 0, $fCountdown = False, $cCheckbox = 0, $aLabel_Size, $aRet, $iRet_Value, $iHpos
 	Local $sButton_Text, $iButton_Width, $iButton_Xpos
 
 	; Validate timeout value
@@ -698,7 +698,7 @@ Func _ExtMsgBox($vIcon, $vButton, $sTitle, $sText, $iTimeOut = 0, $hWin = $g_hFr
 	; Reset original mode
 	Opt('GUIOnEventMode', $iOrgMode)
 
-	If GUICtrlRead($cCheckbox) = 1 Then
+	If $cCheckbox And GUICtrlRead($cCheckbox) = 1 Then
 		; Negate the return value
 		$iRet_Value *= -1
 	EndIf

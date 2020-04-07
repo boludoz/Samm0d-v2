@@ -1,4 +1,3 @@
-
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: StarBonus
 ; Description ...: Checks for Star bonus window, and clicks ok to close window.
@@ -6,7 +5,7 @@
 ; Parameters ....:
 ; Return values .: MonkeyHunter(2016-1)
 ; Modified ......: MonkeyHunter (05-2017)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -17,7 +16,7 @@ Func StarBonus()
 	If $g_bDebugSetlog Then SetDebugLog("Begin Star Bonus window check", $COLOR_DEBUG1)
 
 	; Verify is Star bonus window open?
-	If _CheckPixel($aIsMainGrayed, $g_bCapturePixel, Default, "IsMainGrayed") = False Then Return ; Star bonus window opens on main base view, and grays page.
+	If Not _CheckPixel($aIsMainGrayed, $g_bCapturePixel, Default, "IsMainGrayed") Then Return ; Star bonus window opens on main base view, and grays page.
 
 	Local $aWindowChk1[4] = [640, 184 + $g_iMidOffsetY, 0xCD1A1F, 15] ; Red X to close Window
 	Local $aWindowChk2[4] = [650, 462 + $g_iBottomOffsetY, 0xE8E8E0, 10] ; White pixel on top trees where it does not belong

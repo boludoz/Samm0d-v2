@@ -6,7 +6,7 @@
 ; Return values .: True/False
 ; Author ........: Boju (01-2017)
 ; Modified ......:
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -23,10 +23,6 @@ Func CheckNeedOpenTrain($TimeBeforeTrain)
 	If $g_abSearchCampsEnable[$LB] Then
 		If $g_aiSearchCampsPct[$LB] < $QuickArmyCamps Then $QuickArmyCamps = $g_aiSearchCampsPct[$LB]
 		If $g_aiSearchCampsPct[$LB] - Int($g_CurrentCampUtilization / $g_iTotalCampSpace * 100) < $QuickArmyCamps Then $QuickArmyCamps = $g_aiSearchCampsPct[$LB] - Int($g_CurrentCampUtilization / $g_iTotalCampSpace * 100)
-	EndIf
-	If $g_abSearchCampsEnable[$TS] Then
-		If $g_aiSearchCampsPct[$TS] < $QuickArmyCamps Then $QuickArmyCamps = $g_aiSearchCampsPct[$TS]
-		If $g_aiSearchCampsPct[$TS] - Int($g_CurrentCampUtilization / $g_iTotalCampSpace * 100) < $QuickArmyCamps Then $QuickArmyCamps = $g_aiSearchCampsPct[$TS] - Int($g_CurrentCampUtilization / $g_iTotalCampSpace * 100)
 	EndIf
 
 	If $g_aiTimeTrain[0] = 0 Then $bToReturn = True

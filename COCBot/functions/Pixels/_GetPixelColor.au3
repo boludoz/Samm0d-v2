@@ -1,4 +1,3 @@
-
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _GetPixelColor
 ; Description ...: Returns color of pixel in the coordinations
@@ -12,7 +11,7 @@
 ; Return values .: None
 ; Author ........:
 ; Modified ......: MonkeyHunter (08-2015)
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
@@ -33,10 +32,3 @@ Func _GetPixelColor($iX, $iY, $bNeedCapture = False, $sLogText = Default, $LogTe
 	EndIf
 	Return Hex($aPixelColor, 6)
 EndFunc   ;==>_GetPixelColor
-
-Func IsPixelColorGray($sPixelColorRgbHex)
-	If StringLen($sPixelColorRgbHex) <> 6 Then Return False
-	Local $sRed = StringLeft($sPixelColorRgbHex, 2)
-	Local $sBlue = StringRight($sPixelColorRgbHex, 2)
-	Return $sRed = $sBlue And $sRed = StringMid($sPixelColorRgbHex, 3, 2)
-EndFunc   ;==>IsPixelColorGray

@@ -41,7 +41,7 @@ Func LocateClanCastle()
 			Local $aPos = FindPos()
 			$g_aiClanCastlePos[0] = $aPos[0]
 			$g_aiClanCastlePos[1] = $aPos[1]
-			If isInsideDiamond($g_aiClanCastlePos) = False Then
+			If Not isInsideDiamond($g_aiClanCastlePos) Then
 				$iStupid += 1
 				Select
 					Case $iStupid = 1
@@ -103,7 +103,7 @@ Func LocateClanCastle()
 				EndSelect
 			EndIf
 			If $sInfo[2] = "Broken" Then
-				SetLog("You did not rebuild your Clan Castle yet.", $COLOR_ACTION)
+				SetLog("You did not rebuild your Clan Castle yet", $COLOR_ACTION)
 			Else
 				SetLog("Your Clan Castle is at level: " & $sInfo[2], $COLOR_SUCCESS)
 			EndIf
@@ -118,5 +118,4 @@ Func LocateClanCastle()
 	WEnd
 
 	ClickP($aAway, 1, 200, "#0327")
-
 EndFunc   ;==>LocateClanCastle
