@@ -239,6 +239,8 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			EndIf
 		WEnd
 		_CaptureRegion2()
+		Local $aIsTroopOut = ArrayCheckAvailableUnit()
+		_debugSaveHBitmapToImage($g_hHBitmap2, "tests")
 		$g_hHBitmapArmyTab = GetHHBitmapArea($g_hHBitmap2)
 		;--------------------------------------------------
 
@@ -263,6 +265,8 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 					ExitLoop
 				EndIf
 			WEnd
+
+
 			_CaptureRegion2()
 			$g_hHBitmapBrewTab = GetHHBitmapArea($g_hHBitmap2)
 			$g_hHBitmapBrewCap = GetHHBitmapArea($g_hHBitmapBrewTab,$g_aiBrewCap[0],$g_aiBrewCap[1],$g_aiBrewCap[2],$g_aiBrewCap[3])
@@ -316,8 +320,8 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			$bSpellCheckOK = True
 		EndIf
 
-
 		$g_hHBitmapArmyCap = GetHHBitmapArea($g_hHBitmapArmyTab,$g_aiArmyCap[0],$g_aiArmyCap[1],$g_aiArmyCap[2],$g_aiArmyCap[3])
+
 		getMyArmyCapacityMini($g_hHBitmapArmyCap)
 		If $bDisableTrain = False Then
 			;====Reset the variable======
@@ -353,7 +357,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 					ContinueLoop
 				EndIf
 			Else
-				If CheckAvailableUnit($g_hHBitmapArmyTab) Then
+				If CheckAvailableUnit($g_hHBitmapArmyTab, $aIsTroopOut) Then
 					If CheckOnTrainUnit($g_hHBitmapTrainTab) Then
 						Local $bPreTrainFlag = $bForcePreTrain
 						If $ichkForcePreTrainTroops Then

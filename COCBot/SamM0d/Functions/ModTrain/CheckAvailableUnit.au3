@@ -15,10 +15,26 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func CheckAvailableUnit($hHBitmap)
+Func ArrayCheckAvailableUnit()
+	Local $bSearchGray
+	Local $aReturn[0]
+	For $i = 0 To 6
+		Local $aSlot[4]
+		$aSlot[0] = Int(28 + ($g_iArmy_Av_Troop_Slot_Width * $i))
+		$aSlot[1] = 200
+		$aSlot[2] = Int(35 + ($g_iArmy_Av_Troop_Slot_Width * $i))
+		$aSlot[3] = 210
+		
+		$bSearchGray = (findMultipleQuick($g_sSamM0dImageLocation & "\Troops\IsTrainOrEmpty\", 1, $aSlot, "Is", False, True) = -1)
+		_ArrayAdd($aReturn, $bSearchGray)
+	Next
+	Return $aReturn
+EndFunc
+
+Func CheckAvailableUnit($hHBitmap, $aIsTroopOut)
 	If $g_iSamM0dDebug = 1 Then SetLog("============Start CheckAvailableUnit ============")
 	SetLog("Start check available unit...", $COLOR_INFO)
-
+	
 	; reset variable
 	For $i = 0 To UBound($MyTroops) - 1
 		Assign("cur" & $MyTroops[$i][0], 0)
@@ -46,15 +62,17 @@ Func CheckAvailableUnit($hHBitmap)
 	Local $iTroopIndex = -1
 	Local $sTroopName = ""
 	Local $bDeletedExcess = False
-
+	
 	For $i = 0 To 6
-		If _ColorCheck(_GetPixelColor(Int(30 + ($g_iArmy_Av_Troop_Slot_Width * $i)),205,False), Hex(0X4689C8, 6), 20) Then
-		;If Not _ColorCheck(_GetPixelColor(Int(30 + ($g_iArmy_Av_Troop_Slot_Width * $i)),205,False), Hex(0XCDCCC6, 6), 20) Then
+		If $aIsTroopOut[$i] Then; If $aIsTroopOut[$i] Then
 			Local $iPixelDivider = ($g_iArmy_RegionSizeForScan - ($g_aiArmyAvailableSlot[3] - $g_aiArmyAvailableSlot[1])) / 2
 			Assign("g_hHBitmap_Av_Slot" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyAvailableSlot[0] + ($g_iArmy_Av_Troop_Slot_Width* $i) + (($g_iArmy_Av_Troop_Slot_Width - $g_iArmy_RegionSizeForScan) / 2)), $g_aiArmyAvailableSlot[1] - $iPixelDivider, Int($g_aiArmyAvailableSlot[0] + ($g_iArmy_Av_Troop_Slot_Width* $i) + (($g_iArmy_Av_Troop_Slot_Width- $g_iArmy_RegionSizeForScan) / 2) + $g_iArmy_RegionSizeForScan), $g_aiArmyAvailableSlot[3] + $iPixelDivider))
 			Assign("g_hHBitmap_Capture_Av_Slot" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyAvailableSlot[0] + ($g_iArmy_Av_Troop_Slot_Width* $i) + (($g_iArmy_Av_Troop_Slot_Width - $g_iArmy_ImageSizeForScan) / 2)), $g_aiArmyAvailableSlot[1], Int($g_aiArmyAvailableSlot[0] + ($g_iArmy_Av_Troop_Slot_Width* $i) + (($g_iArmy_Av_Troop_Slot_Width- $g_iArmy_ImageSizeForScan) / 2) + $g_iArmy_ImageSizeForScan), $g_aiArmyAvailableSlot[3]))
 
 			Local $result = findMultiImage(Eval("g_hHBitmap_Av_Slot" & $i + 1), $sDirectory ,"FV" ,"FV", 0, 1000, 1 , $returnProps)
+			For $iue = 0 To UBound($result) - 1
+			LOCAL $AAA = $result[$iue]
+			Next
 			Local $bExitLoopFlag = False
 			Local $bContinueNextLoop = False
 

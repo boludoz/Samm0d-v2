@@ -94,7 +94,7 @@ EndFunc   ;==>AreCollectorsOutside
 	; Example .......: None
 #ce ===============================================================================================================================
 
-Func isOutsideEllipse($coordX, $coordY, $ellipseWidth = 200, $ellipseHeigth = 150, $centerX = $centerX, $centerY = $centerY)
+Func isOutsideEllipse($coordX, $coordY, $ellipseWidth = 200, $ellipseHeigth = 150, $centerX = 430, $centerY = 335)
 
 	Global $normalizedX = $coordX - $centerX
 	Global $normalizedY = $coordY - $centerY
