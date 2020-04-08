@@ -31,8 +31,7 @@ Global Const $g_sImgOutOfSync = @ScriptDir & "\imgxml\other\Oos[[Android]]*"
 
 #Region Main Village
 Global $g_sImgCollectRessources = @ScriptDir & "\imgxml\Resources\Collect"
-Global $g_sImgCollectLootCart = @ScriptDir & "\imgxml\Resources\LootCart\LootCart_0_85.xml"
-;Global $g_sImgRearm = @ScriptDir & "\imgxml\rearm"
+Global $g_sImgCollectLootCart = @ScriptDir & "\imgxml\Resources\CollectLootCart*"
 Global $g_sImgBoat = @ScriptDir & "\imgxml\Boat\BoatNormalVillage_0_89.xml"
 Global $g_sImgZoomOutDir = @ScriptDir & "\imgxml\village\NormalVillage\"
 Global $g_sImgCheckWallDir = @ScriptDir & "\imgxml\Walls"
@@ -105,15 +104,16 @@ Global $g_sImgAutoUpgradeNewBldgNo = @ScriptDir & "\imgxml\Resources\BuildersBas
 Global $g_sImgTrainTroops = @ScriptDir & "\imgxml\Train\Train_Train\"
 Global $g_sImgTrainSpells = @ScriptDir & "\imgxml\Train\Spell_Train\"
 Global $g_sImgArmyOverviewSpells = @ScriptDir & "\imgxml\ArmyOverview\Spells" ; @ScriptDir & "\imgxml\ArmySpells"
+Global $g_sImgRequestCCButton = @ScriptDir & "\imgxml\ArmyOverview\RequestCC"
+Global $g_sImgArmyOverviewHeroes = @ScriptDir & "\imgxml\ArmyOverview\Heroes"
+Global $g_sImgQuickTrain = @ScriptDir & "\imgxml\Train\Quick_Train\"
+Global $g_sImgEditQuickTrain = @ScriptDir & "\imgxml\Train\EditQuickTrain\"
 #EndRegion
 
 #Region Attack
 Global $g_sImgAttackBarDir = @ScriptDir & "\imgxml\AttackBar"
-Global $g_sImgSwitchSiegeMachine = @ScriptDir & "\imgxml\SwitchSiegeMachines\Siege"
-Global $g_sImgSwitchSiegeCastle = @ScriptDir & "\imgxml\SwitchSiegeMachines\Castle"
-Global $g_sImgSwitchSiegeWallWrecker = @ScriptDir & "\imgxml\SwitchSiegeMachines\WallWrecker"
-Global $g_sImgSwitchSiegeBattleBlimp = @ScriptDir & "\imgxml\SwitchSiegeMachines\BattleBlimp"
-Global $g_sImgSwitchSiegeStoneSlammer = @ScriptDir & "\imgxml\SwitchSiegeMachines\StoneSlammer"
+Global $g_sImgSwitchSiegeMachine = @ScriptDir & "\imgxml\SwitchSiegeMachines\"
+Global $g_sImgSwitchWardenMode = @ScriptDir & "\imgxml\SwitchWardenMode"
 Global $g_sImgIsMultiplayerTab = @ScriptDir & "\imgxml\Attack\Search\MultiplayerTab*"
 #EndRegion
 
@@ -138,9 +138,15 @@ Global $g_sImgRetrySearchButton = @ScriptDir & "\imgxml\Resources\Clouds\RetryBu
 #EndRegion
 
 #Region SwitchAcc
+Global Const $g_sImgGoogleButtonState = @ScriptDir & "\imgxml\SwitchAccounts\GooglePlay\Button State\"
 Global Const $g_sImgLoginWithSupercellID = @ScriptDir & "\imgxml\other\LoginWithSupercellID*"
 Global Const $g_sImgGoogleSelectAccount = @ScriptDir & "\imgxml\other\GoogleSelectAccount*"
 Global Const $g_sImgGoogleSelectEmail = @ScriptDir & "\imgxml\other\GoogleSelectEmail*"
+Global Const $g_sImgGoogleAccounts = @ScriptDir & "\imgxml\SwitchAccounts\GooglePlay\GooglePlay*"
+Global Const $g_sImgSupercellIDConnected = @ScriptDir & "\imgxml\SwitchAccounts\SupercellID\Connected\SCIDConnected*"
+Global Const $g_sImgSupercellIDReload = @ScriptDir & "\imgxml\SwitchAccounts\SupercellID\Reload\SCIDReload*"
+Global Const $g_sImgSupercellIDWindows = @ScriptDir & "\imgxml\SwitchAccounts\SupercellID\SCIDWindows*"
+Global Const $g_sImgSupercellIDSlots = @ScriptDir & "\imgxml\SwitchAccounts\SupercellID\Slots\SCIDSlot*"
 #EndRegion
 
 #Region ClanGames

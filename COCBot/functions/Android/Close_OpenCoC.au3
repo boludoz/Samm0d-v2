@@ -30,6 +30,7 @@ Func CloseCoC($ReOpenCoC = False, $bCheckRunState = True)
 	;SendAdbCommand("shell am force-stop " & $g_sAndroidGamePackage)
 	;AndroidHomeButton()
     AndroidAdbSendShellCommand("am force-stop " & $g_sAndroidGamePackage, Default, Default, False)
+	If _Sleep($DELAYCLOSEOPEN3000) and $bCheckRunState Then Return
 
     ; samm0d - check game client close
     Local $j = 0
@@ -40,7 +41,7 @@ Func CloseCoC($ReOpenCoC = False, $bCheckRunState = True)
             AndroidAdbSendShellCommand("am force-stop " & $g_sAndroidGamePackage, Default, Default, False)
         EndIf
         If $j > 30 Then ExitLoop
-        _Sleep(200)
+        If _Sleep(200) and $bCheckRunState Then Return
     WEnd
     If $j > 30 Then SetLog("Failed to close game client.", $COLOR_ERROR)
 

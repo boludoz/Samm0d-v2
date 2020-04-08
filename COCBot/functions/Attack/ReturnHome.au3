@@ -40,7 +40,7 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
             EndIf
 
 			;If Heroes were not activated: Hero Ability activation before End of Battle to restore health
-			If ($g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckWardenPower) Then
+			If ($g_bCheckKingPower Or $g_bCheckQueenPower Or $g_bCheckWardenPower Or $g_bCheckChampionPower) Then
 				;_CaptureRegion()
 				If _ColorCheck(_GetPixelColor($aRtnHomeCheck1[0], $aRtnHomeCheck1[1], True), Hex($aRtnHomeCheck1[2], 6), $aRtnHomeCheck1[3]) = False And _ColorCheck(_GetPixelColor($aRtnHomeCheck2[0], $aRtnHomeCheck2[1], True), Hex($aRtnHomeCheck2[2], 6), $aRtnHomeCheck2[3]) = False Then ; If not already at Return Homescreen
 					If $g_bCheckKingPower Then
@@ -99,13 +99,14 @@ Func ReturnHome($TakeSS = 1, $GoldChangeCheck = True) ;Return main screen
         If ReturnHomeMainPage() Then Return
         If IsAttackPage() Then
 			If $g_bDebugSetlog Then SetDebugLog("Wait for surrender button to appear #" & $i)
-            If _Wait4Pixel($aSurrenderButton[0], $aSurrenderButton[1], $aSurrenderButton[2], $aSurrenderButton[3], 3000) = False Then
-                ;SetLog("surrender or end battle button not found.")
+			$aiSurrenderButton = findButton("EndBattle", Default, 1, True)
+			If not IsArray($aiSurrenderButton) And not UBound($aiSurrenderButton, 1) = 2 Then
+				SetDebugLog("Cannot Find Surrender Button", $COLOR_ERROR)
                 Return
 			EndIf
-            ClickP($aSurrenderButton, 1, 0, "#0099") ;Click Surrender
+            ClickP($aiSurrenderButton, 1, 0, "#0099") ;Click Surrender
             If _Wait4Pixel(470, 410, 0xE0F78B, 40, 3000) = False Then
-                ;SetLog("Okay button not found.")
+				SetDebugLog("Cannot Find Surrender Button", $COLOR_ERROR)
                 Return
             EndIf
             Click(Random(487,543,1),Random(415,445,1), 1, 0, "#SurrenderOkay") ;Click Surrender

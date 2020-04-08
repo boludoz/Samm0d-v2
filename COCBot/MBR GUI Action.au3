@@ -89,7 +89,12 @@ Func BotStart($bAutostartDelay = 0)
     GUICtrlSetState($g_hBtnSearchMode, $GUI_HIDE)
     GUICtrlSetState($g_hChkBackgroundMode, $GUI_DISABLE)
 
-    SetRedrawBotWindow(True, Default, Default, Default, "BotStart")
+ 	SetRedrawBotWindow(True, Default, Default, Default, "BotStart")
+ 
+	If Not ForumAuthentication() Then
+		btnStop()
+		Return FuncReturn()
+	EndIf
 
 	If $bAutostartDelay Then
 		SetLog("Bot Auto Starting in " & Round($bAutostartDelay / 1000, 0) & " seconds", $COLOR_ERROR)
@@ -204,7 +209,13 @@ Func BotStop()
 	;GUICtrlSetState($g_hLblVersion, $GUI_SHOW)
 	$g_bBtnAttackNowPressed = False
 
-	; update try items
+	; update task bar buttons
+	_ITaskBar_UpdateTBButton($g_hTblStop, $THBF_ENABLED)
+	_ITaskBar_UpdateTBButton($g_hTblStart, $THBF_DISABLED)
+	_ITaskBar_UpdateTBButton($g_hTblPause, $THBF_ENABLED)
+	_ITaskBar_UpdateTBButton($g_hTblResume, $THBF_DISABLED)
+
+ 	; update try items
 	TrayItemSetText($g_hTiStartStop, GetTranslatedFileIni("MBR GUI Design - Loading", "StatusBar_Item_Start", "Start bot"))
     TrayItemSetState($g_hTiPause, $TRAY_DISABLE)
 

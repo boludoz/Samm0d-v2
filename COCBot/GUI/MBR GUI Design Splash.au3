@@ -28,18 +28,19 @@ Global $g_hSplashMutex = 0
 Func CreateSplashScreen($iSteps = Default)
 
 	Local $iGuiState = @SW_SHOWNOACTIVATE
-	Local $bDisableSplash = $g_bDisableSplash
+ 	Local $bDisableSplash = $g_bDisableSplash
+	Local $bCustomWindow = IsString($iSteps)
 
 	If $iSteps = Default Then
-		; samm0d
 		$g_iSplashTotalSteps = 18
 	Else
 		$iGuiState = @SW_SHOW
 		$bDisableSplash = False
-		$g_iSplashTotalSteps = $iSteps
-		$g_iSplashCurrentStep = 0
-		$g_hSplashTimer = 0
-	EndIf
+		If Not $bCustomWindow Then
+			$g_iSplashTotalSteps = $iSteps
+			$g_iSplashCurrentStep = 0
+			$g_hSplashTimer = 0
+		EndIf
 
 	Local $sSplashImg = $g_sLogoPath
 	Local $hImage, $iX, $iY

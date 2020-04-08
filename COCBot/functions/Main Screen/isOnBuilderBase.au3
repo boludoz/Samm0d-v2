@@ -12,12 +12,10 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Global $g_sImgIsOnBB = @ScriptDir & "\imgxml\village\Page\BuilderBase\"
-
-Func isOnBuilderBase($bNeedCaptureRegion = True)
+Func isOnBuilderBase($bNeedCaptureRegion = False)
 	If _Sleep($DELAYISBUILDERBASE) Then Return
 	Local $asSearchResult = findMultiple($g_sImgIsOnBB, GetDiamondFromRect("260,0,406,54"), GetDiamondFromRect("260,0,406,54"), 0, 1000, 1, "objectname", $bNeedCaptureRegion)
-
+	
 	If IsArray($asSearchResult) And UBound($asSearchResult) > 0 Then
 		SetDebugLog("Builder Base Builder detected", $COLOR_DEBUG)
 		Return True
@@ -25,3 +23,4 @@ Func isOnBuilderBase($bNeedCaptureRegion = True)
 		Return False
 	EndIf
 EndFunc
+

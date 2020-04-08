@@ -297,11 +297,17 @@ Func ApplyConfig_600_6($TypeReadSave)
 	Switch $TypeReadSave
 		Case "Read"
 			GUICtrlSetState($g_hChkBotStop, $g_bChkBotStop ? $GUI_CHECKED : $GUI_UNCHECKED)
-			chkBotStop()
 			_GUICtrlComboBox_SetCurSel($g_hCmbBotCommand, $g_iCmbBotCommand)
 			_GUICtrlComboBox_SetCurSel($g_hCmbBotCond, $g_iCmbBotCond)
 			_GUICtrlComboBox_SetCurSel($g_hCmbHoursStop, $g_iCmbHoursStop)
-			cmbBotCond()
+			For $i = 0 To $eLootCount - 1
+				GUICtrlSetData($g_ahTxtResumeAttackLoot[$i], $g_aiResumeAttackLoot[$i])
+			Next
+			GUICtrlSetState($g_hChkCollectStarBonus, $g_bCollectStarBonus ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($g_hCmbTimeStop, $g_iCmbTimeStop)
+			_GUICtrlComboBox_SetCurSel($g_hCmbResumeTime, $g_iResumeAttackTime)
+			chkBotStop()
+
 			GUICtrlSetData($g_hTxtRestartGold, $g_iTxtRestartGold)
 			GUICtrlSetData($g_hTxtRestartElixir, $g_iTxtRestartElixir)
 			GUICtrlSetData($g_hTxtRestartDark, $g_iTxtRestartDark)
@@ -360,15 +366,46 @@ Func ApplyConfig_600_6($TypeReadSave)
 			chkActivateClangames()
 			chkPurgeLimits()
 
+			; Builder Base Attack
+			GUICtrlSetState($g_hChkEnableBBAttack, $g_bChkEnableBBAttack ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkBBTrophyRange, $g_bChkBBTrophyRange ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($g_hTxtBBTrophyLowerLimit, $g_iTxtBBTrophyLowerLimit)
+			GUICtrlSetData($g_hTxtBBTrophyUpperLimit, $g_iTxtBBTrophyUpperLimit)
+			GUICtrlSetState($g_hChkBBAttIfLootAvail, $g_bChkBBAttIfLootAvail ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($g_hChkBBWaitForMachine, $g_bChkBBWaitForMachine ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($g_hCmbBBNextTroopDelay, (($g_iBBNextTroopDelay - $g_iBBNextTroopDelayDefault) / $g_iBBNextTroopDelayIncrement) + 4) ; set combos based on delays
+			_GUICtrlComboBox_SetCurSel($g_hCmbBBSameTroopDelay, (($g_iBBSameTroopDelay - $g_iBBSameTroopDelayDefault) / $g_iBBSameTroopDelayIncrement) + 4)
+			chkBBTrophyRange()
+			chkEnableBBAttack()
+
+			; Builder Base Drop Order
+			If $g_bBBDropOrderSet Then
+				GUICtrlSetState($g_hChkBBCustomDropOrderEnable, $GUI_CHECKED)
+				GUICtrlSetState($g_hBtnBBDropOrderSet, $GUI_ENABLE)
+				GUICtrlSetState($g_hBtnBBRemoveDropOrder, $GUI_ENABLE)
+				Local $asBBDropOrder = StringSplit($g_sBBDropOrder, "|")
+				For $i=0 To $g_iBBTroopCount - 1
+					_GUICtrlComboBox_SetCurSel($g_ahCmbBBDropOrder[$i], _GUICtrlComboBox_SelectString($g_ahCmbBBDropOrder[$i], $asBBDropOrder[$i+1]))
+				Next
+				GUICtrlSetBkColor($g_hBtnBBDropOrder, $COLOR_GREEN)
+			EndIf
+
 		Case "Save"
 			$g_bChkBotStop = (GUICtrlRead($g_hChkBotStop) = $GUI_CHECKED)
 			$g_iCmbBotCommand = _GUICtrlComboBox_GetCurSel($g_hCmbBotCommand)
 			$g_iCmbBotCond = _GUICtrlComboBox_GetCurSel($g_hCmbBotCond)
 			$g_iCmbHoursStop = _GUICtrlComboBox_GetCurSel($g_hCmbHoursStop)
-			$g_iTxtRestartGold = GUICtrlRead($g_hTxtRestartGold)
-			$g_iTxtRestartElixir = GUICtrlRead($g_hTxtRestartElixir)
-			$g_iTxtRestartDark = GUICtrlRead($g_hTxtRestartDark)
-			$g_bChkCollect = (GUICtrlRead($g_hChkCollect) = $GUI_CHECKED)
+			For $i = 0 To $eLootCount - 1
+				$g_aiResumeAttackLoot[$i] = GUICtrlRead($g_ahTxtResumeAttackLoot[$i])
+			Next
+			$g_bCollectStarBonus = (GUICtrlRead($g_hChkCollectStarBonus) = $GUI_CHECKED)
+			$g_iCmbTimeStop = _GUICtrlComboBox_GetCurSel($g_hCmbTimeStop)
+			$g_iResumeAttackTime = _GUICtrlComboBox_GetCurSel($g_hCmbResumeTime)
+
+ 			$g_iTxtRestartGold = GUICtrlRead($g_hTxtRestartGold)
+ 			$g_iTxtRestartElixir = GUICtrlRead($g_hTxtRestartElixir)
+ 			$g_iTxtRestartDark = GUICtrlRead($g_hTxtRestartDark)
+ 			$g_bChkCollect = (GUICtrlRead($g_hChkCollect) = $GUI_CHECKED)
 			$g_bChkCollectCartFirst = (GUICtrlRead($g_hChkCollectCartFirst) = $GUI_CHECKED)
 			$g_iTxtCollectGold = GUICtrlRead($g_hTxtCollectGold)
 			$g_iTxtCollectElixir = GUICtrlRead($g_hTxtCollectElixir)

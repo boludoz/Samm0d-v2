@@ -2000,6 +2000,7 @@ EndFunc
 
 
 Func tabDeadbase()
+	If $g_iGuiMode <> 1 Then Return
 	Local $tabidx = GUICtrlRead($g_hGUI_DEADBASE_TAB)
 	Select
 		;			Case $tabidx = 0 ; Search tab
@@ -2053,9 +2054,9 @@ Func Bind_ImageList($nCtrl, ByRef $hImageList)
 	Switch $nCtrl
 		Case $g_hTabMain
 			; the icons for main tab
-            ; Local $aIconIndex = [$eIcnHourGlass, $eIcnTH12, $eIcnAttack, $eIcnGUI, $eIcnInfo]
+            ; Local $aIconIndex = [$eIcnHourGlass, $eIcnTH13, $eIcnAttack, $eIcnGUI, $eIcnInfo]
             ; samm0d
-            Local $aIconIndex = [$eIcnHourGlass, $eIcnTH11, $eIcnAttack, $eIcnGUI, $eIcnPekka, $eIcnInfo]
+            Local $aIconIndex = [$eIcnHourGlass, $eIcnTH13, $eIcnAttack, $eIcnGUI, $eIcnPekka, $eIcnInfo]
 
 		Case $g_hGUI_VILLAGE_TAB
 			; the icons for village tab

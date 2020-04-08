@@ -239,14 +239,18 @@ Func GetButtonDiamond($sButtonName)
 	Local $btnDiamond = "FV"
 
 	Switch $sButtonName
-		Case "CloseFindMatch" ;Find Match Screen
-			$btnDiamond = "780,15|830,15|830,60|780,60"
-		Case "CloseFindMatch" ;Find Match Screen
-			$btnDiamond = "780,15|830,15|830,60|780,60"
+ 		Case "CloseFindMatch" ;Find Match Screen
+ 			$btnDiamond = "780,15|830,15|830,60|780,60"
 		Case "AttackButton" ;Main Window Screen
 			$btnDiamond = GetDiamondFromRect("0,600,160,720")
-		Case "OpenTrainWindow" ;Main Window Screen
-			$btnDiamond = "15,560|65,560|65,610|15,610"
+		Case "AttackButton" ;Main Window Screen
+			$btnDiamond = GetDiamondFromRect("0,600,160,720")
+ 		Case "OpenTrainWindow" ;Main Window Screen
+ 			$btnDiamond = "15,560|65,560|65,610|15,610"
+		Case "TrashEvent"
+			$btnDiamond = GetDiamondFromRect("100,200,840,540")
+		Case "EventFailed"
+			$btnDiamond = GetDiamondFromRect("230,130,777,560")
 		Case "TrashEvent"
 			$btnDiamond = GetDiamondFromRect("100,200,840,540")
 		Case "EventFailed"
@@ -267,10 +271,8 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = GetDiamondFromRect("359,392(148,66)")
 		Case "EndBattleSurrender" ;surrender - attackwindow
 			$btnDiamond = "12,577|125,577|125,615|12,615"
-		Case "ExpandChat" ;mainwindow
+		Case "ClanChat"
 			$btnDiamond = GetDiamondFromRect("0,300,400,450")
-		Case "CollapseChat" ;mainwindow
-			$btnDiamond = "315,334|350,350|350,410|315,430"
 		Case "ChatOpenRequestPage" ;mainwindow - chat open
 			$btnDiamond = "5,688|65,688|65,615|5,725"
 		Case "Profile" ;mainwindow - only visible if chat closed
@@ -283,8 +285,6 @@ Func GetButtonDiamond($sButtonName)
 			$btnDiamond = "282,85|306,85|306,130|282,130"
 		Case "DownDonation" ;mainwindow - only when chat window is visible
 			$btnDiamond = "282,635|306,635|306,680|282,680"
-		Case "Treasury"
-			$btnDiamond = "125,610|740,610|740,715|125,715"
 		Case "Collect"
 			$btnDiamond = "350,450|505,450|505,521|350,521"
 		Case "BoostBarrack", "BarrackBoosted"
@@ -486,7 +486,7 @@ Func findMultiple($directory, $sCocDiamond, $redLines, $minLevel = 0, $maxLevel 
 
 	If $result[0] <> "" Then ;despite being a string, AutoIt receives a array[0]
 		Local $resultArr = StringSplit($result[0], "|", $STR_NOCOUNT)
-		ReDim $returnValues[UBound($resultArr)]
+ 		ReDim $returnValues[UBound($resultArr)]
 		Local $iErr = 0
 		For $rs = 0 To UBound($resultArr) - 1
 			For $rD = 0 To UBound($returnData) - 1 ; cycle props
@@ -505,13 +505,35 @@ Func findMultiple($directory, $sCocDiamond, $redLines, $minLevel = 0, $maxLevel 
 			$returnValues[$rs - $iErr] = $returnLine
 		Next
 		If $iErr Then ReDim $returnValues[UBound($resultArr) - $iErr]
-
-		;;lets check if we should get redlinedata
-		If $redLines = "" Then
+ 
+ 		;;lets check if we should get redlinedata
+ 		If $redLines = "" Then
++Func GetDiamondFromArray($aRectArray)
++	;Recieves $aArray[0] = StartX
++	;		  $aArray[1] = StartY
++	;		  $aArray[2] = EndX
++	;		  $aArray[3] = EndY
++
++	If UBound($aRectArray, 1) < 4 Then
++		SetDebugLog("GetDiamondFromArray: Bad Input Array!", $COLOR_ERROR)
++		Return ""
++	EndIf
++	Local $iX = Number($aRectArray[0]), $iY = Number($aRectArray[1])
++	Local $iEndX = Number($aRectArray[2]), $iEndY = Number($aRectArray[3])
++
++	;If User inputed Width and Height then add start point to get the final End Coordinates
++	If $iEndY <= $iY Then $iEndY += $iY
++	If $iEndX <= $iX Then $iEndX += $iX
++
++	Local $sReturnDiamond = ""
++	$sReturnDiamond = $iX & "," & $iY & "|" & $iEndX & "," & $iY & "|" & $iEndX & "," & $iEndY & "|" & $iX & "," & $iEndY
++	Return $sReturnDiamond
++EndFunc   ;==>GetDiamondFromArray
++
 			$g_sImglocRedline = RetrieveImglocProperty("redline", "") ;global var set in imgltocTHSearch
 			If $g_bDebugSetlog Then SetDebugLog("findMultiple : Redline argument is emty, setting global Redlines")
-		EndIf
-		If $g_bDebugSetlog Then SetDebugLog("******** findMultiple *** END ***", $COLOR_ORANGE)
+ 		EndIf
+ 		If $g_bDebugSetlog Then SetDebugLog("******** findMultiple *** END ***", $COLOR_ORANGE)
 		Return $returnValues
 
 	Else

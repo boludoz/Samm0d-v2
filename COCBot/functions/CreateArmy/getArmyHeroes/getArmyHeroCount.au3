@@ -182,19 +182,17 @@ Func getArmyHeroCount($bOpenArmyWindow = False, $bCloseArmyWindow = False, $Chec
 EndFunc   ;==>getArmyHeroCount
 
 Func ArmyHeroStatus($i)
-	Local $sImageDir = "trainwindow-HeroStatus-bundle", $sResult = ""
-	Local Const $aHeroesRect[3][4] = [[545, 340, 670, 400], [620, 340, 690, 400], [700, 340, 760, 400]]
+	Local $sResult = ""
+	Local Const $aHeroesRect[$eHeroCount][4] = [[566, 340, 616, 380], [666, 340, 691, 370], [741, 340, 766, 370], [815, 340, 840, 380]] ; Review
 
 	; Perform the search
 	_CaptureRegion2($aHeroesRect[$i][0], $aHeroesRect[$i][1], $aHeroesRect[$i][2], $aHeroesRect[$i][3])
-	Local $res = DllCallMyBot("SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $sImageDir, "str", "FV", "Int", 0, "str", "FV", "Int", 0, "Int", 1000)
+	Local $res = DllCallMyBot("SearchMultipleTilesBetweenLevels", "handle", $g_hHBitmap2, "str", $g_sImgArmyOverviewHeroes, "str", "FV", "Int", 0, "str", "FV", "Int", 0, "Int", 1000)
 	If $res[0] <> "" Then
 		Local $aKeys = StringSplit($res[0], "|", $STR_NOCOUNT)
 		If StringInStr($aKeys[0], "xml", $STR_NOCASESENSEBASIC) Then
 			Local $aResult = StringSplit($aKeys[0], "_", $STR_NOCOUNT)
 			$sResult = $aResult[0]
-			;setlog("$i , $sResult :"& $i  & ", " & $sResult )
-
 			Select
 				Case $i = "King" Or $i = 0 Or $i = $eKing
 					Switch $sResult

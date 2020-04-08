@@ -108,10 +108,6 @@ Global $g_bDebugVillageSearchImages = False ; will fill drive with huge number o
 ; <><><><> Debug Dead Base search problems <><><><>
 Global $g_bDebugDeadBaseImage = False ; Enable collection of zombie base images where loot is above search filter, no dead base detected
 Global $g_aiSearchEnableDebugDeadBaseImage = 200 ; If $g_iDebugDeadBaseImage is 0 and more than these searches reached, set $g_iDebugDeadBaseImage = 1, 0 = disabled
-; <><><><> Enable when debugging Milk attack errors! <><><><>
-Global $g_bDebugResourcesOffset = False ;make images with offset to check correct adjust values
-Global $g_bDebugMilkingIMGmake = False
-Global $g_bDebugContinueSearchElixir = False ; SLOW... if =1 search elixir check all images even if capacity < mincapacity and make debug image in temp folder if no match all images
 ; <><><><> Enable this flag to test Donation code, but DOES NOT DONATE! <><><><>
 Global $g_bDebugOCRdonate = False ; Creates OCR/image data and simulate, but do not donate
 ; <><><><> Only enable this when debugging Android zoom out issues! <><><><>
@@ -393,8 +389,6 @@ Global $g_iAndroidAdbScreencapTimeout = $g_iAndroidAdbScreencapTimeoutMax ; Mill
 Global $g_iAndroidAdbScreencapTimeoutDynamic = 3 ; Calculate dynamic timeout multiply of last duration; if 0 $g_iAndroidAdbScreencapTimeoutMax is used as fix timeout; can be overridden via the ini file
 Global $g_iAndroidAdbScreencapWidth = 0 ; Width of last captured screenshot (always full size)
 Global $g_iAndroidAdbScreencapHeight = 0 ; Height of last captured screenshot (always full size)
-Global $g_iAndroidAdbClickGroup = 10 ; 1 Disables grouping clicks; > 1 number of clicks fired at once (e.g. when Click with $times > 1 used) (Experimental as some clicks might get lost!); can be overridden via the ini file
-Global $g_iAndroidAdbClickGroupDelay = 50 ; Additional delay in Milliseconds after group of ADB clicks sent (sleep in Android is executed!)
 Global $g_bAndroidAdbKeepClicksActive = False ; Track KeepClicks mode regardless of enabled or not (poor mans deploy troops detection)
 
 Global $g_aiAndroidTimeLag[6] = [0, 0, 0, 0, 0, 0] ; Timer varibales for time lag calculation

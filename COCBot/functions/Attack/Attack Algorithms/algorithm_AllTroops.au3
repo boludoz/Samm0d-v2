@@ -314,7 +314,7 @@ Func algorithm_AllTroops() ;Attack Algorithm for all existing troops
         launchMultiFinger($listInfoDeploy, $g_iClanCastleSlot, $g_iKingSlot, $g_iQueenSlot, $g_iWardenSlot)
     Else
         SetLog(_PadStringCenter("Standard Attack", 50, "="), $COLOR_BLUE)
-        LaunchTroop2($listInfoDeploy, $g_iClanCastleSlot, $g_iKingSlot, $g_iQueenSlot, $g_iWardenSlot)
+        LaunchTroop2($listInfoDeploy, $g_iClanCastleSlot, $g_iKingSlot, $g_iQueenSlot, $g_iWardenSlot, $g_iChampionSlot)
     EndIf
 
 	CheckHeroesHealth()
