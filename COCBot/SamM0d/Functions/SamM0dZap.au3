@@ -68,12 +68,12 @@ Func SamM0dZap()
 		For $i = 0 To UBound($g_avAttackTroops) - 1
 			If $g_avAttackTroops[$i][0] = $eLSpell Then
 				If $aSpells[0][4] = 0 Then
-					If $g_bDebugSmartZap = 1 Then SetLog(NameOfTroop($g_avAttackTroops[$i][0], 0) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
+					If $g_bDebugSmartZap = 1 Then SetLog(GetTroopName($g_avAttackTroops[$i][0], 0) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
 					$aSpells[0][2] = $i
 					$aSpells[0][3] = Number($g_iLSpellLevel)		; Get the Level on Attack bar
 					$aSpells[0][4] = $g_avAttackTroops[$i][1]
 				Else
-					If $g_bDebugSmartZap = 1 Then SetLog("Donated " & NameOfTroop($g_avAttackTroops[$i][0], 0) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
+					If $g_bDebugSmartZap = 1 Then SetLog("Donated " & GetTroopName($g_avAttackTroops[$i][0], 0) & ": " & $g_avAttackTroops[$i][1], $COLOR_DEBUG)
 					$aSpells[1][2] = $i
 					$aSpells[1][3] = Number($g_iLSpellLevel)		; Get the Level on Attack bar
 					$aSpells[1][4] = $g_avAttackTroops[$i][1]
@@ -87,10 +87,10 @@ Func SamM0dZap()
 		Return $performedZap
 	Else
 		If $aSpells[0][4] > 0 Then
-			SetLog(" - Number of " & NameOfTroop($aSpells[0][1], 1) & ": " & Number($aSpells[0][4]), $COLOR_INFO)
+			SetLog(" - Number of " & GetTroopName($aSpells[0][1], 1) & ": " & Number($aSpells[0][4]), $COLOR_INFO)
 		EndIf
 		If $aSpells[1][4] > 0 Then
-			SetLog(" - Number of Donated " & NameOfTroop($aSpells[1][1], 1) & ": " & Number($aSpells[1][4]), $COLOR_INFO)
+			SetLog(" - Number of Donated " & GetTroopName($aSpells[1][1], 1) & ": " & Number($aSpells[1][4]), $COLOR_INFO)
 		EndIf
 		$numSpells = $aSpells[0][4] + $aSpells[1][4]
 	EndIf
@@ -303,7 +303,7 @@ Func myzapDrill($THSpell, $x, $y)
 	For $i = 0 To UBound($g_avAttackTroops) - 1
 		If $g_avAttackTroops[$i][0] = $THSpell Then
 			$Spell = $i
-			$name = NameOfTroop($THSpell, 0)
+			$name = GetTroopName($THSpell, 0)
 		EndIf
 	Next
 	If $Spell > -1 Then

@@ -738,8 +738,6 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 			tabDeadbase()
 		Case $g_hGUI_ACTIVEBASE_TAB
 			tabActivebase()
-		Case $g_hGUI_THSNIPE_TAB
-			tabTHSnipe()
 		Case $g_hGUI_BOT_TAB
 			tabBot()
         ; samm0d

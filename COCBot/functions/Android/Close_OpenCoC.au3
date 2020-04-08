@@ -173,7 +173,7 @@ Func PoliteCloseCoC($sSource = "Unknown_", $bPoliteCloseCoC = $g_bPoliteCloseCoC
                 PureClick(514, 427, 1, 50, "#0117") ; Click Okay Button
             Else
                 SetLog("Can not find Okay button to exit CoC, Forcefully Closing CoC", $COLOR_ERROR)
-                If $g_bDebugImageSave Then DebugImageSave($sSource)
+				If $g_bDebugImageSave Then SaveDebugImage($sSource)
                 CloseCoC()
             EndIf
 			Local $i = 0 ; Reset Loop counter

@@ -476,7 +476,7 @@ Func DoSwitchAcc()
 								TrainSystem()
 							EndIf
 							If $bShare_replay = True Then
-								ReplayShare($g_bShareAttackEnableNow, True)
+								ReplayShare($g_bShareAttackEnableNow)
 							EndIf
 						EndIf
 						If $bAvoidSwitch Then
@@ -1024,7 +1024,6 @@ Func displayStats($iSlot)
 	GUICtrlSetData($g_hLblResultAttackedHourNow, _NumberFormat($iAttackedCount, True))
 
 	For $i = 0 To $g_iModeCount
-		If $i = $TS Then ContinueLoop
 		GUICtrlSetData($g_hLblNbrOfDetectedMines[$i], $tempNbrOfDetectedMines[$i])
 		GUICtrlSetData($g_hLblNbrOfDetectedCollectors[$i], $tempNbrOfDetectedCollectors[$i])
 		GUICtrlSetData($g_hLblNbrOfDetectedDrills[$i], $tempNbrOfDetectedDrills[$i])

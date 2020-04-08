@@ -13,6 +13,11 @@
 	; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 	; Example .......: None
 #ce ===============================================================================================================================
+; Attack - Milking (Compatibility vars.)
+Global Const $g_iMilkFarmOffsetX = 56
+Global Const $g_iMilkFarmOffsetY = 41
+Global Const $g_iMilkFarmOffsetXStep = 35
+Global Const $g_iMilkFarmOffsetYStep = 26
 
 Func AreCollectorsNearRedline($percent)
 

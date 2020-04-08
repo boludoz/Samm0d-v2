@@ -53,10 +53,10 @@ Func CreateAttackSearchDeadBaseStandard()
 									   GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_04", -1))
 					 GUICtrlSetOnEvent(-1, "cmbDeployDB")
 
-		$y += 22
-			$g_hChkRandomSpeedAtkDB = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkRandomSpeedAtk", "Randomize delay for Units && Waves"), $x, $y, -1, -1)
-				_GUICtrlSetTip(-1, $sTxtTip)
-				GUICtrlSetOnEvent(-1, "chkRandomSpeedAtkDB")
+;~ 		$y += 22
+;~ 			$g_hChkRandomSpeedAtkDB = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkRandomSpeedAtk", "Randomize delay for Units && Waves"), $x, $y, -1, -1)
+;~ 				_GUICtrlSetTip(-1, $sTxtTip)
+;~ 				GUICtrlSetOnEvent(-1, "chkRandomSpeedAtkDB")
 
 		$y +=22
 			$g_hChkSmartAttackRedAreaDB = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkSmartAttackRedArea", "Use Smart Attack: Near Red Line."), $x, $y, -1, -1)

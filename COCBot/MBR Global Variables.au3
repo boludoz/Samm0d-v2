@@ -57,8 +57,6 @@
 #include <Crypt.au3>
 #include <Timers.au3>
 
-Global $g_bUpdateSharedPrefs = False
-
 Global Const $g_sLogoPath = @ScriptDir & "\Images\Logo.png"
 Global Const $g_sLogoUrlPath = @ScriptDir & "\Images\LogoURL.png"
 Global Const $g_sLogoUrlSmallPath = @ScriptDir & "\Images\LogoURLsmall.png"
@@ -74,7 +72,7 @@ Global $g_iBotLaunchTime = 0 ; Keeps track of time (in millseconds) from bot lau
 
 ; Since October 12th 2016 Update, Village cannot be entirely zoomed out, offset updated in func SearchZoomOut
 Global $g_iVILLAGE_OFFSET[3] = [0, 0, 1]
-
+Global $g_bQuickattack = False ; Mod
 #Region debugging
 #Tidy_Off
 ; <><><><><><><><><><><><><><><><><><>
@@ -373,9 +371,10 @@ Global $g_sAndroidPicturesPathAvailable = False
 Global $g_sAndroidPicturesPath = "" ; Android mounted path to pictures on host
 Global $g_sAndroidPicturesHostPath = "" ; Windows host path to mounted pictures in android
 Global $g_bAndroidSharedFolderAvailable = True
+Global $g_sAndroidSharedFolderName = "" ; Set during Android initialization
 Global Const $g_iAndroidSecureFlags = 3 ; Bits 0 = disabled file renaming/folder less mode, 1 = Secure (SHA-1 filenames no folder), 2 = Delete files after use immediately
 Global $g_sAndroidPicturesHostFolder = "" ; Subfolder for host and android, can be "", must end with "\" when used
-Global $g_bAndroidPicturesPathAutoConfig = True ; Try to configure missing shared folder if missing
+Global $g_bAndroidPicturesPathAutoConfig = True ; Try to configure missing shared folder if missing (set by android support feature bit 512)
 ; Special ADB modes for screencap, mouse clicks and input text
 Global $g_iAndroidAdbAutoTerminateCount = 0 ; Counter for $g_iAndroidAdbAutoTerminate to terminate ADB shell automatically after x executed commands
 Global $g_aiAndroidAdbScreencapBuffer = DllStructCreate("byte[" & ($g_iDEFAULT_WIDTH * $g_iDEFAULT_HEIGHT * 4) & "]") ; Holds the android screencap BGRA buffer for caching
@@ -799,19 +798,41 @@ EndFunc   ;==>TroopIndexLookup
 ; This function takes a troop,spell,hero, or castle index, based on the "Global Enum $eBarb, $eArch ... $eHaSpell, $eSkSpell" declaration,
 ; and returns the full name.
 ;--------------------------------------------------------------------------
-Func GetTroopName(Const $iIndex, $iQuantity = 1)
+#Region - Return short names - Team AiO MOD++
+Func GetTroopName(Const $iIndex, $iQuantity = 1, $bShortName = False)
 	If $iIndex >= $eBarb And $iIndex <= $eIceG Then
-		Return $iQuantity > 1 ? $g_asTroopNamesPlural[$iIndex] : $g_asTroopNames[$iIndex]
+		If Not $bShortName Then
+			Return $iQuantity > 1 ? $g_asTroopNamesPlural[$iIndex] : $g_asTroopNames[$iIndex]
+		Else
+			Return $g_asTroopShortNames[$iIndex]
+		EndIf
 	ElseIf $iIndex >= $eLSpell And $iIndex <= $eBtSpell Then
-		Return $iQuantity > 1 ? $g_asSpellNames[$iIndex - $eLSpell] & " Spells" : $g_asSpellNames[$iIndex - $eLSpell] & " Spell"
+		If Not $bShortName Then
+			Return $iQuantity > 1 ? $g_asSpellNames[$iIndex - $eLSpell] & " Spells" : $g_asSpellNames[$iIndex - $eLSpell] & " Spell"
+		Else
+			Return $g_asSpellShortNames[$iIndex - $eLSpell]
+		EndIf
 	ElseIf $iIndex >= $eKing And $iIndex <= $eChampion Then
-		Return $g_asHeroNames[$iIndex - $eKing]
+		If Not $bShortName Then
+			Return $g_asHeroNames[$iIndex - $eKing]
+		Else
+			Return $g_asHeroShortNames[$iIndex - $eKing]
+		EndIf
 	ElseIf $iIndex >= $eWallW And $iIndex <= $eSiegeB Then
-		Return $g_asSiegeMachineNames[$iIndex - $eWallW]
+		If Not $bShortName Then
+			Return $g_asSiegeMachineNames[$iIndex - $eWallW]
+		Else
+			Return $g_asSiegeMachineShortNames[$iIndex - $eWallW]
+		EndIf
 	ElseIf $iIndex = $eCastle Then
-		Return "Clan Castle"
+		If Not $bShortName Then
+			Return "Clan Castle"
+		Else
+			Return "Castle"
+		EndIf
 	EndIf
 EndFunc   ;==>GetTroopName
+#EndRegion - Return short names - Team AiO MOD++
 ;--------------------------------------------------------------------------
 ; END: GetTroopName()
 ;--------------------------------------------------------------------------
@@ -1466,7 +1487,7 @@ Global $g_aaiTopLeftDropPoints[5][2] = [[66, 299], [174, 210], [240, 169], [303,
 Global $g_aaiTopRightDropPoints[5][2] = [[466, 60], [556, 120], [622, 170], [684, 220], [775, 285]]
 Global $g_aaiBottomLeftDropPoints[5][2] = [[81, 390], [174, 475], [235, 521], [299, 570], [390, 610]]
 Global $g_aaiBottomRightDropPoints[5][2] = [[466, 600], [554, 555], [615, 510], [678, 460], [765, 394]]
-Global Const $g_aaiEdgeDropPoints[4] = [$g_aaiBottomRightDropPoints, $g_aaiTopLeftDropPoints, $g_aaiBottomLeftDropPoints, $g_aaiTopRightDropPoints]
+Global $g_aaiEdgeDropPoints[4] = [$g_aaiBottomRightDropPoints, $g_aaiTopLeftDropPoints, $g_aaiBottomLeftDropPoints, $g_aaiTopRightDropPoints]
 Global Const $g_aiUseAllTroops[41] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eBabyD, $eMine, $eEDrag, $eYeti, $eMini, $eHogs, $eValk, $eGole, $eWitc, $eLava, $eBowl, $eIceG, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eBtSpell, $eWallW, $eBattleB, $eStoneS, $eSiegeB]
 Global Const $g_aiUseBarracks[30] = [$eBarb, $eArch, $eGiant, $eGobl, $eWall, $eBall, $eWiza, $eHeal, $eDrag, $ePekk, $eBabyD, $eMine, $eEDrag, $eYeti, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell]
 Global Const $g_aiUseBarbs[17] = [$eBarb, $eKing, $eQueen, $eWarden, $eChampion, $eCastle, $eLSpell, $eHSpell, $eRSpell, $eJSpell, $eFSpell, $eCSpell, $ePSpell, $eESpell, $eHaSpell, $eSkSpell, $eBtSpell]
@@ -1495,8 +1516,8 @@ Global $g_bHaveAnyHero = -1 ; -1 Means not set yet
 Global $g_bCheckKingPower = False ; Check for King activate power
 Global $g_bCheckQueenPower = False ; Check for Queen activate power
 Global $g_bCheckWardenPower = False ; Check for Warden activate power
-Global $g_bDropQueen, $g_bDropKing, $g_bDropWarden
-
+Global $g_bCheckChampionPower = False ; Check for Champion activate power
+Global $g_bDropQueen, $g_bDropKing, $g_bDropWarden, $g_bDropChampion
 ; Attack - Troops
 Global $g_aiSlotInArmy[$eTroopCount] = [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
 ; Red area search

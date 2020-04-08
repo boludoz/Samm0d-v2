@@ -101,7 +101,7 @@ Func CheckAvailableCCUnit()
 			If $aiTroopsInfo[$i][1] <> 0 Then
 				Assign("curCC" & $aiTroopsInfo[$i][0], Eval("curCC" & $aiTroopsInfo[$i][0]) + $aiTroopsInfo[$i][1])
 			Else
-				SetLog("Error detect quantity no. On CC Troop: " & MyNameOfTroop(Eval("e" & $aiTroopsInfo[$i][0]), $aiTroopsInfo[$i][1]),$COLOR_RED)
+				SetLog("Error detect quantity no. On CC Troop: " & GetTroopName(Eval("e" & $aiTroopsInfo[$i][0]), $aiTroopsInfo[$i][1]),$COLOR_RED)
 				ExitLoop
 			EndIf
 		Next
@@ -114,7 +114,7 @@ Func CheckAvailableCCUnit()
 		For $i = 0 To UBound($MyTroops) - 1
 			Local $itempTotal = Eval("curCC" & $MyTroops[$i][0])
 			If $itempTotal > 0 Then
-				SetLog(" - No. of Available CC Troops - " & MyNameOfTroop(Eval("e" & $MyTroops[$i][0]),  Eval("curCC" & $MyTroops[$i][0])) & ": " &  Eval("curCC" & $MyTroops[$i][0]), (Eval("enum" & $MyTroops[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+				SetLog(" - No. of Available CC Troops - " & GetTroopName(Eval("e" & $MyTroops[$i][0]),  Eval("curCC" & $MyTroops[$i][0])) & ": " &  Eval("curCC" & $MyTroops[$i][0]), (Eval("enum" & $MyTroops[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 				Local $bIsTroopInKeepList = False
 				If $iCCTroopSlot1 Or $iCCTroopSlot2 Or $iCCTroopSlot3 Then
 					For $j = 1 To 3
@@ -151,12 +151,12 @@ Func CheckAvailableCCUnit()
 						Local $iUnitToRemove = Eval("RemoveUnitOfcurCC" & $aiTroopsInfo[$i][0])
 						If $iUnitToRemove > 0 Then
 							If $aiTroopsInfo[$i][1] > $iUnitToRemove Then
-								SetLog("Remove " & MyNameOfTroop(Eval("e" & $aiTroopsInfo[$i][0]),  $aiTroopsInfo[$i][1]) & " at slot: " & $aiTroopsInfo[$i][2] & ", unit to remove: " & $iUnitToRemove, $COLOR_ACTION)
+								SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopsInfo[$i][0]),  $aiTroopsInfo[$i][1]) & " at slot: " & $aiTroopsInfo[$i][2] & ", unit to remove: " & $iUnitToRemove, $COLOR_ACTION)
 								RemoveCCTroops($aiTroopsInfo[$i][2]-1, $iUnitToRemove)
 								$iUnitToRemove = 0
 								Assign("RemoveUnitOfcurCC" & $aiTroopsInfo[$i][0], $iUnitToRemove)
 							Else
-								SetLog("Remove " & MyNameOfTroop(Eval("e" & $aiTroopsInfo[$i][0]),  $aiTroopsInfo[$i][1]) & " at slot: " & $aiTroopsInfo[$i][2] & ", unit to remove: " & $aiTroopsInfo[$i][1], $COLOR_ACTION)
+								SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopsInfo[$i][0]),  $aiTroopsInfo[$i][1]) & " at slot: " & $aiTroopsInfo[$i][2] & ", unit to remove: " & $aiTroopsInfo[$i][1], $COLOR_ACTION)
 								RemoveCCTroops($aiTroopsInfo[$i][2]-1, $aiTroopsInfo[$i][1])
 								$iUnitToRemove -= $aiTroopsInfo[$i][1]
 								Assign("RemoveUnitOfcurCC" & $aiTroopsInfo[$i][0], $iUnitToRemove)

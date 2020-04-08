@@ -420,9 +420,9 @@ $x += 10
 $y += 40
 For $i = 0 To UBound($MyTroops) - 1
 	Assign("icnMy" & $MyTroops[$i][0], GUICtrlCreateIcon ($g_sLibIconPath, $MyTroopsIcon[$i], $x, $y, 23, 23))
-	Assign("lblMy" & $MyTroops[$i][0], GUICtrlCreateLabel(Eval("sTxt" & StringReplace(MyNameOfTroop($i,2)," ","")), $x + 26, $y, -1, -1))
+	Assign("lblMy" & $MyTroops[$i][0], GUICtrlCreateLabel(Eval("sTxt" & StringReplace(GetTroopName($i,2)," ","")), $x + 26, $y, -1, -1))
 	Assign("txtMy" & $MyTroops[$i][0], GUICtrlCreateInput("0", $x + 94, $y, 30, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER)))
-		_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & Eval("sTxt" & StringReplace(MyNameOfTroop($i,2)," ","")))
+		_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & Eval("sTxt" & StringReplace(GetTroopName($i,2)," ","")))
 		GUICtrlSetLimit(-1, 3)
 		GUICtrlSetOnEvent(-1, "UpdateTroopSetting")
 	Assign("cmbMy"& $MyTroops[$i][0] & "Order", GUICtrlCreateCombo("", $x+126, $y, 36, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
@@ -677,7 +677,7 @@ $txtCCStrength = GUICtrlCreateInput("100", $x + 255, $y+2, 31, 20, BitOR($GUI_SS
 	Local $asTroopsList[20]
 	Local $sComboData= GetTranslatedFileIni("sam m0d", "Un specify","Un specify")
 	For $i = 1 To UBound($MyTroops)
-		$sComboData =  $sComboData & "|" & Eval("sTxt" & StringReplace(MyNameOfTroop($i - 1,2)," ",""))
+		$sComboData =  $sComboData & "|" & Eval("sTxt" & StringReplace(GetTroopName($i - 1,2)," ",""))
 	Next
 
 	$y += 20
@@ -714,7 +714,7 @@ $txtCCStrength = GUICtrlCreateInput("100", $x + 255, $y+2, 31, 20, BitOR($GUI_SS
 	Local $asTroopsList[11]
 	Local $sComboData= GetTranslatedFileIni("sam m0d", "Un specify","Un specify")
 	For $i = 1 To UBound($MySpells)
-		$sComboData =  $sComboData & "|" & Eval("sTxt" & StringReplace(MyNameOfTroop($i - 1 + $eLSpell,2)," ",""))
+		$sComboData =  $sComboData & "|" & Eval("sTxt" & StringReplace(GetTroopName($i - 1 + $eLSpell,2)," ",""))
 	Next
 
 	$y += 50

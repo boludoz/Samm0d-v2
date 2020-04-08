@@ -38,7 +38,6 @@
 #include "SamM0d\Functions\ModTrain\DoRevampSpells.au3"
 #include "SamM0d\Functions\ModTrain\getArmyAndSpellCapacity.au3"
 #include "SamM0d\Functions\ModTrain\getMyArmyHeroCount.au3"
-#include "SamM0d\Functions\ModTrain\MyNameOfTroop.au3"
 #include "SamM0d\Functions\ModTrain\TrainArmyPageControl.au3"
 #include "SamM0d\Functions\ModTrain\MyTrainClick.au3"
 #include "SamM0d\Functions\ModTrain\CheckAvailableCCUnit.au3"

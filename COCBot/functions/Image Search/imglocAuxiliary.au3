@@ -508,28 +508,6 @@ Func findMultiple($directory, $sCocDiamond, $redLines, $minLevel = 0, $maxLevel 
  
  		;;lets check if we should get redlinedata
  		If $redLines = "" Then
-+Func GetDiamondFromArray($aRectArray)
-+	;Recieves $aArray[0] = StartX
-+	;		  $aArray[1] = StartY
-+	;		  $aArray[2] = EndX
-+	;		  $aArray[3] = EndY
-+
-+	If UBound($aRectArray, 1) < 4 Then
-+		SetDebugLog("GetDiamondFromArray: Bad Input Array!", $COLOR_ERROR)
-+		Return ""
-+	EndIf
-+	Local $iX = Number($aRectArray[0]), $iY = Number($aRectArray[1])
-+	Local $iEndX = Number($aRectArray[2]), $iEndY = Number($aRectArray[3])
-+
-+	;If User inputed Width and Height then add start point to get the final End Coordinates
-+	If $iEndY <= $iY Then $iEndY += $iY
-+	If $iEndX <= $iX Then $iEndX += $iX
-+
-+	Local $sReturnDiamond = ""
-+	$sReturnDiamond = $iX & "," & $iY & "|" & $iEndX & "," & $iY & "|" & $iEndX & "," & $iEndY & "|" & $iX & "," & $iEndY
-+	Return $sReturnDiamond
-+EndFunc   ;==>GetDiamondFromArray
-+
 			$g_sImglocRedline = RetrieveImglocProperty("redline", "") ;global var set in imgltocTHSearch
 			If $g_bDebugSetlog Then SetDebugLog("findMultiple : Redline argument is emty, setting global Redlines")
  		EndIf

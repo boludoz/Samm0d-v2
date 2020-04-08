@@ -123,7 +123,7 @@ Func CheckAvailableUnit($hHBitmap, $aIsTroopOut)
 
 			If $aiTroopsInfo[$i][1] <> 0 Then
 				$iTroopIndex = TroopIndexLookup($aiTroopsInfo[$i][0])
-				$sTroopName = MyNameOfTroop($iTroopIndex, $aiTroopsInfo[$i][1])
+				$sTroopName = GetTroopName($iTroopIndex, $aiTroopsInfo[$i][1])
 
 				SetLog(" - No. of Available " & $sTroopName & ": " & $aiTroopsInfo[$i][1], ($iTroopIndex > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 				Assign("cur" & $aiTroopsInfo[$i][0], $aiTroopsInfo[$i][1])
@@ -155,7 +155,7 @@ Func CheckAvailableUnit($hHBitmap, $aIsTroopOut)
 					EndIf
 				Next
 			Else
-				SetLog("Error detect quantity no. On Troop: " & MyNameOfTroop(Eval("e" & $aiTroopsInfo[$i][0]), $aiTroopsInfo[$i][1]),$COLOR_RED)
+				SetLog("Error detect quantity no. On Troop: " & GetTroopName(Eval("e" & $aiTroopsInfo[$i][0]), $aiTroopsInfo[$i][1]),$COLOR_RED)
 				ExitLoop
 			EndIf
 		EndIf
