@@ -1,24 +1,22 @@
 
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: LocateTownHall
-; Description ...: Locates TownHall for Rearm Function
+; Description ...: Locates TownHall
 ; Syntax ........: LocateTownHall()
 ; Parameters ....:
 ; Return values .: None
 ; Author ........:
 ; Modified ......: KnowJack (July 2015) Sardo 2015-08
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func LocateTownHall($bLocationOnly = False)
+Func LocateTownHall($bLocationOnly = False, $bCollect = True)
 
-	Local $stext, $MsgBox, $Success, $sLocMsg
+	Local $sMsgBoxText, $MsgBox, $bGotTHLevel, $sLocMsg
 	Local $iStupid = 0, $iSilly = 0, $sErrorText = ""
-
-	SetLog("Locating Town Hall ...", $COLOR_INFO)
 
 	If $g_bSkipLocateExc Then
 		$g_aiTownHallPos[0] = -1
@@ -28,16 +26,15 @@ Func LocateTownHall($bLocationOnly = False)
 	EndIf
 	
 	WinGetAndroidHandle()
-	If _GetPixelColor($aTopLeftClient[0], $aTopLeftClient[1], True) <> Hex($aTopLeftClient[2], 6) Or _GetPixelColor($aTopRightClient[0], $aTopRightClient[1], True) <> Hex($aTopRightClient[2], 6) Then
-		Zoomout()
-		Collect()
-	EndIf
+	checkMainScreen()
+	If $bCollect Then Collect(False)
+
 
 	While 1
 		_ExtMsgBoxSet(1 + 64, 1, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
-		$stext = $sErrorText & @CRLF & GetTranslatedFileIni("MBR Popups", "Func_Locate_TownHall_01", "Click OK then click on your Town Hall") & @CRLF & @CRLF & _
+		$sMsgBoxText = $sErrorText & @CRLF & GetTranslatedFileIni("MBR Popups", "Func_Locate_TownHall_01", "Click OK then click on your Town Hall") & @CRLF & @CRLF & _
 				GetTranslatedFileIni("MBR Popups", "Locate_building_01", -1) & @CRLF & @CRLF & GetTranslatedFileIni("MBR Popups", "Locate_building_02", -1) & @CRLF
-		$MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Ok_Cancel", "Ok|Cancel"), GetTranslatedFileIni("MBR Popups", "Func_Locate_TownHall_02", "Locate TownHall"), $stext, 30)
+		$MsgBox = _ExtMsgBox(0, GetTranslatedFileIni("MBR Popups", "Ok_Cancel", "Ok|Cancel"), GetTranslatedFileIni("MBR Popups", "Func_Locate_TownHall_02", "Locate TownHall"), $sMsgBoxText, 30)
 		If $MsgBox = 1 Then
 			WinGetAndroidHandle()
 			ClickP($aAway, 1, 0, "#0391")

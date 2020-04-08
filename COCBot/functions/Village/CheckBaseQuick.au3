@@ -38,7 +38,7 @@ Func CheckBaseQuick($bStopRecursion = False, $sReturnHome = "")
 
 	If IsMainPage() Then ; check for main page
 
-		If $g_bDebugSetlog Then SetDebugLog("CheckBaseQuick now...", $COLOR_DEBUG)
+		If $g_bDebugSetlog Then SetDebugLog("CheckBaseQuick now", $COLOR_DEBUG)
             RequestCC() ; fill CC
             If _Sleep($DELAYRUNBOT1) Then Return
             checkMainScreen(False) ; required here due to many possible exits

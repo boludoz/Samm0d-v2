@@ -16,19 +16,19 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 
 	SetLog("Going to Attack", $COLOR_INFO)
 
-;~ 	; RestartSearchPickupHero - Check Remaining Heal Time
-;~ 	If $g_bSearchRestartPickupHero And $Mode <> $DT Then
-;~ 		For $pTroopType = $eKing To $eWarden ; check all 3 hero
-;~ 			For $pMatchMode = $DB To $g_iModeCount - 1 ; check all attack modes
-;~ 				If IsUnitUsed($pMatchMode, $pTroopType) Then
-;~ 					If Not _DateIsValid($g_asHeroHealTime[$pTroopType - $eKing]) Then
-;~ 						getArmyHeroTime("All", True, True)
-;~ 						ExitLoop 2
-;~ 					EndIf
-;~ 				EndIf
-;~ 			Next
-;~ 		Next
-;~ 	EndIf
+	; RestartSearchPickupHero - Check Remaining Heal Time
+	If $g_bSearchRestartPickupHero And $Mode <> $DT Then
+		For $pTroopType = $eKing To $eChampion ; check all 4 hero
+			For $pMatchMode = $DB To $g_iModeCount - 1 ; check all attack modes
+				If IsUnitUsed($pMatchMode, $pTroopType) Then
+					If Not _DateIsValid($g_asHeroHealTime[$pTroopType - $eKing]) Then
+						getArmyHeroTime("All", True, True)
+						ExitLoop 2
+					EndIf
+				EndIf
+			Next
+		Next
+	EndIf
 
 	ChkAttackCSVConfig()
 
@@ -45,7 +45,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 			ClickP($aAttack, 1, 0, "#0149")
 		Else
 			SetLog("Couldn't find the Attack Button!", $COLOR_ERROR)
-;~ 			If $g_bDebugImageSave Then SaveDebugImage("AttackButtonNotFound")
+			If $g_bDebugImageSave Then SaveDebugImage("AttackButtonNotFound")
 			Return
 		EndIf
 	EndIf
@@ -151,7 +151,7 @@ Func PrepareSearch($Mode = $DB) ;Click attack button and find match button, will
 			ClickP($aFindMatch, 1, 0, "#0150")
 		Else
 			SetLog("Couldn't find the Find a Match Button!", $COLOR_ERROR)
-;~ 			If $g_bDebugImageSave Then SaveDebugImage("FindAMatchBUttonNotFound")
+			If $g_bDebugImageSave Then SaveDebugImage("FindAMatchBUttonNotFound")
 			Return
 		EndIf
 	EndIf

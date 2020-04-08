@@ -41,6 +41,7 @@ Func CreateSplashScreen($iSteps = Default)
 			$g_iSplashCurrentStep = 0
 			$g_hSplashTimer = 0
 		EndIf
+	EndIf
 
 	Local $sSplashImg = $g_sLogoPath
 	Local $hImage, $iX, $iY

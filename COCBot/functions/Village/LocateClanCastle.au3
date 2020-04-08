@@ -13,22 +13,20 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func LocateClanCastle()
+Func LocateClanCastle($bCollect = True)
 	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo
 
-	SetLog("Locating Clan Castle...", $COLOR_INFO)
-
+	SetLog("Locating Clan Castle", $COLOR_INFO)
 	If $g_bSkipLocateExc Then
 		$g_aiClanCastlePos[0] = -1
 		$g_aiClanCastlePos[1] = -1
 		SetLog("Quick Clan Castle...", $COLOR_INFO)
 	Return False
 	EndIf
-	
-	If _GetPixelColor($aTopLeftClient[0], $aTopLeftClient[1], True) <> Hex($aTopLeftClient[2], 6) Or _GetPixelColor($aTopRightClient[0], $aTopRightClient[1], True) <> Hex($aTopRightClient[2], 6) Then
-		Zoomout()
-		Collect(False)
-	EndIf
+
+	WinGetAndroidHandle()
+	checkMainScreen()
+	If $bCollect Then Collect(False)
 
 	While 1
 		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 500)
@@ -75,7 +73,7 @@ Func LocateClanCastle()
 			ClickP($aAway, 1, 0, "#0376")
 			Return
 		EndIf
-		$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
 		If IsArray($sInfo) and ($sInfo[0] > 1 Or $sInfo[0] = "") Then
 			If StringInStr($sInfo[1], "clan") = 0 Then
 				Local $sLocMsg = ($sInfo[0] = "" ? "Nothing" : $sInfo[1])

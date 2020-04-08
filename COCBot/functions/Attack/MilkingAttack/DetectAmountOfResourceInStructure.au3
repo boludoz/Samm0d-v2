@@ -50,15 +50,15 @@ Func DetectAmountOfResourceInStructure($type, $coordinate, $level, $mincapacity)
 				$found = _ImageSearch(@ScriptDir & "\images\CapacityStructure\" & $a[$t], 1, $posx, $posy, $tolerance)
 				If $found = 1 Then
 					If $g_bDebugSetlog Then SetDebugLog("IMAGECKECK OK (" & $tolerance & ") " & $filename, $COLOR_DEBUG)
-					If $g_bDebugImageSave Then DebugImageSave("IMAGECKECK OK (" & $tolerance & ") " & $filename, False)
+					If $g_bDebugImageSave Then SaveDebugImage("IMAGECKECK OK (" & $tolerance & ") " & $filename, False)
 					Return $capacityanalized
 					ExitLoop
 				EndIf
 			EndIf
 		Next
 		If $found = 0 Then
-			;DebugImageSave("elixir_" & $level & "_X_70_A_(" & $coordinate[0] & "," & $coordinate[1] & ")_", False)
-			If $g_bDebugImageSave Then DebugImageSave("elixir_" & $level & "_", False)
+			;SaveDebugImage("elixir_" & $level & "_X_70_A_(" & $coordinate[0] & "," & $coordinate[1] & ")_", False)
+			If $g_bDebugImageSave Then SaveDebugImage("elixir_" & $level & "_", False)
 			If $g_bDebugSetlog Then SetDebugLog("FAIL STRUCTURE POSITION (" & $coordinate[0] & "," & $coordinate[1] & ") level " & $level & " (" & $level + 4 & ")", $COLOR_DEBUG)
 		EndIf
 		Return -1

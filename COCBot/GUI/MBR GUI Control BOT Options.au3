@@ -473,35 +473,18 @@ Func btnTestDonateCC()
 	Local $currentRunState = $g_bRunState
 	Local $currentSetlog = $g_bDebugSetlog
 	_GUICtrlTab_ClickTab($g_hTabMain, 0)
-	$g_bDebugOcr = True
 	$g_bRunState = True
-	$g_bDebugSetlog = True
-	ForceCaptureRegion()
-	DebugImageSave("donateCC_")
 
 	SetLog(_PadStringCenter(" Test DonateCC begin (" & $g_sBotVersion & ")", 54, "="), $COLOR_INFO)
-	$g_iDonationWindowY = 0
-	Local $aDonWinOffColors[3][3] = [[0xFFFFFF, 0, 1], [0xFFFFFF, 0, 31], [0xABABA8, 0, 32]]
-	Local $aDonationWindow = _MultiPixelSearch(409, 0, 410, $g_iDEFAULT_HEIGHT, 1, 1, Hex(0xFFFFFF, 6), $aDonWinOffColors, 10)
-
-	If IsArray($aDonationWindow) Then
-		$g_iDonationWindowY = $aDonationWindow[1]
-		_Sleep(250)
-		SetLog("$DonationWindowY: " & $g_iDonationWindowY, $COLOR_DEBUG)
-	Else
-		SetLog("Could not find the Donate Window :(", $COLOR_ERROR)
-		Return False
-	EndIf
-	SetLog("Detecting Troops...")
-	DetectSlotTroop($eIceG)
-	SetLog("Detecting Sieges...")
-	DetectSlotSiege($eSiegeStoneSlammer)
-	SetLog("Detecting Spells...")
-	DetectSlotSpell($eBtSpell)
+	PrepareDonateCC()
+	$g_iCurrentSpells = 11
+	$g_aiCurrentSiegeMachines[$eSiegeWallWrecker] = 1
+	$g_aiCurrentSiegeMachines[$eSiegeBattleBlimp] = 1
+	$g_aiCurrentSiegeMachines[$eSiegeStoneSlammer] = 1
+	$g_aiCurrentSiegeMachines[$eSiegeBarracks] = 1
+	DonateCC()
 	SetLog(_PadStringCenter(" Test DonateCC end ", 54, "="), $COLOR_INFO)
-	ShellExecute($g_sProfileTempDebugPath & "donateCC_")
 
-	$g_bDebugOcr = $currentOCR
 	$g_bRunState = $currentRunState
 	$g_bDebugSetlog = $currentSetlog
 EndFunc   ;==>btnTestDonateCC
@@ -979,17 +962,14 @@ Func btnTestGetLocationBuildingImage()
 
 EndFunc   ;==>btnTestGetLocationBuildingImage
 
-Func btnTestFindButton()
-	#AIO
+Func btnRunFunction()
 	Local $currentRunState = $g_bRunState
 	$g_bRunState = True
 
-	Local $result
-	Local $sButton = GUICtrlRead($g_hTxtTestFindButton)
-	SetLog("Execute : " & $sButton, $COLOR_INFO)
+	Local $sFunc = GUICtrlRead($g_hTxtRunFunction)
+	SetLog("Run Function : " & $sFunc, $COLOR_INFO)
 
-	Local $saExecResult = Execute($sButton)
-
+	Local $saExecResult = Execute($sFunc)
 	If $saExecResult = "" And @error <> 0 Then
 		Setlog("Result : Error", $COLOR_ERROR)
 	ElseIf IsArray($saExecResult) Then
@@ -1000,19 +980,7 @@ Func btnTestFindButton()
 	EndIf
 
 	$g_bRunState = $currentRunState
-#cs
-	BeginImageTest()
-	Local $result
-	Local $sButton = GUICtrlRead($g_hTxtTestFindButton)
-	SetLog("Testing findButton(""" & $sButton & """)", $COLOR_INFO)
-	$result = findButton($sButton)
-	$result = ((IsArray($result)) ? (_ArrayToString($result, ",")) : ($result))
-	If @error Then $result = "Error " & @error & ", " & @extended & ", "
-	SetLog("Result findButton(""" & $sButton & """) = " & $result, $COLOR_INFO)
-	SetLog("Testing findButton(""" & $sButton & """) DONE", $COLOR_INFO)
-	EndImageTest()
-#ce
-EndFunc   ;==>btnTestFindButton
+EndFunc
 
 Func btnTestCleanYard()
 	Local $currentRunState = $g_bRunState

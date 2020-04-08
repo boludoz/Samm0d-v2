@@ -64,7 +64,7 @@ Func MilkingAttackStructureDestroyed($type, $level, $coordinate)
 			EndIf
 		Next
 		If $found = 0 Then
-			DebugImageSave("debugMilkingAttackStructureDestroyed_" & $type & "_" & $level & "_", False)
+			SaveDebugImage("debugMilkingAttackStructureDestroyed_" & $type & "_" & $level & "_", False)
 		EndIf
 		Return False
 	Else

@@ -45,35 +45,34 @@ Func UpgradeHeroes()
 		SaveConfig()
 	EndIf
 
- 	SetLog("Upgrading Heroes", $COLOR_INFO)
+	SetLog("Upgrading Heroes", $COLOR_INFO)
 
 	;Check if Auto Lab Upgrade is enabled and if a Dark Troop/Spell is selected for Upgrade. If yes, it has priority!
 	If $g_bAutoLabUpgradeEnable And $g_iLaboratoryDElixirCost > 0 Then
 		SetLog("Laboratory needs DE to Upgrade:  " & $g_iLaboratoryDElixirCost)
 		SetLog("Skipping the Queen and King Upgrade!")
 	Else
-    ; samm0d - if heroes already in upgrade, skip update...
-        If BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
-            If getBuilderCount() = False Then Return ; update builder data, return if problem
-            If _Sleep($DELAYRESPOND) Then Return
-            If $g_iFreeBuilderCount < 1 + ($g_bUpgradeWallSaveBuilder ? 1 : 0) Then
-                SetLog("Not Enough Builders for Queen", $COLOR_ERROR)
-                Return
-            EndIf
-            ;#### upgrade queen ####;
- 			QueenUpgrade()
-
- 			If _Sleep($DELAYUPGRADEHERO1) Then Return
- 		EndIf
- 		; ### Barbarian King ###
- 		If $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) <> $eHeroKing Then
- 			If Not getBuilderCount() Then Return ; update builder data, return if problem
- 			If _Sleep($DELAYRESPOND) Then Return
+		; ### Archer Queen ###
+		If $g_bUpgradeQueenEnable And BitAND($g_iHeroUpgradingBit, $eHeroQueen) <> $eHeroQueen Then
+			If Not getBuilderCount() Then Return ; update builder data, return if problem
+			If _Sleep($DELAYRESPOND) Then Return
 			If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
- 				SetLog("Not enough Builders available to upgrade the Barbarian King")
- 				Return
- 			EndIf
- 			KingUpgrade()
+				SetLog("Not enough Builders available to upgrade the Archer Queen")
+				Return
+			EndIf
+			QueenUpgrade()
+
+			If _Sleep($DELAYUPGRADEHERO1) Then Return
+		EndIf
+		; ### Barbarian King ###
+		If $g_bUpgradeKingEnable And BitAND($g_iHeroUpgradingBit, $eHeroKing) <> $eHeroKing Then
+			If Not getBuilderCount() Then Return ; update builder data, return if problem
+			If _Sleep($DELAYRESPOND) Then Return
+			If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
+				SetLog("Not enough Builders available to upgrade the Barbarian King")
+				Return
+			EndIf
+			KingUpgrade()
 
 			If _Sleep($DELAYUPGRADEHERO1) Then Return
 		EndIf
@@ -87,32 +86,24 @@ Func UpgradeHeroes()
 			EndIf
 			ChampionUpgrade()
 
- 			If _Sleep($DELAYUPGRADEHERO1) Then Return
+			If _Sleep($DELAYUPGRADEHERO1) Then Return
 		EndIf
 	EndIf
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;##### Grand Warden #####;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;##### Verify Builders available
-    ; samm0d - if heroes already in upgrade, skip update...
+	; ### Grand Warden ###
 	;Check if Auto Lab Upgrade is enabled and if a Elixir Troop/Spell is selected for Upgrade. If yes, it has priority!
 	If $g_bAutoLabUpgradeEnable And $g_iLaboratoryElixirCost > 0 Then
 		SetLog("Laboratory needs Elixir to Upgrade:  " & $g_iLaboratoryElixirCost)
 		SetLog("Skipping the Warden Upgrade!")
 	ElseIf $g_bUpgradeWardenEnable And BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden Then
-        If BitAND($g_iHeroUpgradingBit, $eHeroWarden) <> $eHeroWarden Then
-            If getBuilderCount() = False Then Return ; update builder data, return if problem
-            If _Sleep($DELAYRESPOND) Then Return
-			If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
-                SetLog("Not Enough Builder for Warden", $COLOR_ERROR)
-                Return
-            EndIf
-            ;##### Upg Warden
-            WardenUpgrade()
-        Else
-            SetLog("Grand Warden upgrade in Process.", $COLOR_INFO)
+		If Not getBuilderCount() Then Return ; update builder data, return if problem
+		If _Sleep($DELAYRESPOND) Then Return
+		If $g_iFreeBuilderCount < 1 + ($g_bAutoUpgradeWallsEnable And $g_bUpgradeWallSaveBuilder ? 1 : 0) Then
+			SetLog("Not enough Builders available to upgrade the Grand Warden")
+			Return
 		EndIf
+		WardenUpgrade()
 	EndIf
-
 EndFunc   ;==>UpgradeHeroes
 
 Func QueenUpgrade()
@@ -121,17 +112,17 @@ Func QueenUpgrade()
 	Local $aHeroLevel = 0
 
 	SetLog("Upgrade Queen")
-	ClickP($aTopLeftClient, 1, 0, "#0166") ; Click away
+	ClickP($aAway, 1, 0, "#0166") ; Click away
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 	BuildingClickP($g_aiQueenAltarPos) ;Click Queen Altar
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 	;Get Queen info and Level
-	Local $sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; 860x780
+	Local $sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
 	If @error Then SetError(0, 0, 0)
 	Local $CountGetInfo = 0
 	While IsArray($sInfo) = False
-		$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		Sleep(100)
 		$CountGetInfo += 1
@@ -225,17 +216,17 @@ Func KingUpgrade()
 	Local $aHeroLevel = 0
 
 	SetLog("Upgrade King")
-	ClickP($aTopLeftClient, 1, 0, "#0166") ; Click away
+	ClickP($aAway, 1, 0, "#0166") ; Click away
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 	BuildingClickP($g_aiKingAltarPos) ;Click King Altar
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 	;Get King info
-	Local $sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; 860x780
+	Local $sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
 	If @error Then SetError(0, 0, 0)
 	Local $CountGetInfo = 0
 	While IsArray($sInfo) = False
-		$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		If _Sleep(100) Then Return
 		$CountGetInfo += 1
@@ -322,30 +313,31 @@ Func KingUpgrade()
 	EndIf
 
 	ClickP($aAway, 2, 0, "#0312") ;Click Away to close windows
-
 EndFunc   ;==>KingUpgrade
 
 Func WardenUpgrade()
-
 	If Not $g_bUpgradeWardenEnable Then Return
 
 	If Number($g_iTownHallLevel) <= 10 Then
-		SetLog("Must have TH 11 for Grand Warden upgrade", $COLOR_ERROR)
+		SetLog("Must have atleast Townhall 11 for Grand Warden Upgrade", $COLOR_ERROR)
 		Return
 	EndIf
 
 	SetLog("Upgrade Grand Warden")
-	ClickP($aTopLeftClient, 1, 0, "#0166") ; Click away
+	ClickP($aAway, 1, 0, "#0166") ; Click away
+
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
+
 	ClickP($g_aiWardenAltarPos, 1, 0, "#8888") ;Click Warden Altar
+
 	If _Sleep($DELAYUPGRADEHERO2) Then Return
 
 	;Get Warden info
-	Local $sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; 860x780
+	Local $sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
 	If @error Then SetError(0, 0, 0)
 	Local $CountGetInfo = 0
 	While IsArray($sInfo) = False
-		$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; 860x780
+		$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; 860x780
 		If @error Then SetError(0, 0, 0)
 		If _Sleep(100) Then Return
 		$CountGetInfo += 1
@@ -437,11 +429,11 @@ Func WardenUpgrade()
 		EndIf
 	Else
 		SetLog("Upgrade Warden error finding button", $COLOR_ERROR)
- 	EndIf
- 
- 	ClickP($aAway, 2, 0, "#0312") ;Click Away to close windows
+	EndIf
+
+	ClickP($aAway, 2, 0, "#0312") ;Click Away to close windows
 EndFunc   ;==>WardenUpgrade
- 
+
 Func ChampionUpgrade()
 
 	If Not $g_bUpgradeChampionEnable Then Return

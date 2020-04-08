@@ -84,7 +84,7 @@ Func MilkingDetectElixirExtractors()
 						_GDIPlus_PenDispose($hPen)
 						_GDIPlus_BrushDispose($hBrush)
 						_GDIPlus_GraphicsDispose($hGraphic)
-						DebugImageSave("debugresourcesoffset_" & "elixir" & "_" & $temp[0] & "_", False)
+						SaveDebugImage("debugresourcesoffset_" & "elixir" & "_" & $temp[0] & "_", False)
 					EndIf
 
 

@@ -15,24 +15,20 @@
 ; ===============================================================================================================================
 Func ClickOkay($FeatureName = "Okay", $bCheckOneTime = False)
 	Local $i = 0
+	Local $aiOkayButton
 	If _Sleep($DELAYSPECIALCLICK1) Then Return False ; Wait for Okay button window
 	While 1 ; Wait for window with Okay Button
-		Local $offColors[3][3] = [[0xE6FC97, 1, 0], [0xE6FC97, 2, 0], [0xE6FC97, 3, 0]] ; 2nd Black opposite button, 3rd pixel white "O" center top, 4th pixel White "0" bottom center
-		Local $ButtonPixel = _MultiPixelSearch(496, 257, 560, 475, 1, 1, Hex(0xE6FC97, 6), $offColors, 30)
-		;If $g_bDebugSetlog Then SetDebugLog($FeatureName & " btn chk-#1: " & _GetPixelColor(441, 374, True) & ", #2: " & _GetPixelColor(441 + 144, 374 + $g_iMidOffsetY, True) & ", #3: " & _GetPixelColor(441 + 54, 374 + 17 + $g_iMidOffsetY, True) & ", #4: " & _GetPixelColor(441 + 54, 374 + 10 + $g_iMidOffsetY, True), $COLOR_DEBUG)
-		If IsArray($ButtonPixel) Then
-			If $g_bDebugSetlog Then
-				SetDebugLog("ButtonPixelLocation = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG) ;Debug
-				SetDebugLog("Pixel color found #1: " & _GetPixelColor($ButtonPixel[0], $ButtonPixel[1], True) & ", #2: " & _GetPixelColor($ButtonPixel[0] + 144, $ButtonPixel[1], True) & ", #3: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 17, True) & ", #4: " & _GetPixelColor($ButtonPixel[0] + 54, $ButtonPixel[1] + 10, True), $COLOR_DEBUG)
-			EndIf
-			PureClick($ButtonPixel[0], $ButtonPixel[1] + 25, 2, 50, "#0117") ; Click Okay Button
-			If _Sleep(500) Then Return
+		$aiOkayButton = findButton("Okay", Default, 1, True)
+		If IsArray($aiOkayButton) And UBound($aiOkayButton, 1) = 2 Then
+			PureClick($aiOkayButton[0], $aiOkayButton[1], 2, 50, "#0117") ; Click Okay Button
 			ExitLoop
+		Else
+			SetDebugLog("Cannot Find Okay Button", $COLOR_ERROR)
 		EndIf
 		If $bCheckOneTime Then Return False ; enable external control of loop count or follow on actions, return false if not clicked
 		If $i > 5 Then
 			SetLog("Can not find button for " & $FeatureName & ", giving up", $COLOR_ERROR)
-			If $g_bDebugImageSave Then DebugImageSave($FeatureName & "_ButtonCheck_")
+			If $g_bDebugImageSave Then SaveDebugImage($FeatureName & "_ButtonCheck_")
 			SetError(1, @extended, False)
 			Return
 		EndIf

@@ -205,86 +205,76 @@ Func UpgradeBuilding()
 
 EndFunc   ;==>UpgradeBuilding
 ;
-Func UpgradeNormal($inum)
-
-	Local $aResult, $ButtonPixel
-
+Func UpgradeNormal($iUpgradeNumber)
 	ClickP($aAway, 1, 0, "#0211") ;Click Away to close the upgrade window
 	If _Sleep($DELAYUPGRADENORMAL1) Then Return
 
-	BuildingClick($g_avBuildingUpgrades[$inum][0], $g_avBuildingUpgrades[$inum][1], "#0296") ; Select the item to be upgrade
+	BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0296") ; Select the item to be upgrade
 	If _Sleep($DELAYUPGRADENORMAL1) Then Return ; Wait for window to open
 
-	$aResult = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
+	Local $aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
+	If UBound($aResult) < 2 Then Return False
 
-	If UBound($aResult) < 2 Then
-		; bot stopped
-		Return False
-	EndIf
-	If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$inum][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
-
-		SetLog("#" & $inum + 1 & ":" & $g_avBuildingUpgrades[$inum][4] & ": Not same as :" & $aResult[1] & ":? Retry now...", $COLOR_INFO)
+	If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
+		SetLog("#" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as :" & $aResult[1] & ":? Retry now...", $COLOR_INFO)
 		ClickP($aAway, 1, 0, "#0211") ;Click Away to close window
 		If _Sleep($DELAYUPGRADENORMAL1) Then Return
 
-		BuildingClick($g_avBuildingUpgrades[$inum][0], $g_avBuildingUpgrades[$inum][1], "#0296") ; Select the item to be upgrade again in case full collector/mine
+		BuildingClick($g_avBuildingUpgrades[$iUpgradeNumber][0], $g_avBuildingUpgrades[$iUpgradeNumber][1], "#0296") ; Select the item to be upgrade again in case full collector/mine
 		If _Sleep($DELAYUPGRADENORMAL1) Then Return ; Wait for window to open
 
-		$aResult = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
+		$aResult = BuildingInfo(242, 490 + $g_iBottomOffsetY) ; read building name/level to check we have right bldg or if collector was not full
 		If $aResult[0] > 1 Then
-			If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$inum][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
-				SetLog("Found #" & $inum + 1 & ":" & $g_avBuildingUpgrades[$inum][4] & ": Not same as : " & $aResult[1] & ":, May need new location?", $COLOR_ERROR)
+			If StringStripWS($aResult[1], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) <> StringStripWS($g_avBuildingUpgrades[$iUpgradeNumber][4], BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING)) Then ; check bldg names
+				SetLog("Found #" & $iUpgradeNumber + 1 & ":" & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ": Not same as : " & $aResult[1] & ":, May need new location?", $COLOR_ERROR)
 				Return False
 			EndIf
 		EndIf
 	EndIf
 
-	If QuickMIS("BC1", $g_sImgAUpgradeUpgradeBtn, 120, 630, 740, 680) Then
-		Local $ButtonPixel[2]
-		$ButtonPixel[0] = 120 + $g_iQuickMISX
-		$ButtonPixel[1] = 630 + $g_iQuickMISY
-		If $g_bDebugSetlog Then SetLog("ButtonPixel = " & $ButtonPixel[0] & ", " & $ButtonPixel[1], $COLOR_DEBUG)
+	Local $aUpgradeButton = findButton("Upgrade", Default, 1, True)
 
+	If IsArray($aUpgradeButton) And UBound($aUpgradeButton, 1) = 2 Then
 		If _Sleep($DELAYUPGRADENORMAL2) Then Return
-		Click($ButtonPixel[0] + 20, $ButtonPixel[1] + 20, 1, 0, "#0297") ; Click Upgrade Button
+		ClickP($aUpgradeButton, 1, 0, "#0297") ; Click Upgrade Button
 		If _Sleep($DELAYUPGRADENORMAL3) Then Return ; Wait for window to open
-		If $g_bDebugImageSave Then DebugImageSave("UpgradeRegBtn1")
+		If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn1")
 		Local $aBldgUpgradeWinChk[4] = [687, 161 + $g_iMidOffsetY, 0xCD1419, 20] ; Red pixel on botton X to close window
 		If _WaitForCheckPixel($aBldgUpgradeWinChk, $g_bCapturePixel,Default, "BldgUpgradeWinChk", Default, Default, 100) Then ; wait up to 2 seconds for hero upgrade window to open
 			If _ColorCheck(_GetPixelColor(459, 490 + $g_iMidOffsetY, True), Hex(0xE70A12, 6), 20) And _ColorCheck(_GetPixelColor(459, 494 + $g_iMidOffsetY), Hex(0xE70A12, 6), 20) And _
 					_ColorCheck(_GetPixelColor(459, 498 + $g_iMidOffsetY, True), Hex(0xE70A12, 6), 20) Then ; Check for Red Zero = means not enough loot!
 
-				SetLog("Upgrade Fail #" & $inum + 1 & " " & $g_avBuildingUpgrades[$inum][4] & ", No Loot!", $COLOR_ERROR)
+				SetLog("Upgrade Fail #" & $iUpgradeNumber + 1 & " " & $g_avBuildingUpgrades[$iUpgradeNumber][4] & ", No Loot!", $COLOR_ERROR)
 
 				ClickP($aAway, 2, 0, "#0298") ;Click Away
 				Return False
 			Else
 				Click(440, 480 + $g_iMidOffsetY, 1, 0, "#0299") ; Click upgrade buttton
 				If _Sleep($DELAYUPGRADENORMAL3) Then Return
-				If $g_bDebugImageSave Then DebugImageSave("UpgradeRegBtn2")
+				If $g_bDebugImageSave Then SaveDebugImage("UpgradeRegBtn2")
 				If _ColorCheck(_GetPixelColor(573, 256 + $g_iMidOffsetY, True), Hex(0xE1090E, 6), 20) Then ; Redundant Safety Check if the use Gem window opens
-					SetLog("Upgrade Fail #" & $inum + 1 & " " & $g_avBuildingUpgrades[$inum][4] & " No Loot!", $COLOR_ERROR)
+					SetLog("Upgrade Fail #" & $iUpgradeNumber + 1 & " " & $g_avBuildingUpgrades[$iUpgradeNumber][4] & " No Loot!", $COLOR_ERROR)
 					ClickP($aAway, 2, 0, "#0300") ;Click Away to close windows
 					Return False
 				EndIf
-				SetLog("Upgrade #" & $inum + 1 & " " & $g_avBuildingUpgrades[$inum][4] & " started", $COLOR_SUCCESS)
-				_GUICtrlSetImage($g_hPicUpgradeStatus[$inum], $g_sLibIconPath, $eIcnGreenLight) ; Change GUI upgrade status to done
-				$g_aiPicUpgradeStatus[$inum] = $eIcnGreenLight ; Change GUI upgrade status to done
-				GUICtrlSetData($g_hTxtUpgradeValue[$inum], -($g_avBuildingUpgrades[$inum][2])) ; Show Negative Upgrade value in GUI
+				SetLog("Upgrade #" & $iUpgradeNumber + 1 & " " & $g_avBuildingUpgrades[$iUpgradeNumber][4] & " started", $COLOR_SUCCESS)
+				_GUICtrlSetImage($g_hPicUpgradeStatus[$iUpgradeNumber], $g_sLibIconPath, $eIcnGreenLight) ; Change GUI upgrade status to done
+				$g_aiPicUpgradeStatus[$iUpgradeNumber] = $eIcnGreenLight ; Change GUI upgrade status to done
+				GUICtrlSetData($g_hTxtUpgradeValue[$iUpgradeNumber], -($g_avBuildingUpgrades[$iUpgradeNumber][2])) ; Show Negative Upgrade value in GUI
 				;$itxtUpgradeValue[$inum] = -($g_avBuildingUpgrades[$inum][2]) ; Show Negative Upgrade value in GUI
-				GUICtrlSetData($g_hTxtUpgradeLevel[$inum], $g_avBuildingUpgrades[$inum][5] & "+") ; Set GUI level to match $g_avBuildingUpgrades variable
-				$g_aiUpgradeLevel[$inum] = $g_avBuildingUpgrades[$inum][5] & "+" ; Set GUI level to match $g_avBuildingUpgrades variable
-				If $g_abUpgradeRepeatEnable[$inum] = False Then ; Check for repeat upgrade
-					GUICtrlSetState($g_hChkUpgrade[$inum], $GUI_UNCHECKED) ; Change upgrade selection box to unchecked
-					$g_abBuildingUpgradeEnable[$inum] = False ; Change upgrade selection box to unchecked
-					$g_avBuildingUpgrades[$inum][0] = -1 ;Reset $UpGrade position coordinate variable to blank to show its completed
-					$g_avBuildingUpgrades[$inum][1] = -1
-					$g_avBuildingUpgrades[$inum][3] = "" ; Reset loot type
-					GUICtrlSetData($g_hTxtUpgradeLevel[$inum], $g_avBuildingUpgrades[$inum][5] & "+") ; Set GUI level to match $g_avBuildingUpgrades variable
-					$g_avBuildingUpgrades[$inum][5] = $g_avBuildingUpgrades[$inum][5] & "+" ; Set GUI level to match $g_avBuildingUpgrades variable
-				ElseIf $g_abUpgradeRepeatEnable[$inum] = True Then
-					GUICtrlSetState($g_hChkUpgrade[$inum], $GUI_CHECKED) ; Ensure upgrade selection box is checked
-					$g_abBuildingUpgradeEnable[$inum] = True ; Ensure upgrade selection box is checked
+				GUICtrlSetData($g_hTxtUpgradeLevel[$iUpgradeNumber], $g_avBuildingUpgrades[$iUpgradeNumber][5] & "+") ; Set GUI level to match $g_avBuildingUpgrades variable
+				$g_aiUpgradeLevel[$iUpgradeNumber] = $g_avBuildingUpgrades[$iUpgradeNumber][5] & "+" ; Set GUI level to match $g_avBuildingUpgrades variable
+				If Not $g_abUpgradeRepeatEnable[$iUpgradeNumber] Then ; Check for repeat upgrade
+					GUICtrlSetState($g_hChkUpgrade[$iUpgradeNumber], $GUI_UNCHECKED) ; Change upgrade selection box to unchecked
+					$g_abBuildingUpgradeEnable[$iUpgradeNumber] = False ; Change upgrade selection box to unchecked
+					$g_avBuildingUpgrades[$iUpgradeNumber][0] = -1 ;Reset $UpGrade position coordinate variable to blank to show its completed
+					$g_avBuildingUpgrades[$iUpgradeNumber][1] = -1
+					$g_avBuildingUpgrades[$iUpgradeNumber][3] = "" ; Reset loot type
+					GUICtrlSetData($g_hTxtUpgradeLevel[$iUpgradeNumber], $g_avBuildingUpgrades[$iUpgradeNumber][5] & "+") ; Set GUI level to match $g_avBuildingUpgrades variable
+					$g_avBuildingUpgrades[$iUpgradeNumber][5] = $g_avBuildingUpgrades[$iUpgradeNumber][5] & "+" ; Set GUI level to match $g_avBuildingUpgrades variable
+				ElseIf $g_abUpgradeRepeatEnable[$iUpgradeNumber] Then
+					GUICtrlSetState($g_hChkUpgrade[$iUpgradeNumber], $GUI_CHECKED) ; Ensure upgrade selection box is checked
+					$g_abBuildingUpgradeEnable[$iUpgradeNumber] = True ; Ensure upgrade selection box is checked
 				EndIf
 				ClickP($aAway, 2, 0, "#0301") ;Click Away to close windows
 				If _Sleep($DELAYUPGRADENORMAL3) Then Return ; Wait for window to close

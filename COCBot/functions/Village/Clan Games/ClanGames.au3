@@ -299,7 +299,7 @@ Func _ClanGames($test = False)
 
 							; Exceptions :
 							; 1 - "Gardening Exercise" needs at least a Free Builder and "Remove Obstacles" enabled
-							 If $MiscChallenges[$j][1] = "Gardening Exercise" And ($g_iFreeBuilderCount < 1 Or Not $g_bChkCleanYard) Then ExitLoop
+							If $MiscChallenges[$j][1] = "Gardening Exercise" And ($g_iFreeBuilderCount < 1 Or Not $g_bChkCleanYard) Then ExitLoop
 
 							; 2 - Verify your TH level and Challenge kind
 							If $g_iTownHallLevel < $MiscChallenges[$j][2] Then ExitLoop
@@ -682,7 +682,7 @@ Func ClanGames($bTest = False)
 EndFunc   ;==>ClanGames
 
 #Tidy_Off
-Func ClanGamesChallenges($sReturnArray, $makeIni = False, $sINIPath = "", $debug = False)
+Func ClanGamesChallenges($sReturnArray, $makeIni = False, $sINIPath = "", $bDebug = False)
 
 	;[0]=ImageName 	 					[1]=Challenge Name		[3]=THlevel 	[4]=Priority/TroopsNeeded 	[5]=Extra/to use in future
 	Local $LootChallenges[6][5] = [ _

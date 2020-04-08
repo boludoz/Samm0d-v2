@@ -6,28 +6,32 @@
 ; Return values .: None
 ; Author ........: KnowJack (June 2015)
 ; Modified ......: Sardo 2015-08
-; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2018
+; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2015-2019
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func LocateLab()
+Func LocateLab($bCollect = True)
 	Local $stext, $MsgBox, $iStupid = 0, $iSilly = 0, $sErrorText = ""
-
-	SetLog("Locating Laboratory...", $COLOR_INFO)
 	
+	If $g_iTownHallLevel < 3 Then
+		SetLog("Townhall Lvl " & $g_iTownHallLevel & " has no Lab, so skip locating.", $COLOR_ACTION)
+		Return
+	EndIf
+
+	SetLog("Locating Laboratory", $COLOR_INFO)
+
 	If $g_bSkipLocateExc Then
 		$g_aiLaboratoryPos[0] = -1
 		$g_aiLaboratoryPos[1] = -1
 		SetLog("Quick Laboratory...", $COLOR_INFO)
 	Return False
 	EndIf
-	
-	If _GetPixelColor($aTopLeftClient[0], $aTopLeftClient[1], True) <> Hex($aTopLeftClient[2], 6) Or _GetPixelColor($aTopRightClient[0], $aTopRightClient[1], True) <> Hex($aTopRightClient[2], 6) Then
-		Zoomout()
-		Collect()
-	EndIf
+
+	WinGetAndroidHandle()
+	checkMainScreen()
+	If $bCollect Then Collect(False)
 
 	While 1
 		_ExtMsgBoxSet(1 + 64, $SS_CENTER, 0x004080, 0xFFFF00, 12, "Comic Sans MS", 600)
@@ -67,7 +71,7 @@ Func LocateLab()
 			ClickP($aAway, 1, 0, "#0382")
 			Return
 		EndIf
-		Local $sLabInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY); 860x780
+		Local $sLabInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY); 860x780
 		If $sLabInfo[0] > 1 Or $sLabInfo[0] = "" Then
 			If StringInStr($sLabInfo[1], "Lab") = 0 Then
 				Local $sLocMsg = ($sLabInfo[0] = "" ? "Nothing" : $sLabInfo[1])

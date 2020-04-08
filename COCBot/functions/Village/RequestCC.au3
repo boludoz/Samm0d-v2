@@ -14,24 +14,25 @@
 ; ===============================================================================================================================
 
 ; samm0d
-Func RequestCC($ClickPAtEnd = True, $specifyText = "", $bOpenTrainWindow = True)
+Func RequestCC($bClickPAtEnd = True, $sText = "", $bOpenTrainWindow = True)
 
-	If Not $g_bRequestTroopsEnable Or Not $g_bCanRequestCC Or Not $g_bDonationEnabled Then
+	If Not $g_bRequestTroopsEnable Or Not $g_bDonationEnabled Then
 		Return
 	EndIf
 
+	If Not $g_bRunState Then Return
+
 	If $g_bRequestTroopsEnable Then
 		Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
-		If $g_abRequestCCHours[$hour[0]] = False Then
-			SetLog("Request Clan Castle troops not planned, Skipped..", $COLOR_ACTION)
-			Return ; exit func if no planned donate checkmarks
-		EndIf
-	 EndIf
-
+		If Not $g_abRequestCCHours[$hour[0]] Then
+ 			SetLog("Request Clan Castle troops not planned, Skipped..", $COLOR_ACTION)
+ 			Return ; exit func if no planned donate checkmarks
+ 		EndIf
+ 	EndIf
     Local $bContinueRequest = False
 
 	;open army overview
-	If $specifyText <> "IsFullClanCastle" And Not OpenArmyOverview(True, "RequestCC()") Then Return
+	If $sText <> "IsFullClanCastle" And Not OpenArmyOverview(True, "RequestCC()") Then Return
 
     ; samm0d
     If $ichkRequestCC4Troop = 0 And $ichkRequestCC4Spell = 0 And $ichkRequestCC4SeigeMachine = 0 Then
@@ -52,6 +53,7 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "", $bOpenTrainWindow = True)
     EndIf
 
 	SetLog("Requesting Clan Castle reinforcements", $COLOR_INFO)
+	
 
     If $bContinueRequest = False Then
         SetLog("Skip request since Clan Castle Troops / Spells / Seige Machine ready.", $COLOR_ACTION)
@@ -75,23 +77,35 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "", $bOpenTrainWindow = True)
         checkAttackDisable($g_iTaBChkIdle) ; Early Take-A-Break detection
     EndIf
 
-	If $ClickPAtEnd Then CheckCCArmy()
+	If $bClickPAtEnd Then CheckCCArmy()
+	If Not $g_bRunState Then Return
+	
+	Local $sSearchDiamond = GetDiamondFromRect("718,580,780,614")
+	Local Static $aRequestButtonPos[2] = [-1, -1]
 
-	Local $color1 = _GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1] + 20, True) ; Gray/Green color at 20px below Letter "R"
-	Local $color2 = _GetPixelColor($aRequestTroopsAO[0], $aRequestTroopsAO[1], True) ; White/Green color at Letter "R"
+	Local $aRequestButton = findMultiple($g_sImgRequestCCButton, $sSearchDiamond, $sSearchDiamond, 0, 1000, 1, "objectname,objectpoints", True)
+	If Not IsArray($aRequestButton) Then
+		SetLog("Error in RequestCC(): $aRequestButton is no Array")
+		If $g_bDebugImageSave Then SaveDebugImage("RequestButtonStateError")
+		Return
+	EndIf
 
-	If _ColorCheck($color1, Hex($aRequestTroopsAO[2], 6), $aRequestTroopsAO[5]) Then
-		;clan full or not in clan
-		SetLog("Your Clan Castle is already full or you are not in a clan.")
-		$g_bCanRequestCC = False
-	ElseIf _ColorCheck($color1, Hex($aRequestTroopsAO[3], 6), $aRequestTroopsAO[5]) Then
-		If _ColorCheck($color2, Hex($aRequestTroopsAO[4], 6), $aRequestTroopsAO[5]) Then
-			;can make a request
+	If Not $g_bRunState Then Return
+
+	If UBound($aRequestButton, 1) >= 1 Then
+		Local $sButtonState
+		Local $aRequestButtonSubResult = $aRequestButton[0]
+		$sButtonState = $aRequestButtonSubResult[0]
+		If $aRequestButtonPos[0] = -1 Then
+			$aRequestButtonPos = StringSplit($aRequestButtonSubResult[1], ",", $STR_NOCOUNT)
+		EndIf
+
+		If StringInStr($sButtonState, "Available", 0) > 0 Then
 			Local $bNeedRequest = False
 			If Not $g_abRequestType[0] And Not $g_abRequestType[1] And Not $g_abRequestType[2] Then
 				SetDebugLog("Request for Specific CC is not enable")
 				$bNeedRequest = True
-			ElseIf Not $ClickPAtEnd Then
+			ElseIf Not $bClickPAtEnd Then
 				$bNeedRequest = True
 			Else
 				For $i = 0 To 2

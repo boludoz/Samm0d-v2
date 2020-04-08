@@ -176,21 +176,15 @@ Func CreateBotDebug()
 	; now go up again
 	$x -= 145
 
-	#AIO 
-
-		$g_hTxtTestFindButton = GUICtrlCreateInput("Execute()", $x - 90, $y + 3, 85, 20)
-		$g_hBtnTestFindButton = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "Execute", "Execute func/math"), $x, $y, 140, 25)
-	$y -= $yNext
-	;	$g_hTxtTestFindButton = GUICtrlCreateInput("BoostOne", $x - 90, $y + 3, 85, 20)
-	;	$g_hBtnTestFindButton = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "TestFindButton", "Test Find Button"), $x, $y, 140, 25)
-	;$y -= $yNext
-	#AIO
+		$g_hTxtRunFunction = GUICtrlCreateInput("zoomOut()", $x - 145, $y + 3, 140, 20)
+		$g_hBtnRunFunction = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "RunFunction", "Run Function"), $x, $y, 140, 25)
+ 	$y -= $yNext
 
 		$g_hBtnTestDeadBaseFolder = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "BtnTestDeadBaseFolder", "Test Dead Base Folder"), $x, $y, 140, 25)
 		$g_hBtnTestCleanYard = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "BtnTestCleanYard", "Test Clean Yard"), $x - 145, $y, 140, 25)
 	$y -= $yNext
 
-		$g_hBtnTestAttackCSV = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "BtnTestAttackCSV", "Army Window"), $x, $y, 140, 25)
+		$g_hBtnTestAttackCSV = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "BtnTestAttackCSV", "Test Attack CSV"), $x, $y, 140, 25)
 		$g_hBtnTestBuildingLocation = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "BtnTestBuildingLocation", "Find Building"), $x - 145, $y, 140, 25)
 	$y -= $yNext
 
@@ -216,7 +210,7 @@ Func CreateBotDebug()
 ;~ 		$g_hBtnTestUpgradeWindow = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "TestUpgradeWindow", "Test Upgrade Window"), $x + 20, $y, 120, 25)
 ;~ 	$y -= $yNext
 
-;~ 		$g_hBtnConsoleWindow = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "ConsoleWindow", "Show/hide Console"), $x + 20, $y, 120, 25)
+;~ 		$g_hBtnTestArmyWindow = GUICtrlCreateButton(GetTranslatedFileIni("MBR GUI Design Child Bot - Debug", "BtnTestArmyWindow", "Army Window"), $x + 20, $y, 120, 25)
 ;~ 	$y -= $yNext
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 

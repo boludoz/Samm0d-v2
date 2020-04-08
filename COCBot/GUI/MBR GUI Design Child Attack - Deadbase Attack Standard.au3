@@ -53,21 +53,6 @@ Func CreateAttackSearchDeadBaseStandard()
 									   GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "CmbStandardDropSides_Item_04", -1))
 					 GUICtrlSetOnEvent(-1, "cmbDeployDB")
 
-		$y += 25
-			GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "Lbl-CmbStandardUnitDelay", "Delay Unit") & ":", $x, $y + 5, -1, -1)
-				$sTxtTip = GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "Lbl-CmbStandardUnitDelay_Info_01", "This delays the deployment of troops, 1 (fast) = like a Bot, 10 (slow) = Like a Human.") & @CRLF & _
-						   GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "Lbl-CmbStandardUnitDelay_Info_02", "Random will make bot more varied and closer to a person.")
-				_GUICtrlSetTip(-1, $sTxtTip)
-			$g_hCmbStandardUnitDelayDB = GUICtrlCreateCombo("", $x + 55, $y, 36, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-				_GUICtrlSetTip(-1, $sTxtTip)
-				GUICtrlSetData(-1, "1|2|3|4|5|6|7|8|9|10", "4")
-				GUICtrlSetOnEvent(-1, "chkSpeedAtkDB")
-			GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "Lbl-CmbStandardWaveDelay_Info_01", "Wave") & ":", $x + 100, $y + 5, -1, -1)
-				_GUICtrlSetTip(-1, $sTxtTip)
-			$g_hCmbStandardWaveDelayDB = GUICtrlCreateCombo("", $x + 140, $y, 36, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-				_GUICtrlSetTip(-1, $sTxtTip)
-				GUICtrlSetData(-1, "1|2|3|4|5|6|7|8|9|10", "4")
-				GUICtrlSetOnEvent(-1, "chkSpeedAtkDB")
 		$y += 22
 			$g_hChkRandomSpeedAtkDB = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Attack - Attack Standard", "ChkRandomSpeedAtk", "Randomize delay for Units && Waves"), $x, $y, -1, -1)
 				_GUICtrlSetTip(-1, $sTxtTip)

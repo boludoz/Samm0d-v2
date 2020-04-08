@@ -60,29 +60,29 @@ Func _LocateQueenAltar($bCollect = True)
 						ContinueLoop
 					Case $iStupid > 4
 						SetLog(" Operator Error - Bad Queen Altar Location: " & "(" & $g_aiQueenAltarPos[0] & "," & $g_aiQueenAltarPos[1] & ")", $COLOR_ERROR)
-						ClickP($aTopLeftClient)
+						ClickP($aAway)
 						Return False
 					Case Else
 						SetLog(" Operator Error - Bad Queen Altar Location: " & "(" & $g_aiQueenAltarPos[0] & "," & $g_aiQueenAltarPos[1] & ")", $COLOR_ERROR)
 						$g_aiQueenAltarPos[0] = -1
 						$g_aiQueenAltarPos[1] = -1
-						ClickP($aTopLeftClient)
+						ClickP($aAway)
 						Return False
 				EndSelect
 			EndIf
 			SetLog("Queen Altar: " & "(" & $g_aiQueenAltarPos[0] & "," & $g_aiQueenAltarPos[1] & ")", $COLOR_SUCCESS)
 		Else
 			SetLog("Locate Queen Altar Cancelled", $COLOR_INFO)
-			ClickP($aTopLeftClient)
+			ClickP($aAway)
 			Return
 		EndIf
 
 		;get Queen info
-		$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY); 860x780
+		$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY); 860x780
 		If @error Then SetError(0, 0, 0)
 		Local $CountGetInfo = 0
-		While IsArray($sInfo) = False
-			$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY); 860x780
+		While Not IsArray($sInfo)
+			$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY); 860x780
 			If @error Then SetError(0, 0, 0)
 			Sleep(100)
 			$CountGetInfo += 1
@@ -188,29 +188,29 @@ Func _LocateKingAltar($bCollect = True)
 						ContinueLoop
 					Case $iStupid > 4
 						SetLog(" Operator Error - Bad King Altar Location: " & "(" & $g_aiKingAltarPos[0] & "," & $g_aiKingAltarPos[1] & ")", $COLOR_ERROR)
-						ClickP($aTopLeftClient)
+						ClickP($aAway)
 						Return False
 					Case Else
 						SetLog(" Operator Error - Bad King Altar Location: " & "(" & $g_aiKingAltarPos[0] & "," & $g_aiKingAltarPos[1] & ")", $COLOR_ERROR)
 						$g_aiKingAltarPos[0] = -1
 						$g_aiKingAltarPos[1] = -1
-						ClickP($aTopLeftClient)
+						ClickP($aAway)
 						Return False
 				EndSelect
 			EndIf
 			SetLog("King Altar: " & "(" & $g_aiKingAltarPos[0] & "," & $g_aiKingAltarPos[1] & ")", $COLOR_SUCCESS)
 		Else
 			SetLog("Locate King Altar Cancelled", $COLOR_INFO)
-			ClickP($aTopLeftClient)
+			ClickP($aAway)
 			Return
 		EndIf
 
 		;Get King info
-		$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY); 860x780
+		$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY); 860x780
 		If @error Then SetError(0, 0, 0)
 		Local $CountGetInfo = 0
-		While IsArray($sInfo) = False
-			$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY); 860x780
+		While Not IsArray($sInfo)
+			$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY); 860x780
 			If @error Then SetError(0, 0, 0)
 			Sleep(100)
 			$CountGetInfo += 1
@@ -319,29 +319,29 @@ Func _LocateWardenAltar($bCollect = True)
 						ContinueLoop
 					Case $iStupid > 4
 						SetLog(" Operator Error - Bad Grand Warden Altar Location: " & "(" & $g_aiWardenAltarPos[0] & "," & $g_aiWardenAltarPos[1] & ")", $COLOR_ERROR)
-						ClickP($aTopLeftClient)
+						ClickP($aAway)
 						Return False
 					Case Else
 						SetLog(" Operator Error - Bad Grand Warden Altar Location: " & "(" & $g_aiWardenAltarPos[0] & "," & $g_aiWardenAltarPos[1] & ")", $COLOR_ERROR)
 						$g_aiWardenAltarPos[0] = -1
 						$g_aiWardenAltarPos[1] = -1
-						ClickP($aTopLeftClient)
+						ClickP($aAway)
 						Return False
 				EndSelect
 			EndIf
 			SetLog("Grand Warden Altar: " & "(" & $g_aiWardenAltarPos[0] & "," & $g_aiWardenAltarPos[1] & ")", $COLOR_SUCCESS)
 		Else
 			SetLog("Locate Grand Warden Altar Cancelled", $COLOR_INFO)
-			ClickP($aTopLeftClient)
+			ClickP($aAway)
 			Return
 		EndIf
 
 		;get GrandWarden info
-		$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY) ;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< need to work
+		$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY) ;<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< need to work
 		If @error Then SetError(0, 0, 0)
 		Local $CountGetInfo = 0
-		While IsArray($sInfo) = False
-			$sInfo = BuildingInfo(242, 520 - 30 + $g_iBottomOffsetY)
+		While Not IsArray($sInfo)
+			$sInfo = BuildingInfo(242, 490 + $g_iBottomOffsetY)
 			If @error Then SetError(0, 0, 0)
 			Sleep(100)
 			$CountGetInfo += 1

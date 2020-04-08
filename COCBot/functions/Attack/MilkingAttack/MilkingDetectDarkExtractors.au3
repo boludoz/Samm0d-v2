@@ -59,7 +59,7 @@ Func MilkingDetectDarkExtractors()
 							_GDIPlus_PenDispose($hPen)
 							_GDIPlus_BrushDispose($hBrush)
 							_GDIPlus_GraphicsDispose($hGraphic)
-							DebugImageSave("debugresourcesoffset_" & $type & "_" & $level & "_", False)
+							SaveDebugImage("debugresourcesoffset_" & $type & "_" & $level & "_", False)
 						EndIf
 						;ok add if conditions satisfied
 						If AmountOfResourcesInStructure("drill", $pixel, $temp[0]) Then

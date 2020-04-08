@@ -32,12 +32,27 @@ Func CreateBotAndroid()
     ; samm0d
     CreatLocateAdBtn($x + 250, $y)
 
-	$y += $h + 5
+	$x = 280
+	$y = 45
+	$w = 185
+	GUICtrlCreateGroup(GetTranslatedFileIni("Android", "Android_Click_Delay", "Additional Click Delay"), $x - 20, $y - 20, $w, $h)
+	$sTxtTip = GetTranslatedFileIni("Android", "LblAdditionalClickDelay_Info", "Increase the delay if your PC is slow or to create human like click speed")
+	$g_hLblAdditionalClickDelay = GUICtrlCreateLabel($g_iAndroidControlClickAdditionalDelay & " ms", $x + $w - 65, $y + 5, 37, 30, $SS_RIGHT)
+	_GUICtrlSetTip(-1, $sTxtTip)
+	$g_hSldAdditionalClickDelay = GUICtrlCreateSlider($x - 15, $y, $w - 44, 25, $TBS_AUTOTICKS)
+	_GUICtrlSetTip(-1, $sTxtTip)
+	_GUICtrlSlider_SetTipSide(-1, $TBTS_BOTTOM)
+	_GUICtrlSlider_SetTicFreq(-1, 2)
+	GUICtrlSetLimit(-1, 50, 0) ; 50 position multiplied by 2
+	GUICtrlSetData(-1, Int($g_iAndroidControlClickAdditionalDelay / 2)) ; default value
+	GUICtrlSetBkColor(-1, $COLOR_WHITE)
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	$x = 25
 	$y2 = $y
 	$w = $g_iSizeWGrpTab2 - 2
-	$h = 121
+	$h = 9 * 25
 	GUICtrlCreateGroup(GetTranslatedFileIni("Android", "Android_Options", "Android Options"), $x - 20, $y - 20, $w, $h)
-	;$y -= 2
 		GUICtrlCreateLabel(GetTranslatedFileIni("Android", "LblBackgroundMode", "Screencapture Background Mode"), $x - 8, $y + 5, 180, 22, $SS_RIGHT)
 		$g_hCmbAndroidBackgroundMode = GUICtrlCreateCombo("", $x - 8 + 180 + 5, $y, 200, -1, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetData(-1, GetTranslatedFileIni("Android", "CmbBackgroundMode", "Default|Use WinAPI (need Android DirectX)|Use ADB screencap"))

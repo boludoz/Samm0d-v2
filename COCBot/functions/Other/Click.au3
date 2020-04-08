@@ -86,11 +86,11 @@ Func _ControlClick($x, $y)
 	Local $WM_LBUTTONDOWN = 0x0201, $WM_LBUTTONUP = 0x0202
 	Local $lParam = BitOR(Int($y) * 0x10000, BitAND(Int($x), 0xFFFF)) ; HiWord = y-coordinate, LoWord = x-coordinate
 	; _WinAPI_PostMessage or _SendMessage
-	_SendMessage($hWin, $WM_LBUTTONDOWN, 0x0001, $lParam)
+ 	_SendMessage($hWin, $WM_LBUTTONDOWN, 0x0001, $lParam)
 	_SleepMicro(GetClickDownDelay() * 1000)
 	_SendMessage($hWin, $WM_LBUTTONUP, 0x0000, $lParam)
 	_SleepMicro(GetClickUpDelay() * 1000)
-	Return 1
+ 	Return 1
 EndFunc   ;==>_ControlClick
 
 Func isProblemAffectBeforeClick($iCount = 0)
@@ -131,8 +131,8 @@ Func PureClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
 			$txt = _DecodeDebug($debugtxt)
 			SetLog("PureClick " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
         EndIf
-	EndIf
-
+ 	EndIf
+ 
 	If TestCapture() Then Return
 
 	If $g_bAndroidAdbClick = True Then
@@ -175,7 +175,7 @@ Func GemClick($x, $y, $times = 1, $speed = 0, $debugtxt = "")
 			Local $txt = _DecodeDebug($debugtxt)
 			SetLog("GemClick " & $x & "," & $y & "," & $times & "," & $speed & " " & $debugtxt & $txt, $COLOR_ACTION, "Verdana", "7.5", 0)
 		EndIf
-	EndIf
+ 	EndIf
 
 	If TestCapture() Then Return
 

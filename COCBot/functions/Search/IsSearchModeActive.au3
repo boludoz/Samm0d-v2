@@ -21,8 +21,6 @@ Func IsSearchModeActiveSamM0d($g_iMatchMode, $nocheckHeroes = False, $bNoLog = F
             $bMatchModeEnabled = $g_abAttackTypeEnable[$DB]
         Case $LB
             $bMatchModeEnabled = $g_abAttackTypeEnable[$LB]
-        Case $TS
-            $bMatchModeEnabled = $g_abAttackTypeEnable[$TS]
         Case Else
             $bMatchModeEnabled = False
     EndSwitch
@@ -98,9 +96,9 @@ Func IsSearchModeActiveSamM0d($g_iMatchMode, $nocheckHeroes = False, $bNoLog = F
     EndIf
 EndFunc
 
-Func IsSearchModeActive($g_iMatchMode, $nocheckHeroes = False, $bNoLog = False)
+Func IsSearchModeActive($g_iMatchMode, $bDontCheckHeroes = False, $bNoLog = False)
     If $ichkModTrain = 1 Then
-        Return IsSearchModeActiveSamM0d($g_iMatchMode, $nocheckHeroes, $bNoLog)
+        Return IsSearchModeActiveSamM0d($g_iMatchMode, $bDontCheckHeroes, $bNoLog)
     EndIf
 
 	Local $currentSearch = $g_iSearchCount + 1
