@@ -1,0 +1,3821 @@
+﻿<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+	<head>
+		<title>Forums - Mybot.run</title>
+		
+		<!--[if lt IE 9]>
+			<link rel="stylesheet" type="text/css" href="https://mybot.run/forums/uploads/css_built_18/5e61784858ad3c11f00b5706d12afe52_ie8.css.b2435a3217198d030f072e8169a54756.css">
+		    <script src="//mybot.run/forums/applications/core/interface/html5shiv/html5shiv.js"></script>
+		<![endif]-->
+		
+<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+	
+	
+		<meta property="og:image" content="https://mybot.run/forums/uploads/monthly_2020_02/Logo.png.b9caaa366f3379fc3c49e98f072667ae.png">
+	
+
+
+	<meta name="twitter:card" content="summary_large_image" />
+
+
+
+	
+		
+			
+				<meta property="og:title" content="MyBot Forums">
+			
+		
+	
+
+	
+		
+			
+				<meta property="og:type" content="website">
+			
+		
+	
+
+	
+		
+			
+				<meta property="og:url" content="https://mybot.run/forums/index.php?/">
+			
+		
+	
+
+	
+		
+			
+				<meta property="og:site_name" content="MyBot Forums">
+			
+		
+	
+
+	
+		
+			
+				<meta property="og:locale" content="en_US">
+			
+		
+	
+
+	
+		
+			
+				<meta name="keywords" content="clash of clans, bot, free, open source, best, safe, stay online, fill storages, MEmu, Droid4X, Nox, iTools, BlueStacks, BlueStacks 2, Multi Botting">
+			
+		
+	
+
+
+	
+		<script src="/cdn-cgi/apps/head/z6wmuSnxDk_wHRKnYFhm1qKpmHU.js"></script><link rel="canonical" href="https://mybot.run/forums/index.php" />
+	
+
+
+
+
+<link rel="manifest" href="https://mybot.run/forums/index.php?/manifest.webmanifest/">
+<meta name="msapplication-config" content="https://mybot.run/forums/index.php?/browserconfig.xml/">
+<meta name="msapplication-starturl" content="/">
+<meta name="application-name" content="Mybot.run">
+<meta name="apple-mobile-web-app-title" content="Mybot.run">
+
+	<meta name="theme-color" content="#3d6594">
+
+
+
+
+
+
+	
+
+	
+		
+			<link rel="icon" sizes="36x36" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-36x36.png">
+		
+	
+
+	
+		
+			<link rel="icon" sizes="48x48" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-48x48.png">
+		
+	
+
+	
+		
+			<link rel="icon" sizes="72x72" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-72x72.png">
+		
+	
+
+	
+		
+			<link rel="icon" sizes="96x96" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-96x96.png">
+		
+	
+
+	
+		
+			<link rel="icon" sizes="144x144" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-144x144.png">
+		
+	
+
+	
+		
+			<link rel="icon" sizes="192x192" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-192x192.png">
+		
+	
+
+	
+		
+			<link rel="icon" sizes="256x256" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-256x256.png">
+		
+	
+
+	
+		
+			<link rel="icon" sizes="384x384" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-384x384.png">
+		
+	
+
+	
+		
+			<link rel="icon" sizes="512x512" href="https://mybot.run/forums/uploads/monthly_2020_02/android-chrome-512x512.png">
+		
+	
+
+	
+		
+			<meta name="msapplication-square70x70logo" content="https://mybot.run/forums/uploads/monthly_2020_02/msapplication-square70x70logo.png"/>
+		
+	
+
+	
+		
+			<meta name="msapplication-TileImage" content="https://mybot.run/forums/uploads/monthly_2020_02/msapplication-TileImage.png"/>
+		
+	
+
+	
+		
+			<meta name="msapplication-square150x150logo" content="https://mybot.run/forums/uploads/monthly_2020_02/msapplication-square150x150logo.png"/>
+		
+	
+
+	
+		
+			<meta name="msapplication-wide310x150logo" content="https://mybot.run/forums/uploads/monthly_2020_02/msapplication-wide310x150logo.png"/>
+		
+	
+
+	
+		
+			<meta name="msapplication-square310x310logo" content="https://mybot.run/forums/uploads/monthly_2020_02/msapplication-square310x310logo.png"/>
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-57x57.png">
+			
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" sizes="60x60" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-60x60.png">
+			
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" sizes="72x72" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-72x72.png">
+			
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" sizes="76x76" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-76x76.png">
+			
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" sizes="114x114" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-114x114.png">
+			
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" sizes="120x120" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-120x120.png">
+			
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" sizes="144x144" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-144x144.png">
+			
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" sizes="152x152" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-152x152.png">
+			
+		
+	
+
+	
+		
+			
+				<link rel="apple-touch-icon" sizes="180x180" href="https://mybot.run/forums/uploads/monthly_2020_02/apple-touch-icon-180x180.png">
+			
+		
+	
+
+		
+
+
+	
+		<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet" referrerpolicy="origin">
+	
+
+
+
+	<link rel='stylesheet' href='https://mybot.run/forums/uploads/css_built_18/341e4a57816af3ba440d891ca87450ff_framework.css.b30d0fcc1d43fe07c2b28a1ae7d62884.css?v=dac3e56a3b' media='all'>
+
+	<link rel='stylesheet' href='https://mybot.run/forums/uploads/css_built_18/05e81b71abe4f22d6eb8d1a929494829_responsive.css.eab6305ecc994baf9d9073ba5eeeb991.css?v=dac3e56a3b' media='all'>
+
+	<link rel='stylesheet' href='https://mybot.run/forums/uploads/css_built_18/20446cf2d164adcc029377cb04d43d17_flags.css.e4e3865a3334d8376497e2d7bddc6d4b.css?v=dac3e56a3b' media='all'>
+
+	<link rel='stylesheet' href='https://mybot.run/forums/uploads/css_built_18/90eb5adf50a8c640f633d47fd7eb1778_core.css.0d7a0144ae49f252e8d7b4004adff824.css?v=dac3e56a3b' media='all'>
+
+	<link rel='stylesheet' href='https://mybot.run/forums/uploads/css_built_18/5a0da001ccc2200dc5625c3f3934497d_core_responsive.css.5a8a5481f29a5101147947e964567b83.css?v=dac3e56a3b' media='all'>
+
+	<link rel='stylesheet' href='https://mybot.run/forums/uploads/css_built_18/62e269ced0fdab7e30e026f1d30ae516_forums.css.6c32821123c73cced3446c8b85d31c16.css?v=dac3e56a3b' media='all'>
+
+	<link rel='stylesheet' href='https://mybot.run/forums/uploads/css_built_18/76e62c573090645fb99a15a363d8620e_forums_responsive.css.2df34d0bf44a6797a37f51b5be89d661.css?v=dac3e56a3b' media='all'>
+
+
+
+
+<link rel='stylesheet' href='https://mybot.run/forums/uploads/css_built_18/258adbb6e4f3e83cd3b355f84e3fa002_custom.css.a56e0220a2b8b431fde90a182d36c71f.css?v=dac3e56a3b' media='all'>
+
+
+
+		
+		
+
+	
+	
+		<link rel='shortcut icon' href='https://mybot.run/forums/uploads/monthly_2020_02/MyBot.ico' type="image/x-icon">
+	
+
+	</head>
+	<body class='ipsApp ipsApp_front ipsJS_none ipsClearfix' data-controller='core.front.core.app' data-message="" data-pageApp='forums' data-pageLocation='front' data-pageModule='forums' data-pageController='index' >
+		<a href='#elContent' class='ipsHide' title='Go to main content on this page' accesskey='m'>Jump to content</a>
+		<div id='ipsLayout_header' class='ipsClearfix'>
+			
+
+
+
+
+
+			
+<ul id='elMobileNav' class='ipsList_inline ipsResponsive_hideDesktop ipsResponsive_block' data-controller='core.front.core.mobileNav'>
+	
+	
+	
+	<li >
+		<a data-action="defaultStream" class='ipsType_light'  href='https://mybot.run/forums/index.php?/discover/'><i class='icon-newspaper'></i></a>
+	</li>
+
+	
+
+	
+		<li class='ipsJS_show'>
+			<a href='https://mybot.run/forums/index.php?/search/'><i class='fa fa-search'></i></a>
+		</li>
+	
+	<li data-ipsDrawer data-ipsDrawer-drawerElem='#elMobileDrawer'>
+		<a href='#'>
+			
+			
+				
+			
+			
+			
+			<i class='fa fa-navicon'></i>
+		</a>
+	</li>
+</ul>
+			<header>
+				<div class='ipsLayout_container'>
+					
+
+
+<a href='https://mybot.run/forums/' id='elLogo' accesskey='1'><img src="https://mybot.run/forums/uploads/monthly_2020_02/1845508651_Logo4.png.83f4f94c307bf77ce12847a4df999258.png" alt='Mybot.run'></a>
+
+					
+
+	<ul id='elUserNav' class='ipsList_inline cSignedOut ipsClearfix ipsResponsive_hidePhone ipsResponsive_block'>
+		
+		<li id='elSignInLink'>
+			<a href='https://mybot.run/forums/index.php?/login/' data-ipsMenu-closeOnClick="false" data-ipsMenu id='elUserSignIn'>
+				Existing user? Sign In &nbsp;<i class='fa fa-caret-down'></i>
+			</a>
+			
+<div id='elUserSignIn_menu' class='ipsMenu ipsMenu_auto ipsHide'>
+	<form accept-charset='utf-8' method='post' action='https://mybot.run/forums/index.php?/login/' data-controller="core.global.core.login">
+		<input type="hidden" name="csrfKey" value="575f9cbe8fc7b627a5e0c9b86239c1ae">
+		<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+		<div data-role="loginForm">
+			
+			
+			
+				
+<div class="ipsPad ipsForm ipsForm_vertical">
+	<h4 class="ipsType_sectionHead">Sign In</h4>
+	<br><br>
+	<ul class='ipsList_reset'>
+		<li class="ipsFieldRow ipsFieldRow_noLabel ipsFieldRow_fullWidth">
+			
+			
+				<input type="text" placeholder="Display Name" name="auth" autocomplete="username">
+			
+		</li>
+		<li class="ipsFieldRow ipsFieldRow_noLabel ipsFieldRow_fullWidth">
+			<input type="password" placeholder="Password" name="password" autocomplete="current-password">
+		</li>
+		<li class="ipsFieldRow ipsFieldRow_checkbox ipsClearfix">
+			<span class="ipsCustomInput">
+				<input type="checkbox" name="remember_me" id="remember_me_checkbox" value="1" checked aria-checked="true">
+				<span></span>
+			</span>
+			<div class="ipsFieldRow_content">
+				<label class="ipsFieldRow_label" for="remember_me_checkbox">Remember me</label>
+				<span class="ipsFieldRow_desc">Not recommended on shared computers</span>
+			</div>
+		</li>
+		
+		<li class="ipsFieldRow ipsFieldRow_fullWidth">
+			<br>
+			<button type="submit" name="_processLogin" value="usernamepassword" class="ipsButton ipsButton_primary ipsButton_small" id="elSignIn_submit">Sign In</button>
+			
+				<br>
+				<p class="ipsType_right ipsType_small">
+					
+						<a href='https://mybot.run/forums/index.php?/lostpassword/' data-ipsDialog data-ipsDialog-title='Forgot your password?'>
+					
+					Forgot your password?</a>
+				</p>
+			
+		</li>
+	</ul>
+</div>
+			
+		</div>
+	</form>
+</div>
+		</li>
+		
+			<li>
+				
+					<a href='https://mybot.run/forums/index.php?/register/' data-ipsDialog data-ipsDialog-size='narrow' data-ipsDialog-title='Sign Up' id='elRegisterButton' class='ipsButton ipsButton_normal ipsButton_primary'>Sign Up</a>
+				
+			</li>
+		
+	</ul>
+
+				</div>
+			</header>
+			
+
+	<nav data-controller='core.front.core.navBar' class=''>
+		<div class='ipsNavBar_primary ipsLayout_container  ipsClearfix'>
+			
+
+	<div id="elSearchWrapper" class="ipsPos_right">
+		<div id='elSearch' class='' data-controller='core.front.core.quickSearch'>
+			<form accept-charset='utf-8' action='//mybot.run/forums/index.php?/search/&amp;do=quicksearch' method='post'>
+				<input type='search' id='elSearchField' placeholder='Search...' name='q' autocomplete='off'>
+				<button class='cSearchSubmit' type="submit"><i class="fa fa-search"></i></button>
+				<div id="elSearchExpanded">
+					<div class="ipsMenu_title">
+						Search In
+					</div>
+					<ul class="ipsSideMenu_list ipsSideMenu_withRadios ipsSideMenu_small ipsType_normal" data-ipsSideMenu data-ipsSideMenu-type="radio" data-ipsSideMenu-responsive="false" data-role="searchContexts">
+						<li>
+							<span class='ipsSideMenu_item ipsSideMenu_itemActive' data-ipsMenuValue='all'>
+								<input type="radio" name="type" value="all" checked id="elQuickSearchRadio_type_all">
+								<label for='elQuickSearchRadio_type_all' id='elQuickSearchRadio_type_all_label'>Everywhere</label>
+							</span>
+						</li>
+						
+						
+							<li>
+								<span class='ipsSideMenu_item' data-ipsMenuValue='forums_topic'>
+									<input type="radio" name="type" value="forums_topic" id="elQuickSearchRadio_type_forums_topic">
+									<label for='elQuickSearchRadio_type_forums_topic' id='elQuickSearchRadio_type_forums_topic_label'>Topics</label>
+								</span>
+							</li>
+						
+						
+						<li data-role="showMoreSearchContexts">
+							<span class='ipsSideMenu_item' data-action="showMoreSearchContexts" data-exclude="forums_topic">
+								More options...
+							</span>
+						</li>
+					</ul>
+					<div class="ipsMenu_title">
+						Find results that contain...
+					</div>
+					<ul class='ipsSideMenu_list ipsSideMenu_withRadios ipsSideMenu_small ipsType_normal' role="radiogroup" data-ipsSideMenu data-ipsSideMenu-type="radio" data-ipsSideMenu-responsive="false" data-filterType='andOr'>
+						
+							<li>
+								<span class='ipsSideMenu_item ipsSideMenu_itemActive' data-ipsMenuValue='or'>
+									<input type="radio" name="search_and_or" value="or" checked id="elRadio_andOr_or">
+									<label for='elRadio_andOr_or' id='elField_andOr_label_or'><em>Any</em> of my search term words</label>
+								</span>
+							</li>
+						
+							<li>
+								<span class='ipsSideMenu_item ' data-ipsMenuValue='and'>
+									<input type="radio" name="search_and_or" value="and"  id="elRadio_andOr_and">
+									<label for='elRadio_andOr_and' id='elField_andOr_label_and'><em>All</em> of my search term words</label>
+								</span>
+							</li>
+						
+					</ul>
+					<div class="ipsMenu_title">
+						Find results in...
+					</div>
+					<ul class='ipsSideMenu_list ipsSideMenu_withRadios ipsSideMenu_small ipsType_normal' role="radiogroup" data-ipsSideMenu data-ipsSideMenu-type="radio" data-ipsSideMenu-responsive="false" data-filterType='searchIn'>
+						<li>
+							<span class='ipsSideMenu_item ipsSideMenu_itemActive' data-ipsMenuValue='all'>
+								<input type="radio" name="search_in" value="all" checked id="elRadio_searchIn_and">
+								<label for='elRadio_searchIn_and' id='elField_searchIn_label_all'>Content titles and body</label>
+							</span>
+						</li>
+						<li>
+							<span class='ipsSideMenu_item' data-ipsMenuValue='titles'>
+								<input type="radio" name="search_in" value="titles" id="elRadio_searchIn_titles">
+								<label for='elRadio_searchIn_titles' id='elField_searchIn_label_titles'>Content titles only</label>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</form>
+		</div>
+	</div>
+
+			<ul data-role="primaryNavBar" class='ipsResponsive_showDesktop ipsResponsive_block'>
+				
+
+
+	
+		
+		
+			
+		
+		<li class='ipsNavBar_active' data-active id='elNavSecondary_8' data-role="navBarItem" data-navApp="forums" data-navExt="Forums">
+			
+			
+				<a href="https://mybot.run/forums/index.php"  data-navItem-id="8" data-navDefault>
+					Forums
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_14' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/topic/25504-forum-rules/"  data-navItem-id="14" >
+					Forum Rules
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_15' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php"  data-navItem-id="15" >
+					Download
+				</a>
+			
+			
+				<ul class='ipsNavBar_secondary ipsHide' data-role='secondaryNavBar'>
+					
+
+
+	
+		
+		
+		<li  id='elNavSecondary_24' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://en.bignox.com/"  data-navItem-id="24" >
+					Nox
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_26' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/topic/26023-itools-avm-support/"  data-navItem-id="26" >
+					iTools AVM
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_23' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/topic/33063-bluestacks-rooted-versions/"  data-navItem-id="23" >
+					BlueStacks
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_17' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/topic/23192-memu-recommended-versions/"  data-navItem-id="17" >
+					MEmu
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_27' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/topic/22912-leapdroid-support/"  data-navItem-id="27" >
+					LeapDroid
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_28' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="http://down1.koplayer.com/Emulator/koplayer-2.0.0.exe"  data-navItem-id="28" >
+					KOPLAYER
+				</a>
+			
+			
+		</li>
+	
+	
+
+					<li class='ipsHide' id='elNavigationMore_15' data-role='navMore'>
+						<a href='#' data-ipsMenu data-ipsMenu-appendTo='#elNavigationMore_15' id='elNavigationMore_15_dropdown'>More <i class='fa fa-caret-down'></i></a>
+						<ul class='ipsHide ipsMenu ipsMenu_auto' id='elNavigationMore_15_dropdown_menu' data-role='moreDropdown'></ul>
+					</li>
+				</ul>
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_20' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/forum/10-help-support/"  data-navItem-id="20" >
+					Support
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_19' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/forum/100-bug-reports-for-v7/"  data-navItem-id="19" >
+					Report Bug
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_1' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/"  data-navItem-id="1" >
+					Browse
+				</a>
+			
+			
+				<ul class='ipsNavBar_secondary ipsHide' data-role='secondaryNavBar'>
+					
+
+
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_12' data-role="navBarItem" data-navApp="core" data-navExt="StaffDirectory">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/staff/"  data-navItem-id="12" >
+					Staff
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_13' data-role="navBarItem" data-navApp="core" data-navExt="OnlineUsers">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/online/"  data-navItem-id="13" >
+					Online Users
+				</a>
+			
+			
+		</li>
+	
+	
+
+					<li class='ipsHide' id='elNavigationMore_1' data-role='navMore'>
+						<a href='#' data-ipsMenu data-ipsMenu-appendTo='#elNavigationMore_1' id='elNavigationMore_1_dropdown'>More <i class='fa fa-caret-down'></i></a>
+						<ul class='ipsHide ipsMenu ipsMenu_auto' id='elNavigationMore_1_dropdown_menu' data-role='moreDropdown'></ul>
+					</li>
+				</ul>
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_2' data-role="navBarItem" data-navApp="core" data-navExt="CustomItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/discover/"  data-navItem-id="2" >
+					Activity
+				</a>
+			
+			
+				<ul class='ipsNavBar_secondary ipsHide' data-role='secondaryNavBar'>
+					
+
+
+	
+		
+		
+		<li  id='elNavSecondary_3' data-role="navBarItem" data-navApp="core" data-navExt="AllActivity">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/discover/"  data-navItem-id="3" >
+					All Activity
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_4' data-role="navBarItem" data-navApp="core" data-navExt="YourActivityStreams">
+			
+			
+				<a href="#"  data-navItem-id="4" >
+					My Activity Streams
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_5' data-role="navBarItem" data-navApp="core" data-navExt="YourActivityStreamsItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/discover/unread/"  data-navItem-id="5" >
+					Unread Content
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_6' data-role="navBarItem" data-navApp="core" data-navExt="YourActivityStreamsItem">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/discover/content-started/"  data-navItem-id="6" >
+					Content I Started
+				</a>
+			
+			
+		</li>
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_7' data-role="navBarItem" data-navApp="core" data-navExt="Search">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/search/"  data-navItem-id="7" >
+					Search
+				</a>
+			
+			
+		</li>
+	
+	
+
+					<li class='ipsHide' id='elNavigationMore_2' data-role='navMore'>
+						<a href='#' data-ipsMenu data-ipsMenu-appendTo='#elNavigationMore_2' id='elNavigationMore_2_dropdown'>More <i class='fa fa-caret-down'></i></a>
+						<ul class='ipsHide ipsMenu ipsMenu_auto' id='elNavigationMore_2_dropdown_menu' data-role='moreDropdown'></ul>
+					</li>
+				</ul>
+			
+		</li>
+	
+	
+
+	
+	
+
+	
+	
+
+	
+		
+		
+		<li  id='elNavSecondary_30' data-role="navBarItem" data-navApp="donate" data-navExt="Donate">
+			
+			
+				<a href="https://mybot.run/forums/index.php?/donate/"  data-navItem-id="30" >
+					Donations
+				</a>
+			
+			
+		</li>
+	
+	
+
+				<li class='ipsHide' id='elNavigationMore' data-role='navMore'>
+					<a href='#' data-ipsMenu data-ipsMenu-appendTo='#elNavigationMore' id='elNavigationMore_dropdown'>More</a>
+					<ul class='ipsNavBar_secondary ipsHide' data-role='secondaryNavBar'>
+						<li class='ipsHide' id='elNavigationMore_more' data-role='navMore'>
+							<a href='#' data-ipsMenu data-ipsMenu-appendTo='#elNavigationMore_more' id='elNavigationMore_more_dropdown'>More <i class='fa fa-caret-down'></i></a>
+							<ul class='ipsHide ipsMenu ipsMenu_auto' id='elNavigationMore_more_dropdown_menu' data-role='moreDropdown'></ul>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+		</div>
+		<main id='ipsLayout_body' class='ipsLayout_container'>
+			<div id='ipsLayout_contentArea'>
+				<div id='ipsLayout_contentWrapper'>
+					
+<nav class='ipsBreadcrumb ipsBreadcrumb_top ipsFaded_withHover'>
+	
+
+	<ul class='ipsList_inline ipsPos_right'>
+		
+		<li >
+			<a data-action="defaultStream" class='ipsType_light '  href='https://mybot.run/forums/index.php?/discover/'><i class='icon-newspaper'></i> <span>All Activity</span></a>
+		</li>
+		
+	</ul>
+
+	<ul data-role="breadcrumbList">
+		<li>
+			<a title="Home" href='https://mybot.run/forums/'>
+				<span><i class='fa fa-home'></i> Home</span>
+			</a>
+		</li>
+		
+		
+	</ul>
+</nav>
+					
+					<div id='ipsLayout_mainArea'>
+						<a id='elContent'></a>
+						
+						
+						
+						
+
+	
+
+
+
+
+						
+<div class='ipsPageHeader ipsClearfix ipsSpacer_bottom cForumHeader ipsHeaderButtons'>
+	
+		<ul class='ipsToolList ipsToolList_horizontal ipsClearfix ipsPos_right'>
+			<li class='ipsToolList_primaryAction ipsResponsive_hidePhone'>
+				<a class="ipsButton ipsButton_medium ipsButton_important" href="https://mybot.run/forums/index.php?/startTopic/" data-ipsDialog data-ipsDialog-size='narrow' data-ipsDialog-title='Select Forum'>Start new topic</a>
+			</li>
+			
+
+		</ul>
+	
+	<h1 class='ipsType_pageTitle'>
+		Forums
+	</h1>
+</div>
+
+
+<section>
+	<ol class='ipsList_reset cForumList' data-controller='core.global.core.table, forums.front.forum.forumList' data-baseURL=''>
+		
+			
+			<li data-categoryID='3' class='cForumRow ipsBox ipsSpacer_bottom'>
+				<h2 class="ipsType_sectionTitle ipsType_reset cForumTitle">
+					<a href='#' class='ipsPos_right ipsJS_show ipsType_noUnderline cForumToggle' data-action='toggleCategory' data-ipsTooltip title='Toggle this category'></a>
+					<a href='https://mybot.run/forums/index.php?/forum/3-general-discussions/'>General Discussions</a>
+				</h2>
+				
+					<ol class="ipsDataList ipsDataList_large ipsDataList_zebra ipsAreaBackground_reset" data-role="forums">
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="4">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/4-official-releases/">Official Releases</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Download the latest version of our free and open source Clash of Clans bot. Only download from here at MyBot!
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">14,579</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/126633-fliegerfaust/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/126633-fliegerfaust/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Fliegerfaust's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2016_01/photo-88.gifq_r1431640986.pagespeed.ce.e9kwxNUDjy_zpsr0cxxsdl.gif.31a52d01e9991489d115cc3211c4bfc5.thumb.gif.a13892d557858ff2f981c6971fc9584e.gif' alt='Fliegerfaust'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/30238-mybot-v782-release-working-with-december-2019-update/&amp;do=getNewComment" title='MyBot v7.8.2 Release [Working with December 2019 Update]'>MyBot v7.8.2 Release [Work&hellip;</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/126633-fliegerfaust/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/126633-fliegerfaust/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Fliegerfaust's profile" class="ipsType_break"><span style="color: red; font-weight: bold;">Fliegerfaust</span></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/30238-mybot-v782-release-working-with-december-2019-update/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2017-05-27T15:35:21Z' title='05/27/2017 03:35  PM' data-short='2 yr'>May 27, 2017</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="6">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/6-official-announcements/">Official Announcements</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Keep up to date with the latest news and information regarding upcoming releases and all other important announcements.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">2,356</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/597301-nytol/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/597301-nytol/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Nytol's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2018_08/soul_of_the_machine_by_joepingleton-dbj9ny3.thumb.jpg.0517ea31e3715bc8efc79a9394da6877.jpg' alt='Nytol'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47283-forum-issues-solved/&amp;do=getNewComment" title='Forum Issues solved'>Forum Issues solved</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/597301-nytol/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/597301-nytol/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Nytol's profile" class="ipsType_break"><span style='color: #006600; font-weight: bold;'>Nytol</span></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47283-forum-issues-solved/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-02T18:39:30Z' title='02/02/2020 06:39  PM' data-short='Feb 2'>February 2</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="5">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/5-the-how-to-guides/">The &quot;How To&quot; Guides</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Here you can find our comprehensive guides to give you step by step details to get you and your Bot up and running. If you are going forward to post a Topic , make certain to post only official Bot related How To's.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">5,707</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/8614-noob/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/8614-noob/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to nOOb's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='nOOb'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47947-vmware-workstation/&amp;do=getNewComment" title='VMware Workstation'>VMware Workstation</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/8614-noob/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/8614-noob/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to nOOb's profile" class="ipsType_break">nOOb</a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47947-vmware-workstation/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-24T15:54:07Z' title='02/24/2020 03:54  PM' data-short='1 dy'>Monday at 03:54  PM</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+					</ol>
+				
+			</li>
+			
+		
+			
+			<li data-categoryID='7' class='cForumRow ipsBox ipsSpacer_bottom'>
+				<h2 class="ipsType_sectionTitle ipsType_reset cForumTitle">
+					<a href='#' class='ipsPos_right ipsJS_show ipsType_noUnderline cForumToggle' data-action='toggleCategory' data-ipsTooltip title='Toggle this category'></a>
+					<a href='https://mybot.run/forums/index.php?/forum/7-mybot-discussions/'>MyBot Discussions</a>
+				</h2>
+				
+					<ol class="ipsDataList ipsDataList_large ipsDataList_zebra ipsAreaBackground_reset" data-role="forums">
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="17">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/17-bot-general-discussion/">Bot General Discussion</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Anything <u><span style="color:#FF0000;"><strong>NOT</strong></span></u> relating to bot support, help, feedback or suggestions.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">14,161</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/619251-sumshady/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/619251-sumshady/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to SuMsHaDy's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='SuMsHaDy'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47776-please-help/&amp;do=getNewComment" title='Please help'>Please help</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/619251-sumshady/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/619251-sumshady/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to SuMsHaDy's profile" class="ipsType_break">SuMsHaDy</a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47776-please-help/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-25T13:04:47Z' title='02/25/2020 01:04  PM' data-short='14 hr'>14 hours ago</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="10">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/10-help-support/">Help &amp; Support</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Be specific as to the issue you are encountering so we can provide the best possibly solution. We will only provide support for the latest <span style="color:#B22222;"><strong>OFFICIAL</strong></span> bot.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">42,523</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/53755-derkonig/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/53755-derkonig/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to derkonig's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='derkonig'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47469-suddenly-stopped-receiving-telegram-notifications/&amp;do=getNewComment" title='Suddenly stopped receiving Telegram notifications'>Suddenly stopped receiving&hellip;</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/53755-derkonig/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/53755-derkonig/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to derkonig's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>derkonig</strong></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47469-suddenly-stopped-receiving-telegram-notifications/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-25T19:25:44Z' title='02/25/2020 07:25  PM' data-short='8 hr'>8 hours ago</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="94">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/94-emulator-discussion-support/">Emulator Discussion &amp; Support</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Subforum for all Emulator based Questions/Problems/Reports. If you post anything here, read the pinned Topics first and be specific about your Topic.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">3,601</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/681182-amirmohamad/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/681182-amirmohamad/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Amirmohamad's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='Amirmohamad'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/33063-bluestacks-rooted-versions/&amp;do=getNewComment" title='BlueStacks - Rooted Versions'>BlueStacks - Rooted Versio&hellip;</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/681182-amirmohamad/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/681182-amirmohamad/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Amirmohamad's profile" class="ipsType_break">Amirmohamad</a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/33063-bluestacks-rooted-versions/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-18T18:22:02Z' title='02/18/2020 06:22  PM' data-short='Feb 18'>February 18</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="12">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/12-community-code-modifications/">Community Code MODifications</a>
+				
+				
+			</h4>
+			
+				<ul class="ipsDataItem_subList ipsList_inline">
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/81-feature-modifications/">Feature MODifications</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/82-compilation-modifications/">Compilation MODifications</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/83-untested-code-modifications/">Untested Code MODifications</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/57-modification-development-support/">MODification Development Support</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/54-archived-mods-read-only/">Archived Mods (READ ONLY)</a>
+						</li>
+					
+				</ul>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Share your personal modifications/code snippets of MyBot to the community here. It'll also have a chance at being included in our Official Releases.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">60,698</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/616490-boldina/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Boldina's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2019_12/_9105977_latestcb20190602165939path-prefixes.thumb_e472245b5877f63aa902e791ac4cb3a4.531b53463abc2ca44a9cf1c0912d2975' alt='Boldina'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47056-mybot-v782-aio-mod/&amp;do=getNewComment" title='MyBot v7.8.2 AIO Mod'>MyBot v7.8.2 AIO Mod</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/616490-boldina/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Boldina's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>Boldina</strong></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47056-mybot-v782-aio-mod/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-25T19:13:12Z' title='02/25/2020 07:13  PM' data-short='8 hr'>8 hours ago</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="20">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/20-bug-reporting/">Bug Reporting</a>
+				
+				
+			</h4>
+			
+				<ul class="ipsDataItem_subList ipsList_inline">
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/100-bug-reports-for-v7/">Bug Reports for v7</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/72-archived-bug-reports-read-only/">Archived Bug Reports (READ-ONLY)</a>
+						</li>
+					
+				</ul>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Bug Reporting for MyBot.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">17,265</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/616490-boldina/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Boldina's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2019_12/_9105977_latestcb20190602165939path-prefixes.thumb_e472245b5877f63aa902e791ac4cb3a4.531b53463abc2ca44a9cf1c0912d2975' alt='Boldina'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47595-cc-spells-size-read-error/&amp;do=getNewComment" title='CC Spells size read error!'>CC Spells size read error!</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/616490-boldina/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Boldina's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>Boldina</strong></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47595-cc-spells-size-read-error/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-23T16:23:15Z' title='02/23/2020 04:23  PM' data-short='2 dy'>Sunday at 04:23  PM</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="9">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/9-bot-suggestions/">Bot Suggestions</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Want to make a suggestion on how we can improve existing features or anything you would like to see added?
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">8,091</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/655038-qhollow/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/655038-qhollow/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to [Q]&#039;Hollow's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2020_02/413149499_Honeyview_5628796-01(2).thumb.jpg.0535fa6f25569384e861792c9aa5fbaf.jpg' alt='[Q]&#039;Hollow'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47893-please-help/&amp;do=getNewComment" title='Please help'>Please help</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/655038-qhollow/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/655038-qhollow/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to [Q]&#039;Hollow's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>[Q]&#039;Hollow</strong></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47893-please-help/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-23T03:59:04Z' title='02/23/2020 03:59  AM' data-short='3 dy'>Sunday at 03:59  AM</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="30">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/30-forums-suggestions-issues-appeals/">Forums Suggestions / Issues / Appeals</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Any Suggestions / Issues regards to Forum only such as display/login etc
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">1,345</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/681359-xthebest900x/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/681359-xthebest900x/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to xTheBest900x's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='xTheBest900x'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47952-erreur-bot-attack/&amp;do=getNewComment" title='ERREUR BOT ATTACK'>ERREUR BOT ATTACK</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/681359-xthebest900x/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/681359-xthebest900x/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to xTheBest900x's profile" class="ipsType_break">xTheBest900x</a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47952-erreur-bot-attack/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-24T19:51:11Z' title='02/24/2020 07:51  PM' data-short='1 dy'>Monday at 07:51  PM</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="36">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/36-foreign-forums/">Foreign Forums</a>
+				
+				
+			</h4>
+			
+				<ul class="ipsDataItem_subList ipsList_inline">
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/49-bahasa-indonesia/">Bahasa Indonesia</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/46-bahasa-melayu/">Bahasa Melayu</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/47-chinese-%E4%B8%AD%E6%96%87/">Chinese (中文)</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/60-dutch/">Dutch</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/42-filipino/">Filipino</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/40-french/">French</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/39-german/">German</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/43-italian/">Italian</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/56-korean-%ED%95%9C%EA%B5%AD%EC%96%B4/">Korean (한국어)</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/66-persian-iran/">Persian (Iran)</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/37-portuguese/">Portuguese</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/41-russian/">Russian</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/44-spanish/">Spanish</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/38-turkish/">Turkish</a>
+						</li>
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/45-vietnamese/">Vietnamese</a>
+						</li>
+					
+				</ul>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">72,052</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/615352-pikus31/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/615352-pikus31/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to pikus31's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='pikus31'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/9227-faq-%D0%B8-%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC-%D1%81-%D0%B1%D0%BE%D1%82%D0%BE%D0%BC/&amp;do=getNewComment" title='FAQ и решение проблем с ботом'>FAQ и решение проблем с бо&hellip;</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/615352-pikus31/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/615352-pikus31/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to pikus31's profile" class="ipsType_break">pikus31</a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/9227-faq-%D0%B8-%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC-%D1%81-%D0%B1%D0%BE%D1%82%D0%BE%D0%BC/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-25T20:58:28Z' title='02/25/2020 08:58  PM' data-short='7 hr'>7 hours ago</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+					</ol>
+				
+			</li>
+			
+		
+			
+		
+			
+			<li data-categoryID='18' class='cForumRow ipsBox ipsSpacer_bottom'>
+				<h2 class="ipsType_sectionTitle ipsType_reset cForumTitle">
+					<a href='#' class='ipsPos_right ipsJS_show ipsType_noUnderline cForumToggle' data-action='toggleCategory' data-ipsTooltip title='Toggle this category'></a>
+					<a href='https://mybot.run/forums/index.php?/forum/18-the-lounge/'>The Lounge</a>
+				</h2>
+				
+					<ol class="ipsDataList ipsDataList_large ipsDataList_zebra ipsAreaBackground_reset" data-role="forums">
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="24">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/24-off-topic/">Off Topic</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Anything goes here, but keep it clean.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">4,045</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/148950-rokseus/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/148950-rokseus/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to RoKSeus's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2016_02/6d48e292-ccaf-4085-974a-c393950a397a.png.4f94f75d979e048da78f284b1cec5ab8.thumb.png.d151d02b0396bc764a3ecb8bf14e7dd0.png' alt='RoKSeus'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47946-clan-games-is-clan-games-events-february-updated/&amp;do=getNewComment" title='[Clan Games] Is clan games events february updated?'>[Clan Games] Is clan games&hellip;</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/148950-rokseus/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/148950-rokseus/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to RoKSeus's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>RoKSeus</strong></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47946-clan-games-is-clan-games-events-february-updated/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-24T15:14:25Z' title='02/24/2020 03:14  PM' data-short='1 dy'>Monday at 03:14  PM</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="120">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/120-clan-recruitment/">Clan Recruitment</a>
+				
+				
+			</h4>
+			
+				<ul class="ipsDataItem_subList ipsList_inline">
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/122-i-need-a-clan/">I need a clan!</a>
+						</li>
+					
+				</ul>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Recruit new members! Never show the name of your clan or your account.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">4,224</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/151985-sidros/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/151985-sidros/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Sidros's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='Sidros'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/37587-level-19-clan-best-botting-clan-farming-90-war-wins-cwl-maxed-out-clan-games-247-donations/&amp;do=getNewComment" title='[Level 19 Clan] [BEST BOTTING CLAN] [FARMING] [90% WAR WINS] [CWL] [MAXED OUT CLAN GAMES] [24/7 DONATIONS]'>[Level 19 Clan] [BEST BOTT&hellip;</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/151985-sidros/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/151985-sidros/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Sidros's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>Sidros</strong></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/37587-level-19-clan-best-botting-clan-farming-90-war-wins-cwl-maxed-out-clan-games-247-donations/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-25T19:12:17Z' title='02/25/2020 07:12  PM' data-short='8 hr'>8 hours ago</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="8">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/8-introduce-yourself/">Introduce Yourself</a>
+				
+				
+			</h4>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+<p>
+	Recently registered? Introduce yourself to the rest of our community.
+</p>
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">3,593</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/506772-rafaela-santos/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/506772-rafaela-santos/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Rafaela Santos's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2020_02/aka.thumb.png.ce1ce1296fa37a076d7762131cd3d7be.png' alt='Rafaela Santos'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/26967-hello-d/&amp;do=getNewComment" title='Hello :D'>Hello :D</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/506772-rafaela-santos/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/506772-rafaela-santos/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Rafaela Santos's profile" class="ipsType_break"><strong><span style='color:#D86F24;'>Rafaela Santos</span></strong></a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/26967-hello-d/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-21T04:50:52Z' title='02/21/2020 04:50  AM' data-short='4 dy'>Friday at 04:50  AM</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+							
+
+
+
+	<li class="cForumRow ipsDataItem ipsDataItem_responsivePhoto  ipsClearfix" data-forumID="22">
+		<div class="ipsDataItem_icon ipsDataItem_category">
+			
+			
+			
+				
+					
+						<span class='ipsItemStatus ipsItemStatus_large cForumIcon_normal ipsItemStatus_read' 
+
+
+
+>
+							<i class="fa fa-comments"></i>
+						</span>
+					
+				
+			
+		</div>
+		<div class="ipsDataItem_main">
+			<h4 class="ipsDataItem_title ipsType_large ipsType_break">
+				
+					<a href="https://mybot.run/forums/index.php?/forum/22-graphics-showcase/">Graphics Showcase</a>
+				
+				
+			</h4>
+			
+				<ul class="ipsDataItem_subList ipsList_inline">
+					
+						<li class="">
+							<a href="https://mybot.run/forums/index.php?/forum/25-graphics-requests/">Graphics Requests</a>
+						</li>
+					
+				</ul>
+			
+			
+				
+
+
+
+<div class='ipsType_richText ipsDataItem_meta ipsContained' data-controller='core.front.core.lightboxedImages' >
+
+</div>
+
+			
+		</div>
+		
+			<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+				
+					<dl>
+						
+						<dt class="ipsDataItem_stats_number">593</dt>
+						<dd class="ipsDataItem_stats_type ipsType_light"> posts</dd>
+					</dl>
+				
+				
+			</div>
+			<ul class="ipsDataItem_lastPoster ipsDataItem_withPhoto">
+				
+					<li>
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/680518-mmmmolpo/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/680518-mmmmolpo/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Mmmmolpo's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='Mmmmolpo'>
+	</a>
+</li>
+					<li><a href="https://mybot.run/forums/index.php?/topic/47354-mohamad/&amp;do=getNewComment" title='Mohamad'>Mohamad</a></li>
+					<li class='ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/680518-mmmmolpo/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/680518-mmmmolpo/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Mmmmolpo's profile" class="ipsType_break">Mmmmolpo</a></li>
+					
+						<li class="ipsType_light"><a href='https://mybot.run/forums/index.php?/topic/47354-mohamad/&amp;do=getLastComment' title='Go to last post' class='ipsType_blendLinks'><time datetime='2020-02-05T14:40:02Z' title='02/05/2020 02:40  PM' data-short='Feb 5'>February 5</time></a></li>
+					
+				
+			</ul>	
+		
+		
+	</li>
+
+						
+					</ol>
+				
+			</li>
+			
+		
+		
+	</ol>
+</section>
+						
+
+
+	<div class='cWidgetContainer '  data-role='widgetReceiver' data-orientation='horizontal' data-widgetArea='footer'>
+		<ul class='ipsList_reset'>
+			
+				
+					
+					<li class='ipsWidget ipsWidget_horizontal ipsBox ipsWidgetHide ipsHide ipsResponsive_block' data-blockID='app_core_whosOnline_14fmrg2bz' data-blockConfig="true" data-blockTitle="Who's Online" data-blockErrorMessage="This block cannot be shown. This could be because it needs configuring, is unable to show on this page, or will show after reloading this page." data-controller='core.front.widgets.block'></li>
+				
+			
+		</ul>
+	</div>
+
+					</div>
+					
+
+
+	<div id='ipsLayout_sidebar' class='ipsLayout_sidebarright ' data-controller='core.front.widgets.sidebar'>
+		
+			
+
+<div class='ipsBox ipsSpacer_bottom' id="cAnnouncementSidebar">
+	<span class="cAnnouncementIcon"><i class='fa fa-bullhorn fa-3x fa-fw'></i></span>
+	<h3 class='ipsType_minorHeading ipsType_center ipsType_medium ipsSpacer_bottom'>Announcements</h3>
+	<ul class='ipsList_reset'>
+	
+		<li class="cAnnouncementSidebar ipsMessage ipsMessage_none">
+            
+            <a href='https://mybot.run/forums/index.php?/announcement/29-malicious-and-banned-links/' data-ipsDialog data-ipsDialog-title="Malicious and Banned Links">Malicious and Banned Links</a>
+            
+        </li>
+	
+		<li class="cAnnouncementSidebar ipsMessage ipsMessage_none">
+            
+            <a href='https://mybot.run/forums/index.php?/announcement/37-mybotrun-v782-released-working-with-october-2019-update/' data-ipsDialog data-ipsDialog-title="MyBot.run V7.8.2 RELEASED - Working with October 2019 Update!">MyBot.run V7.8.2 RELEASED - Working with October 2019 Update!</a>
+            
+        </li>
+	
+	</ul>
+</div>
+		
+		
+		
+		
+
+
+	<div class='cWidgetContainer '  data-role='widgetReceiver' data-orientation='vertical' data-widgetArea='sidebar'>
+		<ul class='ipsList_reset'>
+			
+				
+					
+					<li class='ipsWidget ipsWidget_vertical ipsBox ipsResponsive_block' data-blockID='app_donate_donateGoals_ajol80pod' data-blockConfig="true" data-blockTitle="Donation Goals" data-blockErrorMessage="This block cannot be shown. This could be because it needs configuring, is unable to show on this page, or will show after reloading this page." data-controller='core.front.widgets.block'>
+
+    <h3 class='ipsWidget_title ipsType_reset'>Show your Support, February 2020</h3>
+    <div class='ipsPad ipsWidget_inner'>
+        <div class='ipsContained'>
+    		
+<p>
+	Want to support the development and help towards our running costs?
+</p>
+
+<p>
+	<strong><a href="https://mybot.run/forums/index.php?/topic/8235-mybot-accounting/" rel="">Click here for MyBot Accounting details</a></strong>
+</p>
+
+    	</div>
+
+        
+            
+            <div class='ipsProgressBar ipsProgressBar_fullWidth ipsClear ipsProgressBar_warning ipsSpacer_bottom ipsSpacer_half' >
+                <div class='ipsProgressBar_progress' style="width: 5%">
+                    <span data-role="percentage">5</span>%
+                </div>
+            </div>
+
+            <span class='ipsType_light ipsType_small ipsResponsive_hidePhone ipsSpacer_bottom '>25.00 GBP of 500.00 GBP</span>
+        
+
+        <a class="ipsButton ipsButton_small ipsButton_primary ipsButton_fullWidth ipsSpacer_top ipsSpacer_half" href="https://mybot.run/forums/index.php?/donate/make-donation/&amp;_new=1">Donate Now</a>
+    </div>
+</li>
+				
+					
+					<li class='ipsWidget ipsWidget_vertical ipsBox ' data-blockID='app_jimmotoppostersplus_jimmoTopPostersPlus_0k0i20a2s' data-blockConfig="true" data-blockTitle="[JIMMO] Top Posters Plus" data-blockErrorMessage="This block cannot be shown. This could be because it needs configuring, is unable to show on this page, or will show after reloading this page." data-controller='core.front.widgets.block'>
+
+
+
+<h3 class='ipsType_reset ipsWidget_title'>Top Posters +</h3>
+
+<div class='ipsTabs ipsTabs_small ipsTabs_stretch ipsClearfix' id='elTopPosters' data-ipsTabBar data-ipsTabBar-updateURL='false' data-ipsTabBar-contentArea='#elTopPosters_content'>
+	<a href='#elTopPosters' data-action='expandTabs'><i class='fa fa-caret-down'></i></a>
+	<ul role="tablist" class='ipsList_reset'>
+		<li>
+			<a href='#ipsTabs_elTopPosters_el_topPostersWeek_panel' id='el_topPostersWeek' class='ipsTabs_item ipsTabs_activeItem' role="tab" aria-selected='true'>Week</a>
+		</li>
+		<li>
+			<a href='https://mybot.run/forums/index.php?app=jimmotoppostersplus&amp;module=ajax&amp;controller=ajax&amp;do=topposters&amp;time=month&amp;limit=5&amp;orientation=vertical&amp;groupWhere=' id='el_topPostersMonth' class='ipsTabs_item' role="tab" aria-selected='false'>Month</a>
+		</li>		
+		<li>
+			<a href='https://mybot.run/forums/index.php?app=jimmotoppostersplus&amp;module=ajax&amp;controller=ajax&amp;do=topposters&amp;time=year&amp;limit=5&amp;orientation=vertical&amp;groupWhere=' id='el_topPostersYear' class='ipsTabs_item' role="tab" aria-selected='false'>Year</a>
+		</li>
+		<li>
+			<a href='https://mybot.run/forums/index.php?app=jimmotoppostersplus&amp;module=ajax&amp;controller=ajax&amp;do=topposters&amp;time=all&amp;limit=5&amp;orientation=vertical&amp;groupWhere=' id='el_topPostersAll' class='ipsTabs_item' role="tab" aria-selected='false'>All Time</a>
+		</li>
+	</ul>
+</div>
+
+<section id='elTopPosters_content' class='ipsWidget_inner'>
+	<div id="ipsTabs_elTopPosters_el_topPostersWeek_panel" class='ipsTabs_panel'>
+		
+
+
+
+
+
+
+
+	
+		<ol class='ipsDataList ipsDataList_reducedSpacing cTopContributors'>
+			
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>
+					
+					
+						1
+					
+					
+					</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/597301-nytol/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/597301-nytol/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Nytol's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2018_08/soul_of_the_machine_by_joepingleton-dbj9ny3.thumb.jpg.0517ea31e3715bc8efc79a9394da6877.jpg' alt='Nytol'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/597301-nytol/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/597301-nytol/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Nytol's profile" class="ipsType_break"><span style='color: #006600; font-weight: bold;'>Nytol</span></a>
+							<br>
+							<span>26</span>
+						</div>
+					</div>
+				</li>
+				
+				
+
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+
+
+					
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>
+					
+					
+						2
+					
+					
+					</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/506772-rafaela-santos/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/506772-rafaela-santos/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Rafaela Santos's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2020_02/aka.thumb.png.ce1ce1296fa37a076d7762131cd3d7be.png' alt='Rafaela Santos'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/506772-rafaela-santos/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/506772-rafaela-santos/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Rafaela Santos's profile" class="ipsType_break"><strong><span style='color:#D86F24;'>Rafaela Santos</span></strong></a>
+							<br>
+							<span>12</span>
+						</div>
+					</div>
+				</li>
+				
+				
+
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+
+
+					
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>
+					
+					
+						3
+					
+					
+					</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/616490-boldina/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Boldina's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2019_12/_9105977_latestcb20190602165939path-prefixes.thumb_e472245b5877f63aa902e791ac4cb3a4.531b53463abc2ca44a9cf1c0912d2975' alt='Boldina'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/616490-boldina/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to Boldina's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>Boldina</strong></a>
+							<br>
+							<span>11</span>
+						</div>
+					</div>
+				</li>
+				
+				
+
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+
+
+					
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>
+					
+					
+						4
+					
+					
+					</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/672797-gaferali/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/672797-gaferali/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to gaferali's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2019_12/IMG_20191007_081305.thumb.jpg.3795cea8dca4bb24ae7b97dad1fe8c3d.jpg' alt='gaferali'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/672797-gaferali/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/672797-gaferali/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to gaferali's profile" class="ipsType_break">gaferali</a>
+							<br>
+							<span>6</span>
+						</div>
+					</div>
+				</li>
+				
+				
+
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+
+
+					
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>
+					
+					
+						5
+					
+					
+					</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/681241-t0mei_turb0/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/681241-t0mei_turb0/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to t0mei_turb0's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='t0mei_turb0'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/681241-t0mei_turb0/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/681241-t0mei_turb0/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252Findex.php%253F%252Frestapi%252Fauth%252Flogin%2526username%253Dboldina%2526password%253DTriangulo1209%2524' title="Go to t0mei_turb0's profile" class="ipsType_break">t0mei_turb0</a>
+							<br>
+							<span>6</span>
+						</div>
+					</div>
+				</li>
+				
+				
+
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+
+
+					
+			
+			
+						<li class='ipsDataItem widget_repYou'>
+						
+							<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>YOU</strong></div>
+						
+						<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+							
+
+	<span class='ipsUserPhoto ipsUserPhoto_tiny '>
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='Guest'>
+	</span>
+
+							<div>
+								
+
+Guest
+								<br>
+							  <span>230</span>
+							
+								 
+							</div>
+						</div>
+					</li>
+
+					
+		</ol>
+	
+
+	</div>
+</section></li>
+				
+					
+					<li class='ipsWidget ipsWidget_vertical ipsBox ipsResponsive_block' data-blockID='app_core_topContributors_1sykjrln7' data-blockConfig="true" data-blockTitle="Popular Contributors" data-blockErrorMessage="This block cannot be shown. This could be because it needs configuring, is unable to show on this page, or will show after reloading this page." data-controller='core.front.widgets.block'>
+<h3 class='ipsType_reset ipsWidget_title'>Popular Contributors</h3>
+<div class='ipsTabs ipsTabs_small ipsTabs_stretch ipsClearfix' id='elTopContributors' data-ipsTabBar data-ipsTabBar-updateURL='false' data-ipsTabBar-contentArea='#elTopContributors_content'>
+	<a href='#elTopContributors' data-action='expandTabs'><i class='fa fa-caret-down'></i></a>
+	<ul role="tablist" class='ipsList_reset'>
+		<li>
+			<a href='#ipsTabs_elTopContributors_el_topContributorsWeek_panel' id='el_topContributorsWeek' class='ipsTabs_item ipsTabs_activeItem' role="tab" aria-selected='true'>Week</a>
+		</li>
+		<li>
+			<a href='https://mybot.run/forums/index.php?app=core&amp;module=system&amp;controller=ajax&amp;do=topContributors&amp;time=month&amp;limit=5&amp;orientation=vertical' id='el_topContributorsMonth' class='ipsTabs_item' role="tab" aria-selected='false'>Month</a>
+		</li>		
+		<li>
+			<a href='https://mybot.run/forums/index.php?app=core&amp;module=system&amp;controller=ajax&amp;do=topContributors&amp;time=year&amp;limit=5&amp;orientation=vertical' id='el_topContributorsYear' class='ipsTabs_item' role="tab" aria-selected='false'>Year</a>
+		</li>
+		<li>
+			<a href='https://mybot.run/forums/index.php?app=core&amp;module=system&amp;controller=ajax&amp;do=topContributors&amp;time=all&amp;limit=5&amp;orientation=vertical' id='el_topContributorsAll' class='ipsTabs_item' role="tab" aria-selected='false'>All Time</a>
+		</li>
+	</ul>
+</div>
+
+<section id='elTopContributors_content' class='ipsWidget_inner ipsPad_half'>
+	<div id="ipsTabs_elTopContributors_el_topContributorsWeek_panel" class='ipsTabs_panel'>
+		
+
+	
+		<ol class='ipsDataList ipsDataList_reducedSpacing cTopContributors'>
+			
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>1</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/616490-boldina/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Boldina's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2019_12/_9105977_latestcb20190602165939path-prefixes.thumb_e472245b5877f63aa902e791ac4cb3a4.531b53463abc2ca44a9cf1c0912d2975' alt='Boldina'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/616490-boldina/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to Boldina's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>Boldina</strong></a>
+							<br>
+							
+								<span title="Member's reputation this period" data-ipsTooltip class='ipsRepBadge ipsRepBadge_positive'><i class='fa fa-plus-circle'></i> 6</span>
+							
+						</div>
+					</div>
+				</li>
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>2</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/11601-ratakantez/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/11601-ratakantez/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to ratakantez's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2020_01/ezgif-com-crop.thumb.gif.c7b13ae5c8eed4df35a8143a135d8f26.gif' alt='ratakantez'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/11601-ratakantez/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/11601-ratakantez/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to ratakantez's profile" class="ipsType_break"><strong><span style='color:#D86F24;'>ratakantez</span></strong></a>
+							<br>
+							
+								<span title="Member's reputation this period" data-ipsTooltip class='ipsRepBadge ipsRepBadge_positive'><i class='fa fa-plus-circle'></i> 3</span>
+							
+						</div>
+					</div>
+				</li>
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>3</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/599467-sanjana-mia/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/599467-sanjana-mia/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Sanjana Mia's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2020_01/1925889657_ezgif.com-optimize(2).thumb.gif.4c74462ac7a9a05f58ebd8a561f5c9e1.gif' alt='Sanjana Mia'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/599467-sanjana-mia/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/599467-sanjana-mia/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to Sanjana Mia's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>Sanjana Mia</strong></a>
+							<br>
+							
+								<span title="Member's reputation this period" data-ipsTooltip class='ipsRepBadge ipsRepBadge_positive'><i class='fa fa-plus-circle'></i> 3</span>
+							
+						</div>
+					</div>
+				</li>
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>4</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/597301-nytol/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/597301-nytol/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Nytol's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2018_08/soul_of_the_machine_by_joepingleton-dbj9ny3.thumb.jpg.0517ea31e3715bc8efc79a9394da6877.jpg' alt='Nytol'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/597301-nytol/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/597301-nytol/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to Nytol's profile" class="ipsType_break"><span style='color: #006600; font-weight: bold;'>Nytol</span></a>
+							<br>
+							
+								<span title="Member's reputation this period" data-ipsTooltip class='ipsRepBadge ipsRepBadge_positive'><i class='fa fa-plus-circle'></i> 2</span>
+							
+						</div>
+					</div>
+				</li>
+			
+				
+				<li class='ipsDataItem'>
+					<div class='ipsDataItem_icon ipsPos_middle ipsType_center ipsType_large ipsType_light'><strong>5</strong></div>
+					<div class='ipsDataItem_main ipsPhotoPanel ipsPhotoPanel_tiny'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/126633-fliegerfaust/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/126633-fliegerfaust/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Fliegerfaust's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2016_01/photo-88.gifq_r1431640986.pagespeed.ce.e9kwxNUDjy_zpsr0cxxsdl.gif.31a52d01e9991489d115cc3211c4bfc5.thumb.gif.a13892d557858ff2f981c6971fc9584e.gif' alt='Fliegerfaust'>
+	</a>
+
+						<div>
+							
+
+<a href='https://mybot.run/forums/index.php?/profile/126633-fliegerfaust/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/126633-fliegerfaust/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to Fliegerfaust's profile" class="ipsType_break"><span style="color: red; font-weight: bold;">Fliegerfaust</span></a>
+							<br>
+							
+								<span title="Member's reputation this period" data-ipsTooltip class='ipsRepBadge ipsRepBadge_positive'><i class='fa fa-plus-circle'></i> 2</span>
+							
+						</div>
+					</div>
+				</li>
+			
+		</ol>
+		
+			<div class="ipsPad_half ipsType_center ipsAreaBackground_light">
+				
+				<a href="https://mybot.run/forums/index.php?/leaderboard/&amp;time=week">Show More</a>
+			</div>
+		
+	
+
+	</div>
+</section></li>
+				
+					
+					<li class='ipsWidget ipsWidget_vertical ipsBox ipsResponsive_block' data-blockID='app_forums_postFeed_gmmdfjcci' data-blockConfig="true" data-blockTitle="Post Feed" data-blockErrorMessage="This block cannot be shown. This could be because it needs configuring, is unable to show on this page, or will show after reloading this page." data-controller='core.front.widgets.block'>
+
+	<h3 class='ipsType_reset ipsWidget_title'>Posts</h3>
+	
+		<div class='ipsWidget_inner ipsPad_half'>
+			<ul class='ipsDataList ipsDataList_reducedSpacing'>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/53755-derkonig/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/53755-derkonig/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to derkonig's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='derkonig'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main'>
+							<div class='ipsType_break ipsContained'><a href="https://mybot.run/forums/index.php?/topic/47469-suddenly-stopped-receiving-telegram-notifications/&amp;do=findComment&amp;comment=361514" title='View the topic Suddenly stopped receiving Telegram notifications' class='ipsType_medium ipsTruncate ipsTruncate_line'>Suddenly stopped receiving Telegram notifications</a></div>
+							<p class='ipsType_reset ipsType_light ipsType_medium ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/53755-derkonig/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/53755-derkonig/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to derkonig's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>derkonig</strong></a> &middot; <a href='https://mybot.run/forums/index.php?/topic/47469-suddenly-stopped-receiving-telegram-notifications/&amp;do=findComment&amp;comment=361514' class='ipsType_blendLinks'>Posted <time datetime='2020-02-25T19:25:44Z' title='02/25/2020 07:25  PM' data-short='8 hr'>8 hours ago</time></a></p>
+							<div class='ipsType_medium ipsType_textBlock ipsType_richText ipsType_break ipsContained ipsSpacer_top ipsSpacer_half' data-ipsTruncate data-ipsTruncate-type='remove' data-ipsTruncate-size='6 lines' data-ipsTruncate-watch='false'>
+								Haven’t been able to make it work yet.  
+	I’ll keep trying and post back in a few days. 
+ 
+							</div>
+						</div>
+					</li>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/681477-mezzokate/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/681477-mezzokate/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to mezzokate's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='mezzokate'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main'>
+							<div class='ipsType_break ipsContained'><a href="https://mybot.run/forums/index.php?/topic/47985-bot-sald%C4%B1r%C4%B1-yapm%C4%B1yor-yard%C4%B1mm/&amp;do=findComment&amp;comment=361505" title='View the topic Bot saldırı yapmıyor yardımm!!!' class='ipsType_medium ipsTruncate ipsTruncate_line'>Bot saldırı yapmıyor yardımm!!!</a></div>
+							<p class='ipsType_reset ipsType_light ipsType_medium ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/681477-mezzokate/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/681477-mezzokate/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to mezzokate's profile" class="ipsType_break">mezzokate</a> &middot; <a href='https://mybot.run/forums/index.php?/topic/47985-bot-sald%C4%B1r%C4%B1-yapm%C4%B1yor-yard%C4%B1mm/&amp;do=findComment&amp;comment=361505' class='ipsType_blendLinks'>Posted <time datetime='2020-02-25T17:12:21Z' title='02/25/2020 05:12  PM' data-short='10 hr'>10 hours ago</time></a></p>
+							<div class='ipsType_medium ipsType_textBlock ipsType_richText ipsType_break ipsContained ipsSpacer_top ipsSpacer_half' data-ipsTruncate data-ipsTruncate-type='remove' data-ipsTruncate-size='6 lines' data-ipsTruncate-watch='false'>
+								Merhabalar arkadaşlar bot saldırı yapmıyor asker basıyor ordu kampı full sadece saldırı yapmıyor. Günl��k kısmında en son '' none of search conditions match : 
+ 
+
+
+	Search, Trophy or Army Camp % are out range in search setting '' 
+ 
+
+
+	Bunu yazdıktan sonra tekrar başa dönüyor. 
+ 
+
+
+	Ayrıca ölü köy kısmında arama kısmının yanındaki yere 1 - 9999 yaptığım zaman da '' warning : Dead base enabled, but no collectors are selected
+ 
+
+
+	Dead base will never be found 
+ 
+
+
+	Select some in Attack Plan-Search&amp;Attack-DeadBase-Collectors
+ 
+
+
+	Bu hatayı alıyorum yardım eder misiniz? 
+ 
+
+							</div>
+						</div>
+					</li>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/619251-sumshady/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/619251-sumshady/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to SuMsHaDy's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='SuMsHaDy'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main'>
+							<div class='ipsType_break ipsContained'><a href="https://mybot.run/forums/index.php?/topic/47776-please-help/&amp;do=findComment&amp;comment=361488" title='View the topic Please help' class='ipsType_medium ipsTruncate ipsTruncate_line'>Please help</a></div>
+							<p class='ipsType_reset ipsType_light ipsType_medium ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/619251-sumshady/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/619251-sumshady/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to SuMsHaDy's profile" class="ipsType_break">SuMsHaDy</a> &middot; <a href='https://mybot.run/forums/index.php?/topic/47776-please-help/&amp;do=findComment&amp;comment=361488' class='ipsType_blendLinks'>Posted <time datetime='2020-02-25T13:04:47Z' title='02/25/2020 01:04  PM' data-short='14 hr'>14 hours ago</time></a></p>
+							<div class='ipsType_medium ipsType_textBlock ipsType_richText ipsType_break ipsContained ipsSpacer_top ipsSpacer_half' data-ipsTruncate data-ipsTruncate-type='remove' data-ipsTruncate-size='6 lines' data-ipsTruncate-watch='false'>
+								click the bot tab, click the options tab, insert the #4 under (processor / thread...)  
+ 
+
+
+	 
+ 
+
+
+	BOTS can run at the same time
+ 
+
+							</div>
+						</div>
+					</li>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/597301-nytol/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/597301-nytol/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Nytol's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2018_08/soul_of_the_machine_by_joepingleton-dbj9ny3.thumb.jpg.0517ea31e3715bc8efc79a9394da6877.jpg' alt='Nytol'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main'>
+							<div class='ipsType_break ipsContained'><a href="https://mybot.run/forums/index.php?/topic/47954-error-finding-a-emulator-that-works/&amp;do=findComment&amp;comment=361473" title='View the topic Error finding a emulator that works!' class='ipsType_medium ipsTruncate ipsTruncate_line'>Error finding a emulator that works!</a></div>
+							<p class='ipsType_reset ipsType_light ipsType_medium ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/597301-nytol/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/597301-nytol/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to Nytol's profile" class="ipsType_break"><span style='color: #006600; font-weight: bold;'>Nytol</span></a> &middot; <a href='https://mybot.run/forums/index.php?/topic/47954-error-finding-a-emulator-that-works/&amp;do=findComment&amp;comment=361473' class='ipsType_blendLinks'>Posted <time datetime='2020-02-25T05:10:07Z' title='02/25/2020 05:10  AM' data-short='22 hr'>22 hours ago</time></a></p>
+							<div class='ipsType_medium ipsType_textBlock ipsType_richText ipsType_break ipsContained ipsSpacer_top ipsSpacer_half' data-ipsTruncate data-ipsTruncate-type='remove' data-ipsTruncate-size='6 lines' data-ipsTruncate-watch='false'>
+								What you are basically trying to achieve is run an emulator inside an emulator. 
+	This is call nested virtualization.
+ 
+
+
+	I am not familiar with Macs at all so I can only give you theory at this point.
+ 
+
+
+	You would need to know if there is any kind of GPU passthru from the host machine into the virtualized enviroment, this would be needed to run GPU dependant emulators such as MEmu or Nox. 
+	If there is not, then you would need to be running older versions of BlueStacks v0, v1, v2 
+	I recommend version 2.5.43
+ 
+
+
+	 
+ 
+
+
+	I would imagine this will be very slow and I have no idea if the bot will run in such an enviroment. 
+	I don't know if parallels runs a full hardware virtualisation or para virtualization, or maybe they offer both options. 
+	Have a play around and if you find solutions or conclusion, post back for the benefit of others.
+ 
+
+							</div>
+						</div>
+					</li>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/495504-sahil_starrh/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/495504-sahil_starrh/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Sahil_starrh's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='Sahil_starrh'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main'>
+							<div class='ipsType_break ipsContained'><a href="https://mybot.run/forums/index.php?/topic/47954-error-finding-a-emulator-that-works/&amp;do=findComment&amp;comment=361454" title='View the topic Error finding a emulator that works!' class='ipsType_medium ipsTruncate ipsTruncate_line'>Error finding a emulator that works!</a></div>
+							<p class='ipsType_reset ipsType_light ipsType_medium ipsType_blendLinks'>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/495504-sahil_starrh/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/495504-sahil_starrh/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to Sahil_starrh's profile" class="ipsType_break">Sahil_starrh</a> &middot; <a href='https://mybot.run/forums/index.php?/topic/47954-error-finding-a-emulator-that-works/&amp;do=findComment&amp;comment=361454' class='ipsType_blendLinks'>Posted <time datetime='2020-02-24T20:13:38Z' title='02/24/2020 08:13  PM' data-short='1 dy'>Monday at 08:13  PM</time></a></p>
+							<div class='ipsType_medium ipsType_textBlock ipsType_richText ipsType_break ipsContained ipsSpacer_top ipsSpacer_half' data-ipsTruncate data-ipsTruncate-type='remove' data-ipsTruncate-size='6 lines' data-ipsTruncate-watch='false'>
+								Right hello lads, 
+ 
+
+
+	I used to use MyBot back in the day on my Windows laptop and everything was fine. I haven't used it since I got a MacBook and so I thought why not try get it to work on here. I've downloaded a Windows emulator (Parallels) and I can't get any emulators to work. I've checked the compatibility lists too. I've tried Memu, Bluestacks and Nox, all of which were the compatible versions but encountered different problems. Wasn't able to download CoC on MEMU, wasn't able to get passed the initialising screen on Bluestacks and Nox wasn't letting me get into google play or google services.
+ 
+
+
+	 
+ 
+
+
+	Any help?
+ 
+
+							</div>
+						</div>
+					</li>
+				
+			</ul>
+		</div>
+	
+
+</li>
+				
+					
+					<li class='ipsWidget ipsWidget_vertical ipsBox ' data-blockID='app_forums_topicFeed_qay3m7b2k' data-blockConfig="true" data-blockTitle="Topic Feed" data-blockErrorMessage="This block cannot be shown. This could be because it needs configuring, is unable to show on this page, or will show after reloading this page." data-controller='core.front.widgets.block'>
+
+	<h3 class='ipsWidget_title ipsType_reset'>Topics</h3>
+
+	
+		<div class='ipsPad_half ipsWidget_inner'>
+			<ul class='ipsDataList ipsDataList_reducedSpacing'>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/14889-lammeronline/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/14889-lammeronline/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to lammeronline's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='lammeronline'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main cWidgetComments'>
+							<div class="ipsCommentCount ipsPos_right " data-ipsTooltip title='367 replies'>367</div>
+							
+							<div class='ipsType_break ipsContained'>
+								
+									
+									
+										<span><span class="ipsBadge ipsBadge_icon ipsBadge_small ipsBadge_positive" data-ipsTooltip title='Featured'><i class='fa fa-star'></i></span></span>
+									
+															
+								<a href="https://mybot.run/forums/index.php?/topic/9227-faq-%D0%B8-%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC-%D1%81-%D0%B1%D0%BE%D1%82%D0%BE%D0%BC/&amp;do=getNewComment" title='View the topic FAQ и решение проблем с ботом' class='ipsDataItem_title'>FAQ и решение проблем с ботом</a>
+							</div>
+							<p class='ipsType_reset ipsType_medium ipsType_blendLinks ipsContained'>
+								<span>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/14889-lammeronline/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/14889-lammeronline/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to lammeronline's profile" class="ipsType_break">lammeronline</a></span><br>
+								<span class='ipsType_light'>Started <time datetime='2015-05-09T11:14:59Z' title='05/09/2015 11:14  AM' data-short='4 yr'>May 9, 2015</time></span>
+							</p>
+						</div>
+					</li>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/53755-derkonig/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/53755-derkonig/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to derkonig's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='derkonig'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main cWidgetComments'>
+							<div class="ipsCommentCount ipsPos_right " data-ipsTooltip title='9 replies'>9</div>
+							
+							<div class='ipsType_break ipsContained'>
+															
+								<a href="https://mybot.run/forums/index.php?/topic/47469-suddenly-stopped-receiving-telegram-notifications/&amp;do=getNewComment" title='View the topic Suddenly stopped receiving Telegram notifications' class='ipsDataItem_title'>Suddenly stopped receiving Telegram notifications</a>
+							</div>
+							<p class='ipsType_reset ipsType_medium ipsType_blendLinks ipsContained'>
+								<span>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/53755-derkonig/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/53755-derkonig/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to derkonig's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>derkonig</strong></a></span><br>
+								<span class='ipsType_light'>Started <time datetime='2020-02-09T23:15:55Z' title='02/09/2020 11:15  PM' data-short='Feb 9'>February 9</time></span>
+							</p>
+						</div>
+					</li>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/616490-boldina/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Boldina's profile">
+		<img src='https://mybot.run/forums/uploads/monthly_2019_12/_9105977_latestcb20190602165939path-prefixes.thumb_e472245b5877f63aa902e791ac4cb3a4.531b53463abc2ca44a9cf1c0912d2975' alt='Boldina'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main cWidgetComments'>
+							<div class="ipsCommentCount ipsPos_right " data-ipsTooltip title='239 replies'>239</div>
+							
+							<div class='ipsType_break ipsContained'>
+															
+								<a href="https://mybot.run/forums/index.php?/topic/47056-mybot-v782-aio-mod/&amp;do=getNewComment" title='View the topic MyBot v7.8.2 AIO Mod' class='ipsDataItem_title'>MyBot v7.8.2 AIO Mod</a>
+							</div>
+							<p class='ipsType_reset ipsType_medium ipsType_blendLinks ipsContained'>
+								<span>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/616490-boldina/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/616490-boldina/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to Boldina's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>Boldina</strong></a></span><br>
+								<span class='ipsType_light'>Started <time datetime='2019-12-03T04:02:53Z' title='12/03/2019 04:02  AM' data-short='Dec 3'>December 3, 2019</time></span>
+							</p>
+						</div>
+					</li>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/151985-sidros/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/151985-sidros/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to Sidros's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='Sidros'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main cWidgetComments'>
+							<div class="ipsCommentCount ipsPos_right " data-ipsTooltip title='265 replies'>265</div>
+							
+							<div class='ipsType_break ipsContained'>
+															
+								<a href="https://mybot.run/forums/index.php?/topic/37587-level-19-clan-best-botting-clan-farming-90-war-wins-cwl-maxed-out-clan-games-247-donations/&amp;do=getNewComment" title='View the topic [Level 19 Clan] [BEST BOTTING CLAN] [FARMING] [90% WAR WINS] [CWL] [MAXED OUT CLAN GAMES] [24/7 DONATIONS]' class='ipsDataItem_title'>[Level 19 Clan] [BEST BOTTING CLAN] [FARMING] [90% WAR WINS] [CWL] [MAXED OUT CLAN GAMES] [24/7 DONATIONS]</a>
+							</div>
+							<p class='ipsType_reset ipsType_medium ipsType_blendLinks ipsContained'>
+								<span>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/151985-sidros/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/151985-sidros/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to Sidros's profile" class="ipsType_break"><span style='color: #2C2C2C; font-weight: bold;'>Sidros</strong></a></span><br>
+								<span class='ipsType_light'>Started <time datetime='2019-01-10T16:52:38Z' title='01/10/2019 04:52  PM' data-short='1 yr'>January 10, 2019</time></span>
+							</p>
+						</div>
+					</li>
+				
+					<li class='ipsDataItem'>
+						<div class='ipsDataItem_icon ipsPos_top'>
+							
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/681477-mezzokate/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/681477-mezzokate/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_tiny" title="Go to mezzokate's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='mezzokate'>
+	</a>
+
+						</div>
+						<div class='ipsDataItem_main cWidgetComments'>
+							<div class="ipsCommentCount ipsPos_right ipsFaded" data-ipsTooltip title='0 replies'>0</div>
+							
+							<div class='ipsType_break ipsContained'>
+															
+								<a href="https://mybot.run/forums/index.php?/topic/47985-bot-sald%C4%B1r%C4%B1-yapm%C4%B1yor-yard%C4%B1mm/&amp;do=getNewComment" title='View the topic Bot saldırı yapmıyor yardımm!!!' class='ipsDataItem_title'>Bot saldırı yapmıyor yardımm!!!</a>
+							</div>
+							<p class='ipsType_reset ipsType_medium ipsType_blendLinks ipsContained'>
+								<span>By 
+
+<a href='https://mybot.run/forums/index.php?/profile/681477-mezzokate/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/681477-mezzokate/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to mezzokate's profile" class="ipsType_break">mezzokate</a></span><br>
+								<span class='ipsType_light'>Started <time datetime='2020-02-25T17:12:20Z' title='02/25/2020 05:12  PM' data-short='10 hr'>10 hours ago</time></span>
+							</p>
+						</div>
+					</li>
+				
+			</ul>
+		</div>
+	
+</li>
+				
+					
+					<li class='ipsWidget ipsWidget_vertical ipsBox ' data-blockID='app_core_stats_7s1etjly2' data-blockConfig="true" data-blockTitle="Member Statistics" data-blockErrorMessage="This block cannot be shown. This could be because it needs configuring, is unable to show on this page, or will show after reloading this page." data-controller='core.front.widgets.block'>
+<h3 class='ipsType_reset ipsWidget_title'>Member Statistics</h3>
+<div class='ipsWidget_inner'>
+	
+		<div class='ipsPad_half'>
+			<ul class="ipsDataList">
+				<li class="ipsDataItem">
+					<div class="ipsDataItem_main ipsPos_middle">
+						<strong>Total Members</strong>
+					</div>
+					<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+						<span class="ipsDataItem_stats_number">594,608</span>
+					</div>
+				</li>
+				<li class="ipsDataItem">
+					<div class="ipsDataItem_main ipsPos_middle">
+						<strong>Most Online</strong>
+					</div>
+					<div class="ipsDataItem_stats ipsDataItem_statsLarge">
+						<span class="ipsDataItem_stats_number">221</span><br>
+						<span class="ipsType_light ipsType_small"><time datetime='2020-02-22T17:32:51Z' title='02/22/2020 05:32  PM' data-short='3 dy'>Saturday at 05:32  PM</time></span>
+					</div>
+				</li>
+			</ul>
+			<hr class='ipsHr'>
+			
+				<div class='ipsClearfix ipsPad_bottom'>
+					<div class='ipsPos_left ipsType_center cNewestMember'>
+						
+
+
+	<a href="https://mybot.run/forums/index.php?/profile/681489-frdsffdasfd/" data-ipsHover data-ipsHover-target="https://mybot.run/forums/index.php?/profile/681489-frdsffdasfd/&amp;do=hovercard" class="ipsUserPhoto ipsUserPhoto_small" title="Go to frdsffdasfd's profile">
+		<img src='https://mybot.run/forums/uploads/set_resources_18/84c1e40ea0e759e3f1505eb1788ddf3c_default_photo.png' alt='frdsffdasfd'>
+	</a>
+
+					</div>
+					<div class='ipsWidget_latestItem'>
+						<strong class='ipsType_minorHeading'>Newest Member</strong><br>
+						<span class='ipsType_normal'>
+
+<a href='https://mybot.run/forums/index.php?/profile/681489-frdsffdasfd/' data-ipsHover data-ipsHover-target='https://mybot.run/forums/index.php?/profile/681489-frdsffdasfd/&amp;do=hovercard&amp;referrer=https%253A%252F%252Fmybot.run%252Fforums%252F' title="Go to frdsffdasfd's profile" class="ipsType_break">frdsffdasfd</a></span><br>
+						<span class='ipsType_medium ipsType_light'>Joined <time datetime='2020-02-26T02:59:28Z' title='02/26/2020 02:59  AM' data-short='1 hr'>1 hour ago</time></span>
+					</div>
+				</div>
+			
+		</div>
+	
+</div></li>
+				
+			
+		</ul>
+	</div>
+
+	</div>
+
+					
+<nav class='ipsBreadcrumb ipsBreadcrumb_bottom ipsFaded_withHover'>
+	
+		
+
+
+	
+
+	<ul class='ipsList_inline ipsPos_right'>
+		
+		<li >
+			<a data-action="defaultStream" class='ipsType_light '  href='https://mybot.run/forums/index.php?/discover/'><i class='icon-newspaper'></i> <span>All Activity</span></a>
+		</li>
+		
+	</ul>
+
+	<ul data-role="breadcrumbList">
+		<li>
+			<a title="Home" href='https://mybot.run/forums/'>
+				<span><i class='fa fa-home'></i> Home</span>
+			</a>
+		</li>
+		
+		
+	</ul>
+</nav>
+				</div>
+			</div>
+			
+		</main>
+		<footer id='ipsLayout_footer' class='ipsClearfix'>
+			<div class='ipsLayout_container'>
+				
+				
+
+
+<ul class='ipsList_inline ipsType_center ipsSpacer_top' id="elFooterLinks">
+	
+	
+		<li>
+			<a href='#elNavLang_menu' id='elNavLang' data-ipsMenu data-ipsMenu-above>Language <i class='fa fa-caret-down'></i></a>
+			<ul id='elNavLang_menu' class='ipsMenu ipsMenu_selectable ipsHide'>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='15' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-us'></i> Default ACP English </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item ipsMenu_itemChecked'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='1' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-us'></i> English (Default)</button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='3' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-ru'></i> Русский </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='4' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-tr'></i> Türkçe </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='5' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-br'></i> Português </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='6' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-se'></i> Svenska </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='7' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-fr'></i> Français </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='8' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-jo'></i> العربيه </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='9' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-ua'></i> Українська </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='10' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-pl'></i> Polski </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='11' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-es'></i> Español </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='12' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-no'></i> Norsk </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='13' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-ro'></i> Română </button>
+					</form>
+				</li>
+			
+				<li class='ipsMenu_item'>
+					<form action="//mybot.run/forums/index.php?/language/&amp;csrfKey=575f9cbe8fc7b627a5e0c9b86239c1ae" method="post">
+					<input type="hidden" name="ref" value="aHR0cHM6Ly9teWJvdC5ydW4vZm9ydW1zL2luZGV4LnBocD8vcmVzdGFwaS9hdXRoL2xvZ2luJnVzZXJuYW1lPWJvbGRpbmEmcGFzc3dvcmQ9VHJpYW5ndWxvMTIwOSQ=">
+					<button type='submit' name='id' value='14' class='ipsButton ipsButton_link ipsButton_link_secondary'><i class='ipsFlag ipsFlag-de'></i> Deutsch </button>
+					</form>
+				</li>
+			
+			</ul>
+		</li>
+	
+	
+	
+	
+	
+		<li><a rel="nofollow" href='https://mybot.run/forums/index.php?/contact/' data-ipsdialog data-ipsDialog-remoteSubmit data-ipsDialog-flashMessage='Thanks, your message has been sent to the administrators.' data-ipsdialog-title="Contact Us">Contact Us</a></li>
+	
+</ul>	
+
+
+<p id='elCopyright'>
+	<span id='elCopyright_userLine'></span>
+	<a rel='nofollow' title='Invision Community' href='https://www.invisioncommunity.com/'>Powered by Invision Community</a>
+</p>
+			</div>
+		</footer>
+		
+<div id='elMobileDrawer' class='ipsDrawer ipsHide'>
+	<a href='#' class='ipsDrawer_close' data-action='close'><span>&times;</span></a>
+	<div class='ipsDrawer_menu'>
+		<div class='ipsDrawer_content'>
+			
+
+			<div class='ipsSpacer_bottom ipsPad'>
+				<ul class='ipsToolList ipsToolList_vertical'>
+					
+						<li>
+							<a href='https://mybot.run/forums/index.php?/login/' id='elSigninButton_mobile' class='ipsButton ipsButton_light ipsButton_small ipsButton_fullWidth'>Existing user? Sign In</a>
+						</li>
+						
+							<li>
+								
+									<a href='https://mybot.run/forums/index.php?/register/' data-ipsDialog data-ipsDialog-size='narrow' data-ipsDialog-title='Sign Up' data-ipsDialog-fixed='true' id='elRegisterButton_mobile' class='ipsButton ipsButton_small ipsButton_fullWidth ipsButton_important'>Sign Up</a>
+								
+							</li>
+						
+					
+
+					
+				</ul>
+			</div>
+
+			<ul class='ipsDrawer_list'>
+				
+
+				
+				
+				
+				
+					
+						
+						
+							<li><a href='https://mybot.run/forums/index.php' >Forums</a></li>
+						
+					
+				
+					
+						
+						
+							<li><a href='https://mybot.run/forums/index.php?/topic/25504-forum-rules/' >Forum Rules</a></li>
+						
+					
+				
+					
+						
+						
+							<li class='ipsDrawer_itemParent'>
+								<h4 class='ipsDrawer_title'><a href='#'>Download</a></h4>
+								<ul class='ipsDrawer_list'>
+									<li data-action="back"><a href='#'>Back</a></li>
+									
+										<li><a href='https://mybot.run/forums/index.php'>Download</a></li>
+									
+									
+									
+										
+
+
+	
+		
+			<li>
+				<a href='https://en.bignox.com/' >
+					Nox
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/topic/26023-itools-avm-support/' >
+					iTools AVM
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/topic/33063-bluestacks-rooted-versions/' >
+					BlueStacks
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/topic/23192-memu-recommended-versions/' >
+					MEmu
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/topic/22912-leapdroid-support/' >
+					LeapDroid
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='http://down1.koplayer.com/Emulator/koplayer-2.0.0.exe' >
+					KOPLAYER
+				</a>
+			</li>
+		
+	
+
+										
+								</ul>
+							</li>
+						
+					
+				
+					
+						
+						
+							<li><a href='https://mybot.run/forums/index.php?/forum/10-help-support/' >Support</a></li>
+						
+					
+				
+					
+						
+						
+							<li><a href='https://mybot.run/forums/index.php?/forum/100-bug-reports-for-v7/' >Report Bug</a></li>
+						
+					
+				
+					
+						
+						
+							<li class='ipsDrawer_itemParent'>
+								<h4 class='ipsDrawer_title'><a href='#'>Browse</a></h4>
+								<ul class='ipsDrawer_list'>
+									<li data-action="back"><a href='#'>Back</a></li>
+									
+										<li><a href='https://mybot.run/forums/'>Browse</a></li>
+									
+									
+									
+										
+
+
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/staff/' >
+					Staff
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/online/' >
+					Online Users
+				</a>
+			</li>
+		
+	
+
+										
+								</ul>
+							</li>
+						
+					
+				
+					
+						
+						
+							<li class='ipsDrawer_itemParent'>
+								<h4 class='ipsDrawer_title'><a href='#'>Activity</a></h4>
+								<ul class='ipsDrawer_list'>
+									<li data-action="back"><a href='#'>Back</a></li>
+									
+										<li><a href='https://mybot.run/forums/index.php?/discover/'>Activity</a></li>
+									
+									
+									
+										
+
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/discover/' >
+					All Activity
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='' >
+					My Activity Streams
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/discover/unread/' >
+					Unread Content
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/discover/content-started/' >
+					Content I Started
+				</a>
+			</li>
+		
+	
+
+	
+		
+			<li>
+				<a href='https://mybot.run/forums/index.php?/search/' >
+					Search
+				</a>
+			</li>
+		
+	
+
+										
+								</ul>
+							</li>
+						
+					
+				
+					
+				
+					
+				
+					
+						
+						
+							<li><a href='https://mybot.run/forums/index.php?/donate/' >Donations</a></li>
+						
+					
+				
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id='elMobileCreateMenuDrawer' class='ipsDrawer ipsHide'>
+	<a href='#' class='ipsDrawer_close' data-action='close'><span>&times;</span></a>
+	<div class='ipsDrawer_menu'>
+		<div class='ipsDrawer_content ipsSpacer_bottom ipsPad'>
+			<ul class='ipsDrawer_list'>
+				<li class="ipsDrawer_listTitle ipsType_reset">Create New...</li>
+				
+			</ul>
+		</div>
+	</div>
+</div>
+		
+		
+
+	<script type='text/javascript'>
+		var ipsDebug = false;		
+	
+		var CKEDITOR_BASEPATH = '//mybot.run/forums/applications/core/interface/ckeditor/ckeditor/';
+	
+		var ipsSettings = {
+			
+			
+			cookie_path: "/forums/",
+			
+			cookie_prefix: "ips4_",
+			
+			
+			cookie_ssl: true,
+			
+			upload_imgURL: "",
+			message_imgURL: "",
+			notification_imgURL: "",
+			baseURL: "//mybot.run/forums/",
+			jsURL: "//mybot.run/forums/applications/core/interface/js/js.php",
+			csrfKey: "575f9cbe8fc7b627a5e0c9b86239c1ae",
+			antiCache: "dac3e56a3b",
+			disableNotificationSounds: false,
+			useCompiledFiles: true,
+			links_external: true,
+			memberID: 0,
+			lazyLoadEnabled: false,
+			blankImg: "//mybot.run/forums/applications/core/interface/js/spacer.png",
+			analyticsProvider: "ga",
+			viewProfiles: true,
+			mapProvider: 'none',
+			mapApiKey: '',
+			
+		};
+	</script>
+
+
+
+
+
+<script type='text/javascript' src='https://mybot.run/forums/uploads/javascript_global/root_library.js.3d00c18f45cd97fc857c974d19a88d1f.js?v=dac3e56a3b' data-ips></script>
+
+
+<script type='text/javascript' src='https://mybot.run/forums/uploads/javascript_global/root_js_lang_1.js.62deba0ddbaa1199b6253b313df9f8a3.js?v=dac3e56a3b' data-ips></script>
+
+
+<script type='text/javascript' src='https://mybot.run/forums/uploads/javascript_global/root_framework.js.b2402171b3e23941ef1fc9c035118b6e.js?v=dac3e56a3b' data-ips></script>
+
+
+<script type='text/javascript' src='https://mybot.run/forums/uploads/javascript_core/global_global_core.js.35a15a213f1a0e8888b2eca6b962f7d2.js?v=dac3e56a3b' data-ips></script>
+
+
+<script type='text/javascript' src='https://mybot.run/forums/uploads/javascript_core/plugins_plugins.js.07d43ec9e545db1ab20207b475cf7c34.js?v=dac3e56a3b' data-ips></script>
+
+
+<script type='text/javascript' src='https://mybot.run/forums/uploads/javascript_global/root_front.js.c044c7f6cb5a9bf9333a83e47c894d55.js?v=dac3e56a3b' data-ips></script>
+
+
+<script type='text/javascript' src='https://mybot.run/forums/uploads/javascript_forums/front_front_forum.js.6d959402668a0a57062a3caadc1e0934.js?v=dac3e56a3b' data-ips></script>
+
+
+<script type='text/javascript' src='https://mybot.run/forums/uploads/javascript_global/root_map.js.0e9d4701889fba2888e1d4102c636f56.js?v=dac3e56a3b' data-ips></script>
+
+
+
+	<script type='text/javascript'>
+		
+			ips.setSetting( 'date_format', jQuery.parseJSON('"mm\/dd\/yy"') );
+		
+			ips.setSetting( 'date_first_day', jQuery.parseJSON('0') );
+		
+			ips.setSetting( 'remote_image_proxy', jQuery.parseJSON('0') );
+		
+			ips.setSetting( 'ipb_url_filter_option', jQuery.parseJSON('"black"') );
+		
+			ips.setSetting( 'url_filter_any_action', jQuery.parseJSON('"allow"') );
+		
+			ips.setSetting( 'bypass_profanity', jQuery.parseJSON('0') );
+		
+			ips.setSetting( 'emoji_style', jQuery.parseJSON('"native"') );
+		
+			ips.setSetting( 'emoji_shortcodes', jQuery.parseJSON('"1"') );
+		
+			ips.setSetting( 'emoji_ascii', jQuery.parseJSON('"1"') );
+		
+			ips.setSetting( 'emoji_cache', jQuery.parseJSON('"1581970041"') );
+		
+		
+	</script>
+
+
+
+<script type='application/ld+json'>
+{
+    "@context": "http://www.schema.org",
+    "publisher": "https://mybot.run/forums/#organization",
+    "@type": "WebSite",
+    "@id": "https://mybot.run/forums/#website",
+    "mainEntityOfPage": "https://mybot.run/forums/",
+    "name": "Mybot.run",
+    "url": "https://mybot.run/forums/",
+    "potentialAction": {
+        "type": "SearchAction",
+        "query-input": "required name=query",
+        "target": "https://mybot.run/forums/index.php?/search/\u0026q={query}"
+    },
+    "inLanguage": [
+        {
+            "@type": "Language",
+            "name": "Default ACP English",
+            "alternateName": "en-US"
+        },
+        {
+            "@type": "Language",
+            "name": "English",
+            "alternateName": "en-US"
+        },
+        {
+            "@type": "Language",
+            "name": "\u0420\u0443\u0441\u0441\u043a\u0438\u0439",
+            "alternateName": "ru-RU"
+        },
+        {
+            "@type": "Language",
+            "name": "T\u00fcrk\u00e7e",
+            "alternateName": "tr-TR"
+        },
+        {
+            "@type": "Language",
+            "name": "Portugu\u00eas",
+            "alternateName": "pt-BR"
+        },
+        {
+            "@type": "Language",
+            "name": "Svenska",
+            "alternateName": "sv-SE"
+        },
+        {
+            "@type": "Language",
+            "name": "Fran\u00e7ais",
+            "alternateName": "fr-FR"
+        },
+        {
+            "@type": "Language",
+            "name": "\u0627\u0644\u0639\u0631\u0628\u064a\u0647",
+            "alternateName": "ar-JO"
+        },
+        {
+            "@type": "Language",
+            "name": "\u0423\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430",
+            "alternateName": "uk-UA"
+        },
+        {
+            "@type": "Language",
+            "name": "Polski",
+            "alternateName": "pl-PL"
+        },
+        {
+            "@type": "Language",
+            "name": "Espa\u00f1ol",
+            "alternateName": "es-ES"
+        },
+        {
+            "@type": "Language",
+            "name": "Norsk",
+            "alternateName": "nb-NO"
+        },
+        {
+            "@type": "Language",
+            "name": "Rom\u00e2n\u0103",
+            "alternateName": "ro-RO"
+        },
+        {
+            "@type": "Language",
+            "name": "Deutsch",
+            "alternateName": "de-DE"
+        }
+    ]
+}	
+</script>
+
+<script type='application/ld+json'>
+{
+    "@context": "http://www.schema.org",
+    "@type": "Organization",
+    "@id": "https://mybot.run/forums/#organization",
+    "mainEntityOfPage": "https://mybot.run/forums/",
+    "name": "Mybot.run",
+    "url": "https://mybot.run/forums/",
+    "logo": {
+        "@type": "ImageObject",
+        "@id": "https://mybot.run/forums/#logo",
+        "url": "https://mybot.run/forums/uploads/monthly_2020_02/1845508651_Logo4.png.83f4f94c307bf77ce12847a4df999258.png"
+    }
+}	
+</script>
+
+<script type='application/ld+json'>
+{
+    "@context": "http://schema.org",
+    "@type": "ContactPage",
+    "url": "https://mybot.run/forums/index.php?/contact/"
+}	
+</script>
+
+
+		
+		
+		<!--ipsQueryLog-->
+		<!--ipsCachingLog-->
+		
+		
+	</body>
+</html>

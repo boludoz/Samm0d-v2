@@ -213,7 +213,7 @@ EndFunc   ;==>getMyArmyCCSeigeMachineCapacity
 Func getTrainArmyCapacity($bSpellFlag = False)
 	If $g_iSamM0dDebug = 1 Or $g_bDebugSetlog Then SETLOG("Begin getTrainArmyCapacity:", $COLOR_DEBUG1)
 
-	Local $aGetFactorySize[2] = [0,0]
+	Local $aGetFactorySize[2] = [0, 0]
 	Local $aTempSize
 	Local $iCount
 	Local $sArmyInfo = ""
@@ -257,30 +257,30 @@ Func getTrainArmyCapacity($bSpellFlag = False)
 				Local $proposedTotalCamp = ($tempCurT / 2)
 				If $g_iTotalCampSpace > ($tempCurT / 2) Then $proposedTotalCamp = $g_iTotalCampSpace
 				Local $sInputbox = InputBox("Question", _
-									  "Enter your total Army Camp capacity." & @CRLF & @CRLF & _
-									  "Please check it matches with total Army Camp capacity" & @CRLF & _
-									  "you see in Army Overview right now in Android Window:" & @CRLF & _
-									  $g_sAndroidTitle & @CRLF & @CRLF & _
-									  "(This window closes in 2 Minutes with value of " & $proposedTotalCamp & ")", $proposedTotalCamp, "", 330, 220, Default, Default, 120, $g_hFrmBotEx)
+						"Enter your total Army Camp capacity." & @CRLF & @CRLF & _
+						"Please check it matches with total Army Camp capacity" & @CRLF & _
+						"you see in Army Overview right now in Android Window:" & @CRLF & _
+						$g_sAndroidTitle & @CRLF & @CRLF & _
+						"(This window closes in 2 Minutes with value of " & $proposedTotalCamp & ")", $proposedTotalCamp, "", 330, 220, Default, Default, 120, $g_hFrmBotEx)
 				Local $error = @error
 				If $error = 1 Then
-				   Setlog("Army Camp User input cancelled, still using " & $g_iTotalCampSpace, $COLOR_ACTION)
+					Setlog("Army Camp User input cancelled, still using " & $g_iTotalCampSpace, $COLOR_ACTION)
 				Else
-				   If $error = 2 Then
-					  ; Cancelled, using proposed value
-					  $g_iTotalCampSpace = $proposedTotalCamp
-				   Else
-					  $g_iTotalCampSpace = Number($sInputbox)
-				   EndIf
-				   If $error = 0 Then
-					  $g_iTotalCampForcedValue = $g_iTotalCampSpace
-					  $g_bTotalCampForced = True
-					  Setlog("Army Camp User input = " & $g_iTotalCampSpace, $COLOR_INFO)
-				   Else
-					  ; timeout
-					  Setlog("Army Camp proposed value = " & $g_iTotalCampSpace, $COLOR_ACTION)
-				   EndIf
-				EndIF
+					If $error = 2 Then
+						; Cancelled, using proposed value
+						$g_iTotalCampSpace = $proposedTotalCamp
+					Else
+						$g_iTotalCampSpace = Number($sInputbox)
+					EndIf
+					If $error = 0 Then
+						$g_iTotalCampForcedValue = $g_iTotalCampSpace
+						$g_bTotalCampForced = True
+						Setlog("Army Camp User input = " & $g_iTotalCampSpace, $COLOR_INFO)
+					Else
+						; timeout
+						Setlog("Army Camp proposed value = " & $g_iTotalCampSpace, $COLOR_ACTION)
+					EndIf
+				EndIf
 			Else
 				$g_iTotalCampSpace = $g_iTotalCampForcedValue
 			EndIf
@@ -303,7 +303,7 @@ Func getMyArmyCapacityMini($hHBitmap, $bShowLog = True)
 	$g_iTotalCampSpace = 0
 
 	$sArmyInfo = getMyOcrArmyCap($hHBitmap)
-	If $g_iSamM0dDebug = 1 Then Setlog("getMyArmyCapacityMini $sArmyInfo = " & $sArmyInfo, $COLOR_DEBUG)
+	UpdSam($sArmyInfo)
 	$aGetArmySize = StringSplit($sArmyInfo, "#")
 	If IsArray($aGetArmySize) Then
 		If $aGetArmySize[0] > 1 Then
@@ -332,7 +332,7 @@ Func getMyArmyCapacityMini($hHBitmap, $bShowLog = True)
 ;~ 		SetLog("Delete $hHBitmap")
 ;~ 		GdiDeleteHBitmap($hHBitmap)
 ;~ 	EndIf
-EndFunc
+EndFunc   ;==>getMyArmyCapacityMini
 
 Func getTrainArmyCapacityMini($hHBitmap, $bShowLog = True)
 	Local $aTempSize
@@ -362,36 +362,36 @@ Func getTrainArmyCapacityMini($hHBitmap, $bShowLog = True)
 			Local $proposedTotalCamp = ($g_aiTroopsMaxCamp[1] / 2)
 			If $g_iTotalCampSpace > ($g_aiTroopsMaxCamp[1] / 2) Then $proposedTotalCamp = $g_iTotalCampSpace
 			Local $sInputbox = InputBox("Question", _
-								  "Enter your total Army Camp capacity." & @CRLF & @CRLF & _
-								  "Please check it matches with total Army Camp capacity" & @CRLF & _
-								  "you see in Army Overview right now in Android Window:" & @CRLF & _
-								  $g_sAndroidTitle & @CRLF & @CRLF & _
-								  "(This window closes in 2 Minutes with value of " & $proposedTotalCamp & ")", $proposedTotalCamp, "", 330, 220, Default, Default, 120, $g_hFrmBotEx)
+					"Enter your total Army Camp capacity." & @CRLF & @CRLF & _
+					"Please check it matches with total Army Camp capacity" & @CRLF & _
+					"you see in Army Overview right now in Android Window:" & @CRLF & _
+					$g_sAndroidTitle & @CRLF & @CRLF & _
+					"(This window closes in 2 Minutes with value of " & $proposedTotalCamp & ")", $proposedTotalCamp, "", 330, 220, Default, Default, 120, $g_hFrmBotEx)
 			Local $error = @error
 			If $error = 1 Then
-			   Setlog("Army Camp User input cancelled, still using " & $g_iTotalCampSpace, $COLOR_ACTION)
+				Setlog("Army Camp User input cancelled, still using " & $g_iTotalCampSpace, $COLOR_ACTION)
 			Else
-			   If $error = 2 Then
-				  ; Cancelled, using proposed value
-				  $g_iTotalCampSpace = $proposedTotalCamp
-			   Else
-				  $g_iTotalCampSpace = Number($sInputbox)
-			   EndIf
-			   If $error = 0 Then
-				  $g_iTotalCampForcedValue = $g_iTotalCampSpace
-				  $g_bTotalCampForced = True
-				  Setlog("Army Camp User input = " & $g_iTotalCampSpace, $COLOR_INFO)
-			   Else
-				  ; timeout
-				  Setlog("Army Camp proposed value = " & $g_iTotalCampSpace, $COLOR_ACTION)
-			   EndIf
-			EndIF
+				If $error = 2 Then
+					; Cancelled, using proposed value
+					$g_iTotalCampSpace = $proposedTotalCamp
+				Else
+					$g_iTotalCampSpace = Number($sInputbox)
+				EndIf
+				If $error = 0 Then
+					$g_iTotalCampForcedValue = $g_iTotalCampSpace
+					$g_bTotalCampForced = True
+					Setlog("Army Camp User input = " & $g_iTotalCampSpace, $COLOR_INFO)
+				Else
+					; timeout
+					Setlog("Army Camp proposed value = " & $g_iTotalCampSpace, $COLOR_ACTION)
+				EndIf
+			EndIf
 		EndIf
 	EndIf
 	If $g_aiTroopsMaxCamp[1] <> 0 Then
 		If $bShowLog Then SetLog("Max Troops: " & $g_aiTroopsMaxCamp[0] & "/" & $g_aiTroopsMaxCamp[1])
 	EndIf
-EndFunc
+EndFunc   ;==>getTrainArmyCapacityMini
 
 Func getMySpellCapacityMini($hHBitmap, $bShowLog = True)
 	Local $aGetSpellSize[3] = ["", "", ""]
@@ -403,6 +403,7 @@ Func getMySpellCapacityMini($hHBitmap, $bShowLog = True)
 	$g_iTotalSpellCampSpace = 0
 
 	$sSpellInfo = getMyOcrSpellCap($hHBitmap)
+	UpdSam($sSpellInfo)
 	If $g_iSamM0dDebug = 1 Then Setlog("getMySpellCapacityMini $sSpellInfo = " & $sSpellInfo, $COLOR_DEBUG)
 	$aGetSpellSize = StringSplit($sSpellInfo, "#")
 	If IsArray($aGetSpellSize) Then
@@ -433,7 +434,7 @@ Func getMySpellCapacityMini($hHBitmap, $bShowLog = True)
 			$g_bFullArmySpells = True
 		EndIf
 	EndIf
-EndFunc
+EndFunc   ;==>getMySpellCapacityMini
 
 Func getBrewSpellCapacityMini($hHBitmap, $bShowLog = True)
 	Local $aTempSize
@@ -455,4 +456,4 @@ Func getBrewSpellCapacityMini($hHBitmap, $bShowLog = True)
 	If $g_aiSpellsMaxCamp[1] <> 0 Then
 		If $bShowLog Then SetLog("Max Spells: " & $g_aiSpellsMaxCamp[0] & "/" & $g_aiSpellsMaxCamp[1])
 	EndIf
-EndFunc
+EndFunc   ;==>getBrewSpellCapacityMini

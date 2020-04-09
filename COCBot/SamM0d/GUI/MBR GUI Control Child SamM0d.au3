@@ -4,10 +4,11 @@ Func chkMyTroopOrder()
 	Else
 		$ichkMyTroopsOrder = 0
 	EndIf
-EndFunc
+EndFunc   ;==>chkMyTroopOrder
 
 Func cmbMyTroopOrder()
-	Local $tempOrder[20]
+	Local $iTotalT = UBound($MyTroops)
+	Local $tempOrder[$iTotalT]
 	For $i = 0 To UBound($MyTroops) - 1
 		$tempOrder[$i] = Int(GUICtrlRead(Eval("cmbMy" & $MyTroops[$i][0] & "Order")))
 	Next
@@ -25,19 +26,19 @@ Func cmbMyTroopOrder()
 	For $i = 0 To UBound($MyTroops) - 1
 		$MyTroopsSetting[$icmbTroopSetting][$i][1] = Int($tempOrder[$i])
 		$MyTroops[$i][1] = $MyTroopsSetting[$icmbTroopSetting][$i][1]
-		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MyTroops[$i][0] & "Order"), $MyTroops[$i][1]-1)
+		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MyTroops[$i][0] & "Order"), $MyTroops[$i][1] - 1)
 	Next
 	;_ArrayDisplay($MyTroops,"MyTroops")
-EndFunc
+EndFunc   ;==>cmbMyTroopOrder
 
 Func UpdateTroopSetting()
 	For $i = 0 To UBound($MyTroops) - 1
 		$MyTroopsSetting[$icmbTroopSetting][$i][0] = Int(GUICtrlRead(Eval("txtMy" & $MyTroops[$i][0])))
-		$MyTroops[$i][3] =  $MyTroopsSetting[$icmbTroopSetting][$i][0]
+		$MyTroops[$i][3] = $MyTroopsSetting[$icmbTroopSetting][$i][0]
 	Next
 	UpdateTroopSize()
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_iMyTroopsSize: " & $g_iMyTroopsSize)
-EndFunc
+EndFunc   ;==>UpdateTroopSetting
 
 Func UpdateTroopSize()
 	$g_iMyTroopsSize = 0
@@ -54,12 +55,12 @@ Func UpdateTroopSize()
 		GUICtrlSetData(Eval("txtMy" & $MyTroops[1][0]), 0)
 		$MyTroops[1][3] = 0
 	EndIf
-	
+
 	$g_iMyTroopsSize = 0
 	For $i = 0 To UBound($MyTroops) - 1
 		$g_iMyTroopsSize += $MyTroops[$i][3] * $MyTroops[$i][2]
 	Next
-	
+
 	Local $iTempCampSize = 0
 	If $g_iTotalCampSpace = 0 Then
 		If GUICtrlRead($g_hChkTotalCampForced) = $GUI_CHECKED Then
@@ -73,21 +74,21 @@ Func UpdateTroopSize()
 		EndIf
 	EndIf
 	$g_iTrainArmyFullTroopPct = Int(GUICtrlRead($g_hTxtFullTroop))
-	GUICtrlSetData($lblTotalCapacityOfMyTroops,GetTranslatedFileIni("sam m0d", 76, "Total") & ": " & $g_iMyTroopsSize & "/" & Int(($iTempCampSize * $g_iTrainArmyFullTroopPct) / 100))
+	GUICtrlSetData($lblTotalCapacityOfMyTroops, GetTranslatedFileIni("sam m0d", 76, "Total") & ": " & $g_iMyTroopsSize & "/" & Int(($iTempCampSize * $g_iTrainArmyFullTroopPct) / 100))
 	If $g_iMyTroopsSize > (($iTempCampSize * $g_iTrainArmyFullTroopPct) / 100) Then
-		GUICtrlSetColor($lblTotalCapacityOfMyTroops,$COLOR_RED)
-		GUICtrlSetData($idProgressbar,100)
+		GUICtrlSetColor($lblTotalCapacityOfMyTroops, $COLOR_RED)
+		GUICtrlSetData($idProgressbar, 100)
 		_SendMessage(GUICtrlGetHandle($idProgressbar), $PBM_SETSTATE, 2) ; red
 	Else
-		GUICtrlSetColor($lblTotalCapacityOfMyTroops,$COLOR_BLACK)
+		GUICtrlSetColor($lblTotalCapacityOfMyTroops, $COLOR_BLACK)
 		GUICtrlSetData($idProgressbar, Int(($g_iMyTroopsSize / (($iTempCampSize * $g_iTrainArmyFullTroopPct) / 100)) * 100))
 		_SendMessage(GUICtrlGetHandle($idProgressbar), $PBM_SETSTATE, 1) ; green
 	EndIf
-EndFunc
+EndFunc   ;==>UpdateTroopSize
 
 Func cmbMySpellOrder()
-	Local $tempOrder[10]
-
+	Local $iTotalT = UBound($MySpells)
+	Local $tempOrder[$iTotalT]
 	For $i = 0 To UBound($MySpells) - 1
 		$tempOrder[$i] = Int(GUICtrlRead(Eval("cmbMy" & $MySpells[$i][0] & "SpellOrder")))
 	Next
@@ -104,10 +105,10 @@ Func cmbMySpellOrder()
 	Next
 	For $i = 0 To UBound($MySpells) - 1
 		$MySpellSetting[$icmbTroopSetting][$i][1] = Int($tempOrder[$i])
-		$MySpells[$i][1] =  $MySpellSetting[$icmbTroopSetting][$i][1]
-		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MySpells[$i][0] & "SpellOrder"), $MySpells[$i][1]-1)
+		$MySpells[$i][1] = $MySpellSetting[$icmbTroopSetting][$i][1]
+		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MySpells[$i][0] & "SpellOrder"), $MySpells[$i][1] - 1)
 	Next
-EndFunc
+EndFunc   ;==>cmbMySpellOrder
 
 Func UpdatePreSpellSetting()
 	$g_bDoPrebrewspell = 0
@@ -117,10 +118,10 @@ Func UpdatePreSpellSetting()
 		Else
 			$MySpellSetting[$icmbTroopSetting][$i][2] = 0
 		EndIf
-		Assign("ichkPre" & $MySpells[$i][0],  $MySpellSetting[$icmbTroopSetting][$i][2])
+		Assign("ichkPre" & $MySpells[$i][0], $MySpellSetting[$icmbTroopSetting][$i][2])
 		$g_bDoPrebrewspell = BitOR($g_bDoPrebrewspell, $MySpellSetting[$icmbTroopSetting][$i][2])
 	Next
-EndFunc
+EndFunc   ;==>UpdatePreSpellSetting
 
 Func UpdateSpellSetting()
 	$g_iMySpellsSize = 0
@@ -140,6 +141,7 @@ Func UpdateSpellSetting()
 		GUICtrlSetBkColor($txtNumEarthSpell, $COLOR_MONEYGREEN)
 		GUICtrlSetBkColor($txtNumHasteSpell, $COLOR_MONEYGREEN)
 		GUICtrlSetBkColor($txtNumSkeletonSpell, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($txtNumBatSpell, $COLOR_MONEYGREEN)
 	Else
 		GUICtrlSetBkColor($txtNumLightningSpell, $COLOR_RED)
 		GUICtrlSetBkColor($txtNumHealSpell, $COLOR_RED)
@@ -151,26 +153,27 @@ Func UpdateSpellSetting()
 		GUICtrlSetBkColor($txtNumEarthSpell, $COLOR_RED)
 		GUICtrlSetBkColor($txtNumHasteSpell, $COLOR_RED)
 		GUICtrlSetBkColor($txtNumSkeletonSpell, $COLOR_RED)
+		GUICtrlSetBkColor($txtNumBatSpell, $COLOR_RED)
 	EndIf
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_iMySpellsSize: " & $g_iMySpellsSize)
-EndFunc
+EndFunc   ;==>UpdateSpellSetting
 
 Func chkDisablePretrainTroops()
 	$ichkDisablePretrainTroops = (GUICtrlRead($chkDisablePretrainTroops) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+EndFunc   ;==>chkDisablePretrainTroops
 
 ;~ Func chkEnableADBClick()
 ;~ 	$g_bAndroidAdbClicksEnabled = (GUICtrlRead($chkEnableADBClick) = $GUI_CHECKED ? 1 : 0)
 ;~ EndFunc
 
 Func chkCustomTrain()
-	$ichkModTrain = (GUICtrlRead($chkModTrain) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+	$g_bChkModTrain = (GUICtrlRead($g_hChkModTrain) = $GUI_CHECKED ? 1 : 0)
+EndFunc   ;==>chkCustomTrain
 
 Func cmbTroopSetting()
 	For $i = 0 To UBound($MyTroops) - 1
 		$MyTroopsSetting[$icmbTroopSetting][$i][0] = Int(GUICtrlRead(Eval("txtMy" & $MyTroops[$i][0])))
-		$MyTroopsSetting[$icmbTroopSetting][$i][1] = Int(GUICtrlRead(Eval("cmbMy"& $MyTroops[$i][0] & "Order")))
+		$MyTroopsSetting[$icmbTroopSetting][$i][1] = Int(GUICtrlRead(Eval("cmbMy" & $MyTroops[$i][0] & "Order")))
 	Next
 	For $i = 0 To UBound($MySpells) - 1
 		If GUICtrlRead(Eval("chkPre" & $MySpells[$i][0])) = $GUI_CHECKED Then
@@ -181,76 +184,103 @@ Func cmbTroopSetting()
 		$MySpellSetting[$icmbTroopSetting][$i][0] = Int(GUICtrlRead(Eval("txtNum" & $MySpells[$i][0] & "Spell")))
 		$MySpellSetting[$icmbTroopSetting][$i][1] = Int(GUICtrlRead(Eval("cmbMy" & $MySpells[$i][0] & "SpellOrder")))
 	Next
+	For $i = 0 To UBound($MySieges) - 1
+		If GUICtrlRead(Eval("chkPreSiege" & $MySieges[$i][0])) = $GUI_CHECKED Then
+			$MySiegeSetting[$icmbTroopSetting][$i][2] = 1
+		Else
+			$MySiegeSetting[$icmbTroopSetting][$i][2] = 0
+		EndIf
+		$MySiegeSetting[$icmbTroopSetting][$i][0] = Int(GUICtrlRead(Eval("txtNumSiege" & $MySieges[$i][0] & "Siege")))
+		$MySiegeSetting[$icmbTroopSetting][$i][1] = Int(GUICtrlRead(Eval("cmbMySiege" & $MySieges[$i][0] & "SiegeOrder")))
+	Next
 
 	$icmbTroopSetting = _GUICtrlComboBox_GetCurSel($cmbTroopSetting)
 
 	;$ichkMyTroopsOrder = IniRead($g_sProfileConfigPath, "MyTroops", "Order" & $icmbTroopSetting, "0")
 
 	For $i = 0 To UBound($MyTroops) - 1
-		$MyTroops[$i][3] =  $MyTroopsSetting[$icmbTroopSetting][$i][0]
-		$MyTroops[$i][1] =  $MyTroopsSetting[$icmbTroopSetting][$i][1]
+		$MyTroops[$i][3] = $MyTroopsSetting[$icmbTroopSetting][$i][0]
+		$MyTroops[$i][1] = $MyTroopsSetting[$icmbTroopSetting][$i][1]
 	Next
 	$g_bDoPrebrewspell = 0
 	For $i = 0 To UBound($MySpells) - 1
-		Assign("ichkPre" & $MySpells[$i][0],  $MySpellSetting[$icmbTroopSetting][$i][2])
+		Assign("ichkPre" & $MySpells[$i][0], $MySpellSetting[$icmbTroopSetting][$i][2])
 		$g_bDoPrebrewspell = BitOR($g_bDoPrebrewspell, $MySpellSetting[$icmbTroopSetting][$i][2])
-		$MySpells[$i][3] =  $MySpellSetting[$icmbTroopSetting][$i][0]
-		$MySpells[$i][1] =  $MySpellSetting[$icmbTroopSetting][$i][1]
+		$MySpells[$i][3] = $MySpellSetting[$icmbTroopSetting][$i][0]
+		$MySpells[$i][1] = $MySpellSetting[$icmbTroopSetting][$i][1]
+	Next
+	$g_bDoPreSiegebrewSiege = 0
+	For $i = 0 To UBound($MySieges) - 1
+		Assign("ichkPreSiege" & $MySieges[$i][0], $MySiegeSetting[$icmbTroopSetting][$i][2])
+		$g_bDoPreSiegebrewSiege = BitOR($g_bDoPreSiegebrewSiege, $MySiegeSetting[$icmbTroopSetting][$i][2])
+		$MySieges[$i][3] = $MySiegeSetting[$icmbTroopSetting][$i][0]
+		$MySieges[$i][1] = $MySiegeSetting[$icmbTroopSetting][$i][1]
 	Next
 
-	For $i = 0 To UBound($MyTroops)-1
+	For $i = 0 To UBound($MyTroops) - 1
 		GUICtrlSetData(Eval("txtMy" & $MyTroops[$i][0]), $MyTroops[$i][3])
-		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MyTroops[$i][0] & "Order"), $MyTroops[$i][1]-1)
+		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MyTroops[$i][0] & "Order"), $MyTroops[$i][1] - 1)
 	Next
 
-	For $i = 0 To UBound($MySpells)-1
+	For $i = 0 To UBound($MySpells) - 1
 		If Eval("ichkPre" & $MySpells[$i][0]) = 1 Then
 			GUICtrlSetState(Eval("chkPre" & $MySpells[$i][0]), $GUI_CHECKED)
 		Else
 			GUICtrlSetState(Eval("chkPre" & $MySpells[$i][0]), $GUI_UNCHECKED)
 		EndIf
 		GUICtrlSetData(Eval("txtNum" & $MySpells[$i][0] & "Spell"), $MySpells[$i][3])
-		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MySpells[$i][0] & "SpellOrder"), $MySpells[$i][1]-1)
+		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MySpells[$i][0] & "SpellOrder"), $MySpells[$i][1] - 1)
+	Next
+	For $i = 0 To UBound($MySieges) - 1
+		If Eval("ichkPreSiege" & $MySieges[$i][0]) = 1 Then
+			GUICtrlSetState(Eval("chkPreSiege" & $MySieges[$i][0]), $GUI_CHECKED)
+		Else
+			GUICtrlSetState(Eval("chkPreSiege" & $MySieges[$i][0]), $GUI_UNCHECKED)
+		EndIf
+		GUICtrlSetData(Eval("txtNumSiege" & $MySieges[$i][0] & "Siege"), $MySieges[$i][3])
+		_GUICtrlComboBox_SetCurSel(Eval("cmbMySiege" & $MySieges[$i][0] & "SiegeOrder"), $MySieges[$i][1] - 1)
 	Next
 
-	;cmbMyTroopOrder()
-	;cmbMySpellOrder()
+	;cmbMySiegeTroopSiegeOrder()
+	;cmbMySiegeSpellSiegeOrder()
 	UpdateTroopSize()
 	lblMyTotalCountSpell()
-EndFunc
+	lblMyTotalCountSiege()
+
+EndFunc   ;==>cmbTroopSetting
 
 Func cmbMyQuickTrain()
 	$icmbMyQuickTrain = _GUICtrlComboBox_GetCurSel($cmbMyQuickTrain)
-EndFunc
+EndFunc   ;==>cmbMyQuickTrain
 
 Func btnResetTroops()
-	For $i = 0 To UBound($MyTroops)-1
-		GUICtrlSetData(Eval("txtMy" & $MyTroops[$i][0]),"0")
+	For $i = 0 To UBound($MyTroops) - 1
+		GUICtrlSetData(Eval("txtMy" & $MyTroops[$i][0]), "0")
 		$MyTroops[$i][3] = 0
 	Next
 	UpdateTroopSetting()
-EndFunc
+EndFunc   ;==>btnResetTroops
 
 Func btnResetOrder()
-	For $i = 0 To UBound($MyTroops)-1
+	For $i = 0 To UBound($MyTroops) - 1
 		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MyTroops[$i][0] & "Order"), $i)
 		$MyTroops[$i][1] = $i + 1
 	Next
-EndFunc
+EndFunc   ;==>btnResetOrder
 
 Func btnResetSpells()
-	For $i = 0 To UBound($MySpells)-1
-		GUICtrlSetData(Eval("txtNum" & $MySpells[$i][0] & "Spell"),"0")
+	For $i = 0 To UBound($MySpells) - 1
+		GUICtrlSetData(Eval("txtNum" & $MySpells[$i][0] & "Spell"), "0")
 		$MySpells[$i][3] = 0
 	Next
-EndFunc
+EndFunc   ;==>btnResetSpells
 
 Func btnResetSpellOrder()
-	For $i = 0 To UBound($MySpells)-1
+	For $i = 0 To UBound($MySpells) - 1
 		_GUICtrlComboBox_SetCurSel(Eval("cmbMy" & $MySpells[$i][0] & "SpellOrder"), $i)
 		$MySpells[$i][1] = $i + 1
 	Next
-EndFunc
+EndFunc   ;==>btnResetSpellOrder
 
 Func chkUnitFactor()
 	If GUICtrlRead($chkUnitFactor) = $GUI_CHECKED Then
@@ -261,7 +291,7 @@ Func chkUnitFactor()
 		GUICtrlSetState($txtUnitFactor, $GUI_DISABLE)
 	EndIf
 	$itxtUnitFactor = GUICtrlRead($txtUnitFactor)
-EndFunc
+EndFunc   ;==>chkUnitFactor
 
 Func chkWaveFactor()
 	If GUICtrlRead($chkWaveFactor) = $GUI_CHECKED Then
@@ -272,7 +302,7 @@ Func chkWaveFactor()
 		GUICtrlSetState($txtWaveFactor, $GUI_DISABLE)
 	EndIf
 	$itxtWaveFactor = GUICtrlRead($txtWaveFactor)
-EndFunc
+EndFunc   ;==>chkWaveFactor
 
 Func chkDBCollectorsNearRedline()
 	If GUICtrlRead($chkDBCollectorsNearRedline) = $GUI_CHECKED Then
@@ -280,11 +310,11 @@ Func chkDBCollectorsNearRedline()
 	Else
 		$ichkDBCollectorsNearRedline = 0
 	EndIf
-EndFunc
+EndFunc   ;==>chkDBCollectorsNearRedline
 
 Func cmbRedlineTiles()
 	$icmbRedlineTiles = _GUICtrlComboBox_GetCurSel($cmbRedlineTiles)
-EndFunc
+EndFunc   ;==>cmbRedlineTiles
 
 Func chkEnableDeleteExcessTroops()
 	If GUICtrlRead($chkEnableDeleteExcessTroops) = $GUI_CHECKED Then
@@ -292,7 +322,7 @@ Func chkEnableDeleteExcessTroops()
 	Else
 		$ichkEnableDeleteExcessTroops = 0
 	EndIf
-EndFunc
+EndFunc   ;==>chkEnableDeleteExcessTroops
 
 Func chkEnableDeleteExcessSpells()
 	If GUICtrlRead($chkEnableDeleteExcessSpells) = $GUI_CHECKED Then
@@ -300,7 +330,7 @@ Func chkEnableDeleteExcessSpells()
 	Else
 		$ichkEnableDeleteExcessSpells = 0
 	EndIf
-EndFunc
+EndFunc   ;==>chkEnableDeleteExcessSpells
 
 Func chkForcePreBrewSpell()
 	If GUICtrlRead($chkForcePreBrewSpell) = $GUI_CHECKED Then
@@ -308,7 +338,7 @@ Func chkForcePreBrewSpell()
 	Else
 		$ichkForcePreBrewSpell = 0
 	EndIf
-EndFunc
+EndFunc   ;==>chkForcePreBrewSpell
 
 Func chkAutoDock()
 	If GUICtrlRead($chkAutoDock) = $GUI_CHECKED Then
@@ -320,7 +350,7 @@ Func chkAutoDock()
 	Else
 		$ichkAutoDock = 0
 	EndIf
-EndFunc
+EndFunc   ;==>chkAutoDock
 
 Func chkAutoHideEmulator()
 	If GUICtrlRead($chkAutoHideEmulator) = $GUI_CHECKED Then
@@ -332,7 +362,7 @@ Func chkAutoHideEmulator()
 	Else
 		$g_bChkAutoHideEmulator = False
 	EndIf
-EndFunc
+EndFunc   ;==>chkAutoHideEmulator
 
 Func chkAutoMinimizeBot()
 	If GUICtrlRead($chkAutoMinimizeBot) = $GUI_CHECKED Then
@@ -340,7 +370,7 @@ Func chkAutoMinimizeBot()
 	Else
 		$g_bChkAutoMinimizeBot = False
 	EndIf
-EndFunc
+EndFunc   ;==>chkAutoMinimizeBot
 
 Func lblMyTotalCountSpell()
 	_GUI_Value_STATE("HIDE", $groupListMySpells)
@@ -363,6 +393,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetBkColor($txtNumEarthSpell, $COLOR_MONEYGREEN)
 		GUICtrlSetBkColor($txtNumHasteSpell, $COLOR_MONEYGREEN)
 		GUICtrlSetBkColor($txtNumSkeletonSpell, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($txtNumBatSpell, $COLOR_MONEYGREEN)
 	Else
 		GUICtrlSetBkColor($txtNumLightningSpell, $COLOR_RED)
 		GUICtrlSetBkColor($txtNumHealSpell, $COLOR_RED)
@@ -374,6 +405,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetBkColor($txtNumEarthSpell, $COLOR_RED)
 		GUICtrlSetBkColor($txtNumHasteSpell, $COLOR_RED)
 		GUICtrlSetBkColor($txtNumSkeletonSpell, $COLOR_RED)
+		GUICtrlSetBkColor($txtNumBatSpell, $COLOR_RED)
 	EndIf
 	$g_iTownHallLevel = Int($g_iTownHallLevel)
 	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel = 0 Then
@@ -389,6 +421,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetData($txtNumEarthSpell, 0)
 		GUICtrlSetData($txtNumHasteSpell, 0)
 		GUICtrlSetData($txtNumSkeletonSpell, 0)
+		GUICtrlSetData($txtNumBatSpell, 0)
 		GUICtrlSetData($txtTotalCountSpell2, 0)
 	EndIf
 	If $g_iTownHallLevel > 5 Or $g_iTownHallLevel = 0 Then
@@ -402,6 +435,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetData($txtNumEarthSpell, 0)
 		GUICtrlSetData($txtNumHasteSpell, 0)
 		GUICtrlSetData($txtNumSkeletonSpell, 0)
+		GUICtrlSetData($txtNumBatSpell, 0)
 	EndIf
 	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("SHOW", $groupMyRage)
@@ -413,6 +447,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetData($txtNumEarthSpell, 0)
 		GUICtrlSetData($txtNumHasteSpell, 0)
 		GUICtrlSetData($txtNumSkeletonSpell, 0)
+		GUICtrlSetData($txtNumBatSpell, 0)
 	EndIf
 	If $g_iTownHallLevel > 7 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("SHOW", $groupMyPoison)
@@ -423,6 +458,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetData($txtNumCloneSpell, 0)
 		GUICtrlSetData($txtNumHasteSpell, 0)
 		GUICtrlSetData($txtNumSkeletonSpell, 0)
+		GUICtrlSetData($txtNumBatSpell, 0)
 	EndIf
 	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("SHOW", $groupMyJumpSpell)
@@ -434,11 +470,11 @@ Func lblMyTotalCountSpell()
 	EndIf
 	If $g_iTownHallLevel > 9 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("SHOW", $groupMyClone)
+		_GUI_Value_STATE("SHOW", $groupMyBat)
 	EndIf
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_iMySpellsSize: " & $g_iMySpellsSize)
 
-EndFunc   ;==>lblTotalCountSpell
-
+EndFunc   ;==>lblMyTotalCountSpell
 Func chkCheck4CC()
 	If GUICtrlRead($chkCheck4CC) = $GUI_CHECKED Then
 		$ichkCheck4CC = 1
@@ -451,9 +487,9 @@ Func chkCheck4CC()
 	$itxtCheck4CCWaitTime = GUICtrlRead($txtCheck4CCWaitTime)
 	If $itxtCheck4CCWaitTime = 0 Then
 		$itxtCheck4CCWaitTime = 7
-		GUICtrlSetData($txtCheck4CCWaitTime,$itxtCheck4CCWaitTime)
+		GUICtrlSetData($txtCheck4CCWaitTime, $itxtCheck4CCWaitTime)
 	EndIf
-EndFunc
+EndFunc   ;==>chkCheck4CC
 
 Func chkWait4CC()
 	If GUICtrlRead($chkWait4CC) = $GUI_CHECKED Then
@@ -483,7 +519,7 @@ Func chkWait4CC()
 	$iCCTroopSlotQty1 = GUICtrlRead($txtCCTroopSlotQty1)
 	$iCCTroopSlotQty2 = GUICtrlRead($txtCCTroopSlotQty2)
 	$iCCTroopSlotQty3 = GUICtrlRead($txtCCTroopSlotQty3)
-EndFunc
+EndFunc   ;==>chkWait4CC
 
 Func chkRequestCC4Troop()
 	If GUICtrlRead($chkRequestCC4Troop) = $GUI_CHECKED Then
@@ -522,35 +558,16 @@ Func chkRequestCC4Troop()
 	EndIf
 	$itxtRequestCC4SeigeMachine = GUICtrlRead($txtRequestCC4SeigeMachine)
 	;SetLog("$itxtRequestCC4SeigeMachine: " & $itxtRequestCC4SeigeMachine)
-EndFunc
+EndFunc   ;==>chkRequestCC4Troop
 
-Func chkWait4CCSpell()
-	If GUICtrlRead($chkWait4CCSpell) = $GUI_CHECKED Then
-		$g_iChkWait4CCSpell = 1
-		GUICtrlSetState($cmbCCSpellSlot1, $GUI_ENABLE)
-		GUICtrlSetState($cmbCCSpellSlot2, $GUI_ENABLE)
-		GUICtrlSetState($txtCCSpellSlotQty1, $GUI_ENABLE)
-		GUICtrlSetState($txtCCSpellSlotQty2, $GUI_ENABLE)
-	Else
-		$g_iChkWait4CCSpell = 0
-		GUICtrlSetState($cmbCCSpellSlot1, $GUI_DISABLE)
-		GUICtrlSetState($cmbCCSpellSlot2, $GUI_DISABLE)
-		GUICtrlSetState($txtCCSpellSlotQty1, $GUI_DISABLE)
-		GUICtrlSetState($txtCCSpellSlotQty2, $GUI_DISABLE)
-	EndIf
-	$iCCSpellSlot1 = _GUICtrlComboBox_GetCurSel($cmbCCSpellSlot1)
-	$iCCSpellSlot2 = _GUICtrlComboBox_GetCurSel($cmbCCSpellSlot2)
-	$iCCSpellSlotQty1 = GUICtrlRead($txtCCSpellSlotQty1)
-	$iCCSpellSlotQty2 = GUICtrlRead($txtCCSpellSlotQty2)
-EndFunc
 
 Func txtStickToTrainWindow()
 	$itxtStickToTrainWindow = GUICtrlRead($txtStickToTrainWindow)
 	If $itxtStickToTrainWindow > 5 Then
 		$itxtStickToTrainWindow = 5
-		GUICtrlSetData($txtStickToTrainWindow,5)
+		GUICtrlSetData($txtStickToTrainWindow, 5)
 	EndIf
-EndFunc
+EndFunc   ;==>txtStickToTrainWindow
 
 Func chkIncreaseGlobalDelay()
 	If GUICtrlRead($chkIncreaseGlobalDelay) = $GUI_CHECKED Then
@@ -561,7 +578,7 @@ Func chkIncreaseGlobalDelay()
 		GUICtrlSetState($txtIncreaseGlobalDelay, $GUI_DISABLE)
 	EndIf
 	$itxtIncreaseGlobalDelay = GUICtrlRead($txtIncreaseGlobalDelay)
-EndFunc
+EndFunc   ;==>chkIncreaseGlobalDelay
 
 ;~ Func cmbCoCVersion()
 ;~ 	Local $iSection = GUICtrlRead($cmbCoCVersion)
@@ -575,7 +592,7 @@ Func cmbZapMethod()
 	Else
 		$ichkUseSamM0dZap = 0
 	EndIf
-EndFunc   ;==>chkSmartLightSpell
+EndFunc   ;==>cmbZapMethod
 
 Func chkEnableHLFClickSetlog()
 	If GUICtrlRead($chkEnableHLFClickSetlog) = $GUI_CHECKED Then
@@ -599,7 +616,7 @@ Func chkEnableHLFClick()
 		GUICtrlSetState($sldHLFClickDelayTime, $GUI_DISABLE)
 		$ichkEnableHLFClick = 0
 	EndIf
-EndFunc
+EndFunc   ;==>chkEnableHLFClick
 
 ;~ Func chkSmartUpdateWall()
 ;~ 	If GUICtrlRead($chkSmartUpdateWall) = $GUI_CHECKED Then
@@ -620,12 +637,12 @@ EndFunc
 
 Func chkDropCCFirst()
 	$ichkDropCCFirst = (GUICtrlRead($chkDropCCFirst) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+EndFunc   ;==>chkDropCCFirst
 
 Func ForcePretrainTroops()
-	$ichkForcePreTrainTroops = (GUICtrlRead($chkForcePreTrainTroops) = $GUI_CHECKED ? 1: 0)
+	$ichkForcePreTrainTroops = (GUICtrlRead($chkForcePreTrainTroops) = $GUI_CHECKED ? 1 : 0)
 	$itxtForcePreTrainStrength = GUICtrlRead($txtForcePreTrainStrength)
-EndFunc
+EndFunc   ;==>ForcePretrainTroops
 
 ;~ Func chkEnableCacheTroopImageFirst()
 ;~ 	$ichkEnableCacheTroopImageFirst	= (GUICtrlRead($chkEnableCacheTroopImageFirst) = $GUI_CHECKED ? 1: 0)
@@ -633,19 +650,23 @@ EndFunc
 
 Func chkEnableCustomOCR4CCRequest()
 	$ichkEnableCustomOCR4CCRequest = (GUICtrlRead($chkEnableCustomOCR4CCRequest) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+EndFunc   ;==>chkEnableCustomOCR4CCRequest
 
-Func chkEnableUseEventTroop()
-	$ichkEnableUseEventTroop = (GUICtrlRead($chkEnableUseEventTroop) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+;~ Func EnableSkipBuild()
+;~ 	$g_bEnableSkipBuild = (GUICtrlRead($g_hEnableSkipBuild) = $GUI_CHECKED ? True : False)
+;~ EndFunc
 
 Func chkEnableDonateWhenReady()
 	$ichkEnableDonateWhenReady = (GUICtrlRead($chkEnableDonateWhenReady) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+EndFunc   ;==>chkEnableDonateWhenReady
+
+;~ Func chkEnableDonateHours()
+;~ 	$ichkEnableDonateHours = (GUICtrlRead($chkEnableDonateHours) = $GUI_CHECKED ? 1 : 0)
+;~ EndFunc
 
 Func chkEnableStopBotWhenLowBattery()
 	$ichkEnableStopBotWhenLowBattery = (GUICtrlRead($chkEnableStopBotWhenLowBattery) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+EndFunc   ;==>chkEnableStopBotWhenLowBattery
 
 ;~ Func chkRemoveSpecialObstacleBB()
 ;~ 	If GUICtrlRead($chkRemoveSpecialObstacleBB) = $GUI_CHECKED Then
@@ -662,62 +683,62 @@ EndFunc
 Func chkBotLogLineLimit()
 	$ichkBotLogLineLimit = (GUICtrlRead($chkBotLogLineLimit) = $GUI_CHECKED ? 1 : 0)
 	GUICtrlSetState($txtLogLineLimit, ($ichkBotLogLineLimit = 1 ? $GUI_ENABLE : $GUI_DISABLE))
-EndFunc
+EndFunc   ;==>chkBotLogLineLimit
 
 Func txtLogLineLimit()
 	$itxtLogLineLimit = GUICtrlRead($txtLogLineLimit)
-EndFunc
+EndFunc   ;==>txtLogLineLimit
 
 Func chkEnableLogoutLimit()
 	$ichkEnableLogoutLimit = (GUICtrlRead($chkEnableLogoutLimit) = $GUI_CHECKED ? 1 : 0)
 	GUICtrlSetState($txtLogoutLimitTime, ($ichkEnableLogoutLimit = 1 ? $GUI_ENABLE : $GUI_DISABLE))
-EndFunc
+EndFunc   ;==>chkEnableLogoutLimit
 
 Func txtLogoutLimitTime()
 	$itxtLogoutLimitTime = GUICtrlRead($txtLogoutLimitTime)
-EndFunc
+EndFunc   ;==>txtLogoutLimitTime
 
 Func chkEnableLimitDonateUnit()
 	$ichkEnableLimitDonateUnit = (GUICtrlRead($chkEnableLimitDonateUnit) = $GUI_CHECKED ? 1 : 0)
 	GUICtrlSetState($txtLimitDonateUnit, ($ichkEnableLimitDonateUnit = 1 ? $GUI_ENABLE : $GUI_DISABLE))
-EndFunc
+EndFunc   ;==>chkEnableLimitDonateUnit
 
 Func txtLimitDonateUnit()
 	$itxtLimitDonateUnit = GUICtrlRead($txtLimitDonateUnit)
-EndFunc
+EndFunc   ;==>txtLimitDonateUnit
 
 Func g_hChkSamM0dDebugOCR()
 	$g_iSamM0dDebugOCR = (GUICtrlRead($g_hChkSamM0dDebugOCR) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+EndFunc   ;==>g_hChkSamM0dDebugOCR
 
 Func g_hChkSamM0dDebug()
 	$g_iSamM0dDebug = (GUICtrlRead($g_hChkSamM0dDebug) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+EndFunc   ;==>g_hChkSamM0dDebug
 
 Func g_hchkSamM0dImage()
 	$g_iSamM0dDebugImage = (GUICtrlRead($g_hchkSamM0dImage) = $GUI_CHECKED ? 1 : 0)
-EndFunc
+EndFunc   ;==>g_hchkSamM0dImage
 
 ; CSV Deployment Speed Mod
 Func sldSelectedSpeedDB()
 	$isldSelectedCSVSpeed[$DB] = GUICtrlRead($sldSelectedSpeedDB)
-	Local $speedText = $iCSVSpeeds[$isldSelectedCSVSpeed[$DB]] & "x";
-	IF $isldSelectedCSVSpeed[$DB] = 4 Then $speedText = GetTranslatedFileIni("sam m0d", "Normal", "Normal")
-	GUICtrlSetData($lbltxtSelectedSpeedDB, $speedText & " " &  GetTranslatedFileIni("sam m0d", "speed", "speed"))
+	Local $speedText = $iCSVSpeeds[$isldSelectedCSVSpeed[$DB]] & "x" ;
+	If $isldSelectedCSVSpeed[$DB] = 4 Then $speedText = GetTranslatedFileIni("sam m0d", "Normal", "Normal")
+	GUICtrlSetData($lbltxtSelectedSpeedDB, $speedText & " " & GetTranslatedFileIni("sam m0d", "speed", "speed"))
 EndFunc   ;==>sldSelectedSpeedDB
 
 Func sldSelectedSpeedAB()
 	$isldSelectedCSVSpeed[$LB] = GUICtrlRead($sldSelectedSpeedAB)
-	Local $speedText = $iCSVSpeeds[$isldSelectedCSVSpeed[$LB]] & "x";
-	IF $isldSelectedCSVSpeed[$LB] = 4 Then $speedText = GetTranslatedFileIni("sam m0d", "Normal", "Normal")
-	GUICtrlSetData($lbltxtSelectedSpeedAB, $speedText & " " &  GetTranslatedFileIni("sam m0d", "speed", "speed"))
-EndFunc
+	Local $speedText = $iCSVSpeeds[$isldSelectedCSVSpeed[$LB]] & "x" ;
+	If $isldSelectedCSVSpeed[$LB] = 4 Then $speedText = GetTranslatedFileIni("sam m0d", "Normal", "Normal")
+	GUICtrlSetData($lbltxtSelectedSpeedAB, $speedText & " " & GetTranslatedFileIni("sam m0d", "speed", "speed"))
+EndFunc   ;==>sldSelectedSpeedAB
 
 Func AttackNowLB()
 	Setlog("Begin Live Base Attack TEST")
 	$g_iMatchMode = $LB
 	$g_aiAttackAlgorithm[$LB] = 1
-	$g_sAttackScrScriptName[$LB] = GuiCtrlRead($g_hCmbScriptNameAB)
+	$g_sAttackScrScriptName[$LB] = GUICtrlRead($g_hCmbScriptNameAB)
 
 	Local $currentRunState = $g_bRunState
 	$g_bRunState = True
@@ -755,13 +776,13 @@ Func AttackNowLB()
 
 	Setlog("End Live Base Attack TEST")
 	$g_bRunState = $currentRunState
-EndFunc ; ==>AttackNowLB
+EndFunc   ;==>AttackNowLB
 
 Func AttackNowDB()
 	Setlog("Begin Dead Base Attack TEST")
 	$g_iMatchMode = $DB
 	$g_aiAttackAlgorithm[$DB] = 1
-	$g_sAttackScrScriptName[$DB] = GuiCtrlRead($g_hCmbScriptNameDB)
+	$g_sAttackScrScriptName[$DB] = GUICtrlRead($g_hCmbScriptNameDB)
 
 	Local $currentRunState = $g_bRunState
 	$g_bRunState = True
@@ -800,7 +821,7 @@ Func AttackNowDB()
 	WEnd
 	Setlog("End Dead Base Attack TEST")
 	$g_bRunState = $currentRunState
-EndFunc ;==>AttackNowDB
+EndFunc   ;==>AttackNowDB
 
 Func CheckZoomOut2($sSource = "CheckZoomOut", $bCheckOnly = False, $bForecCapture = True)
 	If $bForecCapture = True Then
@@ -835,3 +856,128 @@ Func _BatteryStatus()
 		EndIf
 	EndIf
 EndFunc   ;==>_BatteryStatus
+
+
+; ================================================== Sieges ================================ ;
+Func cmbMySiegeOrder()
+	Local $iTotalT = UBound($MySieges)
+	Local $tempSiegeOrder[$iTotalT]
+	For $i = 0 To UBound($MySieges) - 1
+		$tempSiegeOrder[$i] = Int(GUICtrlRead(Eval("cmbMySiege" & $MySieges[$i][0] & "SiegeOrder")))
+	Next
+	For $i = 0 To UBound($MySieges) - 1
+		If $tempSiegeOrder[$i] <> $MySieges[$i][1] Then
+			For $j = 0 To UBound($MySieges) - 1
+				If $MySieges[$j][1] = $tempSiegeOrder[$i] Then
+					$tempSiegeOrder[$j] = Int($MySieges[$i][1])
+					ExitLoop
+				EndIf
+			Next
+			ExitLoop
+		EndIf
+	Next
+	For $i = 0 To UBound($MySieges) - 1
+		$MySiegeSetting[$icmbTroopSetting][$i][1] = Int($tempSiegeOrder[$i])
+		$MySieges[$i][1] = $MySiegeSetting[$icmbTroopSetting][$i][1]
+		_GUICtrlComboBox_SetCurSel(Eval("cmbMySiege" & $MySieges[$i][0] & "SiegeOrder"), $MySieges[$i][1] - 1)
+	Next
+EndFunc   ;==>cmbMySiegeOrder
+
+Func UpdatePreSiegeSetting()
+	$g_bDoPreSiegebrewSiege = 0
+	For $i = 0 To UBound($MySieges) - 1
+		If GUICtrlRead(Eval("chkPreSiege" & $MySieges[$i][0])) = $GUI_CHECKED Then
+			$MySiegeSetting[$icmbTroopSetting][$i][2] = 1
+		Else
+			$MySiegeSetting[$icmbTroopSetting][$i][2] = 0
+		EndIf
+		Assign("ichkPreSiege" & $MySieges[$i][0], $MySiegeSetting[$icmbTroopSetting][$i][2])
+		$g_bDoPreSiegebrewSiege = BitOR($g_bDoPreSiegebrewSiege, $MySiegeSetting[$icmbTroopSetting][$i][2])
+	Next
+EndFunc   ;==>UpdatePreSiegeSetting
+
+Func UpdateSiegeSetting()
+	$g_iMySiegesSize = 0
+	For $i = 0 To UBound($MySieges) - 1
+		$MySiegeSetting[$icmbTroopSetting][$i][0] = Int(GUICtrlRead(Eval("txtNumSiege" & $MySieges[$i][0] & "Siege")))
+		$MySieges[$i][3] = $MySiegeSetting[$icmbTroopSetting][$i][0]
+		$g_iMySiegesSize += $MySieges[$i][3] * $MySieges[$i][2]
+	Next
+	If $g_iMySiegesSize < GUICtrlRead($g_hTxtTotalCountSiege) + 1 Then
+		GUICtrlSetBkColor($txtNumSiegeWallWSiege, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $COLOR_MONEYGREEN)
+	Else
+		GUICtrlSetBkColor($txtNumSiegeWallWSiege, $COLOR_RED)
+		GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $COLOR_RED)
+		GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $COLOR_RED)
+	EndIf
+	If $g_iSamM0dDebug = 1 Then SetLog("$g_iMySiegesSize: " & $g_iMySiegesSize)
+EndFunc   ;==>UpdateSiegeSetting
+
+Func btnResetSieges()
+	For $i = 0 To UBound($MySieges) - 1
+		GUICtrlSetData(Eval("txtNumSiege" & $MySieges[$i][0] & "Siege"), "0")
+		$MySieges[$i][3] = 0
+	Next
+EndFunc   ;==>btnResetSieges
+
+Func btnResetSiegeOrder()
+	For $i = 0 To UBound($MySieges) - 1
+		_GUICtrlComboBox_SetCurSel(Eval("cmbMySiege" & $MySieges[$i][0] & "SiegeOrder"), $i)
+		$MySieges[$i][1] = $i + 1
+	Next
+EndFunc   ;==>btnResetSiegeOrder
+
+Func chkEnableDeleteExcessSieges()
+	If GUICtrlRead($chkEnableDeleteExcessSieges) = $GUI_CHECKED Then
+		$ichkEnableDeleteExcessSieges = 1
+	Else
+		$ichkEnableDeleteExcessSieges = 0
+	EndIf
+EndFunc   ;==>chkEnableDeleteExcessSieges
+
+Func chkForcePreSiegeBrewSiege()
+	If GUICtrlRead($chkForcePreSiegeBrewSiege) = $GUI_CHECKED Then
+		$ichkForcePreSiegeBrewSiege = 1
+	Else
+		$ichkForcePreSiegeBrewSiege = 0
+	EndIf
+EndFunc   ;==>chkForcePreSiegeBrewSiege
+
+Func lblMyTotalCountSiege()
+	Local $g_iSamM0dDebug = 0
+	_GUI_Value_STATE("HIDE", $groupListMySieges)
+	; calculate $iTotalTrainSpaceSiege value
+	$g_iMySiegesSize = 0
+	For $i = 0 To UBound($MySieges) - 1
+		$g_iMySiegesSize += Int(GUICtrlRead(Eval("txtNumSiege" & $MySieges[$i][0] & "Siege"))) * $MySieges[$i][2]
+	Next
+	$txtTotalCountSiege = GUICtrlRead($g_hTxtTotalCountSiege)
+
+	If $g_iSamM0dDebug = 1 Then SetLog("$txtTotalCountSiege: " & $txtTotalCountSiege)
+
+	;_GUICtrlComboBox_SetCurSel($g_hTxtTotalCountSiege, $txtTotalCountSiege)
+
+	If $g_iMySiegesSize < GUICtrlRead($g_hTxtTotalCountSiege) + 1 Then
+		GUICtrlSetBkColor($txtNumSiegeWallWSiege, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $COLOR_MONEYGREEN)
+	Else
+		GUICtrlSetBkColor($txtNumSiegeWallWSiege, $COLOR_RED)
+		GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $COLOR_RED)
+		GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $COLOR_RED)
+	EndIf
+	$g_iTownHallLevel = Int($g_iTownHallLevel)
+	If $g_iTownHallLevel > 11 Or $g_iTownHallLevel = 0 Then
+		_GUI_Value_STATE("SHOW", $groupMyWallW)
+		_GUI_Value_STATE("SHOW", $groupMyBattleB)
+		_GUI_Value_STATE("SHOW", $groupMyStoneS)
+	Else
+		GUICtrlSetData($txtNumSiegeWallWSiege, 0)
+		GUICtrlSetData($txtNumSiegeBattleBSiege, 0)
+		GUICtrlSetData($txtNumSiegeStoneSSiege, 0)
+	EndIf
+	If $g_iSamM0dDebug = 1 Then SetLog("$g_iMySiegesSize: " & $g_iMySiegesSize)
+
+EndFunc   ;==>lblMyTotalCountSiege

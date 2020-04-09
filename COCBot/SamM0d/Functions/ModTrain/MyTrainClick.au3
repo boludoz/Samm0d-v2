@@ -20,7 +20,7 @@
 Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "0,0,860,732", $sOnlyFind = "", $bExactFind = False, $bForceCapture = True, $bDebugLog = False, $iLevel = 1)
 	FuncEnter(findMultipleQuick)
 	Local $sSearchDiamond = IsArray($saiArea2SearchOri) ? GetDiamondFromArray($saiArea2SearchOri) : GetDiamondFromRect($saiArea2SearchOri)
-	Local $aResult = findMultiple($sDirectory , $sSearchDiamond, $sSearchDiamond, $iLevel, 1000, $iQuantity2Match, "objectname,objectlevel,objectpoints", $bForceCapture)
+	Local $aResult = findMultiple($sDirectory, $sSearchDiamond, $sSearchDiamond, $iLevel, 1000, $iQuantity2Match, "objectname,objectlevel,objectpoints", $bForceCapture)
 	If Not IsArray($aResult) Then Return -1
 
 	Local $iCount = 0
@@ -30,52 +30,52 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 
 	Local $aArrays = "", $aCoords, $aCommaCoord
 
-	For $i = 0 To UBound($aResult) -1
+	For $i = 0 To UBound($aResult) - 1
 		$aArrays = $aResult[$i] ; should be return objectname,objectpoints,objectlevel
 		$aCoords = StringSplit($aArrays[2], "|", 2)
-		For $iCoords = 0 To UBound($aCoords) -1
+		For $iCoords = 0 To UBound($aCoords) - 1
 			$aCommaCoord = StringSplit($aCoords[$iCoords], ",", 2)
 
 			If Not $sOnlyFind = "" Then
 				If $bExactFind Then
-					If StringCompare( $sOnlyFind, $aArrays[0] ) <> 0 Then ContinueLoop
-				ElseIf not $bExactFind Then
+					If StringCompare($sOnlyFind, $aArrays[0]) <> 0 Then ContinueLoop
+				ElseIf Not $bExactFind Then
 					If StringInStr($aArrays[0], $sOnlyFind) = 0 Then ContinueLoop
 				EndIf
 			EndIf
 
 			; Inspired in Chilly-chill
 			Local $aTmpResults[1][4] = [[$aArrays[0], Int($aCommaCoord[0]), Int($aCommaCoord[1]), Int($aArrays[1])]]
-			If $iCount >= $iQuantity2Match and not $iQuantity2Match = 0 Then ContinueLoop
+			If $iCount >= $iQuantity2Match And Not $iQuantity2Match = 0 Then ContinueLoop
 			_ArrayAdd($aAllResults, $aTmpResults)
 			$iCount += 1
 		Next
 	Next
 
 	Return (UBound($aAllResults) > 0) ? ($aAllResults) : (-1)
-EndFunc
+EndFunc   ;==>findMultipleQuick
 
-Func TestLocateTroopButton($sTroopB = "Giant", $bIsBrewSpell = False )
+Func TestLocateTroopButton($sTroopB = "Giant", $bIsBrewSpell = False)
 	Local $iSpace = 5
 	Local $b = LocateTroopButton($iSpace, $sTroopB, $bIsBrewSpell)
-	SetLog( $g_iTroopButtonX & " " & $g_iTroopButtonY & " " & $iSpace & " " & $b )
-EndFunc    
+	SetLog($g_iTroopButtonX & " " & $g_iTroopButtonY & " " & $iSpace & " " & $b)
+EndFunc   ;==>TestLocateTroopButton
 
-Func LocateTroopButton( Byref $iSpace, $sTroopButton, $bIsBrewSpell = False )
+Func LocateTroopButton(ByRef $iSpace, $sTroopButton, $bIsBrewSpell = False)
 	Local $aRegionForScan = "26,411,840,536"
 	Local $aButtonXY
 	
 	For $iB = 0 To 1
-	
-		If not IsTrainPage() Then Return False
+		
+		If Not IsTrainPage() Then Return False
 
 		; Capture troops train region.
 		$aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\TrainButtons\", 1, $aRegionForScan, $sTroopButton, False)
-		For $iC = 0 To UBound($MyTroops) -1
+		For $iC = 0 To UBound($MyTroops) - 1
 			If $aButtonXY = -1 Then ExitLoop
 			
-			If ( StringInStr( $aButtonXY[0][0], $MyTroops[$iC][0] ) <> 0 ) Then
-				$iSpace = ( StringInStr ( $aButtonXY[0][0], "Super" ) <> 0 ) ?  ($MyTroops[$iC][5]) : ($MyTroops[$iC][6])
+			If (StringInStr($aButtonXY[0][0], $MyTroops[$iC][0]) <> 0) Then
+				$iSpace = (StringInStr($aButtonXY[0][0], "Super") <> 0) ? ($MyTroops[$iC][5]) : ($MyTroops[$iC][6])
 			EndIf
 		Next
 
@@ -87,18 +87,18 @@ Func LocateTroopButton( Byref $iSpace, $sTroopButton, $bIsBrewSpell = False )
 			$g_iTroopButtonY = $aButtonXY[0][2]
 			Return True
 
-		 ElseIf $iB = 0 Then
+		ElseIf $iB = 0 Then
 			Local $iCount = 0
 			If _ColorCheck(_GetPixelColor(24, 370 + $g_iMidOffsetY, True), Hex(0XD3D3CB, 6), 10) Then
 				While Not _ColorCheck(_GetPixelColor(838, 370 + $g_iMidOffsetY, True), Hex(0XD3D3CB, 6), 10)
-					ClickDrag(617,476,318,476,250)
+					ClickDrag(617, 476, 318, 476, 250)
 					If _sleep(500) Then Return False
 					$iCount += 1
 					If $iCount > 3 Then Return False
 				WEnd
 			ElseIf _ColorCheck(_GetPixelColor(838, 370 + $g_iMidOffsetY, True), Hex(0XD3D3CB, 6), 10) Then
 				While Not _ColorCheck(_GetPixelColor(24, 370 + $g_iMidOffsetY, True), Hex(0XD3D3CB, 6), 10)
-					ClickDrag(236,476,538,476,250)
+					ClickDrag(236, 476, 538, 476, 250)
 					If _sleep(500) Then Return False
 					$iCount += 1
 					If $iCount > 3 Then Return False
@@ -108,26 +108,26 @@ Func LocateTroopButton( Byref $iSpace, $sTroopButton, $bIsBrewSpell = False )
 	Next
 
 	Return False
-EndFunc
+EndFunc   ;==>LocateTroopButton
 
-Func MyTrainClick($x, $y, $iTimes = 1, $iSpeed = 0, $sdebugtxt="", $bIsBrewSpell = False)
+Func MyTrainClick($x, $y, $iTimes = 1, $iSpeed = 0, $sdebugtxt = "", $bIsBrewSpell = False)
 	If IsTrainPage() Then
 
-		Local $iRandNum = Random($iHLFClickMin-1,$iHLFClickMax-1,1) ;Initialize value (delay awhile after $iRandNum times click)
-		Local $iRandX = Random($x - 5,$x + 5,1)
-		Local $iRandY = Random($y - 5,$y + 5,1)
+		Local $iRandNum = Random($iHLFClickMin - 1, $iHLFClickMax - 1, 1) ;Initialize value (delay awhile after $iRandNum times click)
+		Local $iRandX = Random($x - 5, $x + 5, 1)
+		Local $iRandY = Random($y - 5, $y + 5, 1)
 
 		If isProblemAffect(True) Then Return
 
 		For $i = 0 To ($iTimes - 1)
-			HMLPureClick(Random($iRandX-2,$iRandX+2,1), Random($iRandY-2,$iRandY+2,1))
+			HMLPureClick(Random($iRandX - 2, $iRandX + 2, 1), Random($iRandY - 2, $iRandY + 2, 1))
 			If $i >= $iRandNum Then
-				$iRandNum = $iRandNum + Random($iHLFClickMin,$iHLFClickMax,1)
-				$iRandX = Random($x - 5, $x + 5,1)
-				$iRandY = Random($y - 5, $y + 5,1)
-				If _Sleep(Random(($isldHLFClickDelayTime*90)/100, ($isldHLFClickDelayTime*110)/100, 1), False) Then ExitLoop
+				$iRandNum = $iRandNum + Random($iHLFClickMin, $iHLFClickMax, 1)
+				$iRandX = Random($x - 5, $x + 5, 1)
+				$iRandY = Random($y - 5, $y + 5, 1)
+				If _Sleep(Random(($isldHLFClickDelayTime * 90) / 100, ($isldHLFClickDelayTime * 110) / 100, 1), False) Then ExitLoop
 			Else
-				If _Sleep(Random(($iSpeed*90)/100, ($iSpeed*110)/100, 1), False) Then ExitLoop
+				If _Sleep(Random(($iSpeed * 90) / 100, ($iSpeed * 110) / 100, 1), False) Then ExitLoop
 			EndIf
 		Next
 
@@ -182,16 +182,16 @@ Func MakeTroopsAndSpellsTrainImage()
 			$iCount += 1
 		EndIf
 	Next
-	_ArraySort($aTemp,0,0,0,2)
-	For $i = 0 to 5
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftTroopElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iUpperRowY1,$iUpperLeftTroopElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
+	_ArraySort($aTemp, 0, 0, 0, 2)
+	For $i = 0 To 5
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftTroopElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iUpperRowY1, $iUpperLeftTroopElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, $aTemp[$i][0] & "_92", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
 		EndIf
 	Next
-	For $i = 0 to 1
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iUpperRowY1,$iUpperLeftTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
+	For $i = 0 To 1
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iUpperRowY1, $iUpperLeftTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, $aTemp[$i + 6][0] & "_92", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
@@ -209,16 +209,16 @@ Func MakeTroopsAndSpellsTrainImage()
 			$iCount += 1
 		EndIf
 	Next
-	_ArraySort($aTemp,0,0,0,2)
-	For $i = 0 to 5
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftTroopElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iLowerRowY1,$iUpperLeftTroopElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
+	_ArraySort($aTemp, 0, 0, 0, 2)
+	For $i = 0 To 5
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftTroopElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iLowerRowY1, $iUpperLeftTroopElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, $aTemp[$i][0] & "_92", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
 		EndIf
 	Next
-	For $i = 0 to 1
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iLowerRowY1,$iUpperLeftTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
+	For $i = 0 To 1
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iLowerRowY1, $iUpperLeftTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, $aTemp[$i + 6][0] & "_92", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
@@ -226,7 +226,7 @@ Func MakeTroopsAndSpellsTrainImage()
 	Next
 
 	If CheckNeedSwipe(19) = False Then
-		SetLog("Cannot click drag to select troop" , $COLOR_ERROR)
+		SetLog("Cannot click drag to select troop", $COLOR_ERROR)
 		Return
 	EndIf
 
@@ -245,9 +245,9 @@ Func MakeTroopsAndSpellsTrainImage()
 			$iCount += 1
 		EndIf
 	Next
-	_ArraySort($aTemp,0,0,0,2)
-	For $i = 0 to $iCount - 1
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperRightTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iUpperRowY1,$iUpperRightTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
+	_ArraySort($aTemp, 0, 0, 0, 2)
+	For $i = 0 To $iCount - 1
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperRightTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iUpperRowY1, $iUpperRightTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, $aTemp[$i][0] & "_92", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
@@ -265,9 +265,9 @@ Func MakeTroopsAndSpellsTrainImage()
 			$iCount += 1
 		EndIf
 	Next
-	_ArraySort($aTemp,0,0,0,2)
-	For $i = 0 to $iCount - 1
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperRightTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iLowerRowY1,$iUpperRightTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
+	_ArraySort($aTemp, 0, 0, 0, 2)
+	For $i = 0 To $iCount - 1
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperRightTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iLowerRowY1, $iUpperRightTroopDarkElixirStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, $aTemp[$i][0] & "_92", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
@@ -292,16 +292,16 @@ Func MakeTroopsAndSpellsTrainImage()
 			$iCount += 1
 		EndIf
 	Next
-	_ArraySort($aTemp,0,0,0,2)
-	For $i = 0 to 2
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iUpperRowY1,$iUpperLeftSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
+	_ArraySort($aTemp, 0, 0, 0, 2)
+	For $i = 0 To 2
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iUpperRowY1, $iUpperLeftSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, "Spell" & $aTemp[$i][0] & "_93", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
 		EndIf
 	Next
-	For $i = 0 to 1
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftDarkSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iUpperRowY1,$iUpperLeftDarkSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
+	For $i = 0 To 1
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftDarkSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iUpperRowY1, $iUpperLeftDarkSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iUpperRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, "Spell" & $aTemp[$i + 3][0] & "_93", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
@@ -319,23 +319,23 @@ Func MakeTroopsAndSpellsTrainImage()
 			$iCount += 1
 		EndIf
 	Next
-	_ArraySort($aTemp,0,0,0,2)
-	For $i = 0 to 2
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iLowerRowY1,$iUpperLeftSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
+	_ArraySort($aTemp, 0, 0, 0, 2)
+	For $i = 0 To 2
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iLowerRowY1, $iUpperLeftSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, "Spell" & $aTemp[$i][0] & "_93", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
 		EndIf
 	Next
-	For $i = 0 to 1
-		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftDarkSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset ,$iLowerRowY1,$iUpperLeftDarkSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
+	For $i = 0 To 1
+		Local $hHBitmapTest = GetHHBitmapArea($g_hHBitmap2, $iUpperLeftDarkSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset, $iLowerRowY1, $iUpperLeftDarkSpellStartOffset + ($iSlotWidth * $i) + $iStartingOffset + 20, $iLowerRowY2)
 		_debugSaveHBitmapToImage($hHBitmapTest, "Spell" & $aTemp[$i + 3][0] & "_93", True)
 		If $hHBitmapTest <> 0 Then
 			GdiDeleteHBitmap($hHBitmapTest)
 		EndIf
 	Next
 	$g_bRunState = $currentRunState
-EndFunc
+EndFunc   ;==>MakeTroopsAndSpellsTrainImage
 
 ; Event
 ;~ Func MakeTroopsAndSpellsTrainImage()
@@ -485,7 +485,7 @@ EndFunc
 
 ;~ 	Local $iUpperLeftSpellStartOffset = 26
 ;~ 	Local $iUpperLeftDarkSpellStartOffset = 329
-	Local $iUpperLeftDarkSpellStartOffset = 423 ; event 25-08
+Local $iUpperLeftDarkSpellStartOffset = 423     ; event 25-08
 
 ;~ 	_CaptureRegion2()
 ;~ 	Local $aTemp[1][3]

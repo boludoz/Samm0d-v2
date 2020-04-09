@@ -19,8 +19,17 @@ Global $g_hTabMod
 Global $g_hCmbProfile2
 Global $g_iScreenSizeErrorCount = 0
 #include "functions\ModTrain\Mod Train Global Variables.au3"
-
 Global $g_aiPrepDon[4] = [0, 0, 0, 0]
+
+;samm0d train
+Global $bPreWaitTimeFlag = False
+Global $sData = 0
+Global $g_bPreTrainFlag = False
+Global $g_aGetSiegeCap = 0
+Global $iLoop = 0
+Global $iLoopMax = 3
+Global $ichkModTrain = 1
+Global $g_hChkModTrain
 
 ;===============SamM0d Mod skip ====================
 Global $g_bSkipLocateExc = True
@@ -365,3 +374,12 @@ Global $aProfileStats[44][9] = _
 ["g_aiNbrOfDetectedMines",0,0,0,0,0,0,0,0], _
 ["g_aiNbrOfDetectedCollectors",0,0,0,0,0,0,0,0], _
 ["g_aiNbrOfDetectedDrills",0,0,0,0,0,0,0,0]]
+
+;samm0d train
+Global $bPreWaitTimeFlag = False
+Global $sData = 0
+Global $g_bPreTrainFlag = False
+Global $g_aGetSiegeCap = 0
+Global $iLoop = 0 
+Global $iLoopMax = 3 
+

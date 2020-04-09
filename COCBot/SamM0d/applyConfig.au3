@@ -93,11 +93,6 @@ chkEnableHLFClick()
 sldHLFClickDelayTime()
 GUICtrlSetState($chkEnableHLFClickSetlog, ($EnableHMLSetLog = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
 
-;~ ; advanced update for wall by Samkie
-;~ GUICtrlSetState($chkSmartUpdateWall, ($ichkSmartUpdateWall = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
-;~ GUICtrlSetData($txtClickWallDelay, $itxtClickWallDelay)
-;~ chkSmartUpdateWall()
-
 ; samm0d ocr
 GUICtrlSetState($chkEnableCustomOCR4CCRequest, ($ichkEnableCustomOCR4CCRequest = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
 
@@ -112,32 +107,6 @@ GUICtrlSetData($sldSelectedSpeedAB, $isldSelectedCSVSpeed[$LB])
 sldSelectedSpeedDB()
 sldSelectedSpeedAB()
 
-; wait 4 cc
-GUICtrlSetState($chkWait4CC, ($g_iChkWait4CC = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
-GUICtrlSetData($txtCCStrength, $CCStrength)
-_GUICtrlComboBox_SetCurSel($cmbCCTroopSlot1,$iCCTroopSlot1)
-_GUICtrlComboBox_SetCurSel($cmbCCTroopSlot2,$iCCTroopSlot2)
-_GUICtrlComboBox_SetCurSel($cmbCCTroopSlot3,$iCCTroopSlot3)
-GUICtrlSetData($txtCCTroopSlotQty1,$iCCTroopSlotQty1)
-GUICtrlSetData($txtCCTroopSlotQty2,$iCCTroopSlotQty2)
-GUICtrlSetData($txtCCTroopSlotQty3,$iCCTroopSlotQty3)
-chkWait4CC()
-; wait for cc spell
-GUICtrlSetState($chkWait4CCSpell, ($g_iChkWait4CCSpell = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
-_GUICtrlComboBox_SetCurSel($cmbCCSpellSlot1,$iCCSpellSlot1)
-_GUICtrlComboBox_SetCurSel($cmbCCSpellSlot2,$iCCSpellSlot2)
-GUICtrlSetData($txtCCSpellSlotQty1,$iCCSpellSlotQty1)
-GUICtrlSetData($txtCCSpellSlotQty2,$iCCSpellSlotQty2)
-chkWait4CCSpell()
-
-; request cc
-GUICtrlSetState($chkRequestCC4Troop, ($ichkRequestCC4Troop = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
-GUICtrlSetState($chkRequestCC4Spell, ($ichkRequestCC4Spell = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
-GUICtrlSetState($chkRequestCC4SeigeMachine, ($ichkRequestCC4SeigeMachine = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
-GUICtrlSetData($txtRequestCC4Troop, $itxtRequestCC4Troop)
-GUICtrlSetData($txtRequestCC4Spell, $itxtRequestCC4Spell)
-GUICtrlSetData($txtRequestCC4SeigeMachine, $itxtRequestCC4SeigeMachine)
-chkRequestCC4Troop()
 
 ; check 4 cc
 GUICtrlSetState($chkCheck4CC, ($ichkCheck4CC = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
@@ -153,7 +122,7 @@ chkIncreaseGlobalDelay()
 GUICtrlSetData($txtStickToTrainWindow, $itxtStickToTrainWindow)
 txtStickToTrainWindow()
 
-GUICtrlSetState($chkModTrain, ($ichkModTrain = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
+GUICtrlSetState($g_hChkModTrain, ($g_bChkModTrain = True ? $GUI_CHECKED : $GUI_UNCHECKED))
 GUICtrlSetState($chkForcePreTrainTroops, ($ichkForcePreTrainTroops = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
 GUICtrlSetData($txtForcePreTrainStrength, $itxtForcePreTrainStrength)
 _GUICtrlComboBox_SetCurSel($cmbTroopSetting,$icmbTroopSetting)
@@ -175,6 +144,7 @@ UpdateTroopSize()
 
 ;cmbMyTroopOrder()
 
+; Spells
 GUICtrlSetState($chkMySpellsOrder, ($ichkMySpellsOrder = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
 GUICtrlSetState($chkEnableDeleteExcessSpells, ($ichkEnableDeleteExcessSpells = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
 GUICtrlSetState($chkForcePreBrewSpell, ($ichkForcePreBrewSpell = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
@@ -188,8 +158,37 @@ Next
 ;cmbMySpellOrder()
 
 GUICtrlSetData($txtTotalCountSpell2, $g_iTotalSpellValue)
-
 lblMyTotalCountSpell()
+
+; Sieges
+_GUICtrlComboBox_SetCurSel($g_hTxtTotalCountSiege, $txtTotalCountSiege)
+
+GUICtrlSetState($chkMySiegesSiegeOrder, ($ichkMySiegesSiegeOrder = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
+GUICtrlSetState($chkEnableDeleteExcessSieges, ($ichkEnableDeleteExcessSieges = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
+GUICtrlSetState($chkForcePreSiegeBrewSiege, ($ichkForcePreSiegeBrewSiege = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
+
+For $i = 0 To UBound($MySieges)-1
+	GUICtrlSetState(Eval("chkPreSiege" & $MySieges[$i][0]), (Eval("ichkPreSiege" & $MySieges[$i][0]) = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
+	GUICtrlSetData(Eval("txtNumSiege" & $MySieges[$i][0] & "Siege"), $MySieges[$i][3])
+	_GUICtrlComboBox_SetCurSel(Eval("cmbMySiege" & $MySieges[$i][0] & "SiegeOrder"), $MySieges[$i][1]-1)
+Next
+
+;cmbMySiegeOrder()
+
+lblMyTotalCountSiege()
+;
+;  Friendly Challenge 
+For $i = 0 To 23
+	GUICtrlSetState($g_ahChkFriendlyChallengehours[$i], ($g_abFriendlyChallengehours[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
+Next
+For $i = 0 To 5
+	GUICtrlSetState($chkFriendlyChallengeBase[$i], ($ichkFriendlyChallengeBase[$i] = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
+Next
+GUICtrlSetState($chkEnableFriendlyChallenge, $ichkEnableFriendlyChallenge = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+GUICtrlSetState($chkOnlyOnRequest, $ichkOnlyOnRequest = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+GUICtrlSetData($txtKeywordForRequest, $stxtKeywordForRequest)
+GUICtrlSetData($txtChallengeText, $stxtChallengeText)
+GUICtrlSetData($txtFriendlyChallengeCoolDownTime, $itxtFriendlyChallengeCoolDownTime)
 
 _GUI_Value_STATE("HIDE",$g_aGroupListTHLevels)
 If $g_iTownHallLevel >= 4 And $g_iTownHallLevel <= 11 Then

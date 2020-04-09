@@ -1,4 +1,14 @@
-﻿; #FUNCTION# ====================================================================================================================
+﻿#NoTrayIcon
+#RequireAdmin
+#Region ;**** Directives created by AutoIt3Wrapper_GUI ****
+#AutoIt3Wrapper_Outfile=MyBot.run.exe
+#AutoIt3Wrapper_Compression=4
+#AutoIt3Wrapper_Run_Tidy=y
+#AutoIt3Wrapper_Tidy_Stop_OnError=n
+#AutoIt3Wrapper_Run_Au3Stripper=y
+#Au3Stripper_Parameters=/tl /pe
+#EndRegion ;**** Directives created by AutoIt3Wrapper_GUI ****
+; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
@@ -11,8 +21,6 @@
 ; ===============================================================================================================================
 
 ; AutoIt pragmas
-#NoTrayIcon
-#RequireAdmin
 
 ; samm0d
 #include <WinAPILocale.au3>
@@ -816,7 +824,7 @@ Func runBot() ;Bot that runs everything in order
 								DoVillageLoadFailed()
 							EndIf
 							$iCurActiveAcc = -1
-							ClickP($aAway,1,0)
+							ClickP($aAway, 1, 0)
 							If _Sleep(1000) Then Return True
 							ContinueLoop
 						EndIf
@@ -885,7 +893,7 @@ Func runBot() ;Bot that runs everything in order
 				BoostEverything() ; 1st Check if is to use Training Potion
 				;Local $aRndFuncList = ['ReplayShare', 'NotifyReport', 'DonateCC,Train', 'BoostBarracks', 'BoostSpellFactory', 'BoostKing', 'BoostQueen', 'BoostWarden', 'RequestCC', 'CollectFreeMagicItems']
 				If $g_bRestart Then ContinueLoop
-				 If $ichkModTrain = 0 Then
+				If $ichkModTrain = 0 Then
 					Local $aRndFuncList = ['BoostBarracks', 'BoostSpellFactory', 'BoostWorkshop', 'BoostKing', 'BoostQueen', 'BoostWarden', 'BoostChampion']
 					_ArrayShuffle($aRndFuncList)
 					For $Index In $aRndFuncList
@@ -1019,7 +1027,7 @@ Func _Idle() ;Sequence that runs until Full Army
 	EndIf
 
 	While $bSkipEnterIdleLoop = False
-	;===================================
+		;===================================
 
 		CheckAndroidReboot()
 
@@ -1170,12 +1178,12 @@ Func _Idle() ;Sequence that runs until Full Army
 			; perform switch acc since army still need waiting
 			If $g_bIsFullArmywithHeroesAndSpells = False Then
 ;~ 				If $ichkEnableContinueStay = 1 Then
-					If $bAvoidSwitch = False Then
-						$g_bRestart = True
-						ExitLoop
-					Else
-						SetLog("Avoid switch, troops getting ready or soon.", $COLOR_INFO)
-					EndIf
+				If $bAvoidSwitch = False Then
+					$g_bRestart = True
+					ExitLoop
+				Else
+					SetLog("Avoid switch, troops getting ready or soon.", $COLOR_INFO)
+				EndIf
 ;~ 				Else
 ;~ 					$g_bRestart = True
 ;~ 					ExitLoop
@@ -1306,9 +1314,9 @@ Func __RunFunction($action)
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
 		Case "DonateCC,Train"
-		; ======================= (#ID135-)
-		    CheckAutoCamp()
-		; ======================= (#ID135-)
+			; ======================= (#ID135-)
+			CheckAutoCamp()
+			; ======================= (#ID135-)
 			If $ichkModTrain = 1 Then
 				If $g_bTrainEnabled Then
 					ModTrain()
@@ -1331,15 +1339,15 @@ Func __RunFunction($action)
 			Else
 				If $g_iActiveDonate And $g_bChkDonate Then
 					If $g_bFirstStart Then
- 					getArmyTroopCapacity(True, False)
-					If _Sleep($DELAYRESPOND) Then Return
- 					getArmySpellCapacity(False, True)
-					If _Sleep($DELAYRESPOND) Then Return
+						getArmyTroopCapacity(True, False)
+						If _Sleep($DELAYRESPOND) Then Return
+						getArmySpellCapacity(False, True)
+						If _Sleep($DELAYRESPOND) Then Return
 					EndIf
-				; if in "Halt/Donate" don't skip near full army
-				If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
+					; if in "Halt/Donate" don't skip near full army
+					If (Not SkipDonateNearFullTroops(True) Or $g_iCommandStop = 3 Or $g_iCommandStop = 0) And BalanceDonRec(True) Then DonateCC()
 				EndIf
-			If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
+				If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
 				If $g_bTrainEnabled Then ; check for training enabled in halt mode
 					If $g_iActualTrainSkip < $g_iMaxTrainSkip Then
 						;Train()
@@ -1397,22 +1405,22 @@ Func __RunFunction($action)
 			RequestCC()
 			If Not _Sleep($DELAYRUNBOT1) Then checkMainScreen(False)
 		Case "Laboratory"
-		;	Laboratory()
-		;	If Not _Sleep($DELAYRUNBOT3) = False Then checkMainScreen(False)
- 		Case "UpgradeHeroes"
- 			UpgradeHeroes()
- 			_Sleep($DELAYRUNBOT3)
- 		Case "UpgradeBuilding"
- 			UpgradeBuilding()
+			;	Laboratory()
+			;	If Not _Sleep($DELAYRUNBOT3) = False Then checkMainScreen(False)
+		Case "UpgradeHeroes"
+			UpgradeHeroes()
+			_Sleep($DELAYRUNBOT3)
+		Case "UpgradeBuilding"
+			UpgradeBuilding()
 			If _Sleep($DELAYRUNBOT3) Then Return
- 			AutoUpgrade()
- 			_Sleep($DELAYRUNBOT3)
+			AutoUpgrade()
+			_Sleep($DELAYRUNBOT3)
 		Case "UpgradeWall"
 			$g_iNbrOfWallsUpped = 0
 			UpgradeWall()
 			_Sleep($DELAYRUNBOT3)
 		Case "BuilderBase"
-			If isOnBuilderBase() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades or $g_bChkEnableBBAttack) And SwitchBetweenBases()) Then
+			If isOnBuilderBase() Or (($g_bChkCollectBuilderBase Or $g_bChkStartClockTowerBoost Or $g_iChkBBSuggestedUpgrades Or $g_bChkEnableBBAttack) And SwitchBetweenBases()) Then
 				$g_bStayOnBuilderBase = True
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If checkObstacles() Then Return
@@ -1443,10 +1451,10 @@ Func __RunFunction($action)
 				; switch back to normal village
 				SwitchBetweenBases()
 				$g_bStayOnBuilderBase = False
- 			EndIf
- 			_Sleep($DELAYRUNBOT3)
- 		Case "CollectFreeMagicItems"
- 			CollectFreeMagicItems()
+			EndIf
+			_Sleep($DELAYRUNBOT3)
+		Case "CollectFreeMagicItems"
+			CollectFreeMagicItems()
 			_Sleep($DELAYRUNBOT3)
 		Case ""
 			SetDebugLog("Function call doesn't support empty string, please review array size", $COLOR_ERROR)

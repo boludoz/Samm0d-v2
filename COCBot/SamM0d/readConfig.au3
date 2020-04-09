@@ -87,15 +87,6 @@ IniReadS($ichkEnableHLFClick, $g_sProfileConfigPath, "HLFClick", "EnableHLFClick
 IniReadS($isldHLFClickDelayTime, $g_sProfileConfigPath, "HLFClick", "HLFClickDelayTime", "500", "Int")
 IniReadS($EnableHMLSetLog, $g_sProfileConfigPath, "HLFClick", "EnableHLFClickSetlog", "0", "Int")
 
-;~ ; advanced update for wall by Samkie
-;~ IniReadS($ichkSmartUpdateWall, $g_sProfileConfigPath, "AU4Wall", "EnableSmartUpdateWall", "0", "Int")
-;~ IniReadS($itxtClickWallDelay, $g_sProfileConfigPath, "AU4Wall", "ClickWallDelay", "500", "Int")
-;~ IniReadS($aBaseNode[0], $g_sProfileConfigPath, "AU4Wall", "BaseNodeX", "-1", "Int")
-;~ IniReadS($aBaseNode[1], $g_sProfileConfigPath, "AU4Wall", "BaseNodeY", "-1", "Int")
-;~ IniReadS($aLastWall[0], $g_sProfileConfigPath, "AU4Wall", "LastWallX", "-1", "Int")
-;~ IniReadS($aLastWall[1], $g_sProfileConfigPath, "AU4Wall", "LastWallY", "-1", "Int")
-;~ IniReadS($iFaceDirection, $g_sProfileConfigPath, "AU4Wall", "FaceDirection", "1", "Int")
-
 ; samm0d ocr
 IniReadS($ichkEnableCustomOCR4CCRequest, $g_sProfileConfigPath, "GetMyOcr", "EnableCustomOCR4CCRequest", "0", "Int")
 
@@ -108,33 +99,9 @@ IniReadS($g_bChkAutoMinimizeBot, $g_sProfileConfigPath, "AutoMinimizeBot", "Enab
 IniReadS($isldSelectedCSVSpeed[$DB], $g_sProfileConfigPath, "attack", "CSVSpeedDB", 3)
 IniReadS($isldSelectedCSVSpeed[$LB], $g_sProfileConfigPath, "attack", "CSVSpeedAB", 3)
 
-; Wait 4 CC
-IniReadS($g_iChkWait4CC, $g_sProfileConfigPath, "Wait4CC", "Enable", "0", "Int")
-IniReadS($CCStrength, $g_sProfileConfigPath, "Wait4CC", "CCStrength", "100", "Int")
-IniReadS($iCCTroopSlot1, $g_sProfileConfigPath, "Wait4CC", "CCTroopSlot1", "0", "Int")
-IniReadS($iCCTroopSlot2, $g_sProfileConfigPath, "Wait4CC", "CCTroopSlot2", "0", "Int")
-IniReadS($iCCTroopSlot3, $g_sProfileConfigPath, "Wait4CC", "CCTroopSlot3", "0", "Int")
-IniReadS($iCCTroopSlotQty1, $g_sProfileConfigPath, "Wait4CC", "CCTroopSlotQty1", "0", "Int")
-IniReadS($iCCTroopSlotQty2, $g_sProfileConfigPath, "Wait4CC", "CCTroopSlotQty2", "0", "Int")
-IniReadS($iCCTroopSlotQty3, $g_sProfileConfigPath, "Wait4CC", "CCTroopSlotQty3", "0", "Int")
-IniReadS($g_iChkWait4CCSpell, $g_sProfileConfigPath, "Wait4CCSpell", "Enable", "0", "Int")
-IniReadS($iCCSpellSlot1, $g_sProfileConfigPath, "Wait4CCSpell", "CCSpellSlot1", "0", "Int")
-IniReadS($iCCSpellSlot2, $g_sProfileConfigPath, "Wait4CCSpell", "CCSpellSlot2", "0", "Int")
-IniReadS($iCCSpellSlotQty1, $g_sProfileConfigPath, "Wait4CCSpell", "CCSpellSlotQty1", "0", "Int")
-IniReadS($iCCSpellSlotQty2, $g_sProfileConfigPath, "Wait4CCSpell", "CCSpellSlotQty2", "0", "Int")
-
 ; check 4 cc
 IniReadS($ichkCheck4CC, $g_sProfileConfigPath, "Check4CC", "Enable", "0", "Int")
 IniReadS($itxtCheck4CCWaitTime, $g_sProfileConfigPath, "Check4CC", "WaitTime", "7", "Int")
-
-; request cc
-IniReadS($ichkRequestCC4Troop, $g_sProfileConfigPath, "RequestCC4Troop", "Enable", "0", "Int")
-IniReadS($ichkRequestCC4Spell, $g_sProfileConfigPath, "RequestCC4Spell", "Enable", "0", "Int")
-IniReadS($ichkRequestCC4SeigeMachine, $g_sProfileConfigPath, "RequestCC4SeigeMachine", "Enable", "0", "Int")
-IniReadS($itxtRequestCC4Troop, $g_sProfileConfigPath, "RequestCC4Troop", "CCStrength", "100", "Int")
-IniReadS($itxtRequestCC4Spell, $g_sProfileConfigPath, "RequestCC4Spell", "SpellHousing", "2", "Int")
-IniReadS($itxtRequestCC4SeigeMachine, $g_sProfileConfigPath, "RequestCC4SeigeMachine", "SiegeMachineHousing", "1", "Int")
-
 ; global delay increse
 IniReadS($ichkIncreaseGlobalDelay, $g_sProfileConfigPath, "GlobalDelay", "Enable", "0", "Int")
 IniReadS($itxtIncreaseGlobalDelay, $g_sProfileConfigPath, "GlobalDelay", "DelayPercentage", "10", "Int")
@@ -143,39 +110,59 @@ IniReadS($itxtIncreaseGlobalDelay, $g_sProfileConfigPath, "GlobalDelay", "DelayP
 IniReadS($itxtStickToTrainWindow, $g_sProfileConfigPath, "StickToTrainPage", "Minutes", "2","Int")
 
 ; My Troops
-$ichkModTrain = 1
-;IniReadS($ichkModTrain, $g_sProfileConfigPath, "MyTroops", "EnableModTrain", "1","Int")
+IniReadS($g_bChkModTrain, $g_sProfileConfigPath, "MyTroops", "EnableModTrain", "True","Bool")
 IniReadS($ichkMyTroopsOrder, $g_sProfileConfigPath, "MyTroops", "Order", "0","Int")
 IniReadS($ichkEnableDeleteExcessTroops, $g_sProfileConfigPath, "MyTroops", "DeleteExcess", "0","Int")
-
 IniReadS($ichkForcePreTrainTroops, $g_sProfileConfigPath, "MyTroops", "ForcePreTrainTroop", "0","Int")
 IniReadS($itxtForcePreTrainStrength, $g_sProfileConfigPath, "MyTroops", "ForcePreTrainStrength", "95","Int")
 IniReadS($icmbMyQuickTrain, $g_sProfileConfigPath, "MyTroops", "TrainCombo", "0", "Int")
 IniReadS($icmbTroopSetting, $g_sProfileConfigPath, "MyTroops", "Composition", "0", "Int")
-;$icmbCoCVersion = IniRead($g_sProfileConfigPath, "COCVer", "CoCVersion", "0")
 
 IniReadS($ichkDisablePretrainTroops, $g_sProfileConfigPath, "MyTroops", "NoPreTrain", "0", "Int")
 
+Local $sTextTroops
+Local $sTextTroopsString
+Local $sGiants
 For $j = 0 To 2
 	For $i = 0 To UBound($MyTroops) - 1
-		IniReadS($MyTroopsSetting[$j][$i][0],$g_sProfileConfigPath, "MyTroops", $MyTroops[$i][0] & $j, "0","Int")
-		IniReadS($MyTroopsSetting[$j][$i][1],$g_sProfileConfigPath, "MyTroops", $MyTroops[$i][0] & "Order" & $j, $i + 1,"Int")
+		$sTextTroopsString = IniRead($g_sProfileConfigPath, "MyTroops", $MyTroops[$i][0]&$j, 2 <> $i ? 0 : 16 &"|"&$i + 1)
+		If Not StringInStr($sTextTroopsString, "|") = 0 Then
+		$sTextTroops = StringSplit($sTextTroopsString, "|", $STR_NOCOUNT)
+			$MyTroopsSetting[$j][$i][0] = Int($sTextTroops[0])
+			$MyTroopsSetting[$j][$i][1] = Int($sTextTroops[1])
+			Else
+			$MyTroopsSetting[$j][$i][0] = Int($sTextTroopsString)
+			$MyTroopsSetting[$j][$i][1] = $i + 1
+		Endif
 	Next
 Next
+
 For $i = 0 To UBound($MyTroops) - 1
 	$MyTroops[$i][3] =  $MyTroopsSetting[$icmbTroopSetting][$i][0]
 	$MyTroops[$i][1] =  $MyTroopsSetting[$icmbTroopSetting][$i][1]
 Next
 
+; Spells
 IniReadS($ichkMySpellsOrder, $g_sProfileConfigPath, "MySpells", "Order", "0","Int")
 IniReadS($ichkEnableDeleteExcessSpells, $g_sProfileConfigPath, "MySpells", "DeleteExcess", "0","Int")
 IniReadS($ichkForcePreBrewSpell, $g_sProfileConfigPath, "MySpells", "ForcePreBrewSpell", "0","Int")
 
+Local $sTextSpells
+Local $sTextSpellsString
+
 For $j = 0 To 2
 	For $i = 0 To UBound($MySpells) - 1
-		IniReadS($MySpellSetting[$j][$i][0], $g_sProfileConfigPath, "MySpells", $MySpells[$i][0] & $j, "0", "Int")
-		IniReadS($MySpellSetting[$j][$i][1],$g_sProfileConfigPath, "MySpells", $MySpells[$i][0] & "Order" & $j, $i + 1,"Int")
-		IniReadS($MySpellSetting[$j][$i][2], $g_sProfileConfigPath, "MySpells", $MySpells[$i][0] & "Pre" & $j, "0", "Int")
+	 $sTextSpellsString = IniRead($g_sProfileConfigPath, "MySpells", $MySpells[$i][0]&$j, "0|"&$i + 1&"|0")
+	If Not StringInStr($sTextSpellsString, "|") = 0 Then
+	$sTextSpells = StringSplit($sTextSpellsString, "|", $STR_NOCOUNT)
+		$MySpellSetting[$j][$i][0] = Int($sTextSpells[0])
+		$MySpellSetting[$j][$i][1] = Int($sTextSpells[1])
+		$MySpellSetting[$j][$i][2] = Int($sTextSpells[2])
+		Else
+		$MySpellSetting[$j][$i][0] = Int($sTextSpellsString)
+		$MySpellSetting[$j][$i][1] = $i + 1
+		$MySpellSetting[$j][$i][2] = 0
+		Endif
 	Next
 Next
 
@@ -187,4 +174,36 @@ For $i = 0 To UBound($MySpells) - 1
 	$MySpells[$i][1] =  $MySpellSetting[$icmbTroopSetting][$i][1]
 Next
 
-readFriendlyChallengeSetting()
+; Sieges
+IniReadS($ichkMySiegesSiegeOrder, $g_sProfileConfigPath, "MySieges", "SiegeOrder", "0","Int")
+IniReadS($ichkEnableDeleteExcessSieges, $g_sProfileConfigPath, "MySieges", "DeleteExcess", "0","Int")
+IniReadS($ichkForcePreSiegeBrewSiege, $g_sProfileConfigPath, "MySieges", "ForcePreSiegeBrewSiege", "0","Int")
+IniReadS($txtTotalCountSiege, $g_sProfileConfigPath, "MySieges", "TotalCountSiege", "0","Int")
+
+Local $sTextSieges
+Local $sTextSiegesString
+
+For $j = 0 To 2
+	For $i = 0 To UBound($MySieges) - 1
+	 $sTextSiegesString = IniRead($g_sProfileConfigPath, "MySieges", $MySieges[$i][0]&$j, "0|"&$i + 1&"|0")
+	If Not StringInStr($sTextSiegesString, "|") = 0 Then
+	$sTextSieges = StringSplit($sTextSiegesString, "|", $STR_NOCOUNT)
+		$MySiegeSetting[$j][$i][0] = Int($sTextSieges[0])
+		$MySiegeSetting[$j][$i][1] = Int($sTextSieges[1])
+		$MySiegeSetting[$j][$i][2] = Int($sTextSieges[2])
+		Else
+		$MySiegeSetting[$j][$i][0] = Int($sTextSiegesString)
+		$MySiegeSetting[$j][$i][1] = $i + 1
+		$MySiegeSetting[$j][$i][2] = 0
+		Endif
+	Next
+Next
+
+$g_bDoPreSiegebrewSiege = 0
+For $i = 0 To UBound($MySieges) - 1
+	Assign("ichkPreSiege" & $MySieges[$i][0],  $MySiegeSetting[$icmbTroopSetting][$i][2])
+	$g_bDoPreSiegebrewSiege = BitOR($g_bDoPreSiegebrewSiege, $MySiegeSetting[$icmbTroopSetting][$i][2])
+	$MySieges[$i][3] =  $MySiegeSetting[$icmbTroopSetting][$i][0]
+	$MySieges[$i][1] =  $MySiegeSetting[$icmbTroopSetting][$i][1]
+Next
+

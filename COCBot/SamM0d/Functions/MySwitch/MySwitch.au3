@@ -627,9 +627,9 @@ Func DoVillageLoadSucess($iAcc)
 	$g_bShareAttackEnableNow = False
 
 
-	myHeroStatus("King","Gray")
-	myHeroStatus("Queen","Gray")
-	myHeroStatus("Warden","Gray")
+;~ 	myHeroStatus("King","Gray")
+;~ 	myHeroStatus("Queen","Gray")
+;~ 	myHeroStatus("Warden","Gray")
 
 	GUICtrlSetState($g_hPicLabGreen, $GUI_HIDE)
 	GUICtrlSetState($g_hPicLabRed, $GUI_HIDE)
@@ -1009,7 +1009,7 @@ Func displayStats($iSlot)
 
 	Local $iAttackedCount = 0
 
-	For $i = 0 To $g_iModeCount
+	For $i = 0 To $g_iModeCount -1
 		GUICtrlSetData($g_hLblAttacked[$i], _NumberFormat($tempAttackedVillageCount[$i], True))
 		$iAttackedCount += $tempAttackedVillageCount[$i]
 
@@ -1023,7 +1023,7 @@ Func displayStats($iSlot)
 	GUICtrlSetData($g_hLblresultvillagesattacked, _NumberFormat($iAttackedCount, True))
 	GUICtrlSetData($g_hLblResultAttackedHourNow, _NumberFormat($iAttackedCount, True))
 
-	For $i = 0 To $g_iModeCount
+	For $i = 0 To $g_iModeCount -1
 		GUICtrlSetData($g_hLblNbrOfDetectedMines[$i], $tempNbrOfDetectedMines[$i])
 		GUICtrlSetData($g_hLblNbrOfDetectedCollectors[$i], $tempNbrOfDetectedCollectors[$i])
 		GUICtrlSetData($g_hLblNbrOfDetectedDrills[$i], $tempNbrOfDetectedDrills[$i])
@@ -1333,9 +1333,9 @@ Func btnPushshared_prefs()
 			EndIf
 	EndSwitch
 
-	myHeroStatus("King","Gray")
-	myHeroStatus("Queen","Gray")
-	myHeroStatus("Warden","Gray")
+;~ 	myHeroStatus("King","Gray")
+;~ 	myHeroStatus("Queen","Gray")
+;~ 	myHeroStatus("Warden","Gray")
 
 	GUICtrlSetState($g_hPicLabGreen, $GUI_HIDE)
 	GUICtrlSetState($g_hPicLabRed, $GUI_HIDE)

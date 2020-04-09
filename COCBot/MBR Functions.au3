@@ -37,11 +37,12 @@
 #include "SamM0d\Functions\ModTrain\DoRevampTroops.au3"
 #include "SamM0d\Functions\ModTrain\DoRevampSpells.au3"
 #include "SamM0d\Functions\ModTrain\getArmyAndSpellCapacity.au3"
-#include "SamM0d\Functions\ModTrain\getMyArmyHeroCount.au3"
+;~ #include "SamM0d\Functions\ModTrain\getMyArmyHeroCount.au3"
 #include "SamM0d\Functions\ModTrain\TrainArmyPageControl.au3"
 #include "SamM0d\Functions\ModTrain\MyTrainClick.au3"
 #include "SamM0d\Functions\ModTrain\CheckAvailableCCUnit.au3"
 #include "SamM0d\Functions\ModTrain\CheckAvailableCCSpellUnit.au3"
+#include "SamM0d\Functions\ModTrain\TrainSieges.au3"
 ;---------------------------------------------------------------
 #include "SamM0d\Functions\Other\_debugSaveHBitmapToImage.au3"
 #include "SamM0d\Functions\Other\_Wait4Pixel.au3"

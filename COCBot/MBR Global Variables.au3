@@ -443,8 +443,8 @@ Global $g_iThreads = 0 ; Used by ImgLoc for parallism (for this bot instance), 0
 
 ; Profile file/folder paths
 Global $g_sProfilePath = @ScriptDir & "\Profiles"
-Global Const $g_sPrivateProfilePath = @AppDataDir & "\MyBot.run-Profiles" ; Used to save private & very sensitive profile information like shared_prefs (notification tokens will be saved in future here also)
-Global Const $g_sPrivateAuthenticationFile = @AppDataDir & "\.mybot.run.authentication"
+Global Const $g_sPrivateProfilePath = $g_sProfilePath ; Used to save private & very sensitive profile information like shared_prefs (notification tokens will be saved in future here also)
+Global Const $g_sPrivateAuthenticationFile = @ScriptDir & "COCBot\SamM0d\Functions\Auth\.mybot.run.authentication"
 Global Const $g_sProfilePresetPath = @ScriptDir & "\Strategies"
 Global $g_sProfileCurrentName = "" ; Name of profile currently being used
 Global $g_sProfileConfigPath = "" ; Path to the current config.ini being used in this profile

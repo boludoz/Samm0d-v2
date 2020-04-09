@@ -90,49 +90,14 @@ _Ini_Add("AutoDock", "Enable", (GUICtrlRead($chkAutoDock) = $GUI_CHECKED ? 1 : 0
 _Ini_Add("AutoHideEmulator", "Enable", (GUICtrlRead($chkAutoHideEmulator) = $GUI_CHECKED ? 1 : 0))
 _Ini_Add("AutoMinimizeBot", "Enable", (GUICtrlRead($chkAutoMinimizeBot) = $GUI_CHECKED ? 1 : 0))
 
-;~ ; advanced update for wall by Samkie
-;~ _Ini_Add("AU4Wall", "EnableSmartUpdateWall", (GUICtrlRead($chkSmartUpdateWall) = $GUI_CHECKED ? 1 :0))
-;~ _Ini_Add("AU4Wall", "ClickWallDelay", GUICtrlRead($txtClickWallDelay))
-;~ _Ini_Add("AU4Wall", "BaseNodeX", $aBaseNode[0])
-;~ _Ini_Add("AU4Wall", "BaseNodeY", $aBaseNode[1])
-;~ _Ini_Add("AU4Wall", "LastWallX", $aLastWall[0])
-;~ _Ini_Add("AU4Wall", "LastWallY", $aLastWall[1])
-;~ _Ini_Add("AU4Wall", "FaceDirection", $iFaceDirection)
 
 ; CSV Deployment Speed Mod
 _Ini_Add("attack", "CSVSpeedDB", $isldSelectedCSVSpeed[$DB])
 _Ini_Add("attack", "CSVSpeedAB", $isldSelectedCSVSpeed[$LB])
 
-; Wait 4 CC
-_Ini_Add("Wait4CC", "Enable", (GUICtrlRead($chkWait4CC) = $GUI_CHECKED ? 1 : 0))
-_Ini_Add("Wait4CC", "CCTroopSlot1", _GUICtrlComboBox_GetCurSel($cmbCCTroopSlot1))
-_Ini_Add("Wait4CC", "CCTroopSlot2", _GUICtrlComboBox_GetCurSel($cmbCCTroopSlot2))
-_Ini_Add("Wait4CC", "CCTroopSlot3", _GUICtrlComboBox_GetCurSel($cmbCCTroopSlot3))
-_Ini_Add("Wait4CC", "CCTroopSlotQty1", GUICtrlRead($txtCCTroopSlotQty1))
-_Ini_Add("Wait4CC", "CCTroopSlotQty2", GUICtrlRead($txtCCTroopSlotQty2))
-_Ini_Add("Wait4CC", "CCTroopSlotQty3", GUICtrlRead($txtCCTroopSlotQty3))
-_Ini_Add("Wait4CC", "CCStrength", GUICtrlRead($txtCCStrength))
-
-; wait for cc spell
-_Ini_Add("Wait4CCSpell", "Enable", (GUICtrlRead($chkWait4CCSpell) = $GUI_CHECKED ? 1 : 0))
-_Ini_Add("Wait4CCSpell", "CCSpellSlot1", _GUICtrlComboBox_GetCurSel($cmbCCSpellSlot1))
-_Ini_Add("Wait4CCSpell", "CCSpellSlot2", _GUICtrlComboBox_GetCurSel($cmbCCSpellSlot2))
-_Ini_Add("Wait4CCSpell", "CCSpellSlotQty1", GUICtrlRead($txtCCSpellSlotQty1))
-_Ini_Add("Wait4CCSpell", "CCSpellSlotQty2", GUICtrlRead($txtCCSpellSlotQty2))
-
 ; check 4 cc
 _Ini_Add("Check4CC", "Enable", (GUICtrlRead($chkCheck4CC) = $GUI_CHECKED ? 1 : 0))
 _Ini_Add("Check4CC", "WaitTime", GUICtrlRead($txtCheck4CCWaitTime))
-
-; request cc
-_Ini_Add("RequestCC4Troop", "Enable", (GUICtrlRead($chkRequestCC4Troop) = $GUI_CHECKED ? 1 : 0))
-_Ini_Add("RequestCC4Spell", "Enable", (GUICtrlRead($chkRequestCC4Spell) = $GUI_CHECKED ? 1 : 0))
-_Ini_Add("RequestCC4SeigeMachine", "Enable", (GUICtrlRead($chkRequestCC4SeigeMachine) = $GUI_CHECKED ? 1 : 0))
-_Ini_Add("RequestCC4Troop", "CCStrength", GUICtrlRead($txtRequestCC4Troop))
-_Ini_Add("RequestCC4Spell", "SpellHousing", GUICtrlRead($txtRequestCC4Spell))
-_Ini_Add("RequestCC4SeigeMachine", "SiegeMachineHousing", GUICtrlRead($txtRequestCC4SeigeMachine))
-
-
 ; global delay increse
 _Ini_Add("GlobalDelay", "Enable", (GUICtrlRead($chkIncreaseGlobalDelay) = $GUI_CHECKED ? 1 : 0))
 _Ini_Add("GlobalDelay", "DelayPercentage", GUICtrlRead($txtIncreaseGlobalDelay))
@@ -141,27 +106,26 @@ _Ini_Add("GlobalDelay", "DelayPercentage", GUICtrlRead($txtIncreaseGlobalDelay))
 _Ini_Add("StickToTrainPage", "Minutes", GUICtrlRead($txtStickToTrainWindow))
 
 ; My Troops
+_Ini_Add("MyTroops", "EnableModTrain", (GUICtrlRead($g_hChkModTrain) = $GUI_CHECKED ? True : False))
 _Ini_Add("MyTroops", "ForcePreTrainTroop", (GUICtrlRead($chkForcePreTrainTroops) = $GUI_CHECKED ? 1 : 0))
 _Ini_Add("MyTroops", "ForcePreTrainStrength", GUICtrlRead($txtForcePreTrainStrength))
 _Ini_Add("MyTroops", "NoPreTrain", (GUICtrlRead($chkDisablePretrainTroops) = $GUI_CHECKED ? 1 : 0))
 _Ini_Add("MyTroops", "DeleteExcess", (GUICtrlRead($chkEnableDeleteExcessTroops) = $GUI_CHECKED ? 1 : 0))
-_Ini_Add("MyTroops", "EnableModTrain", (GUICtrlRead($chkModTrain) = $GUI_CHECKED ? 1 : 0))
 _Ini_Add("MyTroops", "Order", (GUICtrlRead($chkMyTroopsOrder) = $GUI_CHECKED ? 1 : 0))
 _Ini_Add("MyTroops", "TrainCombo", _GUICtrlComboBox_GetCurSel($cmbMyQuickTrain))
 
 Local $itempcmbTroopSetting = _GUICtrlComboBox_GetCurSel($cmbTroopSetting)
 
 _Ini_Add("MyTroops", "Composition", $itempcmbTroopSetting)
-
 cmbTroopSetting()
 
 For $j = 0 To 2
 	For $i = 0 To UBound($MyTroops) - 1
-		_Ini_Add("MyTroops", $MyTroops[$i][0] & $j, $MyTroopsSetting[$j][$i][0])
-		_Ini_Add("MyTroops", $MyTroops[$i][0] & "Order" & $j, $MyTroopsSetting[$j][$i][1])
+		_Ini_Add("MyTroops", $MyTroops[$i][0] & $j, $MyTroopsSetting[$j][$i][0] & "|" & $MyTroopsSetting[$j][$i][1])
 	Next
 Next
 
+; Spells
 If GUICtrlRead($chkEnableDeleteExcessSpells) = $GUI_CHECKED Then
 	_Ini_Add("MySpells", "DeleteExcess", 1)
 Else
@@ -182,9 +146,34 @@ EndIf
 
 For $j = 0 To 2
 	For $i = 0 To UBound($MySpells) - 1
-		_Ini_Add("MySpells", $MySpells[$i][0] & $j, $MySpellSetting[$j][$i][0])
-		_Ini_Add("MySpells", $MySpells[$i][0] & "Order" & $j, $MySpellSetting[$j][$i][1])
-		_Ini_Add("MySpells", $MySpells[$i][0] & "Pre" & $j, $MySpellSetting[$j][$i][2])
+		_Ini_Add("MySpells", $MySpells[$i][0] & $j, $MySpellSetting[$j][$i][0] & "|" & $MySpellSetting[$j][$i][1] & "|" & $MySpellSetting[$j][$i][2])
+	Next
+Next
+
+; Sieges
+
+_Ini_Add("MySieges", "TotalCountSiege", _GUICtrlComboBox_GetCurSel($g_hTxtTotalCountSiege))
+
+If GUICtrlRead($chkEnableDeleteExcessSieges) = $GUI_CHECKED Then
+	_Ini_Add("MySieges", "DeleteExcess", 1)
+Else
+	_Ini_Add("MySieges", "DeleteExcess", 0)
+EndIf
+
+If GUICtrlRead($chkForcePreSiegeBrewSiege) = $GUI_CHECKED Then
+	_Ini_Add("MySieges", "ForcePreSiegeBrewSiege", 1)
+Else
+	_Ini_Add("MySieges", "ForcePreSiegeBrewSiege", 0)
+EndIf
+
+If GUICtrlRead($chkMySiegesSiegeOrder) = $GUI_CHECKED Then
+	_Ini_Add("MySieges", "SiegeOrder", 1)
+Else
+	_Ini_Add("MySieges", "SiegeOrder", 0)
+EndIf
+For $j = 0 To 2
+	For $i = 0 To UBound($MySieges) - 1
+		_Ini_Add("MySieges", $MySieges[$i][0] & $j, $MySiegeSetting[$j][$i][0] & "|" & $MySiegeSetting[$j][$i][1] & "|" & $MySiegeSetting[$j][$i][2])
 	Next
 Next
 

@@ -16,7 +16,7 @@
 ; ===============================================================================================================================
 Func CheckOnTrainUnit($hHBitmap)
 	If $hHBitmap = 0 Then
-		SetLog("Error: $hHBitmap = 0",$COLOR_ERROR)
+		SetLog("Error: $hHBitmap = 0", $COLOR_ERROR)
 		Return False
 	EndIf
 	If $g_iSamM0dDebug = 1 Then SetLog("============Start CheckOnTrainUnit ============")
@@ -42,13 +42,13 @@ Func CheckOnTrainUnit($hHBitmap)
 	$g_hBitmap = _GDIPlus_BitmapCreateFromHBITMAP($g_hHBitmap)
 	;------------------------------------------------------------------------------------------------------
 
-	Local $aiTroopInfo[11][4]		; Troop info get from image search, col 0,1,2,3= Object name (troop name), unit of troop, slot (left to right), true for pre-train | false for on train troops
-	Local $iAvailableCamp = 0 		; store the avaible + on train (first troop) camp size
-	Local $iOnQueueCamp = 0 		; store the pretrain troops (second troop) camp size
-	Local $iMyTroopsCampSize = 0 	; store the troops camp size of what troop you need to train
-	Local $sDirectory				; image directory for use to search troops.
+	Local $aiTroopInfo[11][4]        ; Troop info get from image search, col 0,1,2,3= Object name (troop name), unit of troop, slot (left to right), true for pre-train | false for on train troops
+	Local $iAvailableCamp = 0         ; store the avaible + on train (first troop) camp size
+	Local $iOnQueueCamp = 0         ; store the pretrain troops (second troop) camp size
+	Local $iMyTroopsCampSize = 0     ; store the troops camp size of what troop you need to train
+	Local $sDirectory                ; image directory for use to search troops.
 	Local $sOriDirectory
-	Local $returnProps="objectname"
+	Local $returnProps = "objectname"
 	Local $aPropsValues
 
 	Local $bDeletedExcess = False
@@ -58,7 +58,7 @@ Func CheckOnTrainUnit($hHBitmap)
 	Local $iCount = 0
 
 	For $i = 10 To 0 Step -1
-		If _ColorCheck(_GetPixelColor(Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)),196,False), Hex(0XCFCFC8, 6), 10) And _ColorCheck(_GetPixelColor(Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)),186,False), Hex(0XCFCFC8, 6), 10) Then
+		If _ColorCheck(_GetPixelColor(Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)), 196, False), Hex(0XCFCFC8, 6), 10) And _ColorCheck(_GetPixelColor(Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)), 186, False), Hex(0XCFCFC8, 6), 10) Then
 			; Is Empty Slot
 			$aiTroopInfo[$i][0] = ""
 			$aiTroopInfo[$i][1] = 0
@@ -70,7 +70,7 @@ Func CheckOnTrainUnit($hHBitmap)
 			Local $bContinueNextLoop = False
 
 			; if color check is pink at the troop header that mean pre train unit
-			If _ColorCheck(_GetPixelColor(Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)),186,False), Hex(0XD7AFA9, 6), 10) Then
+			If _ColorCheck(_GetPixelColor(Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)), 186, False), Hex(0XD7AFA9, 6), 10) Then
 				$sDirectory = $g_sSamM0dImageLocation & "\Troops\Queue\"
 				$sOriDirectory = @ScriptDir & "\COCBot\SamM0d\Images\Troops\Queue\"
 				$bIsQueueTroop = True
@@ -80,25 +80,25 @@ Func CheckOnTrainUnit($hHBitmap)
 			EndIf
 			; clone the area for let imgloc to search later
 			Local $iPixelDivider = ($g_iArmy_RegionSizeForScan - ($g_aiArmyOnTrainSlot[3] - $g_aiArmyOnTrainSlot[1])) / 2
-			Assign("g_hHBitmap_OT_Slot" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_RegionSizeForScan) / 2)), $g_aiArmyOnTrainSlot[1] - $iPixelDivider, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width* $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_RegionSizeForScan) / 2) + $g_iArmy_RegionSizeForScan), $g_aiArmyOnTrainSlot[3] + $iPixelDivider))
+			Assign("g_hHBitmap_OT_Slot" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_RegionSizeForScan) / 2)), $g_aiArmyOnTrainSlot[1] - $iPixelDivider, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_RegionSizeForScan) / 2) + $g_iArmy_RegionSizeForScan), $g_aiArmyOnTrainSlot[3] + $iPixelDivider))
 			; clone the area if need we cannot find what type of troop then we use this to use for detect the troop
-			Assign("g_hHBitmap_Capture_OT_Slot" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width* $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_ImageSizeForScan) / 2)), $g_aiArmyOnTrainSlot[1], Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width* $i) + (($g_iArmy_OnT_Troop_Slot_Width- $g_iArmy_ImageSizeForScan) / 2) + $g_iArmy_ImageSizeForScan), $g_aiArmyOnTrainSlot[3]))
+			Assign("g_hHBitmap_Capture_OT_Slot" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_ImageSizeForScan) / 2)), $g_aiArmyOnTrainSlot[1], Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_ImageSizeForScan) / 2) + $g_iArmy_ImageSizeForScan), $g_aiArmyOnTrainSlot[3]))
 
-			Local $result = findMultiImage(Eval("g_hHBitmap_OT_Slot" & $i + 1), $sDirectory ,"FV" ,"FV", 0, 1000, 1 , $returnProps)
+			Local $result = findMultiImage(Eval("g_hHBitmap_OT_Slot" & $i + 1), $sDirectory, "FV", "FV", 0, 1000, 1, $returnProps)
 
 			Local $sObjectname = ""
 			Local $iQty = 0
-			If IsArray($result) then
-				For $j = 0 To UBound($result) -1
+			If IsArray($result) Then
+				For $j = 0 To UBound($result) - 1
 					If $j = 0 Then
 						$aPropsValues = $result[$j] ; should be return objectname (file name like Arch_92.png, Barb_92.png will return as object Arch, Barb)
-						If UBound($aPropsValues) = 1 then
+						If UBound($aPropsValues) = 1 Then
 							$sObjectname = $aPropsValues[0] ; objectname
 						EndIf
 					ElseIf $j = 1 Then
 						$aPropsValues = $result[$j]
 						; this occur when multiple image detected, if this happened then you need re capture the troop image for detect.
-						SetLog("Error: Multiple detect troops on slot: " & $i + 1 , $COLOR_ERROR)
+						SetLog("Error: Multiple detect troops on slot: " & $i + 1, $COLOR_ERROR)
 						SetLog("Troop: " & $sObjectname, $COLOR_ERROR)
 						SetLog("Troop: " & $aPropsValues[0], $COLOR_ERROR)
 					Else
@@ -112,13 +112,13 @@ Func CheckOnTrainUnit($hHBitmap)
 				; $temphHBitmap use for make large the photo then we know what type of troop is, cause the area use for detect is small size only
 				; then the RenameThis, this the file to rename and put to the correct directory will mention at setlog.
 				Local $iPixelDivider = ($g_iArmy_EnlargeRegionSizeForScan - ($g_aiArmyOnTrainSlot[3] - $g_aiArmyOnTrainSlot[1])) / 2
-				Local $temphHBitmap = GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width* $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_EnlargeRegionSizeForScan) / 2)), $g_aiArmyOnTrainSlot[1] - $iPixelDivider, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width* $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_EnlargeRegionSizeForScan) / 2) + $g_iArmy_EnlargeRegionSizeForScan), $g_aiArmyOnTrainSlot[3] + $iPixelDivider)
+				Local $temphHBitmap = GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_EnlargeRegionSizeForScan) / 2)), $g_aiArmyOnTrainSlot[1] - $iPixelDivider, Int($g_aiArmyOnTrainSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_EnlargeRegionSizeForScan) / 2) + $g_iArmy_EnlargeRegionSizeForScan), $g_aiArmyOnTrainSlot[3] + $iPixelDivider)
 				_debugSaveHBitmapToImage($temphHBitmap, ($bIsQueueTroop = True ? "Troop_Queue_Slot_" : "Troop_Train_Slot_") & $i + 1, True)
 				_debugSaveHBitmapToImage(Eval("g_hHBitmap_Capture_OT_Slot" & $i + 1), ($bIsQueueTroop = True ? "Troop_Queue_Slot_" : "Troop_Train_Slot_") & $i + 1 & "_Unknown_RenameThis_92", True)
 				If $temphHBitmap <> 0 Then
 					GdiDeleteHBitmap($temphHBitmap)
 				EndIf
-				SetLog("Error: Cannot detect what troops on slot: " & $i + 1 , $COLOR_ERROR)
+				SetLog("Error: Cannot detect what troops on slot: " & $i + 1, $COLOR_ERROR)
 				SetLog("Please check the filename: " & ($bIsQueueTroop = True ? "Troop_Queue_Slot_" : "Troop_Train_Slot_") & $i + 1 & "_Unknown_RenameThis_92.png", $COLOR_ERROR)
 				SetLog("Locate at:" & @ScriptDir & "\profiles\" & $g_sProfileCurrentName & "\SamM0d Debug\Images\", $COLOR_ERROR)
 				SetLog("Rename the correct filename and replace back to file location: " & $sOriDirectory, $COLOR_ERROR)
@@ -132,13 +132,13 @@ Func CheckOnTrainUnit($hHBitmap)
 			EndIf
 
 			; set the area for quantity detect.
-			Assign("g_hHBitmap_OT_SlotQty" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnTrainSlotQty[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i)), $g_aiArmyOnTrainSlotQty[1], Int($g_aiArmyOnTrainSlotQty[0] + ($g_iArmy_OnT_Troop_Slot_Width* $i) + $g_iArmy_OnTrainQtyWidthForScan), $g_aiArmyOnTrainSlotQty[3]))
+			Assign("g_hHBitmap_OT_SlotQty" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnTrainSlotQty[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i)), $g_aiArmyOnTrainSlotQty[1], Int($g_aiArmyOnTrainSlotQty[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + $g_iArmy_OnTrainQtyWidthForScan), $g_aiArmyOnTrainSlotQty[3]))
 
 			; set what font to use for detect the quantity, cause of on train troops and pre-train troops font color abit diffent.
 			If $bIsQueueTroop Then
-				$iQty = getMyOcr(Eval("g_hHBitmap_OT_SlotQty" & $i + 1),0,0,0,0,"spellqtypre", True)
+				$iQty = getMyOcr(Eval("g_hHBitmap_OT_SlotQty" & $i + 1), 0, 0, 0, 0, "spellqtypre", True)
 			Else
-				$iQty = getMyOcr(Eval("g_hHBitmap_OT_SlotQty" & $i + 1),0,0,0,0,"spellqtybrew", True)
+				$iQty = getMyOcr(Eval("g_hHBitmap_OT_SlotQty" & $i + 1), 0, 0, 0, 0, "spellqtybrew", True)
 			EndIf
 
 			If $iQty <> 0 And $sObjectname <> "" Then
@@ -150,13 +150,13 @@ Func CheckOnTrainUnit($hHBitmap)
 				If $bIsQueueTroop Then
 					Assign("OnQ" & $sObjectname, Eval("OnQ" & $sObjectname) + $iQty)
 
-					Local $hHbitmap_ready = GetHHBitmapArea($hHBitmap, Int(112 + ($g_iArmy_OnT_Troop_Slot_Width * $i)), 240, Int(112 + ($g_iArmy_OnT_Troop_Slot_Width* $i) + 12), 248)
+					Local $hHbitmap_ready = GetHHBitmapArea($hHBitmap, Int(112 + ($g_iArmy_OnT_Troop_Slot_Width * $i)), 240, Int(112 + ($g_iArmy_OnT_Troop_Slot_Width * $i) + 12), 248)
 					_debugSaveHBitmapToImage($hHbitmap_ready, "hHbitmap_ready" & $i + 1, True)
 
 					$sDirectory = $g_sSamM0dImageLocation & "\Troops\Ready\"
-					$result = findMultiImage($hHbitmap_ready, $sDirectory ,"FV" ,"FV", 0, 1000, 1 , $returnProps)
+					$result = findMultiImage($hHbitmap_ready, $sDirectory, "FV", "FV", 0, 1000, 1, $returnProps)
 
-					If IsArray($result) then
+					If IsArray($result) Then
 						Assign("Ready" & $sObjectname, Eval("Ready" & $sObjectname) + $iQty)
 					EndIf
 
@@ -164,7 +164,7 @@ Func CheckOnTrainUnit($hHBitmap)
 					Assign("OnT" & $sObjectname, Eval("OnT" & $sObjectname) + $iQty)
 				EndIf
 			Else
-				SetLog("Error detect quantity no. On Troop: " & GetTroopName(Eval("e" & $sObjectname), $iQty),$COLOR_RED)
+				SetLog("Error detect quantity no. On Troop: " & GetTroopName(Eval("e" & $sObjectname), $iQty), $COLOR_RED)
 				ExitLoop
 			EndIf
 		EndIf
@@ -178,19 +178,19 @@ Func CheckOnTrainUnit($hHBitmap)
 	EndIf
 
 	If $iCount = 11 Then
-		SetLog("No Army On Train.",$COLOR_ERROR)
+		SetLog("No Army On Train.", $COLOR_ERROR)
 		Return True
 	EndIf
 
 	For $i = 0 To UBound($MyTroops) - 1
 		Local $itempTotal = Eval("cur" & $MyTroops[$i][0]) + Eval("OnT" & $MyTroops[$i][0])
 		If Eval("OnT" & $MyTroops[$i][0]) > 0 Then
-			SetLog(" - No. of On Train " & GetTroopName(Eval("e" & $MyTroops[$i][0]),  Eval("OnT" & $MyTroops[$i][0])) & ": " &  Eval("OnT" & $MyTroops[$i][0]), (Eval("e" & $MyTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+			SetLog(" - No. of On Train " & GetTroopName(Eval("e" & $MyTroops[$i][0]), Eval("OnT" & $MyTroops[$i][0])) & ": " & Eval("OnT" & $MyTroops[$i][0]), (Eval("e" & $MyTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 			$bGotOnTrainFlag = True
 		EndIf
 		If $MyTroops[$i][3] < $itempTotal Then
 			If $ichkEnableDeleteExcessTroops = 1 Then
-				SetLog("Error: " & GetTroopName(Eval("e" & $MyTroops[$i][0]),  Eval("OnT" & $MyTroops[$i][0])) & " need " & $MyTroops[$i][3] & " only, and i made " & $itempTotal)
+				SetLog("Error: " & GetTroopName(Eval("e" & $MyTroops[$i][0]), Eval("OnT" & $MyTroops[$i][0])) & " need " & $MyTroops[$i][3] & " only, and i made " & $itempTotal)
 				Assign("RemoveUnitOfOnT" & $MyTroops[$i][0], $itempTotal - $MyTroops[$i][3])
 				$bDeletedExcess = True
 			EndIf
@@ -216,13 +216,13 @@ Func CheckOnTrainUnit($hHBitmap)
 				Local $iUnitToRemove = Eval("RemoveUnitOfOnT" & $aiTroopInfo[$i][0])
 				If $iUnitToRemove > 0 Then
 					If $aiTroopInfo[$i][1] > $iUnitToRemove Then
-						SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]),  $aiTroopInfo[$i][1]) & " at slot: " & $aiTroopInfo[$i][2] & ", unit to remove: " & $iUnitToRemove, $COLOR_ACTION)
-						RemoveTrainTroops($aiTroopInfo[$i][2]-1, $iUnitToRemove)
+						SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]), $aiTroopInfo[$i][1]) & " at slot: " & $aiTroopInfo[$i][2] & ", unit to remove: " & $iUnitToRemove, $COLOR_ACTION)
+						RemoveTrainTroops($aiTroopInfo[$i][2] - 1, $iUnitToRemove)
 						$iUnitToRemove = 0
 						Assign("RemoveUnitOfOnT" & $aiTroopInfo[$i][0], $iUnitToRemove)
 					Else
-						SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]),  $aiTroopInfo[$i][1]) & " at slot: " & $aiTroopInfo[$i][2] & ", unit to remove: " & $aiTroopInfo[$i][1], $COLOR_ACTION)
-						RemoveTrainTroops($aiTroopInfo[$i][2]-1, $aiTroopInfo[$i][1])
+						SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]), $aiTroopInfo[$i][1]) & " at slot: " & $aiTroopInfo[$i][2] & ", unit to remove: " & $aiTroopInfo[$i][1], $COLOR_ACTION)
+						RemoveTrainTroops($aiTroopInfo[$i][2] - 1, $aiTroopInfo[$i][1])
 						$iUnitToRemove -= $aiTroopInfo[$i][1]
 						Assign("RemoveUnitOfOnT" & $aiTroopInfo[$i][0], $iUnitToRemove)
 					EndIf
@@ -238,11 +238,11 @@ Func CheckOnTrainUnit($hHBitmap)
 		For $i = 0 To UBound($MyTroops) - 1
 			Local $itempTotal = Eval("OnQ" & $MyTroops[$i][0])
 			If $itempTotal > 0 Then
-				SetLog(" - No. of On Queue " & GetTroopName(Eval("e" & $MyTroops[$i][0]),  Eval("OnQ" & $MyTroops[$i][0])) & ": " &  Eval("OnQ" & $MyTroops[$i][0]), (Eval("e" & $MyTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+				SetLog(" - No. of On Queue " & GetTroopName(Eval("e" & $MyTroops[$i][0]), Eval("OnQ" & $MyTroops[$i][0])) & ": " & Eval("OnQ" & $MyTroops[$i][0]), (Eval("e" & $MyTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 				$bGotOnQueueFlag = True
 				If $MyTroops[$i][3] < $itempTotal Then
 					If $ichkEnableDeleteExcessTroops = 1 Then
-						SetLog("Error: " & GetTroopName(Eval("e" & $MyTroops[$i][0]),  Eval("OnQ" & $MyTroops[$i][0])) & " need " & $MyTroops[$i][3] & " only, and i made " & $itempTotal)
+						SetLog("Error: " & GetTroopName(Eval("e" & $MyTroops[$i][0]), Eval("OnQ" & $MyTroops[$i][0])) & " need " & $MyTroops[$i][3] & " only, and i made " & $itempTotal)
 						Assign("RemoveUnitOfOnQ" & $MyTroops[$i][0], $itempTotal - $MyTroops[$i][3])
 						$bDeletedExcess = True
 					EndIf
@@ -253,18 +253,18 @@ Func CheckOnTrainUnit($hHBitmap)
 
 		If $bGotOnQueueFlag And Not $bGotOnTrainFlag Then
 			If $ichkEnableDeleteExcessTroops = 1 Then
-			If $iAvailableCamp < $iMyTroopsCampSize Or $ichkDisablePretrainTroops Then
-				If $ichkDisablePretrainTroops Then
-					SetLog("Pre-Train troops disable by user, remove all pre-train troops.", $COLOR_ERROR)
-				Else
-					SetLog("Error: Troops size not correct but pretrain already.", $COLOR_ERROR)
-					SetLog("Error: Detected Troops size = " & $iAvailableCamp & ", My Troops size = " & $iMyTroopsCampSize, $COLOR_ERROR)
+				If $iAvailableCamp < $iMyTroopsCampSize Or $ichkDisablePretrainTroops Then
+					If $ichkDisablePretrainTroops Then
+						SetLog("Pre-Train troops disable by user, remove all pre-train troops.", $COLOR_ERROR)
+					Else
+						SetLog("Error: Troops size not correct but pretrain already.", $COLOR_ERROR)
+						SetLog("Error: Detected Troops size = " & $iAvailableCamp & ", My Troops size = " & $iMyTroopsCampSize, $COLOR_ERROR)
+					EndIf
+					If gotoTrainTroops() = False Then Return
+					RemoveAllPreTrainTroops()
+					$g_bRestartCheckTroop = True
+					Return False
 				EndIf
-				If gotoTrainTroops() = False Then Return
-				RemoveAllPreTrainTroops()
-				$g_bRestartCheckTroop = True
-				Return False
-			EndIf
 			EndIf
 		EndIf
 		If $bDeletedExcess Then
@@ -279,19 +279,19 @@ Func CheckOnTrainUnit($hHBitmap)
 					Local $iUnitToRemove = Eval("RemoveUnitOfOnQ" & $aiTroopInfo[$i][0])
 					If $iUnitToRemove > 0 Then
 						If $aiTroopInfo[$i][1] > $iUnitToRemove Then
-							SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]),  $aiTroopInfo[$i][1]) & " at slot: " & $aiTroopInfo[$i][2] & ", unit to remove: " & $iUnitToRemove, $COLOR_ACTION)
-							RemoveTrainTroops($aiTroopInfo[$i][2]-1, $iUnitToRemove)
+							SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]), $aiTroopInfo[$i][1]) & " at slot: " & $aiTroopInfo[$i][2] & ", unit to remove: " & $iUnitToRemove, $COLOR_ACTION)
+							RemoveTrainTroops($aiTroopInfo[$i][2] - 1, $iUnitToRemove)
 							$iUnitToRemove = 0
 							Assign("RemoveUnitOfOnQ" & $aiTroopInfo[$i][0], $iUnitToRemove)
 						Else
-							SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]),  $aiTroopInfo[$i][1]) & " at slot: " & $aiTroopInfo[$i][2] & ", unit to remove: " & $aiTroopInfo[$i][1], $COLOR_ACTION)
-							RemoveTrainTroops($aiTroopInfo[$i][2]-1, $aiTroopInfo[$i][1])
+							SetLog("Remove " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]), $aiTroopInfo[$i][1]) & " at slot: " & $aiTroopInfo[$i][2] & ", unit to remove: " & $aiTroopInfo[$i][1], $COLOR_ACTION)
+							RemoveTrainTroops($aiTroopInfo[$i][2] - 1, $aiTroopInfo[$i][1])
 							$iUnitToRemove -= $aiTroopInfo[$i][1]
 							Assign("RemoveUnitOfOnQ" & $aiTroopInfo[$i][0], $iUnitToRemove)
 						EndIf
 					EndIf
 				EndIf
-				If _Sleep(Random((250*90)/100, (250*110)/100, 1), False) Then Return False
+				If _Sleep(Random((250 * 90) / 100, (250 * 110) / 100, 1), False) Then Return False
 			Next
 			$g_bRestartCheckTroop = True
 			Return False
@@ -301,14 +301,14 @@ Func CheckOnTrainUnit($hHBitmap)
 		If $bGotOnQueueFlag And Not $bGotOnTrainFlag Then
 			If $aiTroopInfo[0][1] > 0 Then
 				If $ichkEnableDeleteExcessTroops = 1 Then
-				If $iOnQueueCamp <> $iMyTroopsCampSize Then
-					SetLog("Error: Pre-Train Troops size not correct.", $COLOR_ERROR)
-					SetLog("Error: Detected Pre-Train Troops size = " & $iOnQueueCamp & ", My Troops size = " & $iMyTroopsCampSize, $COLOR_ERROR)
-					If gotoTrainTroops() = False Then Return
-					RemoveAllPreTrainTroops()
-					$g_bRestartCheckTroop = True
-					Return False
-				EndIf
+					If $iOnQueueCamp <> $iMyTroopsCampSize Then
+						SetLog("Error: Pre-Train Troops size not correct.", $COLOR_ERROR)
+						SetLog("Error: Detected Pre-Train Troops size = " & $iOnQueueCamp & ", My Troops size = " & $iMyTroopsCampSize, $COLOR_ERROR)
+						If gotoTrainTroops() = False Then Return
+						RemoveAllPreTrainTroops()
+						$g_bRestartCheckTroop = True
+						Return False
+					EndIf
 				EndIf
 			EndIf
 			If $ichkDisablePretrainTroops Then
@@ -319,8 +319,8 @@ Func CheckOnTrainUnit($hHBitmap)
 		Else
 			If $ichkMyTroopsOrder Then
 				Local $tempTroops[19][5]
-				$tempTroops	= $MyTroops
-				_ArraySort($tempTroops,0,0,0,1)
+				$tempTroops = $MyTroops
+				_ArraySort($tempTroops, 0, 0, 0, 1)
 				For $i = 0 To UBound($tempTroops) - 1
 					If $tempTroops[$i][3] > 0 Then
 						$tempTroops[0][0] = $tempTroops[$i][0]
@@ -355,4 +355,4 @@ Func CheckOnTrainUnit($hHBitmap)
 		EndIf
 	EndIf
 	Return True
-EndFunc
+EndFunc   ;==>CheckOnTrainUnit

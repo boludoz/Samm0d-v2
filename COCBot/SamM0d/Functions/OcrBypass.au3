@@ -53,17 +53,6 @@ Func CheckAutoCamp() ; Only first Run and th5 + (Then every time he does the tro
 	; Ez reset.
 	$MyTroops = $aTmpArray	
 	
-	Click(30, 584)
-	If _Sleep(1000) Then Return
-	Click(407, 132)
-	If _Sleep(1000) Then return
-	Local $NewSpellOCR = getArmyCapacityOnTrainTroops(48, 160) ; Check spell camps
-	Click(280, 132)
-	If _Sleep(1000) Then Return
-	Local $NewCampOCR = getArmyCapacityOnTrainTroops(48, 160) ; Check army camps
-	Click(825, 122)
-	If _Sleep(1000) Then Return
-	
 	; Capture troops train region.
 	Local $aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\SuperT\", 0, "0, 149, 281, 297", "SuperT", True)
 	Local $aClockUbi[5] = ["Gobl", "Barb", "Wall", "Giant"]
@@ -109,6 +98,39 @@ Func CheckAutoCamp() ; Only first Run and th5 + (Then every time he does the tro
 	EndIf
 
 EndFunc   ;==>CheckAutoCamp
+
+Func UpdSam($aInput)
+	Local $dbg = 0
+    If $dbg = 1 Then Setlog("DBG ON GET ARMY")
+	
+    Local $aTempResult[4] = [0, 0, 0]
+	Local $iResult
+	If StringInStr($aInput, "#") Then
+		Local $aTempResult = StringSplit($aInput, "#", $STR_NOCOUNT)
+		If Not isArray($aTempResult) then Return
+		$iResult = Number($aTempResult[1])
+
+			; Spell
+			If $iResult <= 11 Then
+				GUICtrlSetData($g_hTxtTotalCountSpell, $iResult)
+				$g_iTotalSpellValue = $iResult
+				$g_iMySpellsSize = $iResult
+				GUICtrlSetData($txtTotalCountSpell2, $g_iTotalSpellValue)
+
+				; Army
+				ElseIf $iResult >= 15 Then
+				GUICtrlSetData($g_hTxtTotalCampForced, $iResult)
+				$g_iTotalCampForcedValue = $iResult
+
+				If $dbg = 1 Then Setlog($iResult)
+				If $dbg = 1 Then Setlog($g_iTotalSpellValue)
+				If $dbg = 1 Then Setlog($g_iTotalCampForcedValue)
+				UpdateTroopSize()
+			EndIf
+	Else
+		SetLog("DEBUG | ERROR on GetCurrentArmy", $COLOR_ERROR)
+	EndIf
+EndFunc
 
 ; INFO ! ======================
 	;		; full & forced Total Camp values

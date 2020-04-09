@@ -11,6 +11,7 @@
 ; Related .......:
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
+; #FUNCTION# ====================================================================================================================
 
 Global $sTxtBarbarians = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBarbarians", "Barbarians")
 Global $sTxtArchers = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtArchers", "Archers")
@@ -29,9 +30,15 @@ Global $sTxtGolems = GetTranslatedFileIni("MBR Global GUI Design Names Troops", 
 Global $sTxtWitches = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWitches", "Witches")
 Global $sTxtLavaHounds = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtLavaHounds", "Lava Hounds")
 Global $sTxtBowlers = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBowlers", "Bowlers")
+Global $sTxtIceGolems = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtIceGolems", "Ice Golems")
 Global $sTxtBabyDragons = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBabyDragons", "Baby Dragons")
 Global $sTxtMiners = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtMiners", "Miners")
 Global $sTxtElectroDragons = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtElectroDragons", "Electro Dragons")
+
+Global $sTxtWallWreckers = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtWallWreckers", "Wall Wreckers")
+Global $sTxtBattleBlimps = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtBattleBlimps", "Battle Blimps")
+Global $sTxtStoneSlammers = GetTranslatedFileIni("MBR Global GUI Design Names Troops", "TxtStoneSlammers", "Stone Slammers")
+
 Global $sTxtLightningSpells = GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtShortLightningSpells", "Lightning")
 Global $sTxtHealSpells = GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtShortHealSpells", "Heal")
 Global $sTxtRageSpells = GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtShortRageSpells", "Rage")
@@ -42,6 +49,7 @@ Global $sTxtPoisonSpells = GetTranslatedFileIni("MBR Global GUI Design Names Spe
 Global $sTxtEarthquakeSpells = GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtShortEarthquakeSpells", "EarthQuake")
 Global $sTxtHasteSpells = GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtShortHasteSpells", "Haste")
 Global $sTxtSkeletonSpells = GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtShortSkeletonSpells", "Skeleton")
+Global $sTxtBatSpells = GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtShortBatSpells", "Bat")
 
 Global $hGUI_MOD = 0
 Local $sTxtTip
@@ -305,7 +313,7 @@ $y += 25
 	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_CHECKED)
 	$txtIFTHLevel = GUICtrlCreateCombo("", $x+30, $y+25, 100, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-			GUICtrlSetData(-1, "7|8|9|10","7")
+			GUICtrlSetData(-1, "7|8|9|10|11|12","7")
 
 
 Local $x = 10, $y = 30
@@ -383,7 +391,7 @@ $yStart = 10
 
 Local $x = $xStart, $y = $yStart
 
-	$chkModTrain = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 66, "Enable Custom Train and spell"),$x+10, $y+20)
+	$g_hChkModTrain = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 66, "Enable Custom Train and spell"),$x+10, $y+20)
 		_GUICtrlSetTip(-1, "Use Custom Train and Spell replace for official train system.")
 		GUICtrlSetState(-1, $GUI_UNCHECKED)
 		GUICtrlSetOnEvent(-1, "chkCustomTrain")
@@ -397,12 +405,19 @@ $cmbMyQuickTrain = GUICtrlCreateCombo("", $x+300, $y+20, 130, 20, BitOR($CBS_DRO
 
 
 Local $sComboData= ""
-Local $aTroopOrderList[20] = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]
-For $j = 0 To 19
-	$sComboData &= $aTroopOrderList[$j] & "|"
+Local $sEvalStringTroops
+Local $aTroopOrderList[UBound($MyTroops) + 1]
+
+For $iTroopOrd = 1 To UBound($MyTroops)
+	; Assign the variable string sSSring with data.
+	Assign("sTroopString", $iTroopOrd)
+
+	$aTroopOrderList[$iTroopOrd] = Eval("sTroopString")
 Next
 
-
+For $h = 0 To UBound($MyTroops)
+	$sComboData &= $aTroopOrderList[$h] & "|"
+Next
 $xStart = 10
 $yStart = 55
 
@@ -447,7 +462,7 @@ GUICtrlSetFont(-1,10,$FW_BOLD)
 $idProgressbar = GUICtrlCreateProgress($x+210, $y+20,15, 165,$PBS_VERTICAL)
 
 
-$y = $yStart + 220
+$y = $yStart + 240
 
 $chkDisablePretrainTroops = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 69, "Disable pre-train troops"), $x, $y, -1, -1)
 _GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", 70, "Disable pre-train troops, normally use by donate and train setting together."))
@@ -472,7 +487,7 @@ $txtStickToTrainWindow = GUICtrlCreateInput("2", $x, $y-2, 30, 20, BitOR($GUI_SS
 	GUICtrlCreateLabel(GetTranslatedFileIni("sam m0d", 61, "minute(s)"), $x+35, $y, -1, -1)
 	_GUICtrlSetTip(-1, $sTxtTip)
 
-$y += 45
+$y += 26
 $x = 10
 $chkForcePreTrainTroops = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "ForcePreTrainTroops", "Force pre-train troops when army strength over percentage: "), $x+10, $y, -1, -1)
 GUICtrlSetOnEvent(-1, "ForcePretrainTroops")
@@ -480,12 +495,9 @@ $txtForcePreTrainStrength = GUICtrlCreateInput("0", $x + 340, $y, 30, -1, BitOR(
 GUICtrlSetLimit(-1, 3)
 GUICtrlSetOnEvent(-1, "ForcePretrainTroops")
 
-;~ $y += 20
-;~ $chkEnableCacheTroopImageFirst = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "CacheTroopAndSpellFirst", "Cache Troops and Spells image at start."), $x+10, $y, -1, -1)
-;~ GUICtrlSetOnEvent(-1, "chkEnableCacheTroopImageFirst")
-
-
 GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+; Spells 
 SplashStep("Loading M0d - My Spells tab...")
 GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d", 65, "My Spells"))
 
@@ -496,7 +508,7 @@ $yStart = 55
 
 Local $x = $xStart, $y = $yStart
 
-	$grpSpells = GUICtrlCreateGroup(GetTranslatedFileIni("sam m0d", 65, "My Spells"), $x, $y, 430, 365)
+	$grpSpells = GUICtrlCreateGroup(GetTranslatedFileIni("sam m0d", 65, "My Spells"), $x, $y, 430, 400)
 		$lblTotalSpell = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "SpellCapacity", "Spell Capacity"), $x+3 , $y + 24, -1, -1, $SS_RIGHT)
 		$txtTotalCountSpell2 = GUICtrlCreateCombo("", $x + 125, $y+20 , 35, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "TxtTotalCountSpell_Info_01", "Enter the No. of Spells Capacity. Set to ZERO if you don't want any Spells"))
@@ -594,6 +606,15 @@ Local $x = $xStart, $y = $yStart
 			;GUICtrlSetState(-1, $GUI_DISABLE)
 			GUICtrlSetOnEvent(-1, "UpdateSpellSetting")
 		$lblTimesSkeletonS = GUICtrlCreateLabel("x", $x + 157, $y+3, -1, -1)
+		$y +=25
+		$lblBatIcon = GUICtrlCreateIcon ($g_sLibIconPath, $eIcnBatSpell, $x + 10, $y, 24, 24)
+		$lblBatSpell = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtBatSpells", "Bat Spell"), $x + 38, $y+3, -1, -1)
+		$txtNumBatSpell = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Spells", "TxtBatSpells", "Bat Spell") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Spells to make."))
+			GUICtrlSetLimit(-1, 2)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "UpdateSpellSetting")
+		$lblTimesBatS = GUICtrlCreateLabel("x", $x + 157, $y+3, -1, -1)
 
 
 $y = 110
@@ -603,16 +624,23 @@ $y = 158
 $btnResetSpellOrder= GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 75, "Reset Order"), $x + 360, $y, 40, 47,$BS_MULTILINE)
 GUICtrlSetOnEvent(-1, "btnResetSpellOrder")
 
-
 Local $x = 190, $y = 110
 $chkMySpellsOrder = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Order", "Order"), $x, $y - 25 , -1, -1)
 
 Local $sComboSpellData= ""
-Local $aSpellOrderList[11] = ["","1","2","3","4","5","6","7","8","9","10"]
-For $j = 0 To 10
-	$sComboSpellData &= $aSpellOrderList[$j] & "|"
+Local $sEvalStringSpells
+Local $aSpellOrderList[UBound($MySpells) + 1]
+
+For $iSpellOrd = 1 To UBound($MySpells)
+	; Assign the variable string sSSring with data.
+	Assign("sSpellString", $iSpellOrd)
+
+	$aSpellOrderList[$iSpellOrd] = Eval("sSpellString")
 Next
 
+For $h = 0 To UBound($MySpells) 
+	$sComboSpellData &= $aSpellOrderList[$h] & "|"
+Next
 
 	For $i = 0 To UBound($MySpells) - 1
 		Assign("chkPre" & $MySpells[$i][0], GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 77 + $i, "Pre-Brew " & $MySpells[$i][0]) , $x + 40, $y, -1, -1))
@@ -625,7 +653,6 @@ Next
 		$y +=25
 	Next
 
-$y += 10
 $chkEnableDeleteExcessSpells = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "DeleteExcessSpells", "Enable delete excess Spells"), 20, $y, -1, -1)
 	$sTxtTip = GetTranslatedFileIni("sam m0d", "DeleteExcessSpellsTip", "Check is that spells excess your quantity setting, if yes then delete excess value.")
 	GUICtrlSetOnEvent(-1, "chkEnableDeleteExcessSpells")
@@ -641,165 +668,114 @@ $chkForcePreBrewSpell = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "F
 
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-SplashStep("Loading M0d - My Clan Castle tab...")
-GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d", "My Clan Castle", "My Clan Castle"))
+; Siege 
+SplashStep("Loading M0d - My Siege tab...")
+GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d", 65, "My Siege"))
 
 Local $xStart, $yStart
 
 $xStart = 10
-$yStart = 35
+$yStart = 55
 
 Local $x = $xStart, $y = $yStart
 
-	$grpClanCastle = GUICtrlCreateGroup(GetTranslatedFileIni("sam m0d", "My Clan Castle" , "My Clan Castle"), $x, $y, 430, 385)
+	$grpSieges = GUICtrlCreateGroup(GetTranslatedFileIni("sam m0d", 65, "My Siege"), $x, $y, 430, 400)
+		$lblTotalSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "SiegeCapacity", "Siege Capacity"), $x+3 , $y + 24, -1, -1, $SS_RIGHT)
+		$g_hTxtTotalCountSiege = GUICtrlCreateCombo("", $x + 125, $y+20 , 35, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "TxtTotalCountSiege_Info_01", "Enter the No. of Sieges Capacity. Set to ZERO if you don't want any Sieges"))
+			GUICtrlSetBkColor (-1, $COLOR_MONEYGREEN) ;lime, moneygreen
+			GUICtrlSetData(-1, "0|1|2|3", "0")
+			GUICtrlSetOnEvent(-1, "lblMyTotalCountSiege")
+		$y += 55
+		$lblWallWIcon = GUICtrlCreateIcon ($g_sLibIconPath, $eIcnWallW, $x + 10, $y, 24, 24)
+		$lblWallWSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtWallWrecker", "Wall Wrecker"), $x + 38, $y+3, -1, -1)
+		$txtNumSiegeWallWSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtWallWrecker", "Wall Wrecker") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
+			GUICtrlSetLimit(-1, 2)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
+		$lblTimesWallW = GUICtrlCreateLabel("x", $x + 157, $y+3, -1, -1)
 
-$x = 10
-$y += 30
-$chkWait4CC = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 35, "Wait CC Troops for all mode. Troops Strength:"), $x+10, $y, 240, 25)
-	GUICtrlSetOnEvent(-1, "chkWait4CC")
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
+		$y +=25
+		$lblBattleBIcon=GUICtrlCreateIcon ($g_sLibIconPath, $eIcnBattleB, $x + 10, $y, 24, 24)
+		$lblBattleBSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtBattleBlimp", "Battle Blimp"), $x + 38, $y+3, -1, -1)
+		$txtNumSiegeBattleBSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtBattleBlimp", "Battle Blimp") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
+			GUICtrlSetLimit(-1, 2)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
+		$lblTimesBattleB = GUICtrlCreateLabel("x", $x + 157, $y+3, -1, -1)
+		
+		$y +=25
+		$lblStoneSIcon=GUICtrlCreateIcon ($g_sLibIconPath, $eIcnStoneS, $x + 10, $y, 24, 24)
+		$lblStoneSSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtStoneSlammer", "Stone Slammer"), $x + 38, $y+3, -1, -1)
+		$txtNumSiegeStoneSSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtStoneSlammer", "Stone Slammer") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
+			GUICtrlSetLimit(-1, 2)
+			;GUICtrlSetState(-1, $GUI_DISABLE)
+			GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
+		$lblTimesStoneS = GUICtrlCreateLabel("x", $x + 157, $y+3, -1, -1)
 
-$txtCCStrength = GUICtrlCreateInput("100", $x + 255, $y+2, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	$sTxtTip = "CC Troops Strength"
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetState(-1, $GUI_DISABLE)
-	GUICtrlSetData(-1, 100)
-	GUICtrlSetOnEvent(-1, "chkWait4CC")
-	GUICtrlCreateLabel("%", $x + 286, $y+6, -1, -1)
-	_GUICtrlSetTip(-1, $sTxtTip)
+$y = 110
+$btnResetSieges= GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", "Reset Siege", "Reset Siege"), $x+360, $y, 40, 47,$BS_MULTILINE)
+GUICtrlSetOnEvent(-1, "btnResetSieges")
+$y = 158
+$btnResetSiegeOrder= GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 75, "Reset SiegeOrder"), $x + 360, $y, 40, 47,$BS_MULTILINE)
+GUICtrlSetOnEvent(-1, "btnResetSiegeOrder")
 
-	$y += 35
-	GUICtrlCreateLabel(GetTranslatedFileIni("sam m0d", "RemoveClanCastleTroops", "Remove Clan Castle Troops If not is follow type or over quantity:"), $x + 10, $y, -1, -1)
+Local $x = 190, $y = 110
+$chkMySiegesSiegeOrder = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "SiegeOrder", "SiegeOrder"), $x, $y - 25 , -1, -1)
+
+Local $sComboSiegeData= ""
+Local $sEvalStringSieges
+Local $aSiegeOrderList[UBound($MySieges) + 1]
+
+For $iSiegeOrd = 1 To UBound($MySieges)
+	; Assign the variable string sSSring with data.
+	Assign("sSiegeString", $iSiegeOrd)
+
+	$aSiegeOrderList[$iSiegeOrd] = Eval("sSiegeString")
+Next
+
+For $h = 0 To UBound($MySieges)
+	$sComboSiegeData &= $aSiegeOrderList[$h] & "|"
+Next
 
 
-	Local $asTroopsList[20]
-	Local $sComboData= GetTranslatedFileIni("sam m0d", "Un specify","Un specify")
-	For $i = 1 To UBound($MyTroops)
-		$sComboData =  $sComboData & "|" & Eval("sTxt" & StringReplace(GetTroopName($i - 1,2)," ",""))
+	For $i = 0 To UBound($MySieges) - 1
+		Assign("chkPreSiege" & $MySieges[$i][0], GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 77 + $i, "PreSiege-Brew " & $MySieges[$i][0]) , $x + 40, $y, -1, -1))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", 87 + $i, "PreSiege-Brew " & $MySieges[$i][0] & " after available Siege PreSiegepare finish."))
+			GUICtrlSetOnEvent(-1, "UpdatePreSiegesetting")
+
+		Assign("cmbMySiege"& $MySieges[$i][0] & "SiegeOrder", GUICtrlCreateCombo("", $x, $y, 36, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
+			GUICtrlSetData(-1, $sComboSiegeData, $i + 1)
+			GUICtrlSetOnEvent(-1, "cmbMySiegeOrder")
+		$y +=25
 	Next
 
-	$y += 20
-	$cmbCCTroopSlot1 = GUICtrlCreateCombo("", $x+30, $y, 124, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $sComboData, GetTranslatedFileIni("sam m0d", "Un specify","Un specify"))
-	GUICtrlSetOnEvent(-1, "chkWait4CC")
-
-	$txtCCTroopSlotQty1 = GUICtrlCreateInput("0", $x + 160, $y+1, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "Unit Quantity", "Unit Quantity"))
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetOnEvent(-1, "chkWait4CC")
-
-	$y += 20
-	$cmbCCTroopSlot2 = GUICtrlCreateCombo("", $x+30, $y, 124, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $sComboData, GetTranslatedFileIni("sam m0d", "Un specify","Un specify"))
-	GUICtrlSetOnEvent(-1, "chkWait4CC")
-
-	$txtCCTroopSlotQty2 = GUICtrlCreateInput("0", $x + 160, $y+1, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "Unit Quantity", "Unit Quantity"))
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetOnEvent(-1, "chkWait4CC")
-
-	$y += 20
-	$cmbCCTroopSlot3 = GUICtrlCreateCombo("", $x+30, $y, 124, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $sComboData, GetTranslatedFileIni("sam m0d", "Un specify","Un specify"))
-	GUICtrlSetOnEvent(-1, "chkWait4CC")
-
-	$txtCCTroopSlotQty3 = GUICtrlCreateInput("0", $x + 160, $y+1, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "Unit Quantity", "Unit Quantity"))
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetOnEvent(-1, "chkWait4CC")
-
-
-	Local $asTroopsList[11]
-	Local $sComboData= GetTranslatedFileIni("sam m0d", "Un specify","Un specify")
-	For $i = 1 To UBound($MySpells)
-		$sComboData =  $sComboData & "|" & Eval("sTxt" & StringReplace(GetTroopName($i - 1 + $eLSpell,2)," ",""))
-	Next
-
-	$y += 50
-	$chkWait4CCSpell = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "WaitForCCSpell", "Wait For Clan Castle Spells."), $x+10, $y, -1, -1)
-	GUICtrlSetOnEvent(-1, "chkWait4CCSpell")
+$chkEnableDeleteExcessSieges = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "DeleteExcessSieges", "Enable delete excess Siege"), 20, $y, -1, -1)
+	GUICtrlSetOnEvent(-1, "chkEnableDeleteExcessSieges")
+	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
-	$y += 20
-	GUICtrlCreateLabel(GetTranslatedFileIni("sam m0d", "RemoveClanCastleSpells", "Remove Clan Castle Spells If not is follow type or over quantity:"), $x + 10, $y, -1, -1)
-
-	$y += 20
-	$cmbCCSpellSlot1 = GUICtrlCreateCombo("", $x+30, $y, 124, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $sComboData, GetTranslatedFileIni("sam m0d", "Un specify","Un specify"))
-	GUICtrlSetOnEvent(-1, "chkWait4CCSpell")
-
-	$txtCCSpellSlotQty1 = GUICtrlCreateInput("0", $x + 160, $y+1, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "Unit Quantity", "Unit Quantity"))
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetOnEvent(-1, "chkWait4CCSpell")
-
-	$y += 20
-	$cmbCCSpellSlot2 = GUICtrlCreateCombo("", $x+30, $y, 124, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-	GUICtrlSetData(-1, $sComboData, GetTranslatedFileIni("sam m0d", "Un specify","Un specify"))
-	GUICtrlSetOnEvent(-1, "chkWait4CCSpell")
-
-	$txtCCSpellSlotQty2 = GUICtrlCreateInput("0", $x + 160, $y+1, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "Unit Quantity", "Unit Quantity"))
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetOnEvent(-1, "chkWait4CCSpell")
-
-
-	$y += 50
-
-$chkRequestCC4Troop = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Request CC for troop", "Only Request CC Troops when CC Troops Strength less than:"), $x+10, $y, -1, -1)
-	GUICtrlSetOnEvent(-1, "chkRequestCC4Troop")
+$y += 25
+$chkForcePreSiegeBrewSiege = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "ForcePreSiegeBrewSiege", "Force PreSiege-Brew Siege"), 20, $y, -1, -1)
+	GUICtrlSetOnEvent(-1, "chkForcePreSiegeBrewSiege")
+	_GUICtrlSetTip(-1, $sTxtTip)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-$txtRequestCC4Troop = GUICtrlCreateInput("100", $x + 335, $y+2, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	$sTxtTip = "CC Troops Strength"
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetState(-1, $GUI_DISABLE)
-	GUICtrlSetData(-1, 100)
-	GUICtrlSetOnEvent(-1, "chkRequestCC4Troop")
-	GUICtrlCreateLabel("%", $x + 366, $y+6, -1, -1)
-	_GUICtrlSetTip(-1, $sTxtTip)
-
-	$y += 25
-
-$chkRequestCC4Spell = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Request CC for spell", "Only Request CC Spell when housing space less than:"), $x+10, $y,  -1, -1)
-	GUICtrlSetOnEvent(-1, "chkRequestCC4Troop")
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-$txtRequestCC4Spell = GUICtrlCreateInput("2", $x + 335, $y+2, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	$sTxtTip = "CC Spells Housing Space"
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlSetLimit(-1, 2)
-	GUICtrlSetState(-1, $GUI_DISABLE)
-	GUICtrlSetData(-1, 2)
-	GUICtrlSetOnEvent(-1, "chkRequestCC4Troop")
-
-
-	$y += 25
-
-$chkRequestCC4SeigeMachine = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Request CC for seige machine", "Only Request CC Seige Machine when housing space less than:"), $x+10, $y,  -1, -1)
-	GUICtrlSetOnEvent(-1, "chkRequestCC4Troop")
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-$txtRequestCC4SeigeMachine = GUICtrlCreateInput("1", $x + 335, $y+2, 31, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-	$sTxtTip = "Seige Machine Housing Space"
-	_GUICtrlSetTip(-1, $sTxtTip)
-	GUICtrlSetLimit(-1, 1)
-	GUICtrlSetState(-1, $GUI_DISABLE)
-	GUICtrlSetData(-1, 1)
-	GUICtrlSetOnEvent(-1, "chkRequestCC4Troop")
-
 
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
-SplashStep("Loading M0d - Friend Challenge tab...")
-GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d","Friendly Challenge", "Friend Challenge"))
+	GUICtrlCreateTabItem("") ; end tabitem definition
 
-Local $x = 10, $y = 30
-
-SetupFriendlyChallengeGUI($x, $y)
+; Friend Challenge tab
+;GUICtrlCreateGroup("", -99, -99, 1, 1)
+;SplashStep("Loading M0d - Friend Challenge tab...")
+;GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d","Friendly Challenge", "Friend Challenge"))
+;
+;Local $x = 10, $y = 30
+;
+;SetupFriendlyChallengeGUI($x, $y)
 
 GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d", 14, "Other"))
 
@@ -807,23 +783,6 @@ Local $x = 10, $y = 30
 SplashStep("Loading M0d - Other tab...")
 $grpStatsMisc = GUICtrlCreateGroup(GetTranslatedFileIni("sam m0d", 14, "Other"), $x, $y, 430, 360)
 
-;~ $y += 20
-
-;~ $chkSmartUpdateWall = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 18, "Enable advanced update for wall"), $x+10, $y, -1, -1)
-;~ 	$sTxtTip = "Save the last position, then next update will start at last position and checking around if got wall match for update."
-;~ 	GUICtrlSetOnEvent(-1, "chkSmartUpdateWall")
-;~ 	_GUICtrlSetTip(-1, $sTxtTip)
-;~ 	GUICtrlSetState(-1, $GUI_CHECKED)
-
-
-;~ $y += 20
-;~ GUICtrlCreateLabel(GetTranslatedFileIni("sam m0d", 19, "Delay: "), $x + 30, $y, -1, -1)
-;~ $sTxtTip = "Set the delay between each click of wall. Increase the delay if your PC is slow."
-;~ _GUICtrlSetTip(-1, $sTxtTip)
-;~ $txtClickWallDelay = GUICtrlCreateInput("500", $x + 60, $y, 31, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-;~ 	_GUICtrlSetTip(-1, $sTxtTip)
-;~ 	GUICtrlSetLimit(-1, 3)
-;~ 	GUICtrlSetData(-1, 500)
 
 $x = 10
 $y += 20
@@ -888,18 +847,6 @@ $chkAutoMinimizeBot = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Aut
 	GUICtrlSetOnEvent(-1, "chkAutoMinimizeBot")
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
-;~ $x = 10
-;~ $y += 25
-;~ $chkDisablePauseTrayTip = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Disable balloon tip while press pause", "Disable balloon tip while press pause."), $x+10, $y, -1, -1)
-;~ 	GUICtrlSetOnEvent(-1, "chkDisablePauseTrayTip")
-;~ 	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-;~ $x = 10
-;~ $y += 25
-;~ $chkEnableADBClick = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Enable ADB click", "Enable ADB click"), $x+10, $y, -1, -1)
-;~ 	GUICtrlSetOnEvent(-1, "chkEnableADBClick")
-;~ 	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
 $y += 20
 $chkEnableLimitDonateUnit = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "DonateLimit", "Limited units for each round troops donation, Unit(s): "), $x+10, $y, -1, -1)
 _GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "DonateLimitTips", "Prevent over donate the unit you are train for and mess up the troops queue"))
@@ -912,7 +859,6 @@ $txtLimitDonateUnit = GUICtrlCreateInput("8", $x + 300, $y+2, 35, 18, BitOR($GUI
 
 $y += 20
 $chkEnableDonateWhenReady = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "DonateReady", "Donate pre-train troops or pre-brew spells only"), $x+10, $y, -1, -1)
-;_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "DonateReadyTips", "Donate when pre-train troops or pre-brew spells are full ready. If you train 8 giants mean need total 16 giants to trigger donate."))
 	GUICtrlSetOnEvent(-1, "chkEnableDonateWhenReady")
 
 $y += 20
@@ -925,10 +871,10 @@ $txtLogoutLimitTime = GUICtrlCreateInput("240", $x + 300, $y+2, 35, 18, BitOR($G
 	GUICtrlSetLimit(-1, 4)
 	GUICtrlSetOnEvent(-1, "txtLogoutLimitTime")
 
-$y += 20
-$chkEnableUseEventTroop = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Enable use Event troops and spells", "Enable use Event troops and spells - All modes"), $x+10, $y, -1, -1)
-	GUICtrlSetOnEvent(-1, "chkEnableUseEventTroop")
-	GUICtrlSetState(-1, $GUI_UNCHECKED)
+;$y += 20
+;$g_hEnableSkipBuild = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Avoid the relocation of buildings.", "Avoid the relocation of buildings."), $x+10, $y, -1, -1)
+;	GUICtrlSetOnEvent(-1, "EnableSkipBuild")
+;	GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 $y += 20
 $chkEnableStopBotWhenLowBattery = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Enable stop bot when battery level critical", "Enable stop bot when battery level critical"), $x+10, $y, -1, -1)
@@ -946,20 +892,8 @@ $txtLogLineLimit = GUICtrlCreateInput("240", $x + 300, $y+2, 35, 18, BitOR($GUI_
 	GUICtrlSetLimit(-1, 4)
 	GUICtrlSetOnEvent(-1, "txtLogLineLimit")
 
-;~ $y += 25
-;~ $chkRemoveSpecialObstacleBB = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Remove Special Obstacle BB", "Remove Special Obstacle at Builder Base"), $x+10, $y, -1, -1)
-;~ 	GUICtrlSetOnEvent(-1, "chkRemoveSpecialObstacleBB")
-;~ 	GUICtrlSetState(-1, $GUI_UNCHECKED)
-
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 
 GUICtrlCreateTabItem("") ; end tabitem definition
-
-
-
-
-
-
-
 

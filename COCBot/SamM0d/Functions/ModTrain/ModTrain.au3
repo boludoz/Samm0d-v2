@@ -80,58 +80,55 @@ Func ModTrain($ForcePreTrain = False)
 		If $iCount > (10 + $itxtStickToTrainWindow) Then ExitLoop
 	WEnd
 	If $g_iSamM0dDebug = 1 Then SetLog("Before $tempDisableTrain: " & $tempDisableTrain)
- 	If $g_iSamM0dDebug = 1 Then SetLog("Before $tempDisableBrewSpell: " & $tempDisableBrewSpell)
+	If $g_iSamM0dDebug = 1 Then SetLog("Before $tempDisableBrewSpell: " & $tempDisableBrewSpell)
 
 	TroopsAndSpellsChecker($tempDisableTrain, $tempDisableBrewSpell, $ForcePreTrain)
 
- 	If $g_iSamM0dDebug = 1 Then SetLog("After $tempDisableTrain: " & $tempDisableTrain)
- 	If $g_iSamM0dDebug = 1 Then SetLog("After $tempDisableBrewSpell: " & $tempDisableBrewSpell)
+	If $g_iSamM0dDebug = 1 Then SetLog("After $tempDisableTrain: " & $tempDisableTrain)
+	If $g_iSamM0dDebug = 1 Then SetLog("After $tempDisableBrewSpell: " & $tempDisableBrewSpell)
 
 	If gotoArmy() = False Then Return
 
-	getMyArmyHeroCount()
+	getArmyHeroCount()
 	If _Sleep(50) Then Return ; 50ms improve pause button response
-	CheckAvailableCCUnit()
+	CapacitySieges()
 	If _Sleep(50) Then Return ; 50ms improve pause button response
-	getMyArmyCCCapacity()
+	TrainSiegesM()
 	If _Sleep(50) Then Return ; 50ms improve pause button response
-	CheckAvailableCCSpellUnit()
+	If gotoArmy() = False Then Return
 	If _Sleep(50) Then Return ; 50ms improve pause button response
-	getMyArmyCCSpellCapacity()
-	If _Sleep(50) Then Return ; 50ms improve pause button response
-	getMyArmyCCSeigeMachineCapacity()
-	If _Sleep(50) Then Return ; 50ms improve pause button response
+
 
 	If $ichkEnableMySwitch = 1 Then
-		Local $iKTime[5] = [0,0,0,0,0]
-		getArmyTroopTime(False,False)
-		$iKTime[4] = $g_aiTimeTrain[0]
-		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroKing) = $eHeroKing Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroKing) = $eHeroKing Then
-			$iKTime[0] = getArmyHeroTime($eHeroKing)
-		EndIf
-		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroQueen) = $eHeroQueen Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroQueen) = $eHeroQueen Then
-			$iKTime[1] = getArmyHeroTime($eHeroQueen)
-		EndIf
-		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroWarden) = $eHeroWarden Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroWarden) = $eHeroWarden Then
-			$iKTime[2] = getArmyHeroTime($eHeroWarden)
-		EndIf
+		Local $aMax[0]
+
+		getArmyTroopTime(False, False)
+		_ArrayAdd($aMax, $g_aiTimeTrain[0])
 		If $g_abSearchSpellsWaitEnable[$DB] Or $g_abSearchSpellsWaitEnable[$LB] Then
 			getArmySpellTime()
-			$iKTime[3] = $g_aiTimeTrain[1]
+			_ArrayAdd($aMax, $g_aiTimeTrain[1])
+		EndIf
+		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroKing) = $eHeroKing Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroKing) = $eHeroKing Then
+			_ArrayAdd($aMax, getArmyHeroTime($eHeroKing))
+		EndIf
+		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroQueen) = $eHeroQueen Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroQueen) = $eHeroQueen Then
+			_ArrayAdd($aMax, getArmyHeroTime($eHeroQueen))
+		EndIf
+		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroWarden) = $eHeroWarden Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroWarden) = $eHeroWarden Then
+			_ArrayAdd($aMax, getArmyHeroTime($eHeroWarden))
+		EndIf
+		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroChampion) = $eHeroChampion Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroChampion) = $eHeroChampion Then
+			_ArrayAdd($aMax, getArmyHeroTime($eHeroChampion))
 		EndIf
 
-		;_ArraySort($iKTime,1)
-		Local $iMaxV =  _ArrayMax($iKTime, 1)
-
+		Local $iMaxV = _ArrayMax($aMax, 1)
 		If $g_iSamM0dDebug = 1 Then SetLog("$iMaxV: " & $iMaxV)
-
 		Local $bIsAttackType = False
 		If $iCurActiveAcc <> -1 Then
 			For $i = 0 To UBound($aSwitchList) - 1
 				If $aSwitchList[$i][4] = $iCurActiveAcc Then
-					;$aSwitchList[$i][0] = _DateAdd('n', $iKTime[0], _NowCalc())
 					$aSwitchList[$i][0] = _DateAdd('n', $iMaxV, _NowCalc())
-					If $iMaxV Then
+					If _ArrayMax($aMax, 1) Then
 						SetLog("Army Ready Time: " & $aSwitchList[$i][0], $COLOR_INFO)
 					EndIf
 					If $aSwitchList[$i][2] <> 1 Then
@@ -182,7 +179,7 @@ Func ModTrain($ForcePreTrain = False)
 	EndGainCost("Train")
 	UpdateStats()
 
-	If $g_iSamM0dDebug = 1 Then SetLog("$g_bfullArmy: " & $g_bfullArmy)
+	If $g_iSamM0dDebug = 1 Then SetLog("$g_bfullArmy: " & $g_bFullArmy)
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_bFullArmyHero: " & $g_bFullArmyHero)
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_bFullArmySpells: " & $g_bFullArmySpells)
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_bFullCCSpells: " & $g_bFullCCSpells)
@@ -204,7 +201,7 @@ Func ModTrain($ForcePreTrain = False)
 
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_bIsFullArmywithHeroesAndSpells: " & $g_bIsFullArmywithHeroesAndSpells)
 
-EndFunc   ;==>CustomTrain
+EndFunc   ;==>ModTrain
 
 Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $bForcePreTrain = False)
 	If $g_iSamM0dDebug = 1 Then SETLOG("Begin TroopsAndSpellsChecker:", $COLOR_DEBUG1)
@@ -244,7 +241,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 		$g_hHBitmapArmyTab = GetHHBitmapArea($g_hHBitmap2)
 		;--------------------------------------------------
 
-		$g_hHBitmapSpellCap = GetHHBitmapArea($g_hHBitmapArmyTab,$g_aiSpellCap[0],$g_aiSpellCap[1],$g_aiSpellCap[2],$g_aiSpellCap[3])
+		$g_hHBitmapSpellCap = GetHHBitmapArea($g_hHBitmapArmyTab, $g_aiSpellCap[0], $g_aiSpellCap[1], $g_aiSpellCap[2], $g_aiSpellCap[3])
 		getMySpellCapacityMini($g_hHBitmapSpellCap)
 		If $bDisableBrewSpell = False Then
 			; reset Global variables
@@ -269,7 +266,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 
 			_CaptureRegion2()
 			$g_hHBitmapBrewTab = GetHHBitmapArea($g_hHBitmap2)
-			$g_hHBitmapBrewCap = GetHHBitmapArea($g_hHBitmapBrewTab,$g_aiBrewCap[0],$g_aiBrewCap[1],$g_aiBrewCap[2],$g_aiBrewCap[3])
+			$g_hHBitmapBrewCap = GetHHBitmapArea($g_hHBitmapBrewTab, $g_aiBrewCap[0], $g_aiBrewCap[1], $g_aiBrewCap[2], $g_aiBrewCap[3])
 			getBrewSpellCapacityMini($g_hHBitmapBrewCap)
 
 			If $g_aiSpellsMaxCamp[0] = 0 Then
@@ -283,7 +280,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 						Select
 							Case $g_iCurrentSpells >= $g_iMySpellsSize And $g_aiSpellsMaxCamp[0] >= $g_iMySpellsSize
 								If $g_bDoPrebrewspell = 0 Then
-									SetLog("Pre-brew spell disable by user.",$COLOR_INFO)
+									SetLog("Pre-brew spell disable by user.", $COLOR_INFO)
 									$tempDisableBrewSpell = True
 								Else
 									DoRevampSpells(True)
@@ -291,7 +288,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 							Case $g_iCurrentSpells < $g_iMySpellsSize And $g_aiSpellsMaxCamp[0] >= $g_iMySpellsSize
 								If $bForcePreTrain Or $ichkForcePreBrewSpell Then
 									If $g_bDoPrebrewspell = 0 Then
-										SetLog("Pre-brew spell disable by user.",$COLOR_INFO)
+										SetLog("Pre-brew spell disable by user.", $COLOR_INFO)
 										$tempDisableBrewSpell = True
 									Else
 										DoRevampSpells(True)
@@ -320,7 +317,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			$bSpellCheckOK = True
 		EndIf
 
-		$g_hHBitmapArmyCap = GetHHBitmapArea($g_hHBitmapArmyTab,$g_aiArmyCap[0],$g_aiArmyCap[1],$g_aiArmyCap[2],$g_aiArmyCap[3])
+		$g_hHBitmapArmyCap = GetHHBitmapArea($g_hHBitmapArmyTab, $g_aiArmyCap[0], $g_aiArmyCap[1], $g_aiArmyCap[2], $g_aiArmyCap[3])
 
 		getMyArmyCapacityMini($g_hHBitmapArmyCap)
 		If $bDisableTrain = False Then
@@ -348,7 +345,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			WEnd
 			_CaptureRegion2()
 			$g_hHBitmapTrainTab = GetHHBitmapArea($g_hHBitmap2)
-			$g_hHBitmapTrainCap = GetHHBitmapArea($g_hHBitmapTrainTab,$g_aiTrainCap[0],$g_aiTrainCap[1],$g_aiTrainCap[2],$g_aiTrainCap[3])
+			$g_hHBitmapTrainCap = GetHHBitmapArea($g_hHBitmapTrainTab, $g_aiTrainCap[0], $g_aiTrainCap[1], $g_aiTrainCap[2], $g_aiTrainCap[3])
 			getTrainArmyCapacityMini($g_hHBitmapTrainCap)
 
 			If $g_aiTroopsMaxCamp[0] = 0 Then
@@ -371,7 +368,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 							Case $g_CurrentCampUtilization = $iFullArmyCamp And $g_aiTroopsMaxCamp[0] = $iFullArmyCamp
 								If $icmbMyQuickTrain = 0 Then
 									If $ichkDisablePretrainTroops = 1 Then
-										SetLog("Pre-train troops disable by user.",$COLOR_INFO)
+										SetLog("Pre-train troops disable by user.", $COLOR_INFO)
 										$tempDisableTrain = True
 									Else
 										DoRevampTroops(True)
@@ -385,7 +382,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 								EndIf
 							Case $g_CurrentCampUtilization >= $iFullArmyCamp And $g_aiTroopsMaxCamp[0] > $iFullArmyCamp
 								If $ichkDisablePretrainTroops = 1 Then
-									SetLog("Pre-train troops disable by user.",$COLOR_INFO)
+									SetLog("Pre-train troops disable by user.", $COLOR_INFO)
 									$tempDisableTrain = True
 								Else
 									DoRevampTroops(True)
@@ -393,7 +390,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 							Case $g_CurrentCampUtilization < $iFullArmyCamp And $g_aiTroopsMaxCamp[0] > $iFullArmyCamp
 								If $bPreTrainFlag Then
 									If $ichkDisablePretrainTroops = 1 Then
-										SetLog("Pre-train troops disable by user.",$COLOR_INFO)
+										SetLog("Pre-train troops disable by user.", $COLOR_INFO)
 										$tempDisableTrain = True
 									Else
 										DoRevampTroops(True)
@@ -403,7 +400,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 								If $bPreTrainFlag Then
 									If $icmbMyQuickTrain = 0 Then
 										If $ichkDisablePretrainTroops = 1 Then
-											SetLog("Pre-train troops disable by user.",$COLOR_INFO)
+											SetLog("Pre-train troops disable by user.", $COLOR_INFO)
 											$tempDisableTrain = True
 										Else
 											DoRevampTroops(True)
@@ -447,7 +444,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 	DeleteTrainHBitmap()
 
 	If $g_iSamM0dDebug = 1 Then SetLog("$hTimer: " & Round(__TimerDiff($hTimer) / 1000, 2))
-EndFunc
+EndFunc   ;==>TroopsAndSpellsChecker
 
 Func IsQueueBlockByMsg($iCount)
 	ForceCaptureRegion()
@@ -456,41 +453,41 @@ Func IsQueueBlockByMsg($iCount)
 		; Msg: Troops removed
 		Case _ColorCheck(_GetPixelColor(391, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6) And _ColorCheck(_GetPixelColor(487, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6)
 			Return SetLogAndReturn(1)
-		; Msg: Spells removed
+			; Msg: Spells removed
 		Case _ColorCheck(_GetPixelColor(392, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6) And _ColorCheck(_GetPixelColor(458, 209, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6)
 			Return SetLogAndReturn(2)
 
-		; Msg: Gold storages full (red text)
+			; Msg: Gold storages full (red text)
 		Case _ColorCheck(_GetPixelColor(242, 209, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6) And _ColorCheck(_GetPixelColor(317, 215, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6)
 			Return SetLogAndReturn(3)
-		; Msg: Elixir storages full (red text)
+			; Msg: Elixir storages full (red text)
 		Case _ColorCheck(_GetPixelColor(318, 213, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6) And _ColorCheck(_GetPixelColor(391, 215, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6)
 			Return SetLogAndReturn(4)
-		; Msg: Dark Elixir storages full (red text)
+			; Msg: Dark Elixir storages full (red text)
 		Case _ColorCheck(_GetPixelColor(168, 214, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6) And _ColorCheck(_GetPixelColor(242, 214, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6)
 			Return SetLogAndReturn(5)
 
-		; Msg: The request was sent!
+			; Msg: The request was sent!
 		Case _ColorCheck(_GetPixelColor(316, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6) And _ColorCheck(_GetPixelColor(462, 209, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6)
 			Return SetLogAndReturn(6)
 
-		; Msg: Army added to training queues!
+			; Msg: Army added to training queues!
 		Case _ColorCheck(_GetPixelColor(324, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6) And _ColorCheck(_GetPixelColor(460, 209, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6)
 			Return SetLogAndReturn(7)
 
-		; Msg: Not enough space in training queues (red text)
+			; Msg: Not enough space in training queues (red text)
 		Case _ColorCheck(_GetPixelColor(258, 215, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6) And _ColorCheck(_GetPixelColor(485, 215, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6)
 			Return SetLogAndReturn(8)
 
-		; Msg: Not enough storage space (red text)
+			; Msg: Not enough storage space (red text)
 		Case _ColorCheck(_GetPixelColor(319, 215, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6) And _ColorCheck(_GetPixelColor(537, 215, $g_bNoCapturePixel), Hex(0xFF1919, 6), 6)
 			Return SetLogAndReturn(9)
 
-		; donate message
+			; donate message
 ;~ 		Case _ColorCheck(_GetPixelColor(245, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6) And _ColorCheck(_GetPixelColor(301, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6) And _ColorCheck(_GetPixelColor(360, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6)
 ;~ 			Return SetLogAndReturn(99)
 		Case Else
-			For $i = 130 To 330 Step + 2
+			For $i = 130 To 330 Step +2
 				If _ColorCheck(_GetPixelColor($i, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6) And _ColorCheck(_GetPixelColor($i + 42, 215, $g_bNoCapturePixel), Hex(0xFEFEFE, 6), 6) Then
 					If $iCount = 0 And ($g_iChkWait4CC Or $g_iChkWait4CCSpell) Then
 						Local $hClone = _GDIPlus_BitmapCloneArea($g_hBitmap, 20, 198, 820, 24, $GDIP_PXF24RGB)
@@ -504,9 +501,9 @@ Func IsQueueBlockByMsg($iCount)
 				EndIf
 			Next
 	EndSelect
-	If _Sleep(1000) Then Return	False
+	If _Sleep(1000) Then Return False
 	Return False
-EndFunc
+EndFunc   ;==>IsQueueBlockByMsg
 
 Func SetLogAndReturn($iMsg)
 	Local $sMsg
@@ -532,6 +529,6 @@ Func SetLogAndReturn($iMsg)
 		Case Else
 			$sMsg = "Donate or other message"
 	EndSwitch
-	If $g_iSamM0dDebug = 1 Then SetLog("[" & $sMsg & "] - block for detection troops or spells.",$COLOR_RED)
+	If $g_iSamM0dDebug = 1 Then SetLog("[" & $sMsg & "] - block for detection troops or spells.", $COLOR_RED)
 	Return True
-EndFunc
+EndFunc   ;==>SetLogAndReturn
