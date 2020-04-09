@@ -50,10 +50,10 @@ Global $ReadyBarb = 0, $ReadyArch = 0, $ReadyGiant = 0, $ReadyGobl = 0, $ReadyWa
 Global $ReadyMini = 0, $ReadyHogs = 0, $ReadyValk = 0, $ReadyGole = 0, $ReadyWitc = 0, $ReadyLava = 0, $ReadyBowl = 0, $ReadyDrag = 0, $ReadyPekk = 0, $ReadyBabyD = 0, $ReadyMine = 0, $ReadyEDrag = 0, $ReadyIceG = 0
 
 ; Ejercito|Tipo de tropa|Setting
-Global $MyTroopsSetting[3][21][2] = _
-		[[[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], _
-		[[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], _
-		[[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]]
+Global $MyTroopsSetting[3][23][2] = _
+		[[[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], _
+		[[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]], _
+		[[0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0], [0, 0]]]
 
 ; Ejercito|Tipo de tropa|Setting
 Global $MySpellSetting[3][11][3] = _
@@ -109,29 +109,30 @@ Global $ichkPreSiegeStoneS
 ; ---------------------
 
 Global $g_iMyTroopsSize = 0
-Global $MyTroopsIcon[21] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, $eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnElectroDragon, $eIcnMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnIceGolem]
-Global $MyTroops[21][5] = _
-		[["Barb", 1, 1, 0, 0], _
-		["Arch", 2, 1, 0, 0], _
-		["Giant", 3, 5, 0, 0], _
-		["Gobl", 4, 1, 0, 0], _
-		["Wall", 5, 2, 0, 0], _
-		["Ball", 6, 5, 0, 0], _
-		["Wiza", 7, 4, 0, 0], _
-		["Heal", 8, 14, 0, 0], _
-		["Drag", 9, 20, 0, 0], _
-		["Pekk", 10, 25, 0, 0], _
-		["BabyD", 11, 10, 0, 0], _
-		["Mine", 12, 6, 0, 0], _
-		["EDrag", 13, 30, 0, 0], _
-		["Mini", 14, 2, 0, 0], _
-		["Hogs", 15, 5, 0, 0], _
-		["Valk", 16, 8, 0, 0], _
-		["Gole", 17, 30, 0, 0], _
-		["Witc", 18, 12, 0, 0], _
-		["Lava", 19, 30, 0, 0], _
-		["Bowl", 20, 6, 0, 0], _
-		["IceG", 21, 15, 0, 0]]
+Global $MyTroopsIcon[22] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, $eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnIceGolem]
+Global $MyTroops[22][7] = _
+		[["Barb", 0, 1, 0, 0, 5, 1], _
+		["Arch", 1, 1, 0, 0, 1, 1], _
+		["Giant", 2, 5, 0, 0, 10, 5], _
+		["Gobl", 3, 1, 0, 0, 3, 1], _
+		["Wall", 4, 2, 0, 0, 5, 2], _
+		["Ball", 5, 5, 0, 0, 5, 5], _
+		["Wiza", 6, 4, 0, 0, 4, 4], _
+		["Heal", 7, 14, 0, 0, 14, 14], _
+		["Drag", 8, 20, 0, 0, 20, 20], _
+		["Pekk", 9, 25, 0, 0, 25, 25], _
+		["BabyD", 10, 10, 0, 0, 10, 10], _
+		["Mine", 11, 6, 0, 0, 6, 6], _
+		["EDrag", 12, 30, 0, 0, 30, 30], _
+		["Yeti", 13, 18, 0, 0, 18, 18], _
+		["Mini", 14, 2, 0, 0, 2, 2], _
+		["Hogs", 15, 5, 0, 0, 5, 5], _
+		["Valk", 16, 8, 0, 0, 8, 8], _
+		["Gole", 17, 30, 0, 0, 30, 30], _
+		["Witc", 18, 12, 0, 0, 12, 12], _
+		["Lava", 19, 30, 0, 0, 30, 30], _
+		["Bowl", 20, 6, 0, 0, 6, 6], _
+		["IceG", 21, 15, 0, 0, 15, 15]]
 
 ;name,order,size,unit quantity,train cost
 
