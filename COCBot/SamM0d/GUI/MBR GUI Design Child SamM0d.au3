@@ -434,153 +434,45 @@ GUICtrlSetOnEvent(-1, "cmbTroopSetting")
 
 $x += 10
 $y += 40
-For $i = 0 To UBound($MyTroops) - 1
+$btnResetTroops = GUICtrlCreateLabel("Remove Army", $x + 305, $y - 27, -1, 15, $SS_LEFT)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnResetButton, $x + 375, $y - 30, 24, 24)
+	GUICtrlSetOnEvent(-1, "btnResetTroops")
+	
+	For $i = 0 To UBound($MyTroops) - 1
 		If $i >= 12 Then $x = 25
-		_GUICtrlCreateIcon($g_sLibIconPath, $MyTroopsIcon[$i], $x + Int($i / 2) * 38, $y + Mod($i, 2) * 60, 32, 32)
 
-		Assign("txtMy" & $MyTroops[$i][0], GUICtrlCreateInput("0", $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 60 + 34, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER)))
-			GUICtrlSetBkColor(-1, 0xD1DFE7)
+		Assign("cmbMy" & $MyTroops[$i][0] & "Order", GUICtrlCreateCombo("", $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 90, 30, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
+			GUICtrlSetData(-1, $sComboData, $i + 1)
+			GUICtrlSetOnEvent(-1, "cmbMyTroopOrder")
+		
+		Assign("icnMy" & $MyTroops[$i][0], _GUICtrlCreateIcon($g_sLibIconPath, $MyTroopsIcon[$i], $x + Int($i / 2) * 38, $y + Mod($i, 2) * 90 + 25, 32, 32))
+		
+		Assign("txtMy" & $MyTroops[$i][0], GUICtrlCreateInput("0", $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 90 + 60, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER)))
+			_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & Eval("sTxt" & StringReplace(GetTroopName($i, 2), " ", "")))
 			GUICtrlSetLimit(-1, 3)
+			GUICtrlSetBkColor(-1, 0xD1DFE7)
 			GUICtrlSetOnEvent(-1, "UpdateTroopSetting")
+
 	Next
-	#cs
-For $i = 0 To UBound($MyTroops) - 1
+ $x = 25
+ $y += 200
 
-	Assign("icnMy" & $MyTroops[$i][0], GUICtrlCreateIcon($g_sLibIconPath, $MyTroopsIcon[$i], $x, $y, 23, 23))
-	Assign("lblMy" & $MyTroops[$i][0], GUICtrlCreateLabel(Eval("sTxt" & StringReplace(GetTroopName($i, 2), " ", "")), $x + 26, $y, -1, -1))
-	Assign("txtMy" & $MyTroops[$i][0], GUICtrlCreateInput("0", $x + 94, $y, 30, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER)))
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & Eval("sTxt" & StringReplace(GetTroopName($i, 2), " ", "")))
-	GUICtrlSetLimit(-1, 3)
-	GUICtrlSetOnEvent(-1, "UpdateTroopSetting")
-	Assign("cmbMy" & $MyTroops[$i][0] & "Order", GUICtrlCreateCombo("", $x + 126, $y, 36, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
-	GUICtrlSetData(-1, $sComboData, $i + 1)
-	GUICtrlSetOnEvent(-1, "cmbMyTroopOrder")
-	$y += 24
-	If $i = 12 Then
-		$x = 205
-		$y = $yStart + 40
-	EndIf
-Next
+;$btnResetTroops = GUICtrlCreateLabel("Remove Army", $x + 305, $y + 1, -1, 15, $SS_LEFT)
 
-Func TabWarPreparationGUI()
 
-	Local $aTroopsIcons[$eTroopCount] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, _
-			$eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnMinion, _
-			$eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnIceGolem]
-	Local $aSpellsIcons[$eSpellCount] =[$eIcnLightSpell, $eIcnHealSpell, $eIcnRageSpell, $eIcnJumpSpell, $eIcnFreezeSpell, _
-			$eIcnCloneSpell, $eIcnPoisonSpell, $eIcnEarthQuakeSpell, $eIcnHasteSpell, $eIcnSkeletonSpell, $eIcnBatSpell]
-
-	Local $x = 15, $y = 60
-	GUICtrlCreateGroup("War preparation", $x - 10, $y - 15, $g_iSizeWGrpTab2, $g_iSizeHGrpTab3)
-
-		$x+=5
-		$g_hChkStopForWar = GUICtrlCreateCheckbox("Pause farming for war", $x, $y, -1, -1)
-			_GUICtrlSetTip(-1, "Pause or set current account 'idle' to prepare for war")
-			GUICtrlSetOnEvent(-1, "ChkStopForWar")
-
-		$g_hCmbStopTime = GUICtrlCreateCombo("", $x + 140, $y, 41, 25, BitOR($GUI_SS_DEFAULT_COMBO,$CBS_SIMPLE))
-			GUICtrlSetData(-1, 	"0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23", "0")
-			GUICtrlSetOnEvent(-1,"CmbStopTime")
-			GUICtrlCreateLabel("Hrs", $x + 190, -1)
-			
-		$g_hCmbStopBeforeBattle = GUICtrlCreateCombo("", $x + 245, $y, 120, 25, BitOR($GUI_SS_DEFAULT_COMBO,$CBS_SIMPLE))
-			GUICtrlSetData(-1, 	"before battle start|after battle start", "before battle start")
-			GUICtrlSetOnEvent(-1,"CmbStopTime")
-			
-	$y += 25
-		GUICtrlCreateLabel("Return to farm", $x + 15, $y + 1, -1, -1)
-		$g_hCmbReturnTime = GUICtrlCreateCombo("", $x + 140, $y, 41, 25, BitOR($GUI_SS_DEFAULT_COMBO,$CBS_SIMPLE))
-		GUICtrlSetData(-1, 	"0|1|2|3|4|5|6|7|8|9|10|11|12|13|14|15|16|17|18|19|20|21|22|23", "0")
-		GUICtrlCreateLabel("Hrs", $x + 190, -1)
-		GUICtrlSetOnEvent(-1,"CmbReturnTime")
-		GUICtrlCreateLabel("before battle finish", $x + 245, $y + 1, -1, -1)
-			
-	$y += 25
-		$g_hChkTrainWarTroop = GUICtrlCreateCheckbox("Delete all farming troops and train war troops before pausing", $x, $y, -1, -1)
-			GUICtrlSetOnEvent(-1, "ChkTrainWarTroop")
-
-	$y += 25
-		$g_hChkUseQuickTrainWar = GUICtrlCreateCheckbox("Use Quick Train", $x + 15, $y, -1, 15)
-			GUICtrlSetState(-1, $GUI_UNCHECKED)
-			GUICtrlSetOnEvent(-1, "chkUseQTrainWar")
-		For $i = 0 To 2
-			$g_ahChkArmyWar[$i] = GUICtrlCreateCheckbox("Army " & $i + 1, $x + 120 + $i * 60, $y, 50, 15)
-				GUICtrlSetState(-1, $GUI_DISABLE)
-				If $i = 0 Then GUICtrlSetState(-1, $GUI_CHECKED)
-				GUICtrlSetOnEvent(-1, "chkQuickTrainComboWar")
-		Next
-		$g_hLblRemoveArmy = GUICtrlCreateLabel("Remove Army", $x + 305, $y + 1, -1, 15, $SS_LEFT)
-		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnResetButton, $x + 375, $y - 4, 24, 24)
-			GUICtrlSetOnEvent(-1, "RemovecampWar")
-
-	$x = 13
-	$y += 25
-		For $i = 0 To $eTroopCount - 1 ; Troops
-			If $i >= 12 Then $x = 25
-			_GUICtrlCreateIcon($g_sLibIconPath, $aTroopsIcons[$i], $x + Int($i / 2) * 38, $y + Mod($i, 2) * 60, 32, 32)
-
-			$g_ahTxtTrainWarTroopCount[$i] = GUICtrlCreateInput("0", $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 60 + 34, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-				GUICtrlSetBkColor(-1, 0xD1DFE7)
-				GUICtrlSetLimit(-1, 3)
-				GUICtrlSetOnEvent(-1, "TrainWarTroopCountEdit")
-		Next
-
-	$x = 13
-	$y += 120
-		$g_hCalTotalWarTroops = GUICtrlCreateProgress($x, $y + 3, 285, 10)
-		$g_hLblTotalWarTroopsProgress = GUICtrlCreateLabel("", $x, $y + 3, 285, 10)
-			GUICtrlSetBkColor(-1, $COLOR_RED)
-			GUICtrlSetState(-1, BitOR($GUI_DISABLE, $GUI_HIDE))
-
-		GUICtrlCreateLabel("Total troops", $x + 290, $y, -1, -1)
-		$g_hLblCountWarTroopsTotal = GUICtrlCreateLabel("" & 0, $x + 350, $y, 30, 15, $SS_CENTER)
-			GUICtrlSetBkColor(-1, $COLOR_MONEYGREEN) ;lime, moneygreen
-
-	$y += 25
-		For $i = 0 To $eSpellCount - 1 ; Spells
-			If $i >= 6 Then $x = 25
-			_GUICtrlCreateIcon($g_sLibIconPath, $aSpellsIcons[$i], $x + $i * 38, $y, 32, 32)
-			$g_ahTxtTrainWarSpellCount[$i] = GUICtrlCreateInput("0", $x +  $i * 38, $y + 34, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-				GUICtrlSetLimit(-1, 3)
-				GUICtrlSetBkColor(-1, 0xD1DFE7)
-				GUICtrlSetOnEvent(-1, "TrainWarSpellCountEdit")
-		Next
-
-	$x = 13
-	$y += 60
-		$g_hCalTotalWarSpells = GUICtrlCreateProgress($x, $y + 3, 285, 10)
-		$g_hLblTotalWarSpellsProgress = GUICtrlCreateLabel("", $x, $y + 3, 285, 10)
-			GUICtrlSetBkColor(-1, $COLOR_RED)
-			GUICtrlSetState(-1, BitOR($GUI_DISABLE, $GUI_HIDE))
-
-		GUICtrlCreateLabel("Total spells", $x + 290, $y, -1, -1)
-		$g_hLblCountWarSpellsTotal = GUICtrlCreateLabel("" & 0, $x + 350, $y, 30, 15, $SS_CENTER)
-			GUICtrlSetBkColor(-1, $COLOR_MONEYGREEN) ;lime, moneygreen
-
-	$x = 13
-	$y += 25
-		$g_hChkRequestCCForWar = GUICtrlCreateCheckbox("Request CC before pausing", $x, $y, -1, -1)
-			GUICtrlSetOnEvent(-1, "ChkRequestCCForWar")
-		$g_hTxtRequestCCForWar = GUICtrlCreateInput("War troop please", $x + 180, $y, 120, -1, $SS_CENTER)
-
-	GUICtrlCreateGroup("", -99, -99, 1, 1)
-
-EndFunc   ;==>CreateMiscWarPreparationSubTab
-
-#ce
-$y = $yStart + 80
-$btnResetTroops = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 74, "Reset Troops"), $x + 167, $y, 40, 47, $BS_MULTILINE)
-GUICtrlSetOnEvent(-1, "btnResetTroops")
-$y = $yStart + 128
-$btnResetOrder = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 75, "Reset Order"), $x + 167, $y, 40, 47, $BS_MULTILINE)
-GUICtrlSetOnEvent(-1, "btnResetOrder")
-$y = $yStart + 20
-$lblTotalCapacityOfMyTroops = GUICtrlCreateLabel(GetTranslatedFileIni("sam m0d", 76, "Total") & ": 0/0", $x + 125, $y, 100, -1, $SS_RIGHT)
+$lblTotalCapacityOfMyTroops = GUICtrlCreateLabel(GetTranslatedFileIni("sam m0d", 76, "Total") & ": 0/0", $x + 305, $y + 1, 100, -1, $SS_RIGHT)
 GUICtrlSetFont(-1, 10, $FW_BOLD)
-$idProgressbar = GUICtrlCreateProgress($x + 210, $y + 20, 15, 165, $PBS_VERTICAL)
 
+$idProgressbar = GUICtrlCreateProgress($x, $y + 3, 285, 10) 
 
-$y = $yStart + 260
+;$y = $yStart + 80
+;$btnResetTroops = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 74, "Reset Troops"), $x + 167, $y, 40, 47, $BS_MULTILINE)
+;GUICtrlSetOnEvent(-1, "btnResetTroops")
+$y = $yStart + 128
+$btnResetOrder = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 75, "Reset Order"), $x + 280, $y + 160, 40, 47, $BS_MULTILINE)
+GUICtrlSetOnEvent(-1, "btnResetOrder")
+
+$y = $yStart + 255
 
 $chkDisablePretrainTroops = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 69, "Disable pre-train troops"), $x, $y, -1, -1)
 _GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", 70, "Disable pre-train troops, normally use by donate and train setting together."))
@@ -605,11 +497,11 @@ GUICtrlSetOnEvent(-1, "txtStickToTrainWindow")
 GUICtrlCreateLabel(GetTranslatedFileIni("sam m0d", 61, "minute(s)"), $x + 35, $y, -1, -1)
 _GUICtrlSetTip(-1, $sTxtTip)
 
-$y += 26
-$x = 10
-$chkForcePreTrainTroops = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "ForcePreTrainTroops", "Force pre-train troops when army strength over percentage: "), $x + 10, $y, -1, -1)
+$y += 20
+$chkForcePreTrainTroops = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "ForcePreTrainTroops", "Force pre-train troops when army strength over percentage: "), $x, $y, -1, -1)
 GUICtrlSetOnEvent(-1, "ForcePretrainTroops")
 $txtForcePreTrainStrength = GUICtrlCreateInput("0", $x + 340, $y, 30, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+GUICtrlSetBkColor(-1, 0xD1DFE7)
 GUICtrlSetLimit(-1, 3)
 GUICtrlSetOnEvent(-1, "ForcePretrainTroops")
 
