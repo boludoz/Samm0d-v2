@@ -76,7 +76,7 @@ Func TrainSiegesM()
 	; Force precise siege brew first part.
 	Local $aIsIntTmp = $aIsIn
 	Local $bPreciseOk = True
-	If $ichkForcePreciseSiegeBrew = 1 and not $ichkForcePreSiegeBrewSiege = 1 Then
+	If $ichkForcePreciseSiegeBrew = 1 Then
 		For $i2 = 0 To UBound($tempSieges) - 1
 			For $i = 0 To UBound($aIsIntTmp) - 1
 				If $tempSieges[$i2][3] <> $aIsIntTmp[$i][1] And (StringInStr($tempSieges[$i2][0], $aIsIntTmp[$i][0]) <> 0) Then
@@ -109,17 +109,39 @@ Func TrainSiegesM()
 	; Enable delete excess sieges.
 	Local $vDeleteRedSymbol
 	;$aIsIn
-	While 1
-		$vDeleteRedSymbol = findMultipleQuick($g_sSamM0dImageLocation & "\Siege\Sprites\", 0, "17,191,842,206", "DeleteR", True)
-		If $ichkEnableDeleteExcessSieges = 1 Then
-			For $i = 0 To UBound($aIsIn) - 1
-				If $tempSieges[$i2][3] <> $aIsIn[$i][1] And (StringInStr($tempSieges[$i2][0], $aIsIn[$i][0]) <> 0) Then
-					ExitLoop
+	If $ichkEnableDeleteExcessSieges = 1 Then
+		While 1
+			$vDeleteRedSymbol = findMultipleQuick($g_sSamM0dImageLocation & "\Siege\Sprites\", 0, "17,191,842,206", "DeleteR", True)
+			Local $bBitsPreIsOk = False
+			
+			;Bits pre brew here.
+			;...
+			;------------------
+			
+			If not IsArray($vDeleteRedSymbol) Or $bBitsPreIsOk Then ExitLoop
+			
+				If $ichkForcePreSiegeBrewSiege = 1 Then
+					For $i = 0 To UBound($vDeleteRedSymbol) - 1
+						Local $iQty = getMyOcr($vDeleteRedSymbol[$i][1] - 50, 190, $vDeleteRedSymbol[$i][1] + 12, 208, (True) ? ("spellqtypre") : ("spellqtybrew"), True)
+						Local $a = findMultipleQuick($g_sSamM0dImageLocation & "\Siege\Queue\", 0, "16,178,838,265")
+						
+						;;editFor $iA = 0 To UBound($a) - 1
+						;;edit	If Int($aXTroops[$i][1] - 27) < Int($aTroopsReadyIn[$iA][1]) And Int($aXTroops[$i][1] + 44) > Int($aTroopsReadyIn[$iA][1]) Then
+						;;edit		$sAdd = $aTroopsReadyIn[$iA][0]
+						;;edit		_ArrayDelete($aTroopsReadyIn, $iA) ; Optimization
+						;;edit		$g_bAlmostOneReady = True
+						;;edit		ExitLoop
+						;;edit	EndIf
+						;;editNext
+						
+						;If $tempSieges[$i2][3] <> $aIsIn[$i][1] And (StringInStr($tempSieges[$i2][0], $aIsIn[$i][0]) <> 0) Then
+							;If ... ExitLoop 2
+						;EndIf
+					Next
 				EndIf
-			Next
-		EndIf
-		;$ichkForcePreSiegeBrewSiege = 1
-	WEnd
+			;$ichkForcePreSiegeBrewSiege = 1
+		WEnd
+	EndIf
 	
 	; Delete 
 	; x1 = -50 / y1 = 59 / x2 = 12 / y2 = -6

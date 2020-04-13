@@ -122,11 +122,7 @@ Func CheckOnBrewUnit($hHBitmap)
 
 			Assign("g_hHBitmap_OB_SlotQty" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnBrewSlotQty[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i)), $g_aiArmyOnBrewSlotQty[1], Int($g_aiArmyOnBrewSlotQty[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + 40), $g_aiArmyOnBrewSlotQty[3]))
 
-			If $bIsQueueSpell Then
-				$iQty = getMyOcr(Eval("g_hHBitmap_OB_SlotQty" & $i + 1), 0, 0, 0, 0, "spellqtypre", True)
-			Else
-				$iQty = getMyOcr(Eval("g_hHBitmap_OB_SlotQty" & $i + 1), 0, 0, 0, 0, "spellqtybrew", True)
-			EndIf
+			$iQty = getMyOcr(Eval("g_hHBitmap_OB_SlotQty" & $i + 1), 0, 0, 0, 0, ($bIsQueueSpell) ? ("spellqtypre") : ("spellqtybrew"), True)
 
 			If $iQty <> 0 And $sObjectname <> "" Then
 				$aiSpellInfo[$i][0] = $sObjectname
