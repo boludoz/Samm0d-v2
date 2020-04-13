@@ -318,8 +318,7 @@ Func CheckOnTrainUnit($hHBitmap)
 			EndIf
 		Else
 			If $ichkMyTroopsOrder Then
-				Local $tempTroops[19][5]
-				$tempTroops = $MyTroops
+				Local $tempTroops = $MyTroops
 				_ArraySort($tempTroops, 0, 0, 0, 1)
 				For $i = 0 To UBound($tempTroops) - 1
 					If $tempTroops[$i][3] > 0 Then

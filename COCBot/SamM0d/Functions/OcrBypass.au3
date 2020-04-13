@@ -9,7 +9,7 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: getArmyCapacityOnTrainTroops(48, 160), _getArmyCapacityOnTrainTroops(48, 160)
 ; ===============================================================================================================================
-
+#cs
 Func _getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of troops in army Window
 
     Local $aTempResult[3] = [0, 0, 0]
@@ -45,7 +45,7 @@ Func _getArmyCapacityOnTrainTroops($x_start, $y_start) ;  -> Gets quantity of tr
 
 	Return $aResult[0]
 EndFunc   ;==>_getArmyCapacityOnTrainTroops
-
+#ce
 Func CheckAutoCamp() ; Only first Run and th5 + (Then every time he does the troops he will do it alone.)
 	Local $dbg = 0
 	Static $aTmpArray = $MyTroops

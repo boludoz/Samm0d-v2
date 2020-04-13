@@ -166,6 +166,12 @@ Else
 	_Ini_Add("MySieges", "ForcePreSiegeBrewSiege", 0)
 EndIf
 
+If GUICtrlRead($chkForcePreciseSiegeBrew) = $GUI_CHECKED Then
+	_Ini_Add("MySieges", "ForcePreciseSiegeBrew", 1)
+Else
+	_Ini_Add("MySieges", "ForcePreciseSiegeBrew", 0)
+EndIf
+	
 If GUICtrlRead($chkMySiegesSiegeOrder) = $GUI_CHECKED Then
 	_Ini_Add("MySieges", "SiegeOrder", 1)
 Else

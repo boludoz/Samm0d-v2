@@ -17,8 +17,7 @@
 Func DoRevampTroops($bDoPreTrain = False)
 	If _Sleep(500) Then Return
 	Local $bReVampFlag = False
-	Local $tempTroops[UBound($MyTroops)][5]
-	$tempTroops = $MyTroops
+	Local $tempTroops = $MyTroops
 
 	If $ichkMyTroopsOrder Then
 		_ArraySort($tempTroops, 0, 0, 0, 1)

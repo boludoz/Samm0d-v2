@@ -192,29 +192,7 @@ Func InitializeControlVariables()
    $g_aGroupLeague = $g_ahPicLeague[$eLeagueUnranked]&"#"&$g_ahPicLeague[$eLeagueBronze]&"#"&$g_ahPicLeague[$eLeagueSilver]&"#"&$g_ahPicLeague[$eLeagueGold] &"#"& _
 				  $g_ahPicLeague[$eLeagueCrystal]&"#"&$g_ahPicLeague[$eLeagueMaster]&"#"&$g_ahPicLeague[$eLeagueChampion]&"#"&$g_ahPicLeague[$eLeagueTitan]&"#"& _
 				  $g_ahPicLeague[$eLeagueLegend]
-
-   ; samm0d
-   ;Spell
-   Global $groupMyLightning =$lblLightningIcon&"#"&$lblLightningSpell&"#"&$txtNumLightningSpell&"#"&$lblTimesLightS&"#"&$chkPreLightning
-   Global $groupMyHeal =$lblHealIcon&"#"&$lblHealSpell&"#"&$txtNumHealSpell&"#"&$lblTimesHealS&"#"&$chkPreHeal
-   Global $groupMyRage =$lblRageIcon&"#"&$lblRageSpell&"#"&$txtNumRageSpell&"#"&$lblTimesRageS&"#"&$chkPreRage
-   Global $groupMyJumpSpell =$lblJumpSpellIcon&"#"&$lblJumpSpell&"#"&$txtNumJumpSpell&"#"&$lblTimesJumpS&"#"&$chkPreJump
-   Global $groupMyFreeze =$lblFreezeIcon&"#"&$lblFreezeSpell&"#"&$txtNumFreezeSpell&"#"&$lblFreezeS&"#"&$chkPreFreeze
-   Global $groupMyClone = $lblCloneIcon&"#"&$lblCloneSpell&"#"&$txtNumCloneSpell&"#"&$lblCloneS&"#"&$chkPreClone
-   ;Dark Spell
-   Global $groupMyPoison =$lblPoisonIcon&"#"&$lblPoisonSpell&"#"&$txtNumPoisonSpell&"#"&$lblTimesPoisonS&"#"&$chkPrePoison
-   Global $groupMyEarthquake =$lblEarthquakeIcon&"#"&$lblEarthquakeSpell&"#"&$txtNumEarthSpell&"#"&$lblTimesEarthquakeS&"#"&$chkPreEarth
-   Global $groupMyHaste =$lblHasteIcon&"#"&$lblHasteSpell&"#"&$txtNumHasteSpell&"#"&$lblTimesHasteS&"#"&$chkPreHaste
-   Global $groupMySkeleton =$lblSkeletonIcon&"#"&$lblSkeletonSpell&"#"&$txtNumSkeletonSpell&"#"&$lblTimesSkeletonS&"#"&$chkPreSkeleton
-   Global $groupMyBat =$lblBatIcon&"#"&$lblBatSpell&"#"&$txtNumBatSpell&"#"&$lblTimesBatS&"#"&$chkPreBat
-   Global $groupListMySpells=$groupMyLightning&"#"&$groupMyHeal&"#"&$groupMyRage&"#"&$groupMyJumpSpell&"#"&$groupMyFreeze&"#"&$groupMyClone&"#"&$groupMyPoison&"#"&$groupMyEarthquake&"#"&$groupMyHaste&"#"&$groupMySkeleton&"#"&$groupMyBat
-   
-   ;Siege / WallW - StoneStleB - StoneS
-   Global $groupMyWallW =$lblWallWIcon&"#"&$lblWallWSiege&"#"&$txtNumSiegeWallWSiege&"#"&$lblTimesWallW&"#"&$chkPreSiegeWallW
-   Global $groupMyBattleB =$lblBattleBIcon&"#"&$lblBattleBSiege&"#"&$txtNumSiegeBattleBSiege&"#"&$lblTimesBattleB&"#"&$chkPreSiegeBattleB
-   Global $groupMyStoneS =$lblStoneSIcon&"#"&$lblStoneSSiege&"#"&$txtNumSiegeStoneSSiege&"#"&$lblTimesStoneS&"#"&$chkPreSiegeStoneS
-   Global $groupListMySieges=$groupMyWallW&"#"&$groupMyBattleB&"#"&$groupMyStoneS
-   
+				  
    ; Groups of controls
    Dim $aTabControlsVillage = [$g_hGUI_VILLAGE_TAB, $g_hGUI_VILLAGE_TAB_ITEM1, $g_hGUI_VILLAGE_TAB_ITEM2, $g_hGUI_VILLAGE_TAB_ITEM3, $g_hGUI_VILLAGE_TAB_ITEM4, $g_hGUI_VILLAGE_TAB_ITEM5]
    Dim $aTabControlsMisc = [$g_hGUI_MISC_TAB, $g_hGUI_MISC_TAB_ITEM1, $g_hGUI_MISC_TAB_ITEM2]

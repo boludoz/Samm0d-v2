@@ -30,7 +30,7 @@ Global $iLoop = 0
 Global $iLoopMax = 3
 Global $ichkModTrain = 1
 Global $g_hChkModTrain
-
+Global $g_aGetSiegeCapIn =0
 ;===============SamM0d Mod skip ====================
 Global $g_bSkipLocateExc = True
 
@@ -375,11 +375,25 @@ Global $aProfileStats[44][9] = _
 ["g_aiNbrOfDetectedCollectors",0,0,0,0,0,0,0,0], _
 ["g_aiNbrOfDetectedDrills",0,0,0,0,0,0,0,0]]
 
-;samm0d train
-Global $bPreWaitTimeFlag = False
-Global $sData = 0
-Global $g_bPreTrainFlag = False
-Global $g_aGetSiegeCap = 0
-Global $iLoop = 0 
-Global $iLoopMax = 3 
+; samm0d
+;Spell
+Global $groupMyLightning =$lblLightningIcon&"#"&$lblLightningSpell&"#"&$txtNumLightningSpell&"#"&$lblTimesLightS&"#"&$chkPreLightning
+Global $groupMyHeal =$lblHealIcon&"#"&$lblHealSpell&"#"&$txtNumHealSpell&"#"&$lblTimesHealS&"#"&$chkPreHeal
+Global $groupMyRage =$lblRageIcon&"#"&$lblRageSpell&"#"&$txtNumRageSpell&"#"&$lblTimesRageS&"#"&$chkPreRage
+Global $groupMyJumpSpell =$lblJumpSpellIcon&"#"&$lblJumpSpell&"#"&$txtNumJumpSpell&"#"&$lblTimesJumpS&"#"&$chkPreJump
+Global $groupMyFreeze =$lblFreezeIcon&"#"&$lblFreezeSpell&"#"&$txtNumFreezeSpell&"#"&$lblFreezeS&"#"&$chkPreFreeze
+Global $groupMyClone = $lblCloneIcon&"#"&$lblCloneSpell&"#"&$txtNumCloneSpell&"#"&$lblCloneS&"#"&$chkPreClone
+;Dark Spell
+Global $groupMyPoison =$lblPoisonIcon&"#"&$lblPoisonSpell&"#"&$txtNumPoisonSpell&"#"&$lblTimesPoisonS&"#"&$chkPrePoison
+Global $groupMyEarthquake =$lblEarthquakeIcon&"#"&$lblEarthquakeSpell&"#"&$txtNumEarthSpell&"#"&$lblTimesEarthquakeS&"#"&$chkPreEarth
+Global $groupMyHaste =$lblHasteIcon&"#"&$lblHasteSpell&"#"&$txtNumHasteSpell&"#"&$lblTimesHasteS&"#"&$chkPreHaste
+Global $groupMySkeleton =$lblSkeletonIcon&"#"&$lblSkeletonSpell&"#"&$txtNumSkeletonSpell&"#"&$lblTimesSkeletonS&"#"&$chkPreSkeleton
+Global $groupMyBat =$lblBatIcon&"#"&$lblBatSpell&"#"&$txtNumBatSpell&"#"&$lblTimesBatS&"#"&$chkPreBat
+Global $groupListMySpells=$groupMyLightning&"#"&$groupMyHeal&"#"&$groupMyRage&"#"&$groupMyJumpSpell&"#"&$groupMyFreeze&"#"&$groupMyClone&"#"&$groupMyPoison&"#"&$groupMyEarthquake&"#"&$groupMyHaste&"#"&$groupMySkeleton&"#"&$groupMyBat
 
+;Siege / WallW - StoneStleB - StoneS - SiegeB
+Global $groupMyWallW =$lblWallWIcon&"#"&$lblWallWSiege&"#"&$txtNumSiegeWallWSiege&"#"&$lblTimesWallW&"#"&$chkPreSiegeWallW
+Global $groupMyBattleB =$lblBattleBIcon&"#"&$lblBattleBSiege&"#"&$txtNumSiegeBattleBSiege&"#"&$lblTimesBattleB&"#"&$chkPreSiegeBattleB
+Global $groupMyStoneS =$lblStoneSIcon&"#"&$lblStoneSSiege&"#"&$txtNumSiegeStoneSSiege&"#"&$lblTimesStoneS&"#"&$chkPreSiegeStoneS
+Global $groupMySiegeB =$lblSiegeBIcon&"#"&$lblSiegeBSiege&"#"&$txtNumSiegeSiegeBSiege&"#"&$lblTimesSiegeB&"#"&$chkPreSiegeSiegeB
+Global $groupListMySieges=$groupMyWallW&"#"&$groupMyBattleB&"#"&$groupMyStoneS&"#"&$groupMySiegeB

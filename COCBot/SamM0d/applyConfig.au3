@@ -166,6 +166,7 @@ _GUICtrlComboBox_SetCurSel($g_hTxtTotalCountSiege, $txtTotalCountSiege)
 GUICtrlSetState($chkMySiegesSiegeOrder, ($ichkMySiegesSiegeOrder = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
 GUICtrlSetState($chkEnableDeleteExcessSieges, ($ichkEnableDeleteExcessSieges = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
 GUICtrlSetState($chkForcePreSiegeBrewSiege, ($ichkForcePreSiegeBrewSiege = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
+GUICtrlSetState($chkForcePreciseSiegeBrew, ($ichkForcePreciseSiegeBrew = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))
 
 For $i = 0 To UBound($MySieges)-1
 	GUICtrlSetState(Eval("chkPreSiege" & $MySieges[$i][0]), (Eval("ichkPreSiege" & $MySieges[$i][0]) = 1 ? $GUI_CHECKED : $GUI_UNCHECKED))

@@ -125,8 +125,8 @@ Local $sTextTroopsString
 Local $sGiants
 For $j = 0 To 2
 	For $i = 0 To UBound($MyTroops) - 1
-		$sTextTroopsString = IniRead($g_sProfileConfigPath, "MyTroops", $MyTroops[$i][0]&$j, 2 <> $i ? 0 : 16 &"|"&$i + 1)
-		If Not StringInStr($sTextTroopsString, "|") = 0 Then
+		$sTextTroopsString = IniRead($g_sProfileConfigPath, "MyTroops", $MyTroops[$i][0]&$j, 0 &"|"&$i + 1)
+		If StringInStr($sTextTroopsString, "|") <> 0 Then
 		$sTextTroops = StringSplit($sTextTroopsString, "|", $STR_NOCOUNT)
 			$MyTroopsSetting[$j][$i][0] = Int($sTextTroops[0])
 			$MyTroopsSetting[$j][$i][1] = Int($sTextTroops[1])
@@ -178,6 +178,7 @@ Next
 IniReadS($ichkMySiegesSiegeOrder, $g_sProfileConfigPath, "MySieges", "SiegeOrder", "0","Int")
 IniReadS($ichkEnableDeleteExcessSieges, $g_sProfileConfigPath, "MySieges", "DeleteExcess", "0","Int")
 IniReadS($ichkForcePreSiegeBrewSiege, $g_sProfileConfigPath, "MySieges", "ForcePreSiegeBrewSiege", "0","Int")
+IniReadS($ichkForcePreciseSiegeBrew, $g_sProfileConfigPath, "MySieges", "ForcePreciseSiegeBrew", "0","Int")
 IniReadS($txtTotalCountSiege, $g_sProfileConfigPath, "MySieges", "TotalCountSiege", "0","Int")
 
 Local $sTextSieges

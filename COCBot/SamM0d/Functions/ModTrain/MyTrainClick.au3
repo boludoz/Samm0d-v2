@@ -17,7 +17,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "0,0,860,732", $sOnlyFind = "", $bExactFind = False, $bForceCapture = True, $bDebugLog = False, $iLevel = 1)
+Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "0,0,860,732", $sOnlyFind = Default, $bExactFind = False, $bForceCapture = True, $bDebugLog = False, $iLevel = 1)
 	FuncEnter(findMultipleQuick)
 	Local $sSearchDiamond = IsArray($saiArea2SearchOri) ? GetDiamondFromArray($saiArea2SearchOri) : GetDiamondFromRect($saiArea2SearchOri)
 	Local $aResult = findMultiple($sDirectory, $sSearchDiamond, $sSearchDiamond, $iLevel, 1000, $iQuantity2Match, "objectname,objectlevel,objectpoints", $bForceCapture)
@@ -36,7 +36,7 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 		For $iCoords = 0 To UBound($aCoords) - 1
 			$aCommaCoord = StringSplit($aCoords[$iCoords], ",", 2)
 
-			If Not $sOnlyFind = "" Then
+			If $sOnlyFind <> Default And $sOnlyFind <> "" Then
 				If $bExactFind Then
 					If StringCompare($sOnlyFind, $aArrays[0]) <> 0 Then ContinueLoop
 				ElseIf Not $bExactFind Then

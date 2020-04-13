@@ -903,15 +903,13 @@ Func UpdateSiegeSetting()
 		$MySieges[$i][3] = $MySiegeSetting[$icmbTroopSetting][$i][0]
 		$g_iMySiegesSize += $MySieges[$i][3] * $MySieges[$i][2]
 	Next
-	If $g_iMySiegesSize < GUICtrlRead($g_hTxtTotalCountSiege) + 1 Then
-		GUICtrlSetBkColor($txtNumSiegeWallWSiege, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $COLOR_MONEYGREEN)
-		GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $COLOR_MONEYGREEN)
-	Else
-		GUICtrlSetBkColor($txtNumSiegeWallWSiege, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $COLOR_RED)
-		GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $COLOR_RED)
-	EndIf
+	
+	Local $v = ($g_iMySiegesSize < GUICtrlRead($g_hTxtTotalCountSiege) + 1) ? ($COLOR_MONEYGREEN) : ($COLOR_RED)
+	GUICtrlSetBkColor($txtNumSiegeWallWSiege, $v)
+	GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $v)
+	GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $v)
+	GUICtrlSetBkColor($txtNumSiegeSiegeBSiege, $v)
+		
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_iMySiegesSize: " & $g_iMySiegesSize)
 EndFunc   ;==>UpdateSiegeSetting
 
@@ -945,6 +943,14 @@ Func chkForcePreSiegeBrewSiege()
 	EndIf
 EndFunc   ;==>chkForcePreSiegeBrewSiege
 
+Func chkForcePreciseSiegeBrew()
+	If GUICtrlRead($chkForcePreciseSiegeBrew) = $GUI_CHECKED Then
+		$ichkForcePreciseSiegeBrew = 1
+	Else
+		$ichkForcePreciseSiegeBrew = 0
+	EndIf
+EndFunc   ;==>chkForcePreSiegeBrewSiege
+
 Func lblMyTotalCountSiege()
 	Local $g_iSamM0dDebug = 0
 	_GUI_Value_STATE("HIDE", $groupListMySieges)
@@ -963,12 +969,16 @@ Func lblMyTotalCountSiege()
 		GUICtrlSetBkColor($txtNumSiegeWallWSiege, $COLOR_MONEYGREEN)
 		GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $COLOR_MONEYGREEN)
 		GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $COLOR_MONEYGREEN)
+		GUICtrlSetBkColor($txtNumSiegeSiegeBSiege, $COLOR_MONEYGREEN)
 	Else
 		GUICtrlSetBkColor($txtNumSiegeWallWSiege, $COLOR_RED)
 		GUICtrlSetBkColor($txtNumSiegeBattleBSiege, $COLOR_RED)
 		GUICtrlSetBkColor($txtNumSiegeStoneSSiege, $COLOR_RED)
+		GUICtrlSetBkColor($txtNumSiegeSiegeBSiege, $COLOR_RED)
 	EndIf
+	
 	$g_iTownHallLevel = Int($g_iTownHallLevel)
+	
 	If $g_iTownHallLevel > 11 Or $g_iTownHallLevel = 0 Then
 		_GUI_Value_STATE("SHOW", $groupMyWallW)
 		_GUI_Value_STATE("SHOW", $groupMyBattleB)
@@ -978,6 +988,14 @@ Func lblMyTotalCountSiege()
 		GUICtrlSetData($txtNumSiegeBattleBSiege, 0)
 		GUICtrlSetData($txtNumSiegeStoneSSiege, 0)
 	EndIf
+	
+	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel = 0 Then
+		_GUI_Value_STATE("SHOW", $groupMySiegeB)
+	Else
+		GUICtrlSetData($txtNumSiegeSiegeBSiege, 0)
+
+	EndIf
+
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_iMySiegesSize: " & $g_iMySiegesSize)
 
 EndFunc   ;==>lblMyTotalCountSiege

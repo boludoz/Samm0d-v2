@@ -16,9 +16,6 @@ Global $g_aiSpellsMaxCamp[2] = [0, 0]
 Global $COLOR_ELIXIR = 0xDE1AC0
 Global $COLOR_DARKELIXIR = 0x301D38
 
-Global $iDarkFixTroop = 12
-Global $iDarkFixSpell = 6
-
 Global $bTempDisAddIdleTime = False ;disable add train idle when train finish soon
 
 Global $ichkMyTroopsOrder = 0
@@ -71,16 +68,19 @@ Global $btnResetSieges, $btnResetSiegeOrder
 Global $g_bDoPreSiegebreSiege = 0
 
 Global $grpSieges, $lblTotalSiege
-;WallW - BattleB - StoneS
-Global $lblWallWIcon, $lblBattleBIcon, $lblStoneSIcon
-Global $lblWallWSiege, $lblBattleBSiege, $lblStoneSSiege
-Global $txtNumSiegeWallWSiege, $txtNumSiegeBattleBSiege, $txtNumSiegeStoneSSiege
-Global $lblTimesWallW, $lblTimesBattleB, $lblTimesStoneS
+
+;WallW - BattleB - StoneS - SiegeB
+Global $lblWallWIcon, $lblBattleBIcon, $lblStoneSIcon, $lblSiegeBIcon
+Global $lblWallWSiege, $lblBattleBSiege, $lblStoneSSiege, $lblSiegeBSiege
+Global $txtNumSiegeWallWSiege, $txtNumSiegeBattleBSiege, $txtNumSiegeStoneSSiege, $txtNumSiegeSiegeBSiege
+Global $lblTimesWallW, $lblTimesBattleB, $lblTimesStoneS, $lblTimesSiegeB
+Global $chkPreSiegeWallW, $chkPreSiegeBattleB, $chkPreSiegeStoneS, $chkPreSiegeSiegeB
 
 Global $g_hTxtTotalCountSiege, $txtTotalCountSiege
 Global $chkMySiegesSiegeOrder, $ichkMySiegesSiegeOrder
 Global $chkEnableDeleteExcessSieges, $ichkEnableDeleteExcessSieges
 Global $chkForcePreSiegeBrewSiege, $ichkForcePreSiegeBrewSiege
+Global $chkForcePreciseSiegeBrew, $ichkForcePreciseSiegeBrew
 Global $cmbMySiegeWallWSiegeOrder, $cmbMySiegeBattleBSiegeOrder, $cmbMySiegeStoneSSiegeOrder
 Global $chkMySiegesOrder, $ichkMySiegesOrder
 
@@ -89,16 +89,14 @@ Global $MySiegeSetting[3][4][3] = _
 		[[[0, 0, 0], [0, 0, 0], [0, 0, 0]], _
 		[[0, 0, 0], [0, 0, 0], [0, 0, 0]], _
 		[[0, 0, 0], [0, 0, 0], [0, 0, 0]]]
+		
 Global $g_bDoPreSiegebrewSiege = 0
 Global $g_iMySiegesSize = 0
-Global $MySieges[3][5] = _
-		[["WallW", 1, 1, 0, 0], _
-		["BattleB", 2, 1, 0, 0], _
-		["StoneS", 3, 1, 0, 0]]
-
-Global $chkPreSiegeWallW
-Global $chkPreSiegeBattleB
-Global $chkPreSiegeStoneS
+Global $MySieges[4][5] = _
+[["WallW",1,1,0,0], _
+["BattleB",2,1,0,0], _
+["StoneS",3,1,0,0], _
+["SiegeB",4,1,0,0]]
 
 Global $tempDisableBrewSiege = False
 Global $g_iTotalSiegeCampSpace = 0
@@ -109,6 +107,7 @@ Global $ichkPreSiegeStoneS
 ; ---------------------
 
 Global $g_iMyTroopsSize = 0
+Global $iDarkFixTroop = 13
 Global $MyTroopsIcon[22] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, $eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnIceGolem]
 Global $MyTroops[22][7] = _
 		[["Barb", 1, 1, 0, 0, 5, 1], _
@@ -133,6 +132,11 @@ Global $MyTroops[22][7] = _
 		["Lava", 20, 30, 0, 0, 30, 30], _
 		["Bowl", 21, 6, 0, 0, 6, 6], _
 		["IceG", 22, 15, 0, 0, 15, 15]]
+Global $g_aMySuperTroops[4][5] = _
+		[["SuperBarb", 1, 5, 0, 0], _
+		["SuperGiant", 3, 10, 0, 0], _
+		["SuperGobl", 4, 3, 0, 0], _
+		["SuperWall", 5, 8, 0, 0]]
 
 ;name,order,size,unit quantity,train cost
 
@@ -162,33 +166,7 @@ Global $OnTEventTroop2 = 0
 Global $OnTEventSpell1 = 0
 Global $OnTEventSpell2 = 0
 
-;~ Global Enum $eTrainBarb, $eTrainPumpkin, $eTrainArch, $eTrainGiant, $eTrainGiantSkeleton, $eTrainGobl, $eTrainWall, $eTrainBall, $eTrainWiza, $eTrainHeal, $eTrainDrag, $eTrainPekk, $eTrainBabyD, $eTrainMine, _
-;~ 		$eTrainMini, $eTrainHogs, $eTrainValk, $eTrainGole, $eTrainWitc, $eTrainLava, $eTrainBowl
-
-;~ Global $MyTroopsButton[21][3] = _
-;~ [["Barb", 0, 0], _
-;~ ["Pumpkin", 1, 0], _
-;~ ["Arch"	, 0, 1], _
-;~ ["Giant", 1, 1], _
-;~ ["GiantSkeleton", 0, 2], _
-;~ ["Gobl"	, 1, 2], _
-;~ ["Wall"	, 0, 3], _
-;~ ["Ball"	, 1, 3], _
-;~ ["Wiza"	, 0, 4], _
-;~ ["Heal"	, 1, 4], _
-;~ ["Drag"	, 0, 5], _
-;~ ["Pekk"	, 1, 5], _
-;~ ["BabyD", 0, 6], _
-;~ ["Mine"	, 1, 6], _
-;~ ["Mini"	, 0, 7], _
-;~ ["Hogs"	, 1, 7], _
-;~ ["Valk"	, 2, 0], _
-;~ ["Gole"	, 3, 0], _
-;~ ["Witc"	, 2, 1], _
-;~ ["Lava"	, 3, 1], _
-;~ ["Bowl"	, 2, 2]]
-
-Global $MyTroopsButton[21][3] = _
+Global $MyTroopsButton[22][3] = _
 		[["Barb", 0, 0], _
 		["Arch", 1, 0], _
 		["Giant", 0, 1], _
@@ -202,6 +180,7 @@ Global $MyTroopsButton[21][3] = _
 		["BabyD", 0, 5], _
 		["Mine", 1, 5], _
 		["EDrag", 0, 6], _
+		["Yeti", 1, 7], _
 		["Mini", 0, 7], _
 		["Hogs", 1, 7], _
 		["Valk", 2, 0], _
@@ -210,10 +189,11 @@ Global $MyTroopsButton[21][3] = _
 		["Lava", 3, 1], _
 		["Bowl", 2, 2], _
 		["IceG", 2, 2]]
+		
 Global Enum $eTrainBarb, $eTrainArch, $eTrainGiant, $eTrainGobl, $eTrainWall, $eTrainBall, $eTrainWiza, $eTrainHeal, $eTrainDrag, $eTrainPekk, $eTrainBabyD, $eTrainMine, $eTrainEDrag, _
 		$eTrainYeti, $eTrainMini, $eTrainHogs, $eTrainValk, $eTrainGole, $eTrainWitc, $eTrainLava, $eTrainBowl, $eTrainIceG
 
-
+Global $iDarkFixSpell = 6
 Global Enum $eBrewLightning, $eBrewHeal, $eBrewRage, $eBrewJump, $eBrewFreeze, $eBrewClone, $eBrewPoison, $eBrewEarth, $eBrewHaste, $eBrewSkeleton, $eBrewBat
 Global $MySpellsButton[11][3] = _
 		[["Lightning", 0, 0], _

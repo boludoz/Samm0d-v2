@@ -969,7 +969,10 @@ Func btnRunFunction()
 	Local $sFunc = GUICtrlRead($g_hTxtRunFunction)
 	SetLog("Run Function : " & $sFunc, $COLOR_INFO)
 
+	Local $hTimer = TimerInit() ; Begin the timer and store the handle in a variable.
 	Local $saExecResult = Execute($sFunc)
+	Setlog("Time Execution : " & TimerDiff($hTimer), $COLOR_INFO)
+	
 	If $saExecResult = "" And @error <> 0 Then
 		Setlog("Result : Error", $COLOR_ERROR)
 	ElseIf IsArray($saExecResult) Then

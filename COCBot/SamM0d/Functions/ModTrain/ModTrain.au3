@@ -245,7 +245,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 		getMySpellCapacityMini($g_hHBitmapSpellCap)
 		If $bDisableBrewSpell = False Then
 			; reset Global variables
-			For $i = $enumLightning To $enumSkeleton
+			For $i = 0 To UBound($MySpells) -1
 				Assign("Cur" & $MySpells[$i][0] & "Spell", 0)
 				Assign("OnQ" & $MySpells[$i][0] & "Spell", 0)
 				Assign("OnT" & $MySpells[$i][0] & "Spell", 0)
