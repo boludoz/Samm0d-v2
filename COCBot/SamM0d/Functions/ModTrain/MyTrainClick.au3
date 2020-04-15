@@ -17,10 +17,10 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "0,0,860,732", $sOnlyFind = Default, $bExactFind = False, $bForceCapture = True, $bDebugLog = False, $iLevel = 1)
+Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "0,0,860,732", $sOnlyFind = Default, $bExactFind = False, $bForceCapture = True, $iDistance2check = 25, $bDebugLog = False, $iLevel = 1,  $iMaxLevel = 1000)
 	FuncEnter(findMultipleQuick)
 	Local $sSearchDiamond = IsArray($saiArea2SearchOri) ? GetDiamondFromArray($saiArea2SearchOri) : GetDiamondFromRect($saiArea2SearchOri)
-	Local $aResult = findMultiple($sDirectory, $sSearchDiamond, $sSearchDiamond, $iLevel, 1000, $iQuantity2Match, "objectname,objectlevel,objectpoints", $bForceCapture)
+	Local $aResult = findMultiple($sDirectory, $sSearchDiamond, $sSearchDiamond, $iLevel, $iMaxLevel, $iQuantity2Match, "objectname,objectlevel,objectpoints", $bForceCapture)
 	If Not IsArray($aResult) Then Return -1
 
 	Local $iCount = 0
@@ -51,6 +51,36 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 			$iCount += 1
 		Next
 	Next
+
+	If $iDistance2check <> 0 And UBound($aAllResults) > 0 Then
+		; Sort by X axis
+		_ArraySort($aAllResults, 0, 0, 0, 1)
+
+		; Distance in pixels to check if is a duplicated detection , for deploy point will be 5
+		Local $iD2Check = $iDistance2check
+
+		; check if is a double Detection, near in 10px
+		For $i = 0 To UBound($aAllResults) - 1
+			If $i > UBound($aAllResults) - 1 Then ExitLoop
+			Local $LastCoordinate[4] = [$aAllResults[$i][0], $aAllResults[$i][1], $aAllResults[$i][2], $aAllResults[$i][3]]
+			SetDebugLog("Coordinate to Check: " & _ArrayToString($LastCoordinate))
+			If UBound($aAllResults) > 1 Then
+				For $j = 0 To UBound($aAllResults) - 1
+					If $j > UBound($aAllResults) - 1 Then ExitLoop
+					Local $SingleCoordinate[4] = [$aAllResults[$j][0], $aAllResults[$j][1], $aAllResults[$j][2], $aAllResults[$j][3]]
+					If $LastCoordinate[1] <> $SingleCoordinate[1] Or $LastCoordinate[2] <> $SingleCoordinate[2] Then
+						If $SingleCoordinate[1] < $LastCoordinate[1] + $iD2Check And $SingleCoordinate[1] > $LastCoordinate[1] - $iD2Check Then
+							_ArrayDelete($aAllResults, $j)
+						EndIf
+					Else
+						If $LastCoordinate[1] = $SingleCoordinate[1] And $LastCoordinate[2] = $SingleCoordinate[2] And $LastCoordinate[3] <> $SingleCoordinate[3] Then
+							_ArrayDelete($aAllResults, $j)
+						EndIf
+					EndIf
+				Next
+			EndIf
+		Next
+	EndIf
 
 	Return (UBound($aAllResults) > 0) ? ($aAllResults) : (-1)
 EndFunc   ;==>findMultipleQuick

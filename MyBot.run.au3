@@ -714,11 +714,12 @@ Func MainLoop($bCheckPrerequisitesOK = True)
 
 	While 1
 		_Sleep($DELAYSLEEP, True, False)
-
-		Local $diffhStarttime = _Timer_Diff($hStarttime)
-		If Not $g_bRunState And $g_bNotifyTGEnable And $g_bNotifyRemoteEnable And $diffhStarttime > 1000 * 15 Then ; 15seconds
-			$hStarttime = _Timer_Init()
-			NotifyRemoteControlProcBtnStart()
+		If IsDeclared($hStarttime) Then
+			Local $diffhStarttime = _Timer_Diff($hStarttime)
+			If Not $g_bRunState And $g_bNotifyTGEnable And $g_bNotifyRemoteEnable And $diffhStarttime > 1000 * 15 Then ; 15seconds
+				$hStarttime = _Timer_Init()
+				NotifyRemoteControlProcBtnStart()
+			EndIf
 		EndIf
 
 		Switch $g_iBotAction
