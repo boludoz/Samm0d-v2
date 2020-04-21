@@ -130,6 +130,17 @@ Func UpdateSpellSetting()
 		$MySpells[$i][3] = $MySpellSetting[$icmbTroopSetting][$i][0]
 		$g_iMySpellsSize += $MySpells[$i][3] * $MySpells[$i][2]
 	Next
+	
+	Local $iSpaceForSpellsFill = 0
+	$iSpaceForSpellsFill = $g_iTotalSpellValue - $g_iMySpellsSize + Floor($MySpells[0][3] * $MySpells[0][2])
+	If $iSpaceForSpellsFill > 0 Then
+		GUICtrlSetData(Eval("txtMy" & $MySpells[0][0]), $iSpaceForSpellsFill)
+		$MySpells[0][3] = ($iSpaceForSpellsFill / $MySpells[0][2])
+	Else
+		GUICtrlSetData(Eval("txtMy" & $MySpells[0][0]), 0)
+		$MySpells[0][3] = 0
+	EndIf
+	
 	If $g_iMySpellsSize < GUICtrlRead($txtTotalCountSpell2) + 1 Then
 		GUICtrlSetBkColor($txtNumLightningSpell, $COLOR_MONEYGREEN)
 		GUICtrlSetBkColor($txtNumHealSpell, $COLOR_MONEYGREEN)
