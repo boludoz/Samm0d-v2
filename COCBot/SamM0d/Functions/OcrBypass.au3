@@ -120,7 +120,8 @@ Func UpdSam($aInput)
 				$g_iTotalSpellValue = $iResult
 				$g_iMySpellsSize = $iResult
 				GUICtrlSetData($txtTotalCountSpell2, $g_iTotalSpellValue)
-
+				UpdateSpellSetting()
+				
 				; Army
 				ElseIf $iResult >= 15 Then
 				GUICtrlSetData($g_hTxtTotalCampForced, $iResult)

@@ -124,22 +124,30 @@ Func UpdatePreSpellSetting()
 EndFunc   ;==>UpdatePreSpellSetting
 
 Func UpdateSpellSetting()
-	$g_iMySpellsSize = 0
-	For $i = 0 To UBound($MySpells) - 1
-		$MySpellSetting[$icmbTroopSetting][$i][0] = Int(GUICtrlRead(Eval("txtNum" & $MySpells[$i][0] & "Spell")))
-		$MySpells[$i][3] = $MySpellSetting[$icmbTroopSetting][$i][0]
-		$g_iMySpellsSize += $MySpells[$i][3] * $MySpells[$i][2]
+	For $iLoop = 0 To 1
+		$g_iMySpellsSize = 0
+		For $i = 0 To UBound($MySpells) - 1
+			$MySpellSetting[$icmbTroopSetting][$i][0] = Int(GUICtrlRead(Eval("txtNum" & $MySpells[$i][0] & "Spell")))
+			$MySpells[$i][3] = $MySpellSetting[$icmbTroopSetting][$i][0]
+			$g_iMySpellsSize += $MySpells[$i][3] * $MySpells[$i][2]
+		Next
+		
+		If $iLoop > 0 Then
+			If Abs($g_iMySpellsSize - $g_iTotalSpellValue) = 1 Then $g_iMySpellsSize += 1
+			ContinueLoop
+		EndIf
+		
+		Local $iSpaceForSpellsFill = 0
+		$iSpaceForSpellsFill = $g_iTotalSpellValue - $g_iMySpellsSize + ($MySpells[0][3] * $MySpells[0][2])
+		Setlog($iSpaceForSpellsFill)
+		If $iSpaceForSpellsFill > 0 Then
+			GUICtrlSetData(Eval("txtNum" & $MySpells[0][0] & "Spell"), Floor($iSpaceForSpellsFill / $MySpells[0][2]))
+			$MySpells[0][3] = Floor($iSpaceForSpellsFill / $MySpells[0][2])
+		Else
+			GUICtrlSetData(Eval("txtNum" & $MySpells[0][0] & "Spell"), 0)
+			$MySpells[0][3] = 0
+		EndIf
 	Next
-	
-	Local $iSpaceForSpellsFill = 0
-	$iSpaceForSpellsFill = $g_iTotalSpellValue - $g_iMySpellsSize + Floor($MySpells[0][3] * $MySpells[0][2])
-	If $iSpaceForSpellsFill > 0 Then
-		GUICtrlSetData(Eval("txtMy" & $MySpells[0][0]), $iSpaceForSpellsFill)
-		$MySpells[0][3] = ($iSpaceForSpellsFill / $MySpells[0][2])
-	Else
-		GUICtrlSetData(Eval("txtMy" & $MySpells[0][0]), 0)
-		$MySpells[0][3] = 0
-	EndIf
 	
 	If $g_iMySpellsSize < GUICtrlRead($txtTotalCountSpell2) + 1 Then
 		GUICtrlSetBkColor($txtNumLightningSpell, $COLOR_MONEYGREEN)
