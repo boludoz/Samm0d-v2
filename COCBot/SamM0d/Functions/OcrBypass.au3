@@ -81,9 +81,13 @@ Func CheckAutoCamp() ; Only first Run and th5 + (Then every time he does the tro
 									For $i3 = 0 To UBound($MyTroops)-1 
 										If ( StringInStr( $MyTroops[$i3][0], $aClockUbi[$i2] ) <> 0 ) Then 
 											$MyTroops[$i3][2] = $MyTroops[$i3][5]
-											$MyTroops[$i3][3] = Floor(Int($MyTroops[$i3][3] / 2)) + 2
-											UpdateTroopSize()
-										EndIf
+											For $i4 = 0 To UBound($g_aMySuperTroops)-1 
+												If (StringInStr($g_aMySuperTroops[$i4][0], $MyTroops[$i3][0]) <> 0) Then
+													$MyTroops[$i3][3] = Floor(Int($MyTroops[$i3][3] / Int($g_aMySuperTroops[$i4][2] / $MyTroops[$i3][2]))) + 2
+													UpdateTroopSize()
+												EndIf
+											Next
+										EndIf 
 									Next
 								EndIf
 							Next

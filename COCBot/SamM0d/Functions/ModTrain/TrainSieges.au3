@@ -15,6 +15,7 @@
 ; ===============================================================================================================================
 Global $g_bAlmostOneReady = False
 Func TrainSiegesM()
+return 
 	Local $tempSieges = $MySieges
 	;_ArrayDisplay($tempSieges)
 	;Local $aOcrSg[2] = [63, 545]

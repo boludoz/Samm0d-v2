@@ -90,9 +90,9 @@ Global Const $aButtonFCClose[9]                 = [690, 103, 710, 125, 700, 111,
 Global Const $aButtonGuardRemove[9]             = [500, 260, 560, 275, 530, 275, 0XE51115, 15,"=-= Guard Remove"]
 Global Const $aButtonGuardConfirmRemove[9]      = [485, 417, 543, 444, 510, 445, 0X6AB91D, 15,"=-= Confirm Guard Remove"]
 
-Global Const $aButtonTrainArmy1[9]              = [750, 350, 800, 365, 735, 350, 0XCDF175, 20, "=-= Quick Train Army 1"]
-Global Const $aButtonTrainArmy2[9]              = [750, 467, 800, 482, 735, 467, 0XD5F17D, 20, "=-= Quick Train Army 2"]
-Global Const $aButtonTrainArmy3[9]              = [750, 583, 800, 602, 735, 586, 0XCDED75, 20, "=-= Quick Train Army 3"]
+Global Const $aButtonTrainArmy1[9]              = [719, 324, 829, 365, 807, 340, 0XC6EB6E, 20, "=-= Quick Train Army 1"]
+Global Const $aButtonTrainArmy2[9]              = [719, 431, 829, 473, 807, 447, 0XC6EB6E, 20, "=-= Quick Train Army 2"]
+Global Const $aButtonTrainArmy3[9]              = [719, 537, 829, 579, 807, 553, 0XC6EB6E, 20, "=-= Quick Train Army 3"]
 
 ;Local $sEdit = $g_sSamM0dImageLocation &  "\ArmyEdit\Edit"
 ;Local $sRequest = $g_sSamM0dImageLocation &  "\ArmyEdit\Request"

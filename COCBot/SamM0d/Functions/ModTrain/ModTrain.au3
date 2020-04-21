@@ -16,6 +16,8 @@ Func ModTrain($ForcePreTrain = False)
 	Local $bJustMakeDonateFlag = $bJustMakeDonate
 	$bJustMakeDonate = False
 
+	Local $bFullArmyCC = False, $iTotalSpellsToBrew = 0, $bFullArmyHero = False, $aHeroesRegenTime[4]
+
 	If $g_iSamM0dDebug = 1 Then SetLog("Func Train ", $COLOR_DEBUG)
 	If $g_bTrainEnabled = False Then Return
 	If $g_iMyTroopsSize = 0 Then
@@ -54,7 +56,9 @@ Func ModTrain($ForcePreTrain = False)
 	$iCount = 0
 	While 1
 		; 读取造兵剩余时间
-		getArmyTroopTime()
+		CheckIfArmyIsReadyMod($bFullArmyCC, $iTotalSpellsToBrew, $bFullArmyHero, $aHeroesRegenTime)
+		;Setlog($bFullArmyCC & " " & $iTotalSpellsToBrew & " " & $bFullArmyHero)
+		;_ArrayDisplay($aHeroesRegenTime)
 		;getArmySpellTime()
 		If _Sleep(50) Then Return
 		; getArmyTroopTime() 读取后会保存造兵时间在变量 $g_aiTimeTrain[0]
@@ -89,36 +93,26 @@ Func ModTrain($ForcePreTrain = False)
 
 	If gotoArmy() = False Then Return
 
-	getArmyHeroCount()
-	If _Sleep(50) Then Return ; 50ms improve pause button response
-	CapacitySieges()
-	If _Sleep(50) Then Return ; 50ms improve pause button response
-	TrainSiegesM()
-	If _Sleep(50) Then Return ; 50ms improve pause button response
-	If gotoArmy() = False Then Return
-	If _Sleep(50) Then Return ; 50ms improve pause button response
-
-
 	If $ichkEnableMySwitch = 1 Then
 		Local $aMax[0]
 
-		getArmyTroopTime(False, False)
+
 		_ArrayAdd($aMax, $g_aiTimeTrain[0])
 		If $g_abSearchSpellsWaitEnable[$DB] Or $g_abSearchSpellsWaitEnable[$LB] Then
 			getArmySpellTime()
 			_ArrayAdd($aMax, $g_aiTimeTrain[1])
 		EndIf
 		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroKing) = $eHeroKing Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroKing) = $eHeroKing Then
-			_ArrayAdd($aMax, getArmyHeroTime($eHeroKing))
+			_ArrayAdd($aMax, $aHeroesRegenTime[0])
 		EndIf
 		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroQueen) = $eHeroQueen Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroQueen) = $eHeroQueen Then
-			_ArrayAdd($aMax, getArmyHeroTime($eHeroQueen))
+			_ArrayAdd($aMax, $aHeroesRegenTime[1])
 		EndIf
 		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroWarden) = $eHeroWarden Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroWarden) = $eHeroWarden Then
-			_ArrayAdd($aMax, getArmyHeroTime($eHeroWarden))
+			_ArrayAdd($aMax, $aHeroesRegenTime[2])
 		EndIf
 		If BitAND($g_aiSearchHeroWaitEnable[$DB], $eHeroChampion) = $eHeroChampion Or BitAND($g_aiSearchHeroWaitEnable[$LB], $eHeroChampion) = $eHeroChampion Then
-			_ArrayAdd($aMax, getArmyHeroTime($eHeroChampion))
+			_ArrayAdd($aMax, $aHeroesRegenTime[3])
 		EndIf
 
 		Local $iMaxV = _ArrayMax($aMax, 1)
@@ -158,8 +152,8 @@ Func ModTrain($ForcePreTrain = False)
 		EndIf
 	EndIf
 
-	getArmyCCStatus()
-	If _Sleep(50) Then Return ; 50ms improve pause button response
+	;getArmyCCStatus()
+	;If _Sleep(50) Then Return ; 50ms improve pause button response
 
 	If $g_iSamM0dDebug = 1 Then Setlog("Fullarmy = " & $g_bFullArmy & " CurCamp = " & $g_CurrentCampUtilization & " TotalCamp = " & $g_iTotalCampSpace & " - result = " & ($g_bFullArmy = True And $g_CurrentCampUtilization = $g_iTotalCampSpace), $COLOR_DEBUG)
 	If $g_bFullArmy = True Then
@@ -179,13 +173,19 @@ Func ModTrain($ForcePreTrain = False)
 	EndGainCost("Train")
 	UpdateStats()
 
-	If $g_iSamM0dDebug = 1 Then SetLog("$g_bfullArmy: " & $g_bFullArmy)
-	If $g_iSamM0dDebug = 1 Then SetLog("$g_bFullArmyHero: " & $g_bFullArmyHero)
-	If $g_iSamM0dDebug = 1 Then SetLog("$g_bFullArmySpells: " & $g_bFullArmySpells)
-	If $g_iSamM0dDebug = 1 Then SetLog("$g_bFullCCSpells: " & $g_bFullCCSpells)
-	If $g_iSamM0dDebug = 1 Then SetLog("$g_FullCCTroops: " & $g_FullCCTroops)
-
-	If $g_FullCCTroops = False Or $g_bFullCCSpells = False Then
+	If $g_bFullArmy And $g_bFullArmySpells And $bFullArmyHero And $bFullArmyCC Then
+		$g_bIsFullArmywithHeroesAndSpells = True
+	Else
+		If $g_bDebugSetlog Then
+			SetDebugLog(" $g_bFullArmy: " & String($g_bFullArmy), $COLOR_DEBUG)
+			SetDebugLog(" $g_bFullArmySpells: " & String($g_bFullArmySpells), $COLOR_DEBUG)
+			SetDebugLog(" $bFullArmyHero: " & String($bFullArmyHero), $COLOR_DEBUG)
+			SetDebugLog(" $bFullArmyCC: " & String($bFullArmyCC), $COLOR_DEBUG)
+		EndIf
+		$g_bIsFullArmywithHeroesAndSpells = False
+	EndIf
+	If $g_bFullArmy And $g_bFullArmySpells And $bFullArmyHero Then ; Force Switch while waiting for CC in SwitchAcc
+		If Not $bFullArmyCC Then $g_bWaitForCCTroopSpell = True
 		If $ichkEnableMySwitch = 1 Then
 			; If waiting for cc or cc spell, ignore stay to the account, cause you don't know when the cc or spell will be ready.
 			If $g_iSamM0dDebug = 1 Then SetLog("Disable Avoid Switch cause of waiting cc or cc spell enable.")
@@ -193,15 +193,123 @@ Func ModTrain($ForcePreTrain = False)
 		EndIf
 	EndIf
 
-	If $g_bFullArmy = True And $g_bFullArmyHero = True And $g_bFullArmySpells = True And $g_bFullCCSpells = True And $g_FullCCTroops = True Then
-		$g_bIsFullArmywithHeroesAndSpells = True
+	Local $sLogText = ""
+	If Not $g_bFullArmy Then $sLogText &= " Troops,"
+	If Not $g_bFullArmySpells Then $sLogText &= " Spells,"
+	If Not $bFullArmyHero Then $sLogText &= " Heroes,"
+	If Not $bFullArmyCC Then $sLogText &= " Clan Castle,"
+	If StringRight($sLogText, 1) = "," Then $sLogText = StringTrimRight($sLogText, 1) ; Remove last "," as it is not needed
+
+	If $g_bIsFullArmywithHeroesAndSpells Then
+		If $g_bNotifyTGEnable And $g_bNotifyAlertCampFull Then PushMsg("CampFull")
+		SetLog("Chief, is your Army ready? Yes, it is!", $COLOR_SUCCESS)
 	Else
-		$g_bIsFullArmywithHeroesAndSpells = False
+		SetLog("Chief, is your Army ready? No, not yet!", $COLOR_ACTION)
+		If $sLogText <> "" Then SetLog(@TAB & "Waiting for " & $sLogText, $COLOR_ACTION)
+	EndIf
+
+	; Force to Request CC troops or Spells
+	If Not $bFullArmyCC Then $g_bCanRequestCC = True
+	If $g_bDebugSetlog Then
+		SetDebugLog(" $g_bFullArmy: " & String($g_bFullArmy), $COLOR_DEBUG)
+		SetDebugLog(" $bCheckCC: " & String($bFullArmyCC), $COLOR_DEBUG)
+		SetDebugLog(" $g_bIsFullArmywithHeroesAndSpells: " & String($g_bIsFullArmywithHeroesAndSpells), $COLOR_DEBUG)
+		SetDebugLog(" $g_iTownHallLevel: " & Number($g_iTownHallLevel), $COLOR_DEBUG)
 	EndIf
 
 	If $g_iSamM0dDebug = 1 Then SetLog("$g_bIsFullArmywithHeroesAndSpells: " & $g_bIsFullArmywithHeroesAndSpells)
 
 EndFunc   ;==>ModTrain
+
+Func CheckArmyCampMod($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bGetHeroesTime = False, $bSetLog = True)
+	If $g_bDebugFuncTime Then StopWatchStart("checkArmyCamp")
+
+	If $g_bDebugSetlogTrain Then SetLog("Begin checkArmyCamp:", $COLOR_DEBUG1)
+
+	If $g_bDebugFuncTime Then StopWatchStart("IsTrainPage/openArmyOverview")
+
+	If $g_bDebugFuncTime Then StopWatchStart("getArmyTroopTime")
+	getArmyTroopTime(False, False, False, $bSetLog) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
+	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
+
+	Local $HeroesRegenTime
+	If $g_bDebugFuncTime Then StopWatchStart("getArmyHeroCount")
+	getArmyHeroCount(False, False, False, $bSetLog) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
+	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
+
+	If $bGetHeroesTime Then
+		If $g_bDebugFuncTime Then StopWatchStart("getArmyHeroTime")
+		$HeroesRegenTime = getArmyHeroTime("all")
+		If $g_bDebugFuncTime Then StopWatchStopLog()
+		If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
+	EndIf
+
+	If $g_bDebugFuncTime Then StopWatchStart("getArmySpellCapacity")
+	getArmySpellCapacity(False, False, False, $bSetLog) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
+	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
+
+	If $g_bDebugFuncTime Then StopWatchStart("getArmySpellTime")
+	getArmySpellTime(False, False, False, $bSetLog) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
+	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
+
+	If $g_bDebugFuncTime Then StopWatchStart("getArmySiegeMachines")
+	getArmySiegeMachines(False, False, False, $bSetLog) ; Last parameter is to check the Army Window
+	If $g_bDebugFuncTime Then StopWatchStopLog()
+	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
+
+	If $g_bDebugSetlogTrain Then SetLog("End checkArmyCamp: canRequestCC= " & $g_bCanRequestCC & ", fullArmy= " & $g_bFullArmy, $COLOR_DEBUG)
+
+	If $g_bDebugFuncTime Then StopWatchStopLog()
+	Return $HeroesRegenTime
+
+EndFunc   ;==>checkArmyCamp
+
+Func CheckIfArmyIsReadyMod(ByRef $bFullArmyCC, ByRef $iTotalSpellsToBrew, ByRef $bFullArmyHero, ByRef $aHeroesRegenTime)
+
+	If Not $g_bRunState Then Return
+	
+	Local $aFakeArray[4]
+	
+	$g_bWaitForCCTroopSpell = False ; reset for waiting CC in SwitchAcc
+
+	$aHeroesRegenTime = CheckArmyCampMod(False, False, True, True)
+	
+	If not IsArray($aHeroesRegenTime) Then $aHeroesRegenTime = $aFakeArray
+
+	; add to the hereos available, the ones upgrading so that it ignores them... we need this logic or the bitwise math does not work out correctly
+	$g_iHeroAvailable = BitOR($g_iHeroAvailable, $g_iHeroUpgradingBit)
+	$bFullArmyHero = (BitAND($g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable) = $g_aiSearchHeroWaitEnable[$DB] And $g_abAttackTypeEnable[$DB]) Or _
+			(BitAND($g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable) = $g_aiSearchHeroWaitEnable[$LB] And $g_abAttackTypeEnable[$LB]) Or _
+			($g_aiSearchHeroWaitEnable[$DB] = $eHeroNone And $g_aiSearchHeroWaitEnable[$LB] = $eHeroNone)
+
+	If $g_bDebugSetlogTrain Then
+		Setlog("Heroes are Ready: " & String($bFullArmyHero))
+		Setlog("Heroes Available Num: " & $g_iHeroAvailable) ;  	$eHeroNone = 0, $eHeroKing = 1, $eHeroQueen = 2, $eHeroWarden = 4, $eHeroChampion = 5
+		Setlog("Search Hero Wait Enable [$DB] Num: " & $g_aiSearchHeroWaitEnable[$DB]) ; 	what you are waiting for : 1 is King , 3 is King + Queen , etc etc
+		Setlog("Search Hero Wait Enable [$LB] Num: " & $g_aiSearchHeroWaitEnable[$LB])
+		Setlog("Dead Base BitAND: " & BitAND($g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable))
+		Setlog("Live Base BitAND: " & BitAND($g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable))
+		Setlog("Are you 'not' waiting for Heroes: " & String($g_aiSearchHeroWaitEnable[$DB] = $eHeroNone And $g_aiSearchHeroWaitEnable[$LB] = $eHeroNone))
+		Setlog("Is Wait for Heroes Active : " & IsWaitforHeroesActive())
+	EndIf
+
+	$bFullArmyCC = IsFullClanCastle()
+
+	; If Drop Trophy with Heroes is checked and a Hero is Available or under the trophies range, then set $g_bFullArmyHero to True
+	If Not IsWaitforHeroesActive() And $g_bDropTrophyUseHeroes Then $bFullArmyHero = True
+	If Not IsWaitforHeroesActive() And Not $g_bDropTrophyUseHeroes And Not $bFullArmyHero Then
+		If $g_iHeroAvailable > 0 Or Number($g_aiCurrentLoot[$eLootTrophy]) <= Number($g_iDropTrophyMax) Then
+			$bFullArmyHero = True
+		Else
+			SetLog("Waiting for Heroes to drop trophies!", $COLOR_ACTION)
+		EndIf
+	EndIf
+
+EndFunc   ;==>CheckIfArmyIsReadyMod
 
 Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $bForcePreTrain = False)
 	If $g_iSamM0dDebug = 1 Then SETLOG("Begin TroopsAndSpellsChecker:", $COLOR_DEBUG1)
@@ -245,7 +353,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 		getMySpellCapacityMini($g_hHBitmapSpellCap)
 		If $bDisableBrewSpell = False Then
 			; reset Global variables
-			For $i = 0 To UBound($MySpells) -1
+			For $i = 0 To UBound($MySpells) - 1
 				Assign("Cur" & $MySpells[$i][0] & "Spell", 0)
 				Assign("OnQ" & $MySpells[$i][0] & "Spell", 0)
 				Assign("OnT" & $MySpells[$i][0] & "Spell", 0)

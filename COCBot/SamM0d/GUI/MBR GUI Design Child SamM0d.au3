@@ -438,16 +438,16 @@ $y += 40
 $btnResetTroops = GUICtrlCreateLabel("Remove Army", $x + 305, $y - 27, -1, 15, $SS_LEFT)
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnResetButton, $x + 375, $y - 30, 24, 24)
 	GUICtrlSetOnEvent(-1, "btnResetTroops")
-	
+
 	For $i = 0 To UBound($MyTroops) - 1
 		If $i >= 12 Then $x = 25
 
 		Assign("cmbMy" & $MyTroops[$i][0] & "Order", GUICtrlCreateCombo($aTroopOrderList[$i], $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 90, 30+5, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
 			GUICtrlSetData(-1, $sComboData, $i + 1)
 			GUICtrlSetOnEvent(-1, "cmbMyTroopOrder")
-		
+
 		Assign("icnMy" & $MyTroops[$i][0], _GUICtrlCreateIcon($g_sLibIconPath, $MyTroopsIcon[$i], $x + Int($i / 2) * 38, $y + Mod($i, 2) * 90 + 25, 32, 32))
-		
+
 		Assign("txtMy" & $MyTroops[$i][0], GUICtrlCreateInput(($i <> 2) ? (0) : (16), $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 90 + 60, 30+5, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER)))
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of" ) & " " & GetTroopName($i, 2))
 			;_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & Eval("sTxt" & StringReplace(GetTroopName($i, 2), " ", "")))
@@ -465,7 +465,7 @@ $btnResetTroops = GUICtrlCreateLabel("Remove Army", $x + 305, $y - 27, -1, 15, $
 $lblTotalCapacityOfMyTroops = GUICtrlCreateLabel(GetTranslatedFileIni("sam m0d", 76, "Total") & ": 0/0", $x + 305, $y + 1, 100, -1, $SS_RIGHT)
 GUICtrlSetFont(-1, 10, $FW_BOLD)
 
-$idProgressbar = GUICtrlCreateProgress($x, $y + 3, 285, 10) 
+$idProgressbar = GUICtrlCreateProgress($x, $y + 3, 285, 10)
 
 ;$y = $yStart + 80
 ;$btnResetTroops = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 74, "Reset Troops"), $x + 167, $y, 40, 47, $BS_MULTILINE)
@@ -681,121 +681,121 @@ GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 GUICtrlCreateGroup("", -99, -99, 1, 1)
 
-; Siege
-SplashStep("Loading M0d - My Siege tab...")
-GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d", 165, "My Siege"))
+;~ ; Siege
+;~ SplashStep("Loading M0d - My Siege tab...")
+;~ GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d", 165, "My Siege"))
 
-Local $xStart, $yStart
+;~ Local $xStart, $yStart
 
-$xStart = 10
-$yStart = 55
+;~ $xStart = 10
+;~ $yStart = 55
 
-Local $x = $xStart, $y = $yStart
+;~ Local $x = $xStart, $y = $yStart
 
-$grpSieges = GUICtrlCreateGroup(GetTranslatedFileIni("sam m0d", 65, "My Siege"), $x, $y, 430, 400)
-$lblTotalSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "SiegeCapacity", "Siege Capacity"), $x + 3, $y + 24, -1, -1, $SS_RIGHT)
-$g_hTxtTotalCountSiege = GUICtrlCreateCombo("", $x + 125, $y + 20, 35, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
-_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "TxtTotalCountSiege_Info_01", "Enter the No. of Sieges Capacity. Set to ZERO if you don't want any Sieges"))
-GUICtrlSetBkColor(-1, $COLOR_MONEYGREEN)              ;lime, moneygreen
-GUICtrlSetData(-1, "0|1|2|3", "0")
-GUICtrlSetOnEvent(-1, "lblMyTotalCountSiege")
-$y += 55
-$lblWallWIcon = GUICtrlCreateIcon($g_sLibIconPath, $eIcnWallW, $x + 10, $y, 24, 24)
-$lblWallWSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtWallWrecker", "Wall Wrecker"), $x + 38, $y + 3, -1, -1)
-$txtNumSiegeWallWSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtWallWrecker", "Wall Wrecker") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
-GUICtrlSetLimit(-1, 2)
-;GUICtrlSetState(-1, $GUI_DISABLE)
-GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
-$lblTimesWallW = GUICtrlCreateLabel("x", $x + 157, $y + 3, -1, -1)
+;~ $grpSieges = GUICtrlCreateGroup(GetTranslatedFileIni("sam m0d", 65, "My Siege"), $x, $y, 430, 400)
+;~ $lblTotalSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "SiegeCapacity", "Siege Capacity"), $x + 3, $y + 24, -1, -1, $SS_RIGHT)
+;~ $g_hTxtTotalCountSiege = GUICtrlCreateCombo("", $x + 125, $y + 20, 35, 21, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
+;~ _GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Attack - Troops", "TxtTotalCountSiege_Info_01", "Enter the No. of Sieges Capacity. Set to ZERO if you don't want any Sieges"))
+;~ GUICtrlSetBkColor(-1, $COLOR_MONEYGREEN)              ;lime, moneygreen
+;~ GUICtrlSetData(-1, "0|1|2|3", "0")
+;~ GUICtrlSetOnEvent(-1, "lblMyTotalCountSiege")
+;~ $y += 55
+;~ $lblWallWIcon = GUICtrlCreateIcon($g_sLibIconPath, $eIcnWallW, $x + 10, $y, 24, 24)
+;~ $lblWallWSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtWallWrecker", "Wall Wrecker"), $x + 38, $y + 3, -1, -1)
+;~ $txtNumSiegeWallWSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, -1, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+;~ _GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtWallWrecker", "Wall Wrecker") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
+;~ GUICtrlSetLimit(-1, 2)
+;~ ;GUICtrlSetState(-1, $GUI_DISABLE)
+;~ GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
+;~ $lblTimesWallW = GUICtrlCreateLabel("x", $x + 157, $y + 3, -1, -1)
 
-$y += 25
-$lblBattleBIcon = GUICtrlCreateIcon($g_sLibIconPath, $eIcnBattleB, $x + 10, $y, 24, 24)
-$lblBattleBSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtBattleBlimp", "Battle Blimp"), $x + 38, $y + 3, -1, -1)
-$txtNumSiegeBattleBSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtBattleBlimp", "Battle Blimp") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
-GUICtrlSetLimit(-1, 2)
-;GUICtrlSetState(-1, $GUI_DISABLE)
-GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
-$lblTimesBattleB = GUICtrlCreateLabel("x", $x + 157, $y + 3, -1, -1)
+;~ $y += 25
+;~ $lblBattleBIcon = GUICtrlCreateIcon($g_sLibIconPath, $eIcnBattleB, $x + 10, $y, 24, 24)
+;~ $lblBattleBSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtBattleBlimp", "Battle Blimp"), $x + 38, $y + 3, -1, -1)
+;~ $txtNumSiegeBattleBSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+;~ _GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtBattleBlimp", "Battle Blimp") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
+;~ GUICtrlSetLimit(-1, 2)
+;~ ;GUICtrlSetState(-1, $GUI_DISABLE)
+;~ GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
+;~ $lblTimesBattleB = GUICtrlCreateLabel("x", $x + 157, $y + 3, -1, -1)
 
-$y += 25
-$lblStoneSIcon = GUICtrlCreateIcon($g_sLibIconPath, $eIcnStoneS, $x + 10, $y, 24, 24)
-$lblStoneSSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtStoneSlammer", "Stone Slammer"), $x + 38, $y + 3, -1, -1)
-$txtNumSiegeStoneSSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtStoneSlammer", "Stone Slammer") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
-GUICtrlSetLimit(-1, 2)
-;GUICtrlSetState(-1, $GUI_DISABLE)
-GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
-$lblTimesStoneS = GUICtrlCreateLabel("x", $x + 157, $y + 3, -1, -1)
+;~ $y += 25
+;~ $lblStoneSIcon = GUICtrlCreateIcon($g_sLibIconPath, $eIcnStoneS, $x + 10, $y, 24, 24)
+;~ $lblStoneSSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtStoneSlammer", "Stone Slammer"), $x + 38, $y + 3, -1, -1)
+;~ $txtNumSiegeStoneSSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+;~ _GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtStoneSlammer", "Stone Slammer") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
+;~ GUICtrlSetLimit(-1, 2)
+;~ ;GUICtrlSetState(-1, $GUI_DISABLE)
+;~ GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
+;~ $lblTimesStoneS = GUICtrlCreateLabel("x", $x + 157, $y + 3, -1, -1)
 
-$y += 25
-$lblSiegeBIcon = GUICtrlCreateIcon($g_sLibIconPath, $eIcnSiegeB, $x + 10, $y, 24, 24)
-$lblSiegeBSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtSiegeBarracks", "Siege Barracks"), $x + 38, $y + 3, -1, -1)
-$txtNumSiegeSiegeBSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
-_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtSiegeBarracks", "Siege Barracks") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
-GUICtrlSetLimit(-1, 2)
-;GUICtrlSetState(-1, $GUI_DISABLE)
-GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
-$lblTimesStoneS = GUICtrlCreateLabel("x", $x + 157, $y + 3, -1, -1)
+;~ $y += 25
+;~ $lblSiegeBIcon = GUICtrlCreateIcon($g_sLibIconPath, $eIcnSiegeB, $x + 10, $y, 24, 24)
+;~ $lblSiegeBSiege = GUICtrlCreateLabel(GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtSiegeBarracks", "Siege Barracks"), $x + 38, $y + 3, -1, -1)
+;~ $txtNumSiegeSiegeBSiege = GUICtrlCreateInput("0", $x + 125, $y, 30, 21, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER))
+;~ _GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & GetTranslatedFileIni("MBR Global GUI Design Names Siege Machines", "TxtSiegeBarracks", "Siege Barracks") & " " & GetTranslatedFileIni("sam m0d", "txtQty", "Sieges to make."))
+;~ GUICtrlSetLimit(-1, 2)
+;~ ;GUICtrlSetState(-1, $GUI_DISABLE)
+;~ GUICtrlSetOnEvent(-1, "UpdateSiegeSetting")
+;~ $lblTimesStoneS = GUICtrlCreateLabel("x", $x + 157, $y + 3, -1, -1)
 
-$y = 135
-$btnResetSieges = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", "Reset Siege", "Reset Siege"), $x + 360, $y, 40, 47, $BS_MULTILINE)
-GUICtrlSetOnEvent(-1, "btnResetSieges")
-$y = 175
-$btnResetSiegeOrder = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 75, "Reset SiegeOrder"), $x + 360, $y, 40, 47, $BS_MULTILINE)
-GUICtrlSetOnEvent(-1, "btnResetSiegeOrder")
+;~ $y = 135
+;~ $btnResetSieges = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", "Reset Siege", "Reset Siege"), $x + 360, $y, 40, 47, $BS_MULTILINE)
+;~ GUICtrlSetOnEvent(-1, "btnResetSieges")
+;~ $y = 175
+;~ $btnResetSiegeOrder = GUICtrlCreateButton(GetTranslatedFileIni("sam m0d", 75, "Reset SiegeOrder"), $x + 360, $y, 40, 47, $BS_MULTILINE)
+;~ GUICtrlSetOnEvent(-1, "btnResetSiegeOrder")
 
-Local $x = 190, $y = 110
-$chkMySiegesSiegeOrder = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "SiegeOrder", "SiegeOrder"), $x, $y - 25, -1, -1)
+;~ Local $x = 190, $y = 110
+;~ $chkMySiegesSiegeOrder = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "SiegeOrder", "SiegeOrder"), $x, $y - 25, -1, -1)
 
-Local $sComboSiegeData = ""
-Local $sEvalStringSieges
-Local $aSiegeOrderList[UBound($MySieges) + 1]
+;~ Local $sComboSiegeData = ""
+;~ Local $sEvalStringSieges
+;~ Local $aSiegeOrderList[UBound($MySieges) + 1]
 
-For $iSiegeOrd = 1 To UBound($MySieges)
-	; Assign the variable string sSSring with data.
-	Assign("sSiegeString", $iSiegeOrd)
+;~ For $iSiegeOrd = 1 To UBound($MySieges)
+;~ 	; Assign the variable string sSSring with data.
+;~ 	Assign("sSiegeString", $iSiegeOrd)
 
-	$aSiegeOrderList[$iSiegeOrd] = Eval("sSiegeString")
-Next
+;~ 	$aSiegeOrderList[$iSiegeOrd] = Eval("sSiegeString")
+;~ Next
 
-For $h = 0 To UBound($MySieges)
-	$sComboSiegeData &= $aSiegeOrderList[$h] & "|"
-Next
-
-
-For $i = 0 To UBound($MySieges) - 1
-	Assign("chkPreSiege" & $MySieges[$i][0], GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 177 + $i, "PreSiege-Brew " & $MySieges[$i][0]), $x + 40, $y, -1, -1))
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", 187 + $i, "PreSiege-Brew " & $MySieges[$i][0] & " after available Siege PreSiegepare finish."))
-	GUICtrlSetOnEvent(-1, "UpdatePreSiegesetting")
-
-	Assign("cmbMySiege" & $MySieges[$i][0] & "SiegeOrder", GUICtrlCreateCombo("", $x, $y, 36, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
-	GUICtrlSetData(-1, $sComboSiegeData, $i + 1)
-	GUICtrlSetOnEvent(-1, "cmbMySiegeOrder")
-	$y += 25
-Next
-
-$chkEnableDeleteExcessSieges = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "DeleteExcessSieges", "Enable delete excess Siege"), 20, $y, -1, -1)
-GUICtrlSetOnEvent(-1, "chkEnableDeleteExcessSieges")
-_GUICtrlSetTip(-1, $sTxtTip)
-GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-$y += 25
-$chkForcePreSiegeBrewSiege = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "ForcePreSiegeBrewSiege", "Force PreSiege-Brew Siege"), 20, $y, -1, -1)
-GUICtrlSetOnEvent(-1, "chkForcePreSiegeBrewSiege")
-_GUICtrlSetTip(-1, $sTxtTip)
-GUICtrlSetState(-1, $GUI_UNCHECKED)
-
-$y += 25
-$chkForcePreciseSiegeBrew = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "ForcePreciseSiegeBrew", "Force Precise Siege Brew"), 20, $y, -1, -1)
-GUICtrlSetOnEvent(-1, "chkForcePreciseSiegeBrew")
-_GUICtrlSetTip(-1, $sTxtTip)
-GUICtrlSetState(-1, $GUI_UNCHECKED)
+;~ For $h = 0 To UBound($MySieges)
+;~ 	$sComboSiegeData &= $aSiegeOrderList[$h] & "|"
+;~ Next
 
 
-GUICtrlCreateGroup("", -99, -99, 1, 1)
-GUICtrlCreateTabItem("")     ; end tabitem definition
+;~ For $i = 0 To UBound($MySieges) - 1
+;~ 	Assign("chkPreSiege" & $MySieges[$i][0], GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 177 + $i, "PreSiege-Brew " & $MySieges[$i][0]), $x + 40, $y, -1, -1))
+;~ 	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", 187 + $i, "PreSiege-Brew " & $MySieges[$i][0] & " after available Siege PreSiegepare finish."))
+;~ 	GUICtrlSetOnEvent(-1, "UpdatePreSiegesetting")
+
+;~ 	Assign("cmbMySiege" & $MySieges[$i][0] & "SiegeOrder", GUICtrlCreateCombo("", $x, $y, 36, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
+;~ 	GUICtrlSetData(-1, $sComboSiegeData, $i + 1)
+;~ 	GUICtrlSetOnEvent(-1, "cmbMySiegeOrder")
+;~ 	$y += 25
+;~ Next
+
+;~ $chkEnableDeleteExcessSieges = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "DeleteExcessSieges", "Enable delete excess Siege"), 20, $y, -1, -1)
+;~ GUICtrlSetOnEvent(-1, "chkEnableDeleteExcessSieges")
+;~ _GUICtrlSetTip(-1, $sTxtTip)
+;~ GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+;~ $y += 25
+;~ $chkForcePreSiegeBrewSiege = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "ForcePreSiegeBrewSiege", "Force PreSiege-Brew Siege"), 20, $y, -1, -1)
+;~ GUICtrlSetOnEvent(-1, "chkForcePreSiegeBrewSiege")
+;~ _GUICtrlSetTip(-1, $sTxtTip)
+;~ GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+;~ $y += 25
+;~ $chkForcePreciseSiegeBrew = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "ForcePreciseSiegeBrew", "Force Precise Siege Brew"), 20, $y, -1, -1)
+;~ GUICtrlSetOnEvent(-1, "chkForcePreciseSiegeBrew")
+;~ _GUICtrlSetTip(-1, $sTxtTip)
+;~ GUICtrlSetState(-1, $GUI_UNCHECKED)
+
+
+;~ GUICtrlCreateGroup("", -99, -99, 1, 1)
+;~ GUICtrlCreateTabItem("")     ; end tabitem definition
 
 GUICtrlCreateTabItem(GetTranslatedFileIni("sam m0d", 14, "Other"))
 
