@@ -14,7 +14,7 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func DoRevampSpells($bDoPreTrain = False)
+Func DoRevampSpells($bDoPreTrain = False, $bDbg = False)
 	If _Sleep(500) Then Return
 	Local $bReVampFlag = False
 	; start brew
@@ -95,9 +95,9 @@ Func DoRevampSpells($bDoPreTrain = False)
 			EndIf
 		Next
 
-		Local $iCurElixir = $g_aiCurrentLoot[$eLootElixir]
-		Local $iCurDarkElixir = $g_aiCurrentLoot[$eLootDarkElixir]
-		Local $iCurGemAmount = $g_iGemAmount
+		Local $iCurElixir = ($bDbg = False) ? ( $g_aiCurrentLoot[$eLootElixir] ) : 999999
+		Local $iCurDarkElixir = ($bDbg = False) ? ( $g_aiCurrentLoot[$eLootDarkElixir] ) : 999999
+		Local $iCurGemAmount = ($bDbg = False) ? ( $g_iGemAmount ) : 999999
 
 		SetLog("Elixir: " & $iCurElixir & "   Dark Elixir: " & $iCurDarkElixir & "   Gem: " & $iCurGemAmount, $COLOR_INFO)
 
