@@ -128,18 +128,6 @@ Func DoRevampSpells($bDoPreTrain = False, $bDbg = False)
 						EndIf
 					EndIf
 
-;~ 					If $tempSpells[$i][4] = 0 Then
-;~ 						$iCost = getSpellCost($tempSpells[$i][0])
-;~ 						If $iCost = 0 Or $iCost > $MySpellsCost[Eval("enum" & $tempSpells[$i][0])][0] Then
-;~ 							; cannot read train cost, use max level train cost
-;~ 							;$iCost = $MySpellsCost[$i][0]
-;~ 							$iCost = $MySpellsCost[Eval("enum" & $tempSpells[$i][0])][0]
-;~ 						EndIf
-;~ 						$tempSpells[$i][4] = $iCost
-;~ 						$MySpells[Eval("enum" & $tempSpells[$i][0])][4] = $iCost
-;~ 					EndIf
-;~ 					$iCost = $tempSpells[$i][4]
-
 					If $g_iSamM0dDebug = 1 Then SetLog("$iCost: " & $iCost)
 					;Local $iBuildCost = (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? getMyOcrCurDEFromTrain() : getMyOcrCurElixirFromTrain())
 					Local $iBuildCost = (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? $iCurDarkElixir : $iCurElixir)

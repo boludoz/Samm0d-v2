@@ -173,7 +173,7 @@ Func CheckOnBrewUnit($hHBitmap)
 			$bGotOnBrewFlag = True
 		EndIf
 		If $MySpells[$i][3] < $itempTotal Then
-			If $ichkEnableDeleteExcessSpells = 1 Then
+			If $ichkEnableDeleteExcessSpells = 1 Then ;And not BitAND($g_iTotalSpellValue - $g_iMySpellsSize = 1, $ichkForcePreBrewSpell = 1) = True Then ; MOD
 				SetLog("Error: " & GetTroopName(Eval("enum" & $MySpells[$i][0] + $eLSpell), Eval("OnT" & $MySpells[$i][0] & "Spell")) & " need " & $MySpells[$i][3] & " only, and i made " & $itempTotal)
 				Assign("RemoveSpellUnitOfOnT" & $MySpells[$i][0], $itempTotal - $MySpells[$i][3])
 				$bDeletedExcess = True
@@ -195,7 +195,7 @@ Func CheckOnBrewUnit($hHBitmap)
 		_ArraySort($aiSpellInfo, 0, 0, 0, 2) ; sort to make remove start from left to right
 		For $i = 0 To 10
 			If $aiSpellInfo[$i][1] <> 0 And $aiSpellInfo[$i][3] = False Then
-				; 檢查這個兵種是否要刪除
+				; Comprueba si esta tropa va a ser eliminada.
 				Local $iUnitToRemove = Eval("RemoveSpellUnitOfOnT" & $aiSpellInfo[$i][0])
 				If $iUnitToRemove > 0 Then
 					If $aiSpellInfo[$i][1] > $iUnitToRemove Then
@@ -224,7 +224,7 @@ Func CheckOnBrewUnit($hHBitmap)
 				$bGotOnQueueFlag = True
 				If Eval("ichkPre" & $MySpells[$i][0]) = 1 Then
 					If $MySpells[$i][3] < $itempTotal Then
-						If $ichkEnableDeleteExcessSpells = 1 Then
+						If $ichkEnableDeleteExcessSpells = 1 And not BitAND($g_iTotalSpellValue - $g_iMySpellsSize = 1, $ichkForcePreBrewSpell = 1) = True Then
 							SetLog("Error: " & GetTroopName(Eval("enum" & $MySpells[$i][0]) + $eLSpell, Eval("OnQ" & $MySpells[$i][0] & "Spell")) & " need " & $MySpells[$i][3] & " only, and i made " & $itempTotal)
 							Assign("RemoveSpellUnitOfOnQ" & $MySpells[$i][0], $itempTotal - $MySpells[$i][3])
 							$bDeletedExcess = True

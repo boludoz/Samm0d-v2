@@ -266,7 +266,7 @@ EndFunc
 
 Func getMyOcrTrainArmyOrBrewSpellCap($hHBitmap = 0)
 	; Troops/Spells capacity at army train page or brew spell page, top left
-	Local $sResult = getMyOcr($hHBitmap,46,131 + $g_iMidOffsetY,87,173,"armybuildinfo")
+	Local $sResult = getArmyCapacityOnTrainTroops(48, 160)
 	Return $sResult
 EndFunc
 

@@ -344,30 +344,70 @@ Func CheckClickMsg(ByRef $x, ByRef $y, ByRef $times, ByRef $speed, ByRef $MsgCod
 	Return 0
 EndFunc ;==>CheckClickMsg
 
+Func Deleter($Queue = $g_sSamM0dImageLocation & "\Siege\Queue\")
+		Local $vDeleteRedSymbol = findMultipleQuick($g_sSamM0dImageLocation & "\Siege\Sprites\", 0, "17,190,842,199", "DeleteR", True, True, 25)
+		Local $iQty, $aIsPreTraining
+		Local $aTmpArray[2]
+		
+		If IsArray($vDeleteRedSymbol) Then
+
+			For $i = 0 To UBound($vDeleteRedSymbol) - 1
+				; x = ? / y = 185
+				; Pre-Brew : 0xCFCFC8
+				; Brew : 0xD7AFA9
+				If _ColorCheck(_GetPixelColor($vDeleteRedSymbol[$i][1], 185, True), Hex(0xCFCFC8, 6), 20) Then ContinueLoop
+				$iQty = getMyOcrSoft($vDeleteRedSymbol[$i][1] - 50, 191, $vDeleteRedSymbol[$i][1] + 12, 191 + 17, $g_sSamM0dImageLocation & "\OCR\spellqtypre\", "spellqtypre", True)
+
+				Local $sTmpBrew = ""
+
+				; x1 = -50 / y1 = 59 / x2 = 12 / y2 = -6
+				$sTmpBrew = Int($vDeleteRedSymbol[$i][1] - 50) & "," & Int($vDeleteRedSymbol[$i][2] + 59) & "," & Int($vDeleteRedSymbol[$i][1] + 12) & "," & Int($vDeleteRedSymbol[$i][2] - 6)
+
+				Local $aReadyTroopsDel = findMultipleQuick($g_sSamM0dImageLocation & "\Siege\Queue\", 0, $sTmpBrew)
+
+				$aTmpArray[1] = $iQty
+
+				If IsArray($aReadyTroopsDel) Then
+					$aTmpArray[0] = $aReadyTroopsDel[0][0]
+					;ExitLoop
+				Else
+					$aTmpArray[0] = "NotRecognized"
+					;ExitLoop
+				EndIf
+				;_ArrayDisplay($aTmpArray)
+				Local $aMatrix[1][2] = [[$aTmpArray[0], $aTmpArray[1]]]
+				_ArrayAdd($aIsPreTraining, $aMatrix)
+			Next
+
+		EndIf
+		
+		Return $aIsPreTraining
+EndFunc
+
 Func RemoveAllTroopAlreadyTrain()
 	If $g_bDebugSetlogTrain Then SetLog("====Start Delete Troops====",$COLOR_HMLClick_LOG)
-	Local $iRanX = Random(817,829,1)
-	Local $iRanY = Random(166 + $g_iMidOffsetY,177 + $g_iMidOffsetY,1)
-	Local $iRanX2 = Random(746,758,1)
-	Local $iRanX3 = Random(677,688,1)
-	Local $iRanX4 = Random(606,616,1)
-	Local $iCount = 0
+	;Local Const $DecreaseBy = 70
+	;Local $x = 834
+	
+	Local Const $y = 186, $yRemoveBtn = 200, $xDecreaseRemoveBtn = 10
+	Local $bColorCheck = False, $bGotRemoved = False
+	
+	For $x = 834 To 58 Step -70
+		If Not $g_bRunState Then Return
+		$bColorCheck = Not _ColorCheck(_GetPixelColor(823, 175 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 20)
+		If $bColorCheck Then
+			$bGotRemoved = True
+			Do
+				Click($x - $xDecreaseRemoveBtn-Random(0, 2, 1), $yRemoveBtn-Random(0, 2, 1), Random(0, 2, 1), Random(($g_iTrainClickDelay*90)/100, ($g_iTrainClickDelay*110)/100, 1))
 
-	ForceCaptureRegion()
-	While Not _ColorCheck(_GetPixelColor(823, 175 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 20) ; while not disappears  green arrow
-		; FFF delete
-		If isProblemAffectBeforeClick($iCount) Then ExitLoop
-		Local $iRanTime = Random(8,12,1)
-		For $i = 0 To $iRanTime
-			HMLPureClick(Random($iRanX-2,$iRanX+2,1), Random($iRanY-2,$iRanY+2,1),1,0,"#0702")
-			HMLPureClick(Random($iRanX2-2,$iRanX2+2,1), Random($iRanY-2,$iRanY+2,1),1,0,"#0702")
-			HMLPureClick(Random($iRanX3-2,$iRanX3+2,1), Random($iRanY-2,$iRanY+2,1),1,0,"#0702")
-			HMLPureClick(Random($iRanX4-2,$iRanX4+2,1), Random($iRanY-2,$iRanY+2,1),1,0,"#0702")
-			If _Sleep(Random(($g_iTrainClickDelay*90)/100, ($g_iTrainClickDelay*110)/100, 1), False) Then ExitLoop
-		Next
-		$iCount += 1
-		If $iCount > 30 Then ExitLoop
-	WEnd
+				$bColorCheck = Not _ColorCheck(_GetPixelColor(823, 175 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 20)
+			Until $bColorCheck = False
+
+		ElseIf Not $bColorCheck And $bGotRemoved Then
+			ExitLoop
+		EndIf
+	Next
+
 	; reset variable
 	For $i = 0 To UBound($MyTroops) - 1
 		Assign("OnQ" & $MyTroops[$i][0], 0)
