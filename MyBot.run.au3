@@ -71,7 +71,7 @@ InitializeBot()
 MainLoop(CheckPrerequisites())
 
 Func UpdateBotTitle()
-	Local $sTitle = "My Bot " & $g_sBotVersion & " @Samkie M0d v20.04.21 "
+	Local $sTitle = "My Bot " & $g_sBotVersion & " @Samkie M0d v20.04.28 "
 	Local $sConsoleTitle ; Console title has also Android Emulator Name
 	If $g_sBotTitle = "" Then
 		$g_sBotTitle = $sTitle
@@ -789,7 +789,7 @@ Func runBot() ;Bot that runs everything in order
 		$g_bRestart = False
 		$g_bFullArmy = False
 		$g_bIsFullArmywithHeroesAndSpells = False
-		
+
 		$bJustMakeDonate = False
 		$bDonateAwayFlag = False
 
@@ -936,7 +936,7 @@ Func runBot() ;Bot that runs everything in order
 			$g_bFirstStart = False ; already finished first loop since bot started.
 
 			If ProfileSwitchAccountEnabled() And ($g_iCommandStop = 0 Or $g_iCommandStop = 3 Or $g_abDonateOnly[$g_iCurAccount]) Then checkSwitchAcc()
-			
+
 			; samm0d
 			FriendlyChallenge()
 			If IsSearchAttackEnabled() Then ; If attack scheduled has attack disabled now, stop wall upgrades, and attack.
