@@ -18,82 +18,19 @@ Func getTrainArmyCapacity($bSpellFlag = False)
 	If $g_iSamM0dDebug = 1 Or $g_bDebugSetlog Then SETLOG("Begin getTrainArmyCapacity:", $COLOR_DEBUG1)
 
 	Local $aGetFactorySize[2] = [0, 0]
-	Local $aTempSize
-	Local $iCount
-	Local $sArmyInfo = ""
-	Local $CurBrewSFactory = 0
-	Local $tempCurS = 0
-	Local $tempCurT = 0
-	Local $tmpTotalCamp = 0
+	Local $sArmyInfo = "", $aTempSize
 
-	$iCount = 0
-	While 1
-		$sArmyInfo = getMyOcrTrainArmyOrBrewSpellCap()
+	For $i = 0 To 3
+		$sArmyInfo = getArmyCapacityOnTrainTroops(48, 160)
 		$aTempSize = StringSplit($sArmyInfo, "#", $STR_NOCOUNT)
+		
 		If IsArray($aTempSize) Then
-			If UBound($aTempSize) = 2 Then
-				If Number($aTempSize[1]) < 20 Or Mod(Number($aTempSize[1]), 5) <> 0 Then ; check to see if camp size is multiple of 5, or try to read again
-					If $g_iSamM0dDebug = 1 Then Setlog(" OCR value is not valid camp size", $COLOR_DEBUG)
-					ContinueLoop
-				EndIf
-				$tmpTotalCamp = Number($aTempSize[1])
-				$tempCurS = Number($aTempSize[0])
-				If $tempCurT = 0 Then $tempCurT = $tmpTotalCamp
-				If $g_iSamM0dDebug = 1 Then Setlog("$tempCurS = " & $tempCurS & ", $tempCurT = " & $tempCurT, $COLOR_DEBUG)
-				ExitLoop
-			Else
-				$tempCurS = 0
-				$tmpTotalCamp = 0
-			EndIf
-		Else
-			$tempCurS = 0
-			$tmpTotalCamp = 0
+			$aGetFactorySize = $aTempSize
+			Return $aGetFactorySize
 		EndIf
-		$iCount += 1
-		If $iCount > 30 Then ExitLoop ; try reading 30 times for 250+150ms OCR for 4 sec
-		If _Sleep(250) Then Return ; Wait 250ms
-	WEnd
-	$aGetFactorySize[0] = $tempCurS
-	$aGetFactorySize[1] = $tempCurT
-	If $bSpellFlag = False Then
-		If $g_iTotalCampSpace <> ($tempCurT / 2) Then ; if Total camp size is still not set or value not same as read use forced value
-			If $g_bTotalCampForced = False Then ; check if forced camp size set in expert tab
-				Local $proposedTotalCamp = ($tempCurT / 2)
-				If $g_iTotalCampSpace > ($tempCurT / 2) Then $proposedTotalCamp = $g_iTotalCampSpace
-				Local $sInputbox = InputBox("Question", _
-						"Enter your total Army Camp capacity." & @CRLF & @CRLF & _
-						"Please check it matches with total Army Camp capacity" & @CRLF & _
-						"you see in Army Overview right now in Android Window:" & @CRLF & _
-						$g_sAndroidTitle & @CRLF & @CRLF & _
-						"(This window closes in 2 Minutes with value of " & $proposedTotalCamp & ")", $proposedTotalCamp, "", 330, 220, Default, Default, 120, $g_hFrmBotEx)
-				Local $error = @error
-				If $error = 1 Then
-					Setlog("Army Camp User input cancelled, still using " & $g_iTotalCampSpace, $COLOR_ACTION)
-				Else
-					If $error = 2 Then
-						; Cancelled, using proposed value
-						$g_iTotalCampSpace = $proposedTotalCamp
-					Else
-						$g_iTotalCampSpace = Number($sInputbox)
-					EndIf
-					If $error = 0 Then
-						$g_iTotalCampForcedValue = $g_iTotalCampSpace
-						$g_bTotalCampForced = True
-						Setlog("Army Camp User input = " & $g_iTotalCampSpace, $COLOR_INFO)
-					Else
-						; timeout
-						Setlog("Army Camp proposed value = " & $g_iTotalCampSpace, $COLOR_ACTION)
-					EndIf
-				EndIf
-			Else
-				$g_iTotalCampSpace = $g_iTotalCampForcedValue
-			EndIf
-		EndIf
-	Else
-		If ($tempCurT / 2) <> $g_iTotalSpellValue Then
-			Setlog("Note: Spell Factory Size read not same User Input Value.", $COLOR_WARNING) ; log if there difference between user input and OCR
-		EndIf
-	EndIf
+		If _Sleep(750) Then Return
+	Next
+	
 	Return $aGetFactorySize
 EndFunc   ;==>getTrainArmyCapacity
 

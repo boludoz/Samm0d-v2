@@ -112,7 +112,7 @@ Global $MyTroopsIcon[22] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin
 Global $MyTroops[22][7] = _
 		[["Barb", 1, 1, 0, 0, 5, 1], _
 		["Arch", 2, 1, 0, 0, 1, 1], _
-		["Giant", 3, 5, 0, 0, 10, 5], _
+		["Giant", 3, 5, 16, 0, 10, 5], _
 		["Gobl", 4, 1, 0, 0, 3, 1], _
 		["Wall", 5, 2, 0, 0, 5, 2], _
 		["Ball", 6, 5, 0, 0, 5, 5], _

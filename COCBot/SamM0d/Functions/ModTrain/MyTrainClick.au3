@@ -101,14 +101,17 @@ Func LocateTroopButton(ByRef $iSpace, $sTroopButton, $bIsBrewSpell = False)
 
 		; Capture troops train region.
 		$aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\TrainButtons\", 1, $aRegionForScan, $sTroopButton, False)
-		For $iC = 0 To UBound($MyTroops) - 1
-			If $aButtonXY = -1 Then ExitLoop
-			
-			If (StringInStr($aButtonXY[0][0], $MyTroops[$iC][0]) <> 0) Then
-				$iSpace = (StringInStr($aButtonXY[0][0], "Super") <> 0) ? ($MyTroops[$iC][5]) : ($MyTroops[$iC][6])
-			EndIf
-		Next
-
+		
+		If not $bIsBrewSpell Then
+			For $iC = 0 To UBound($MyTroops) - 1
+				If $aButtonXY = -1 Then ExitLoop
+				
+				If (StringInStr($aButtonXY[0][0], $MyTroops[$iC][0]) <> 0) Then
+					$iSpace = (StringInStr($aButtonXY[0][0], "Super") <> 0) ? ($MyTroops[$iC][5]) : ($MyTroops[$iC][6])
+				EndIf
+			Next
+		EndIf
+		
 		; If is not bad findMultipleQuick result.
 		If $aButtonXY <> -1 Then
 
@@ -160,7 +163,7 @@ Func MyTrainClick($x, $y, $iTimes = 1, $iSpeed = 0, $sdebugtxt = "", $bIsBrewSpe
 				If _Sleep(Random(($iSpeed * 90) / 100, ($iSpeed * 110) / 100, 1), False) Then ExitLoop
 			EndIf
 		Next
-
+		Return True
 	EndIf
 EndFunc   ;==>MyTrainClick
 

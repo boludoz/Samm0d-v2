@@ -153,8 +153,8 @@ Func DoRevampTroops($bDoPreTrain = False)
 					EndIf
 					; use eval and not $i to compare because of maybe after array sort $tempTroops
 					SetLog($CustomTrain_MSG_6 & " " & GetTroopName(Eval("e" & $tempTroops[$i][0]), $Troop4Add) & " x" & $Troop4Add & " " & $CustomTrain_MSG_7 & " " & (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & " : " & ($Troop4Add * $iCost), (Eval("e" & $tempTroops[$i][0]) > 12 ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
-
 					If ($tempTroops[$i][2] * $Troop4Add) <= $iRemainTroopsCapacity Then
+					;If (Abs($g_aiTroopsMaxCamp[0] - $g_aiTroopsMaxCamp[1]) - Int($tempSpell * $tempTroops[$i][1])) <= $iRemainTroopsCapacity Then
 						If MyTrainClick($g_iTroopButtonX, $g_iTroopButtonY, $Troop4Add, $g_iTrainClickDelay, "#TT01") Then
 							If Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop Then
 								$iCurDarkElixir -= ($Troop4Add * $iCost)
