@@ -133,7 +133,7 @@ Func getMyOcr($hHOCRBitmap, $x, $y, $width, $height, $OCRType, $bReturnAsNumber 
 		$bDeleteHBitmapFlag = True
 		ForceCaptureRegion()
 		_CaptureRegion2(Int($x),Int($y),int($x+$width),Int($y+$height))
-		$hHOCRBitmap = GetHHBitmapArea($g_hHBitmap2,0,0,$width,$height)
+		$hHOCRBitmap = GetHHBitmapArea($g_hHBitmap2,0,0,int($x+$width),Int($y+$height))
 	EndIf
 
 	$result = findMultiImage($hHOCRBitmap, $sDirectory ,"FV" ,"FV", 0, 0, 0 , $returnProps)
@@ -234,15 +234,15 @@ Func TansCode($sDirectory,$OCRType,$Msg)
 	Return $result
 EndFunc
 
-Func getMyOcrArmyCap($hHBitmap = 0)
+Func getMyOcrArmyCap()
 	; troops capacity from army overview page, top left
-	Local $sResult = getMyOcr($hHBitmap,113,136 + $g_iMidOffsetY,90,15,"armycap")
+	Local $sResult = getMyOcr(0,113,136 + $g_iMidOffsetY,90,15,"armycap")
 	Return $sResult
 EndFunc
 
-Func getMyOcrSpellCap($hHBitmap = 0)
+Func getMyOcrSpellCap()
 	; spells capacity from army overview page, center left
-	Local $sResult = getMyOcr($hHBitmap,104,283 + $g_iMidOffsetY,90,15,"armycap")
+	Local $sResult = getMyOcr(0,104,283 + $g_iMidOffsetY,90,15,"armycap")
 	Return $sResult
 EndFunc
 
@@ -264,9 +264,9 @@ Func getMyOcrCCSeigeMachineCap()
 	Return $sResult
 EndFunc
 
-Func getMyOcrTrainArmyOrBrewSpellCap($hHBitmap = 0)
+Func getMyOcrTrainArmyOrBrewSpellCap()
 	; Troops/Spells capacity at army train page or brew spell page, top left
-	Local $sResult = getArmyCapacityOnTrainTroops(48, 160)
+	Local $sResult = getMyOcr(0,46,131 + $g_iMidOffsetY,87,173,"armybuildinfo")
 	Return $sResult
 EndFunc
 

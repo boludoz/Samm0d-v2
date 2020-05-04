@@ -3,7 +3,7 @@
 ; Description ...: Reads current quanitites/type of spells from brew spell window, updates $OnTXXXXSpell (On Train unit and quantity), $OnQXXXXXSpell (On Queue unit and quantity)
 ;                  Check spells brew correctly, will remove what un need.
 ; Syntax ........: CheckOnBrewUnit
-; Parameters ....: $hHBitmap
+; Parameters ....:
 ;
 ; Return values .: None
 ; Author ........: Samkie (27 Jun 2017)
@@ -14,11 +14,7 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
-Func CheckOnBrewUnit($hHBitmap)
-	If $hHBitmap = 0 Then
-		SetLog("Error: $hHBitmap = 0", $COLOR_ERROR)
-		Return False
-	EndIf
+Func CheckOnBrewUnit()
 	If $g_iSamM0dDebug = 1 Then SetLog("============Start CheckOnBrewUnit ============")
 	SetLog("Start check on brew unit...", $COLOR_INFO)
 	; reset variable
@@ -30,16 +26,6 @@ Func CheckOnBrewUnit($hHBitmap)
 		Assign("RemoveSpellUnitOfOnQ" & $MySpells[$i][0], 0)
 	Next
 
-	; 重建构_captureregion()里的?量$g_hHBitmap，$g_hBitmap，?_GetPixelColor()使用
-	If $g_hHBitmap <> 0 Then
-		GdiDeleteHBitmap($g_hHBitmap)
-	EndIf
-	$g_hHBitmap = GetHHBitmapArea($hHBitmap)
-	If $g_hBitmap <> 0 Then
-		GdiDeleteBitmap($g_hBitmap)
-	EndIf
-	$g_hBitmap = _GDIPlus_BitmapCreateFromHBITMAP($g_hHBitmap)
-
 	Local $aiSpellInfo[11][4]
 	Local $iAvailableCamp = 0
 	Local $iMySpellsCampSize = 0
@@ -47,121 +33,50 @@ Func CheckOnBrewUnit($hHBitmap)
 	Local $iOnQueueCamp = 0
 	Local $iMyPreBrewSpellSize = 0
 
-	Local $sDirectory
-	Local $sOriDirectory
-	Local $returnProps = "objectname"
-	Local $aPropsValues
 	Local $bDeletedExcess = False
 	Local $bGotOnBrewFlag = False
 	Local $bGotOnQueueFlag = False
-	Local $iCount = 0
-	For $i = 10 To 0 Step -1
-		If _ColorCheck(_GetPixelColor(Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)), 196, False), Hex(0XCFCFC8, 6), 10) And _ColorCheck(_GetPixelColor(Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)), 186, False), Hex(0XCFCFC8, 6), 10) Then
-			; Is Empty Slot
-			$aiSpellInfo[$i][0] = ""
-			$aiSpellInfo[$i][1] = 0
-			$aiSpellInfo[$i][2] = $i + 1
-			$aiSpellInfo[$i][3] = False
-			$iCount += 1
-		Else
-			Local $bIsQueueSpell = False
-			Local $bContinueNextLoop = False
 
-			If _ColorCheck(_GetPixelColor(Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + ($g_iArmy_OnT_Troop_Slot_Width / 2)), 186, False), Hex(0XD7AFA9, 6), 10) Then
-				$sDirectory = $g_sSamM0dImageLocation & "\Spells\Queue\"
-				$sOriDirectory = @ScriptDir & "\COCBot\SamM0d\Images\Spells\Queue\"
-				$bIsQueueSpell = True
-			Else
-				$sDirectory = $g_sSamM0dImageLocation & "\Spells\Brew\"
-				$sOriDirectory = @ScriptDir & "\COCBot\SamM0d\Images\Spells\Brew\"
-			EndIf
-			Local $iPixelDivider = ($g_iArmy_RegionSizeForScan - ($g_aiArmyOnBrewSlot[3] - $g_aiArmyOnBrewSlot[1])) / 2
-			Assign("g_hHBitmap_OB_Slot" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_RegionSizeForScan) / 2)), $g_aiArmyOnBrewSlot[1] - $iPixelDivider, Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_RegionSizeForScan) / 2) + $g_iArmy_RegionSizeForScan), $g_aiArmyOnBrewSlot[3] + $iPixelDivider))
-			Assign("g_hHBitmap_Capture_OB_Slot" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_ImageSizeForScan) / 2)), $g_aiArmyOnBrewSlot[1], Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_ImageSizeForScan) / 2) + $g_iArmy_ImageSizeForScan), $g_aiArmyOnBrewSlot[3]))
-			Local $result = findMultiImage(Eval("g_hHBitmap_OB_Slot" & $i + 1), $sDirectory, "FV", "FV", 0, 1000, 1, $returnProps)
+	; Name, qty, IsPre, IsReady
+	Local $aSumPreTra = GetTrainedAndPreDetect("Spells")
+	;_ArrayDisplay($aSumPreTra)
+	If IsArray($aSumPreTra) Then
+		For $i = UBound($aSumPreTra) -1 To 0 Step -1
 
-			Local $sObjectname = ""
-			Local $iQty = 0
-			If IsArray($result) Then
-				For $j = 0 To UBound($result) - 1
-					If $j = 0 Then
-						$aPropsValues = $result[$j] ; should be return objectname
-						If UBound($aPropsValues) = 1 Then
-							$sObjectname = $aPropsValues[0] ; objectname
-						EndIf
-					ElseIf $j = 1 Then
-						$aPropsValues = $result[$j]
-						SetLog("Error: Multiple detect spells on slot: " & $i + 1, $COLOR_ERROR)
-						SetLog("Spell: " & $sObjectname, $COLOR_ERROR)
-						SetLog("Spell: " & $aPropsValues[0], $COLOR_ERROR)
-					Else
-						$aPropsValues = $result[$j]
-						SetLog("Spell: " & $aPropsValues[0], $COLOR_ERROR)
-					EndIf
-				Next
-
-			Else
-				Local $iPixelDivider = ($g_iArmy_EnlargeRegionSizeForScan - ($g_aiArmyOnBrewSlot[3] - $g_aiArmyOnBrewSlot[1])) / 2
-				Local $temphHBitmap = GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_EnlargeRegionSizeForScan) / 2)), $g_aiArmyOnBrewSlot[1] - $iPixelDivider, Int($g_aiArmyOnBrewSlot[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + (($g_iArmy_OnT_Troop_Slot_Width - $g_iArmy_EnlargeRegionSizeForScan) / 2) + $g_iArmy_EnlargeRegionSizeForScan), $g_aiArmyOnBrewSlot[3] + $iPixelDivider)
-				_debugSaveHBitmapToImage($temphHBitmap, ($bIsQueueSpell = True ? "Spell_Queue_Slot_" : "Spell_Brew_Slot_") & $i + 1, True)
-				_debugSaveHBitmapToImage(Eval("g_hHBitmap_Capture_OB_Slot" & $i + 1), ($bIsQueueSpell = True ? "Spell_Queue_Slot_" : "Spell_Brew_Slot_") & $i + 1 & "_Unknown_RenameThis_92", True)
-				If $temphHBitmap <> 0 Then
-					GdiDeleteHBitmap($temphHBitmap)
-				EndIf
-				SetLog("Error: Cannot detect what spells on slot: " & $i + 1, $COLOR_ERROR)
-				SetLog("Please check the filename: " & ($bIsQueueSpell = True ? "Spell_Queue_Slot_" : "Spell_Brew_Slot_") & $i + 1 & "_Unknown_RenameThis_92.png", $COLOR_ERROR)
-				SetLog("Locate at:" & @ScriptDir & "\profiles\" & $g_sProfileCurrentName & "\SamM0d Debug\Images\", $COLOR_ERROR)
-				SetLog("Rename the correct filename and replace back to file location: " & $sOriDirectory, $COLOR_ERROR)
-				SetLog("And then restart the bot.", $COLOR_ERROR)
-				$bContinueNextLoop = True
-			EndIf
-
-			If $bContinueNextLoop Then
+			If $aSumPreTra[$i][0] = "NotRecognized" Then
+				SetLog("Error: Cannot detect what Spells on slot: " & $i + 1, $COLOR_ERROR)
+				$aiSpellInfo[$i][0] = "NotRecognized"
+				$aiSpellInfo[$i][1] = $aSumPreTra[$i][1]
+				$aiSpellInfo[$i][2] = Abs(11 - $i) 
+				$aiSpellInfo[$i][3] = $aSumPreTra[$i][2]
 				ContinueLoop
 			EndIf
 
-			Assign("g_hHBitmap_OB_SlotQty" & $i + 1, GetHHBitmapArea($hHBitmap, Int($g_aiArmyOnBrewSlotQty[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i)), $g_aiArmyOnBrewSlotQty[1], Int($g_aiArmyOnBrewSlotQty[0] + ($g_iArmy_OnT_Troop_Slot_Width * $i) + 40), $g_aiArmyOnBrewSlotQty[3]))
+			If $aSumPreTra[$i][1] <> 0 Then
 
-			$iQty = getMyOcr(Eval("g_hHBitmap_OB_SlotQty" & $i + 1), 0, 0, 0, 0, ($bIsQueueSpell) ? ("spellqtypre") : ("spellqtybrew"), True)
+				$aiSpellInfo[$i][0] = $aSumPreTra[$i][0] ; Name
+				$aiSpellInfo[$i][1] = $aSumPreTra[$i][1] ; Qty
+				$aiSpellInfo[$i][2] = Abs(11 - $i) 
+				;SetLog($aiSpellInfo[$i][2] & " : " & "Slot", $COLOR_INFO)
+				$aiSpellInfo[$i][3] = $aSumPreTra[$i][2] ;IsQueueSpell
+				If $aSumPreTra[$i][2] Then
+					Assign("OnQ" & $aSumPreTra[$i][0] & "Spell", Eval("OnQ" & $aSumPreTra[$i][0] & "Spell") + $aSumPreTra[$i][1])
 
-			If $iQty <> 0 And $sObjectname <> "" Then
-				$aiSpellInfo[$i][0] = $sObjectname
-				$aiSpellInfo[$i][1] = $iQty
-				$aiSpellInfo[$i][2] = $i + 1
-				$aiSpellInfo[$i][3] = $bIsQueueSpell
-				If $bIsQueueSpell Then
-					Assign("OnQ" & $sObjectname & "Spell", Eval("OnQ" & $sObjectname & "Spell") + $iQty)
-
-					Local $hHbitmap_ready = GetHHBitmapArea($hHBitmap, Int(112 + ($g_iArmy_OnT_Troop_Slot_Width * $i)), 240, Int(112 + ($g_iArmy_OnT_Troop_Slot_Width * $i) + 12), 248)
-					_debugSaveHBitmapToImage($hHbitmap_ready, "hHbitmap_ready" & $i + 1, True)
-
-					$sDirectory = $g_sSamM0dImageLocation & "\Troops\Ready\"
-
-					$result = findMultiImage($hHbitmap_ready, $sDirectory, "FV", "FV", 0, 1000, 1, $returnProps)
-
-					If IsArray($result) Then
-						Assign("Ready" & $sObjectname & "Spell", Eval("Ready" & $sObjectname & "Spell") + $iQty)
+					If $aSumPreTra[$i][3] = True Then
+						Assign("Ready" & $aSumPreTra[$i][0] & "Spell", Eval("Ready" & $aSumPreTra[$i][0] & "Spell") + $aSumPreTra[$i][1])
 					EndIf
 
 				Else
-					Assign("OnT" & $sObjectname & "Spell", Eval("OnT" & $sObjectname & "Spell") + $iQty)
+					Assign("OnT" & $aSumPreTra[$i][0] & "Spell", Eval("OnT" & $aSumPreTra[$i][0] & "Spell") + $aSumPreTra[$i][1])
 				EndIf
 			Else
-				SetLog("Error detect quantity no. On Spell: " & GetTroopName(Eval("enum" & $sObjectname) + $eLSpell, $iQty), $COLOR_RED)
+				SetLog("Error detect quantity no. On Spell: " & $aSumPreTra[$i][0], $COLOR_RED)
 				ExitLoop
 			EndIf
-		EndIf
-	Next
+		Next
 
-	If $g_hHBitmap <> 0 Then
-		GdiDeleteHBitmap($g_hHBitmap)
-	EndIf
-	If $g_hBitmap <> 0 Then
-		GdiDeleteBitmap($g_hBitmap)
-	EndIf
-
-	If $iCount = 11 Then
-		SetLog("No Spell On Brew.", $COLOR_ERROR)
+	Else
+		SetLog("No Army On Brew.", $COLOR_ERROR)
 		Return True
 	EndIf
 
@@ -173,7 +88,7 @@ Func CheckOnBrewUnit($hHBitmap)
 			$bGotOnBrewFlag = True
 		EndIf
 		If $MySpells[$i][3] < $itempTotal Then
-			If $ichkEnableDeleteExcessSpells = 1 Then ;And not BitAND($g_iTotalSpellValue - $g_iMySpellsSize = 1, $ichkForcePreBrewSpell = 1) = True Then ; MOD
+			If $ichkEnableDeleteExcessSpells = 1 And not BitAND($g_iTotalSpellValue - $g_iMySpellsSize = 1, $ichkForcePreBrewSpell = 1) = True Then ; MOD
 				SetLog("Error: " & GetTroopName(Eval("enum" & $MySpells[$i][0] + $eLSpell), Eval("OnT" & $MySpells[$i][0] & "Spell")) & " need " & $MySpells[$i][3] & " only, and i made " & $itempTotal)
 				Assign("RemoveSpellUnitOfOnT" & $MySpells[$i][0], $itempTotal - $MySpells[$i][3])
 				$bDeletedExcess = True
@@ -347,7 +262,7 @@ Func CheckOnBrewUnit($hHBitmap)
 			EndIf
 		Next
 	EndIf
-	
+
 	If $g_abAttackTypeEnable[$LB] = True And $g_abSearchSpellsWaitEnable[$LB] = True Then
 		For $i = 0 To UBound($MySpells) -1
 			If Eval("Cur" & $MySpells[$i][0] & "Spell") < $MySpells[$i][3] Then

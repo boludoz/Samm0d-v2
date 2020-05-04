@@ -714,7 +714,8 @@ Func MainLoop($bCheckPrerequisitesOK = True)
 
 	While 1
 		_Sleep($DELAYSLEEP, True, False)
-		If IsDeclared($hStarttime) Then
+		If IsDeclared($hStarttime) > 0 Then
+		Local $hStarttime
 			Local $diffhStarttime = _Timer_Diff($hStarttime)
 			If Not $g_bRunState And $g_bNotifyTGEnable And $g_bNotifyRemoteEnable And $diffhStarttime > 1000 * 15 Then ; 15seconds
 				$hStarttime = _Timer_Init()

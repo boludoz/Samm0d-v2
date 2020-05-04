@@ -332,7 +332,6 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 
 		; 首先截获列队中的图像，然后去造兵界面截获排队中的图像
 		;---------------------------------------------------
-		DeleteTrainHBitmap()
 		If gotoArmy() = False Then ExitLoop
 		If _Sleep(250) Then ExitLoop
 		$iCount2 = 0
@@ -343,14 +342,10 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 				ExitLoop
 			EndIf
 		WEnd
-		_CaptureRegion2()
-		Local $aIsTroopOut = ArrayCheckAvailableUnit()
-		_debugSaveHBitmapToImage($g_hHBitmap2, "tests")
-		$g_hHBitmapArmyTab = GetHHBitmapArea($g_hHBitmap2)
-		;--------------------------------------------------
-
-		$g_hHBitmapSpellCap = GetHHBitmapArea($g_hHBitmapArmyTab, $g_aiSpellCap[0], $g_aiSpellCap[1], $g_aiSpellCap[2], $g_aiSpellCap[3])
-		getMySpellCapacityMini($g_hHBitmapSpellCap)
+		
+		getMySpellCapacityMini()
+		ArrayCheckAvailableSpell() ; exbit
+		
 		If $bDisableBrewSpell = False Then
 			; reset Global variables
 			For $i = 0 To UBound($MySpells) - 1
@@ -371,11 +366,8 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 				EndIf
 			WEnd
 
-
 			_CaptureRegion2()
-			$g_hHBitmapBrewTab = GetHHBitmapArea($g_hHBitmap2)
-			$g_hHBitmapBrewCap = GetHHBitmapArea($g_hHBitmapBrewTab, $g_aiBrewCap[0], $g_aiBrewCap[1], $g_aiBrewCap[2], $g_aiBrewCap[3])
-			getBrewSpellCapacityMini($g_hHBitmapBrewCap)
+			getBrewSpellCapacityMini()
 
 			If $g_aiSpellsMaxCamp[0] = 0 Then
 				DoRevampSpells()
@@ -383,8 +375,8 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 					ContinueLoop
 				EndIf
 			Else
-				If CheckAvailableSpellUnit($g_hHBitmapArmyTab) Then
-					If CheckOnBrewUnit($g_hHBitmapBrewTab) Then
+				If CheckAvailableSpellUnit() Then
+					If CheckOnBrewUnit() Then
 						Local $iId = 0
 						Select
 							Case $g_iCurrentSpells >= $g_iMySpellsSize And $g_aiSpellsMaxCamp[0] >= $g_iMySpellsSize
@@ -430,9 +422,10 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			$bSpellCheckOK = True
 		EndIf
 
-		$g_hHBitmapArmyCap = GetHHBitmapArea($g_hHBitmapArmyTab, $g_aiArmyCap[0], $g_aiArmyCap[1], $g_aiArmyCap[2], $g_aiArmyCap[3])
+		If gotoArmy() = False Then ExitLoop ; exbit
+		getMyArmyCapacityMini() ; exbit
+		ArrayCheckAvailableUnit() ; exbit
 
-		getMyArmyCapacityMini($g_hHBitmapArmyCap)
 		If $bDisableTrain = False Then
 			;====Reset the variable======
 			For $i = 0 To UBound($g_avDTtroopsToBeUsed, 1) - 1
@@ -457,9 +450,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 				EndIf
 			WEnd
 			_CaptureRegion2()
-			$g_hHBitmapTrainTab = GetHHBitmapArea($g_hHBitmap2)
-			$g_hHBitmapTrainCap = GetHHBitmapArea($g_hHBitmapTrainTab, $g_aiTrainCap[0], $g_aiTrainCap[1], $g_aiTrainCap[2], $g_aiTrainCap[3])
-			getTrainArmyCapacityMini($g_hHBitmapTrainCap)
+			getTrainArmyCapacityMini()
 
 			If $g_aiTroopsMaxCamp[0] = 0 Then
 				DoRevampTroops()
@@ -467,8 +458,8 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 					ContinueLoop
 				EndIf
 			Else
-				If CheckAvailableUnit($g_hHBitmapArmyTab, $aIsTroopOut) Then
-					If CheckOnTrainUnit($g_hHBitmapTrainTab) Then
+				If CheckAvailableUnit() Then
+					If CheckOnTrainUnit() Then
 						Local $bPreTrainFlag = $bForcePreTrain
 						If $ichkForcePreTrainTroops Then
 							If $g_iArmyCapacity >= $itxtForcePreTrainStrength Then
@@ -552,9 +543,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 		If $bTroopCheckOK And $bSpellCheckOK Then ExitLoop
 	WEnd
 
-	If $g_iSamM0dDebugImage = 1 Then SaveAndDebugTrainImage()
-
-	DeleteTrainHBitmap()
+	;If $g_iSamM0dDebugImage = 1 Then SaveAndDebugTrainImage()
 
 	If $g_iSamM0dDebug = 1 Then SetLog("$hTimer: " & Round(__TimerDiff($hTimer) / 1000, 2))
 EndFunc   ;==>TroopsAndSpellsChecker

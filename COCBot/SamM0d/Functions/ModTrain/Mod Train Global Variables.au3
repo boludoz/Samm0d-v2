@@ -309,49 +309,22 @@ Global Const $g_iArmy_Av_Troop_Slot_Width = 74
 
 Global Const $g_iArmy_OnT_Troop_Slot_Width = 70.5
 
-Global $g_hHBitmapArmyTab
-Global $g_hHBitmapArmyCap
 Global $g_aiArmyCap[4] = [113, 167, 193, 181]
-Global $g_hHBitmapSpellCap
 Global $g_aiSpellCap[4] = [103, 314, 183, 328]
-Global $g_hHBitmap_Av_Slot1, $g_hHBitmap_Av_Slot2, $g_hHBitmap_Av_Slot3, $g_hHBitmap_Av_Slot4, $g_hHBitmap_Av_Slot5, $g_hHBitmap_Av_Slot6, $g_hHBitmap_Av_Slot7, $g_hHBitmap_Av_Slot8, $g_hHBitmap_Av_Slot9, $g_hHBitmap_Av_Slot10, $g_hHBitmap_Av_Slot11
-Global $g_hHBitmap_Av_SlotQty1, $g_hHBitmap_Av_SlotQty2, $g_hHBitmap_Av_SlotQty3, $g_hHBitmap_Av_SlotQty4, $g_hHBitmap_Av_SlotQty5, $g_hHBitmap_Av_SlotQty6, $g_hHBitmap_Av_SlotQty7, $g_hHBitmap_Av_SlotQty8, $g_hHBitmap_Av_SlotQty9, $g_hHBitmap_Av_SlotQty10, $g_hHBitmap_Av_SlotQty11
-Global $g_hHBitmap_Capture_Av_Slot1, $g_hHBitmap_Capture_Av_Slot2, $g_hHBitmap_Capture_Av_Slot3, $g_hHBitmap_Capture_Av_Slot4, $g_hHBitmap_Capture_Av_Slot5, $g_hHBitmap_Capture_Av_Slot6, $g_hHBitmap_Capture_Av_Slot7, $g_hHBitmap_Capture_Av_Slot8, $g_hHBitmap_Capture_Av_Slot9, $g_hHBitmap_Capture_Av_Slot10, $g_hHBitmap_Capture_Av_Slot11
-Global $g_hHBitmap_Av_Spell_Slot1, $g_hHBitmap_Av_Spell_Slot2, $g_hHBitmap_Av_Spell_Slot3, $g_hHBitmap_Av_Spell_Slot4, $g_hHBitmap_Av_Spell_Slot5, $g_hHBitmap_Av_Spell_Slot6, $g_hHBitmap_Av_Spell_Slot7
-Global $g_hHBitmap_Av_Spell_SlotQty1, $g_hHBitmap_Av_Spell_SlotQty2, $g_hHBitmap_Av_Spell_SlotQty3, $g_hHBitmap_Av_Spell_SlotQty4, $g_hHBitmap_Av_Spell_SlotQty5, $g_hHBitmap_Av_Spell_SlotQty6, $g_hHBitmap_Av_Spell_SlotQty7
-Global $g_hHBitmap_Capture_Av_Spell_Slot1, $g_hHBitmap_Capture_Av_Spell_Slot2, $g_hHBitmap_Capture_Av_Spell_Slot3, $g_hHBitmap_Capture_Av_Spell_Slot4, $g_hHBitmap_Capture_Av_Spell_Slot5, $g_hHBitmap_Capture_Av_Spell_Slot6, $g_hHBitmap_Capture_Av_Spell_Slot7
 
 Global $g_aiArmyAvailableCCSlot[4] = [25, 532, 389, 548]
 Global $g_aiArmyAvailableCCSlotQty[4] = [27, 497, 389, 513]
 Global $g_aiArmyAvailableCCSpellSlot[4] = [456, 529, 601, 544]
 Global $g_aiArmyAvailableCCSpellSlotQty[4] = [458, 497, 601, 513]
 
-Global $g_hHBitmap_Av_CC_Slot1, $g_hHBitmap_Av_CC_Slot2, $g_hHBitmap_Av_CC_Slot3, $g_hHBitmap_Av_CC_Slot4, $g_hHBitmap_Av_CC_Slot5, $g_hHBitmap_Av_CC_Slot6
-Global $g_hHBitmap_Av_CC_SlotQty1, $g_hHBitmap_Av_CC_SlotQty2, $g_hHBitmap_Av_CC_SlotQty3, $g_hHBitmap_Av_CC_SlotQty4, $g_hHBitmap_Av_CC_SlotQty5, $g_hHBitmap_Av_CC_SlotQty6
-Global $g_hHBitmap_Capture_Av_CC_Slot1, $g_hHBitmap_Capture_Av_CC_Slot2, $g_hHBitmap_Capture_Av_CC_Slot3, $g_hHBitmap_Capture_Av_CC_Slot4, $g_hHBitmap_Capture_Av_CC_Slot5, $g_hHBitmap_Capture_Av_CC_Slot6
-Global $g_hHBitmap_Av_CC_Spell_Slot1, $g_hHBitmap_Av_CC_Spell_Slot2
-Global $g_hHBitmap_Av_CC_Spell_SlotQty1, $g_hHBitmap_Av_CC_Spell_SlotQty2
-Global $g_hHBitmap_Capture_Av_CC_Spell_Slot1, $g_hHBitmap_Capture_Av_CC_Spell_Slot2
-
-
-Global $g_hHBitmapTrainTab
-Global $g_hHBitmapTrainCap
 Global $g_aiTrainCap[4] = [45, 161, 115, 174]
-Global $g_hHBitmap_OT_Slot1, $g_hHBitmap_OT_Slot2, $g_hHBitmap_OT_Slot3, $g_hHBitmap_OT_Slot4, $g_hHBitmap_OT_Slot5, $g_hHBitmap_OT_Slot6, $g_hHBitmap_OT_Slot7, $g_hHBitmap_OT_Slot8, $g_hHBitmap_OT_Slot9, $g_hHBitmap_OT_Slot10, $g_hHBitmap_OT_Slot11
-Global $g_hHBitmap_OT_SlotQty1, $g_hHBitmap_OT_SlotQty2, $g_hHBitmap_OT_SlotQty3, $g_hHBitmap_OT_SlotQty4, $g_hHBitmap_OT_SlotQty5, $g_hHBitmap_OT_SlotQty6, $g_hHBitmap_OT_SlotQty7, $g_hHBitmap_OT_SlotQty8, $g_hHBitmap_OT_SlotQty9, $g_hHBitmap_OT_SlotQty10, $g_hHBitmap_OT_SlotQty11
-Global $g_hHBitmap_Capture_OT_Slot1, $g_hHBitmap_Capture_OT_Slot2, $g_hHBitmap_Capture_OT_Slot3, $g_hHBitmap_Capture_OT_Slot4, $g_hHBitmap_Capture_OT_Slot5, $g_hHBitmap_Capture_OT_Slot6, $g_hHBitmap_Capture_OT_Slot7, $g_hHBitmap_Capture_OT_Slot8, $g_hHBitmap_Capture_OT_Slot9, $g_hHBitmap_Capture_OT_Slot10, $g_hHBitmap_Capture_OT_Slot11
 Global $g_aiArmyOnTrainSlot[4] = [65, 212, 838, 228]
 Global $g_aiArmyOnTrainSlotQty[4] = [67, 190, 838, 206]
 Global $g_aiArmyAvailableSlot[4] = [22, 230, 840, 246]
 Global $g_aiArmyAvailableSlotQty[4] = [24, 198, 840, 213]
 
 
-Global $g_hHBitmapBrewTab
-Global $g_hHBitmapBrewCap
 Global $g_aiBrewCap[4] = [45, 161, 90, 174]
-Global $g_hHBitmap_OB_Slot1, $g_hHBitmap_OB_Slot2, $g_hHBitmap_OB_Slot3, $g_hHBitmap_OB_Slot4, $g_hHBitmap_OB_Slot5, $g_hHBitmap_OB_Slot6, $g_hHBitmap_OB_Slot7, $g_hHBitmap_OB_Slot8, $g_hHBitmap_OB_Slot9, $g_hHBitmap_OB_Slot10, $g_hHBitmap_OB_Slot11
-Global $g_hHBitmap_OB_SlotQty1, $g_hHBitmap_OB_SlotQty2, $g_hHBitmap_OB_SlotQty3, $g_hHBitmap_OB_SlotQty4, $g_hHBitmap_OB_SlotQty5, $g_hHBitmap_OB_SlotQty6, $g_hHBitmap_OB_SlotQty7, $g_hHBitmap_OB_SlotQty8, $g_hHBitmap_OB_SlotQty9, $g_hHBitmap_OB_SlotQty10, $g_hHBitmap_OB_SlotQty11
-Global $g_hHBitmap_Capture_OB_Slot1, $g_hHBitmap_Capture_OB_Slot2, $g_hHBitmap_Capture_OB_Slot3, $g_hHBitmap_Capture_OB_Slot4, $g_hHBitmap_Capture_OB_Slot5, $g_hHBitmap_Capture_OB_Slot6, $g_hHBitmap_Capture_OB_Slot7, $g_hHBitmap_Capture_OB_Slot8, $g_hHBitmap_Capture_OB_Slot9, $g_hHBitmap_Capture_OB_Slot10, $g_hHBitmap_Capture_OB_Slot11
 Global $g_aiArmyOnBrewSlot[4] = [65, 212, 838, 228]
 Global $g_aiArmyOnBrewSlotQty[4] = [67, 190, 838, 206]
 Global $g_aiArmyAvailableSpellSlot[4] = [22, 372, 840, 388]

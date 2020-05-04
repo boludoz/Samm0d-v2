@@ -41,7 +41,6 @@ return
 
 	If Not IsArray($aCapMedium) And $aCapMedium[0] > 0 Then
 		Setlog("Fail TrainSiegesM 0x1.", $COLOR_ERROR)
-		_debugSaveHBitmapToImage($g_hHBitmap2, "Fail_findMultipleQuick_in_TrainSiegesM", True)
 		Return False
 	EndIf
 	;Local $aCap = Int(_ArrayMax($aCapMedium))

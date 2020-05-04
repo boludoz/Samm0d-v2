@@ -1931,3 +1931,5 @@ Global $CocDiamondECD = "ECD"
 Global $CocDiamondDCD = "DCD"
 Global $InternalArea[8][3]
 Global $ExternalArea[8][3]
+
+Global $g_iQuickMISX = 0, $g_iQuickMISY = 0, $g_iQuickMISWOffSetX = 0, $g_iQuickMISWOffSety = 0 ; Team AIO Mod++

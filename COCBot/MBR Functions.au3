@@ -29,7 +29,7 @@
 ; Mod Train
 ;---------------------------------------------------------------
 #include "SamM0d\Functions\ModTrain\ModTrain.au3"
-#include "SamM0d\Functions\ModTrain\DeleteTrainHBitmap.au3"
+;#include "SamM0d\Functions\ModTrain\DeleteTrainHBitmap.au3"
 #include "SamM0d\Functions\ModTrain\CheckAvailableUnit.au3"
 #include "SamM0d\Functions\ModTrain\CheckOnTrainUnit.au3"
 #include "SamM0d\Functions\ModTrain\CheckAvailableSpellUnit.au3"
@@ -43,6 +43,8 @@
 ;~ #include "SamM0d\Functions\ModTrain\CheckAvailableCCUnit.au3"
 ;~ #include "SamM0d\Functions\ModTrain\CheckAvailableCCSpellUnit.au3"
 ;~ #include "SamM0d\Functions\ModTrain\TrainSieges.au3"
+#include "SamM0d\Functions\ModTrain\TrainedAndPreDetect.au3"
+
 ;---------------------------------------------------------------
 #include "SamM0d\Functions\Other\_debugSaveHBitmapToImage.au3"
 #include "SamM0d\Functions\Other\_Wait4Pixel.au3"
