@@ -82,7 +82,7 @@ Func CheckAvailableSpellUnit()
 			$aiSpellsInfo[$i][2] = $i + 1
 			Setlog("Detected: " & $aSlotAuto[$i][0], $COLOR_INFO)
 		Else
-			SetLog("Error: Cannot detect what spells on slot: " & Abs(11 - $i), $COLOR_ERROR)
+			SetLog("Error: Cannot detect what spells on slot: " & $i + 1, $COLOR_ERROR)
 			ContinueLoop
 		EndIf
 

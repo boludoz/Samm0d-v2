@@ -146,7 +146,6 @@ Global $g_aMySuperTroops[4][5] = _
 
 ;name,order,size,unit quantity,train cost
 
-;Global enum $eTrainWitc, $eTrainLava, $eTrainBowl, $eTrainIceG
 ; Vars
 Global $cmbMySuperBarbOrder, $cmbMySuperGiantOrder, $cmbMySuperGoblOrder, $cmbMySuperWallOrder
 
@@ -158,34 +157,7 @@ Global $OnTSuperBarb = 0, $OnTSuperGiant = 0, $OnTSuperGobl = 0, $OnTSuperWall =
 
 Global $ReadySuperBarb = 0, $ReadySuperGiant = 0, $ReadySuperGobl = 0, $ReadySuperWall = 0
 
-Global $eEventTroop1 = 51
-
-;
-Global $eEventTroop1 = 51
-Global $eEventTroop1 = 52
-Global $eEventSpell1 = 61
-Global $eEventSpell1 = 62
-
-Global $MyEventTroops[4][5] = _
-		[["EventTroop1", 1, 1, 0, 0], _
-		["EventTroop2", 2, 20, 0, 0], _
-		["EventSpell1", 3, 2, 0, 0], _
-		["EventSpell2", 4, 2, 0, 0]]
-
-Global $CurEventTroop1 = 0
-Global $CurEventTroop2 = 0
-Global $CurEventSpell1 = 0
-Global $CurEventSpell2 = 0
-
-Global $OnQEventTroop1 = 0
-Global $OnQEventTroop2 = 0
-Global $OnQEventSpell1 = 0
-Global $OnQEventSpell2 = 0
-
-Global $OnTEventTroop1 = 0
-Global $OnTEventTroop2 = 0
-Global $OnTEventSpell1 = 0
-Global $OnTEventSpell2 = 0
+Global $eSuperBarb = $eSuperBarb, $eSuperGiant = $eSuperBarb + 1, $eSuperGobl = $eSuperBarb + 2, $eSuperWall = $eSuperBarb + 3
 
 Global $g_aMyTroopsButton[22][3] = _
 		[["Barb", 0, 0], _

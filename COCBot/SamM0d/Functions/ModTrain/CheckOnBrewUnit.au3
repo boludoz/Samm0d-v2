@@ -47,7 +47,7 @@ Func CheckOnBrewUnit()
 				SetLog("Error: Cannot detect what Spells on slot: " & $i + 1, $COLOR_ERROR)
 				$aiSpellInfo[$i][0] = "NotRecognized"
 				$aiSpellInfo[$i][1] = $aSumPreTra[$i][1]
-				$aiSpellInfo[$i][2] = Abs(11 - $i) 
+				$aiSpellInfo[$i][2] = $i + 1 
 				$aiSpellInfo[$i][3] = $aSumPreTra[$i][2]
 				ContinueLoop
 			EndIf
@@ -56,7 +56,7 @@ Func CheckOnBrewUnit()
 
 				$aiSpellInfo[$i][0] = $aSumPreTra[$i][0] ; Name
 				$aiSpellInfo[$i][1] = $aSumPreTra[$i][1] ; Qty
-				$aiSpellInfo[$i][2] = Abs(11 - $i) 
+				$aiSpellInfo[$i][2] = $i + 1 
 				;SetLog($aiSpellInfo[$i][2] & " : " & "Slot", $COLOR_INFO)
 				$aiSpellInfo[$i][3] = $aSumPreTra[$i][2] ;IsQueueSpell
 				If $aSumPreTra[$i][2] Then

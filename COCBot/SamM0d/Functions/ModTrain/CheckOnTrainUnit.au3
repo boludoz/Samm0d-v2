@@ -51,7 +51,7 @@ Func CheckOnTrainUnit()
 				SetLog("Error: Cannot detect what troops on slot: " & $i + 1, $COLOR_ERROR)
 				$aiTroopInfo[$i][0] = "NotRecognized"
 				$aiTroopInfo[$i][1] = $aSumPreTra[$i][1]
-				$aiTroopInfo[$i][2] = Abs(11 - $i) 
+				$aiTroopInfo[$i][2] = $i + 1 
 				$aiTroopInfo[$i][3] = $aSumPreTra[$i][2]
 				ContinueLoop
 			EndIf
@@ -60,7 +60,7 @@ Func CheckOnTrainUnit()
 
 				$aiTroopInfo[$i][0] = $aSumPreTra[$i][0] ; Name
 				$aiTroopInfo[$i][1] = $aSumPreTra[$i][1] ; Qty
-				$aiTroopInfo[$i][2] = Abs(11 - $i) 
+				$aiTroopInfo[$i][2] = $i + 1 
 				$aiTroopInfo[$i][3] = $aSumPreTra[$i][2] ;IsQueueTroop
 				If $aSumPreTra[$i][2] Then
 					Assign("OnQ" & $aSumPreTra[$i][0], Eval("OnQ" & $aSumPreTra[$i][0]) + $aSumPreTra[$i][1])
