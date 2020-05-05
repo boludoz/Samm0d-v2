@@ -16,14 +16,19 @@
 ; ===============================================================================================================================
 Func CheckOnTrainUnit()
 	If $g_iSamM0dDebug = 1 Then SetLog("============Start CheckOnTrainUnit ============")
+	
+	Local $aTempTroops = $g_aMyTroops
+	SuperTroopsCorrectArray($aTempTroops)
+	
 	SetLog("Start check on train unit...", $COLOR_INFO)
+	
 	; reset variable
-	For $i = 0 To UBound($MyTroops) - 1
-		Assign("OnT" & $MyTroops[$i][0], 0)
-		Assign("OnQ" & $MyTroops[$i][0], 0)
-		Assign("Ready" & $MyTroops[$i][0], 0)
-		Assign("RemoveUnitOfOnT" & $MyTroops[$i][0], 0)
-		Assign("RemoveUnitOfOnQ" & $MyTroops[$i][0], 0)
+	For $i = 0 To UBound($aTempTroops) - 1
+		Assign("OnT" & $aTempTroops[$i][0], 0)
+		Assign("OnQ" & $aTempTroops[$i][0], 0)
+		Assign("Ready" & $aTempTroops[$i][0], 0)
+		Assign("RemoveUnitOfOnT" & $aTempTroops[$i][0], 0)
+		Assign("RemoveUnitOfOnQ" & $aTempTroops[$i][0], 0)
 	Next
 
 	Local $aiTroopInfo[11][4]        ; Troop info get from image search, col 0,1,2,3= Object name (troop name), unit of troop, slot (left to right), true for pre-train | false for on train troops
@@ -77,30 +82,29 @@ Func CheckOnTrainUnit()
 		SetLog("No Army On Train.", $COLOR_ERROR)
 		Return True
 	EndIf
-	;_ArrayDisplay($aiTroopInfo)
-	;Return
 	
-	For $i = 0 To UBound($MyTroops) - 1
-		Local $itempTotal = Eval("cur" & $MyTroops[$i][0]) + Eval("OnT" & $MyTroops[$i][0])
-		If Eval("OnT" & $MyTroops[$i][0]) > 0 Then
-			SetLog(" - No. of On Train " & GetTroopName(Eval("e" & $MyTroops[$i][0]), Eval("OnT" & $MyTroops[$i][0])) & ": " & Eval("OnT" & $MyTroops[$i][0]), (Eval("e" & $MyTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+	; Super troops mod
+	For $i = 0 To UBound($aTempTroops) - 1
+		Local $itempTotal = Eval("cur" & $aTempTroops[$i][0]) + Eval("OnT" & $aTempTroops[$i][0])
+		If Eval("OnT" & $aTempTroops[$i][0]) > 0 Then
+			SetLog(" - No. of On Train " & GetTroopName(Eval("e" & $aTempTroops[$i][0]), Eval("OnT" & $aTempTroops[$i][0])) & ": " & Eval("OnT" & $aTempTroops[$i][0]), (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 			$bGotOnTrainFlag = True
 		EndIf
-		If $MyTroops[$i][3] < $itempTotal Then
+		If $aTempTroops[$i][3] < $itempTotal Then
 			If $ichkEnableDeleteExcessTroops = 1 Then
-				SetLog("Error: " & GetTroopName(Eval("e" & $MyTroops[$i][0]), Eval("OnT" & $MyTroops[$i][0])) & " need " & $MyTroops[$i][3] & " only, and i made " & $itempTotal)
-				Assign("RemoveUnitOfOnT" & $MyTroops[$i][0], $itempTotal - $MyTroops[$i][3])
+				SetLog("Error: " & GetTroopName(Eval("e" & $aTempTroops[$i][0]), Eval("OnT" & $aTempTroops[$i][0])) & " need " & $aTempTroops[$i][3] & " only, and i made " & $itempTotal)
+				Assign("RemoveUnitOfOnT" & $aTempTroops[$i][0], $itempTotal - $aTempTroops[$i][3])
 				$bDeletedExcess = True
 			EndIf
 		EndIf
 		If $itempTotal > 0 Then
-			$iAvailableCamp += $itempTotal * $MyTroops[$i][2]
+			$iAvailableCamp += $itempTotal * $aTempTroops[$i][2]
 		EndIf
-		If $MyTroops[$i][3] > 0 Then
-			$iMyTroopsCampSize += $MyTroops[$i][3] * $MyTroops[$i][2]
+		If $aTempTroops[$i][3] > 0 Then
+			$iMyTroopsCampSize += $aTempTroops[$i][3] * $aTempTroops[$i][2]
 		EndIf
 	Next
-
+	
 	If $bDeletedExcess Then
 		$bDeletedExcess = False
 		SetLog(" >>> Some troops over train, stop and remove excess troops.", $COLOR_RED)
@@ -133,19 +137,20 @@ Func CheckOnTrainUnit()
 		$bDeletedExcess = False
 		$bGotOnQueueFlag = False
 
-		For $i = 0 To UBound($MyTroops) - 1
-			Local $itempTotal = Eval("OnQ" & $MyTroops[$i][0])
+		; Super troops mod
+		For $i = 0 To UBound($aTempTroops) - 1
+			Local $itempTotal = Eval("OnQ" & $aTempTroops[$i][0])
 			If $itempTotal > 0 Then
-				SetLog(" - No. of On Queue " & GetTroopName(Eval("e" & $MyTroops[$i][0]), Eval("OnQ" & $MyTroops[$i][0])) & ": " & Eval("OnQ" & $MyTroops[$i][0]), (Eval("e" & $MyTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+				SetLog(" - No. of On Queue " & GetTroopName(Eval("e" & $aTempTroops[$i][0]), Eval("OnQ" & $aTempTroops[$i][0])) & ": " & Eval("OnQ" & $aTempTroops[$i][0]), (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 				$bGotOnQueueFlag = True
-				If $MyTroops[$i][3] < $itempTotal Then
+				If $aTempTroops[$i][3] < $itempTotal Then
 					If $ichkEnableDeleteExcessTroops = 1 Then
-						SetLog("Error: " & GetTroopName(Eval("e" & $MyTroops[$i][0]), Eval("OnQ" & $MyTroops[$i][0])) & " need " & $MyTroops[$i][3] & " only, and i made " & $itempTotal)
-						Assign("RemoveUnitOfOnQ" & $MyTroops[$i][0], $itempTotal - $MyTroops[$i][3])
+						SetLog("Error: " & GetTroopName(Eval("e" & $aTempTroops[$i][0]), Eval("OnQ" & $aTempTroops[$i][0])) & " need " & $aTempTroops[$i][3] & " only, and i made " & $itempTotal)
+						Assign("RemoveUnitOfOnQ" & $aTempTroops[$i][0], $itempTotal - $aTempTroops[$i][3])
 						$bDeletedExcess = True
 					EndIf
 				EndIf
-				$iOnQueueCamp += $itempTotal * $MyTroops[$i][2]
+				$iOnQueueCamp += $itempTotal * $aTempTroops[$i][2]
 			EndIf
 		Next
 
@@ -216,29 +221,28 @@ Func CheckOnTrainUnit()
 			EndIf
 		Else
 			If $ichkMyTroopsOrder Then
-				Local $tempTroops = $MyTroops
-				_ArraySort($tempTroops, 0, 0, 0, 1)
-				For $i = 0 To UBound($tempTroops) - 1
-					If $tempTroops[$i][3] > 0 Then
-						$tempTroops[0][0] = $tempTroops[$i][0]
-						$tempTroops[0][3] = $tempTroops[$i][3]
+				_ArraySort($aTempTroops, 0, 0, 0, 1)
+				For $i = 0 To UBound($aTempTroops) - 1
+					If $aTempTroops[$i][3] > 0 Then
+						$aTempTroops[0][0] = $aTempTroops[$i][0]
+						$aTempTroops[0][3] = $aTempTroops[$i][3]
 						ExitLoop
 					EndIf
 				Next
 				_ArraySort($aiTroopInfo, 1, 0, 0, 2)
 				For $i = 0 To UBound($aiTroopInfo) - 1
 					If $aiTroopInfo[$i][3] = True Then
-						If $aiTroopInfo[$i][0] <> $tempTroops[0][0] Then
+						If $aiTroopInfo[$i][0] <> $aTempTroops[0][0] Then
 							SetLog("Pre-Train first slot: " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]), $aiTroopInfo[$i][1]), $COLOR_ERROR)
-							SetLog("My first order troops: " & GetTroopName(Eval("e" & $tempTroops[0][0]), $tempTroops[0][3]), $COLOR_ERROR)
+							SetLog("My first order troops: " & GetTroopName(Eval("e" & $aTempTroops[0][0]), $aTempTroops[0][3]), $COLOR_ERROR)
 							SetLog("Remove and re training by order.", $COLOR_ERROR)
 							RemoveAllPreTrainTroops()
 							$g_bRestartCheckTroop = True
 							Return False
 						Else
-							If $aiTroopInfo[$i][1] < $tempTroops[0][3] Then
+							If $aiTroopInfo[$i][1] < $aTempTroops[0][3] Then
 								SetLog("Pre-Train first slot: " & GetTroopName(Eval("e" & $aiTroopInfo[$i][0]), $aiTroopInfo[$i][1]) & " - Units: " & $aiTroopInfo[$i][1], $COLOR_ERROR)
-								SetLog("My first order troops: " & GetTroopName(Eval("e" & $tempTroops[0][0]), $tempTroops[0][3]) & " - Units: " & $tempTroops[0][3], $COLOR_ERROR)
+								SetLog("My first order troops: " & GetTroopName(Eval("e" & $aTempTroops[0][0]), $aTempTroops[0][3]) & " - Units: " & $aTempTroops[0][3], $COLOR_ERROR)
 								SetLog("Not enough quantity, remove and re-training again.", $COLOR_ERROR)
 								RemoveAllPreTrainTroops()
 								$g_bRestartCheckTroop = True

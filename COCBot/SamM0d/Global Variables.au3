@@ -12,6 +12,9 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+; Super troops mod
+Global $g_sSuperTActive = ""
+
 ;League Attack
 Global $g_bLeagueAttack = False
 

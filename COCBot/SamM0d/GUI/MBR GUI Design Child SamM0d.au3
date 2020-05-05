@@ -407,16 +407,16 @@ GUICtrlSetOnEvent(-1, "cmbMyQuickTrain")
 
 Local $sComboData = ""
 Local $sEvalStringTroops
-Local $aTroopOrderList[UBound($MyTroops) + 1]
+Local $aTroopOrderList[UBound($g_aMyTroops) + 1]
 
-For $iTroopOrd = 1 To UBound($MyTroops)
+For $iTroopOrd = 1 To UBound($g_aMyTroops)
 	; Assign the variable string sSSring with data.
 	Assign("sTroopString", $iTroopOrd)
 
 	$aTroopOrderList[$iTroopOrd] = Eval("sTroopString")
 Next
 
-For $h = 0 To UBound($MyTroops)
+For $h = 0 To UBound($g_aMyTroops)
 	$sComboData &= $aTroopOrderList[$h] & "|"
 Next
 
@@ -439,16 +439,16 @@ $btnResetTroops = GUICtrlCreateLabel("Remove Army", $x + 305, $y - 27, -1, 15, $
 	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnResetButton, $x + 375, $y - 30, 24, 24)
 	GUICtrlSetOnEvent(-1, "btnResetTroops")
 
-	For $i = 0 To UBound($MyTroops) - 1
+	For $i = 0 To UBound($g_aMyTroops) - 1
 		If $i >= 12 Then $x = 25
 
-		Assign("cmbMy" & $MyTroops[$i][0] & "Order", GUICtrlCreateCombo($aTroopOrderList[$i], $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 90, 30+5, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
+		Assign("cmbMy" & $g_aMyTroops[$i][0] & "Order", GUICtrlCreateCombo($aTroopOrderList[$i], $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 90, 30+5, 20, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
 			GUICtrlSetData(-1, $sComboData, $i + 1)
 			GUICtrlSetOnEvent(-1, "cmbMyTroopOrder")
 
-		Assign("icnMy" & $MyTroops[$i][0], _GUICtrlCreateIcon($g_sLibIconPath, $MyTroopsIcon[$i], $x + Int($i / 2) * 38, $y + Mod($i, 2) * 90 + 25, 32, 32))
+		Assign("icnMy" & $g_aMyTroops[$i][0], _GUICtrlCreateIcon($g_sLibIconPath, $g_aMyTroopsIcon[$i], $x + Int($i / 2) * 38, $y + Mod($i, 2) * 90 + 25, 32, 32))
 
-		Assign("txtMy" & $MyTroops[$i][0], GUICtrlCreateInput(($i <> 2) ? (0) : (16), $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 90 + 60, 30+5, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER)))
+		Assign("txtMy" & $g_aMyTroops[$i][0], GUICtrlCreateInput(($i <> 2) ? (0) : (16), $x + Int($i / 2) * 38 + 1, $y + Mod($i, 2) * 90 + 60, 30+5, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER)))
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of" ) & " " & GetTroopName($i, 2))
 			;_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", "txtNoOf", "Enter the No. of") & " " & Eval("sTxt" & StringReplace(GetTroopName($i, 2), " ", "")))
 			GUICtrlSetLimit(-1, 3)
@@ -641,25 +641,25 @@ $chkMySpellsOrder = GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", "Order
 
 Local $sComboSpellData = ""
 Local $sEvalStringSpells
-Local $aSpellOrderList[UBound($MySpells) + 1]
+Local $aSpellOrderList[UBound($g_aMySpells) + 1]
 
-For $iSpellOrd = 1 To UBound($MySpells)
+For $iSpellOrd = 1 To UBound($g_aMySpells)
 	; Assign the variable string sSSring with data.
 	Assign("sSpellString", $iSpellOrd)
 
 	$aSpellOrderList[$iSpellOrd] = Eval("sSpellString")
 Next
 
-For $h = 0 To UBound($MySpells)
+For $h = 0 To UBound($g_aMySpells)
 	$sComboSpellData &= $aSpellOrderList[$h] & "|"
 Next
 
-For $i = 0 To UBound($MySpells) - 1
-	Assign("chkPre" & $MySpells[$i][0], GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 77 + $i, "Pre-Brew " & $MySpells[$i][0]), $x + 40, $y, -1, -1))
-	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", 87 + $i, "Pre-Brew " & $MySpells[$i][0] & " after available spell prepare finish."))
+For $i = 0 To UBound($g_aMySpells) - 1
+	Assign("chkPre" & $g_aMySpells[$i][0], GUICtrlCreateCheckbox(GetTranslatedFileIni("sam m0d", 77 + $i, "Pre-Brew " & $g_aMySpells[$i][0]), $x + 40, $y, -1, -1))
+	_GUICtrlSetTip(-1, GetTranslatedFileIni("sam m0d", 87 + $i, "Pre-Brew " & $g_aMySpells[$i][0] & " after available spell prepare finish."))
 	GUICtrlSetOnEvent(-1, "UpdatePreSpellSetting")
 
-	Assign("cmbMy" & $MySpells[$i][0] & "SpellOrder", GUICtrlCreateCombo("", $x, $y, 36, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
+	Assign("cmbMy" & $g_aMySpells[$i][0] & "SpellOrder", GUICtrlCreateCombo("", $x, $y, 36, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL)))
 	GUICtrlSetData(-1, $sComboSpellData, $i + 1)
 	GUICtrlSetOnEvent(-1, "cmbMySpellOrder")
 	$y += 25

@@ -409,11 +409,15 @@ Func RemoveAllTroopAlreadyTrain()
 	Next
 
 	; reset variable
-	For $i = 0 To UBound($MyTroops) - 1
-		Assign("OnQ" & $MyTroops[$i][0], 0)
+	For $i = 0 To UBound($g_aMyTroops) - 1
+		Assign("OnQ" & $g_aMyTroops[$i][0], 0)
+		Assign("OnT" & $g_aMyTroops[$i][0], 0)
 	Next
-	For $i = 0 To UBound($MyTroops) - 1
-		Assign("OnT" & $MyTroops[$i][0], 0)
+	
+	; reset Global variables for Super Troops
+	For $i = 0 To UBound($g_aMySuperTroops) - 1
+		Assign("OnQ" & $g_aMySuperTroops[$i][0], 0)
+		Assign("OnT" & $g_aMySuperTroops[$i][0], 0)
 	Next
 
 	If $g_bDebugSetlogTrain Then SetLog("====Ended Delete Troops====",$COLOR_HMLClick_LOG)
@@ -453,9 +457,15 @@ Func RemoveAllPreTrainTroops()
 		If $iLoopCount > 30 Then ExitLoop
 	WEnd
 	; reset variable
-	For $i = 0 To UBound($MyTroops) - 1
-		Assign("OnQ" & $MyTroops[$i][0], 0)
+	For $i = 0 To UBound($g_aMyTroops) - 1
+		Assign("OnQ" & $g_aMyTroops[$i][0], 0)
 	Next
+	
+	; reset Global variables for Super Troops
+	For $i = 0 To UBound($g_aMySuperTroops) - 1
+		Assign("OnQ" & $g_aMySuperTroops[$i][0], 0)
+	Next
+
 EndFunc
 
 Func RemoveTrainTroops($iSlot, $iCount)

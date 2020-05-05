@@ -58,11 +58,12 @@ Func CheckAvailableUnit()
 	If $g_iSamM0dDebug = 1 Then SetLog("============Start CheckAvailableUnit ============")
 	SetLog("Start check available unit...", $COLOR_INFO)
 
-	Local $tempTroops = $MyTroops
-
+	Local $aTempTroops = $g_aMyTroops
+	SuperTroopsCorrectArray($aTempTroops)
+	
 	; reset variable
-	For $i = 0 To UBound($tempTroops) - 1
-		Assign("cur" & $tempTroops[$i][0], 0)
+	For $i = 0 To UBound($aTempTroops) - 1
+		Assign("cur" & $aTempTroops[$i][0], 0)
 	Next
 	For $i = 0 To 6
 		Assign("RemSlot" & $i + 1, 0)
@@ -71,6 +72,7 @@ Func CheckAvailableUnit()
 	Local $aiTroopsInfo[7][3]
 	Local $AvailableCamp = 0
 	Local $bDeletedExcess = False
+	
 	Local $aSlotAuto = $g_vIntercomCheckAvailableUnit
 	Local $iTroopIndex = -1
 	Local $sTroopName = ""
@@ -106,13 +108,13 @@ Func CheckAvailableUnit()
 				EndIf
 			Next
 
-			$AvailableCamp += ($aiTroopsInfo[$i][1] * $tempTroops[Eval("e" & $aiTroopsInfo[$i][0])][2])
+			$AvailableCamp += ($aiTroopsInfo[$i][1] * $aTempTroops[Eval("e" & $aiTroopsInfo[$i][0])][2])
 
 			If $ichkEnableDeleteExcessTroops = 1 Then
-				If $aiTroopsInfo[$i][1] > $tempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3] Then
+				If $aiTroopsInfo[$i][1] > $aTempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3] Then
 					$bDeletedExcess = True
-					SetLog(" >>> excess: " & $aiTroopsInfo[$i][1] - $tempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3], $COLOR_RED)
-					Assign("RemSlot" & $aiTroopsInfo[$i][2], $aiTroopsInfo[$i][1] - $tempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3])
+					SetLog(" >>> excess: " & $aiTroopsInfo[$i][1] - $aTempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3], $COLOR_RED)
+					Assign("RemSlot" & $aiTroopsInfo[$i][2], $aiTroopsInfo[$i][1] - $aTempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3])
 					If $g_iSamM0dDebug = 1 Then SetLog("Set Remove Slot: " & $aiTroopsInfo[$i][2])
 				EndIf
 			EndIf

@@ -48,101 +48,103 @@ EndFunc   ;==>_getArmyCapacityOnTrainTroops
 #ce
 Func CheckAutoCamp() ; Only first Run and th5 + (Then every time he does the troops he will do it alone.)
 	Local $dbg = 0
-	Static $aTmpArray = $MyTroops
-	
+	Static $aTmpArray = $g_aMyTroops
+
 	; Ez reset.
-	$MyTroops = $aTmpArray	
-	
+	$g_aMyTroops = $aTmpArray
+	$g_sSuperTActive = ""
+
 	; Capture troops train region.
 	Local $aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\SuperT\", 0, "0, 149, 281, 297", "SuperT", True)
 	Local $aClockUbi[5] = ["Gobl", "Barb", "Wall", "Giant"]
 	Local $aClockX[6] = [0, 284, 426, 570, 711]
 
 	If $aButtonXY <> -1 Then
-		If _Sleep(1000) Then return
-		
+		If _Sleep(1000) Then Return
+
 		Local $ixa = $aButtonXY[0][1] - 50
 		Local $iya = $aButtonXY[0][2] - 50
 		Local $ixb = $aButtonXY[0][1] + 25
 		Local $iyb = $aButtonXY[0][2] + 25
 
-		Local $aButtonTr = findMultipleQuick($g_sSamM0dImageLocation & "\SuperT\", 0, $ixa&","&$iya&","&$ixb&","&$iyb, "SuperDuracion", False)
+		Local $aButtonTr = findMultipleQuick($g_sSamM0dImageLocation & "\SuperT\", 0, $ixa & "," & $iya & "," & $ixb & "," & $iyb, "SuperDuracion", False)
 		If $aButtonTr <> -1 Then
 			Click($aButtonXY[0][1], $aButtonXY[0][2])
-			If _Sleep(1000) Then return
-					Local $aClock = findMultipleQuick($g_sSamM0dImageLocation & "\SuperT\", 0, "145,451,707,485", "Clock", False)
-					If $aClock <> -1 Then
+			If _Sleep(1000) Then Return
+			Local $aClock = findMultipleQuick($g_sSamM0dImageLocation & "\SuperT\", 0, "145,451,707,485", "Clock", False)
+			If $aClock <> -1 Then
 
-						For	$i2 = 0 To UBound($aClockX)-1
-							For $i = 0 To UBound($aClock)-1
-								If $i2 = UBound($aClockX)-1 Then ContinueLoop
-								If $aClock[$i][1] > $aClockX[$i2] And $aClock[$i][1] < $aClockX[$i2+1] Then 
-									SetLog("- "&$aClockUbi[$i2] &" Is active", $Color_info)
-									For $i3 = 0 To UBound($MyTroops)-1 
-										If ( StringInStr( $MyTroops[$i3][0], $aClockUbi[$i2] ) <> 0 ) Then 
-											$MyTroops[$i3][2] = $MyTroops[$i3][5]
-											For $i4 = 0 To UBound($g_aMySuperTroops)-1 
-												If (StringInStr($g_aMySuperTroops[$i4][0], $MyTroops[$i3][0]) <> 0) Then
-													$MyTroops[$i3][3] = Floor(Int($MyTroops[$i3][3] / Int($g_aMySuperTroops[$i4][2] / $MyTroops[$i3][2]))) + ($MyTroops[$i3][0] = "Giant") ? (2) : (0)
-													UpdateTroopSize()
-												EndIf
-											Next
-										EndIf 
-									Next
-								EndIf
-							Next
-						Next
-				
-						If _Sleep(1000) Then return
-				EndIf
+				For $i2 = 0 To UBound($aClockX) - 1
+					For $i = 0 To UBound($aClock) - 1
+						If $i2 = UBound($aClockX) - 1 Then ContinueLoop
+						If $aClock[$i][1] > $aClockX[$i2] And $aClock[$i][1] < $aClockX[$i2 + 1] Then
+							SetLog("- " & $aClockUbi[$i2] & " Is active", $Color_info)
+							SuperTroopsArray($aClockUbi[$i2])
+;~ 							For $i3 = 0 To UBound($g_aMyTroops) - 1
+;~ 								If (StringInStr($g_aMyTroops[$i3][0], $aClockUbi[$i2]) <> 0) Then
+;~ 									$g_aMyTroops[$i3][2] = $g_aMyTroops[$i3][5]
+;~ 									For $i4 = 0 To UBound($g_aMySuperTroops) - 1
+;~ 										If (StringInStr($g_aMySuperTroops[$i4][0], $g_aMyTroops[$i3][0]) <> 0) Then
+;~ 											$g_aMyTroops[$i3][3] = Floor(Int($g_aMyTroops[$i3][3] / Int($g_aMySuperTroops[$i4][2] / $g_aMyTroops[$i3][2]))) + ($g_aMyTroops[$i3][0] = "Giant") ? (2) : (0)
+;~ 											UpdateTroopSize()
+;~ 										EndIf
+;~ 									Next
+;~ 								EndIf
+;~ 							Next
+						EndIf
+					Next
+				Next
+
+				If _Sleep(1000) Then Return
+			EndIf
 		EndIf
-		;_ArrayDisplay($MyTroops)
-	ClickP($aAway)
-	If _Sleep(1000) Then return
+		;_ArrayDisplay($g_aMyTroops)
+		ClickP($aAway)
+		If _Sleep(1000) Then Return
 	EndIf
 
 EndFunc   ;==>CheckAutoCamp
 
 Func UpdSam($aInput)
 	Local $dbg = 0
-    If $dbg = 1 Then Setlog("DBG ON GET ARMY")
-	
-    Local $aTempResult[4] = [0, 0, 0]
+	If $dbg = 1 Then Setlog("DBG ON GET ARMY")
+
+	Local $aTempResult[4] = [0, 0, 0]
 	Local $iResult
 	If StringInStr($aInput, "#") Then
 		Local $aTempResult = StringSplit($aInput, "#", $STR_NOCOUNT)
-		If Not isArray($aTempResult) then Return
+		If Not IsArray($aTempResult) Then Return
 		$iResult = Number($aTempResult[1])
 
-			; Spell
-			If $iResult <= 11 Then
-				GUICtrlSetData($g_hTxtTotalCountSpell, $iResult)
-				$g_iTotalSpellValue = $iResult
-				$g_iMySpellsSize = $iResult
-				GUICtrlSetData($txtTotalCountSpell2, $g_iTotalSpellValue)
-				UpdateSpellSetting()
-				
-				; Army
-				ElseIf $iResult >= 15 Then
-				GUICtrlSetData($g_hTxtTotalCampForced, $iResult)
-				$g_iTotalCampForcedValue = $iResult
+		; Spell
+		If $iResult <= 11 Then
+			GUICtrlSetData($g_hTxtTotalCountSpell, $iResult)
+			$g_iTotalSpellValue = $iResult
+			$g_iMySpellsSize = $iResult
+			GUICtrlSetData($txtTotalCountSpell2, $g_iTotalSpellValue)
+			UpdateSpellSetting()
 
-				If $dbg = 1 Then Setlog($iResult)
-				If $dbg = 1 Then Setlog($g_iTotalSpellValue)
-				If $dbg = 1 Then Setlog($g_iTotalCampForcedValue)
-				UpdateTroopSize()
-			EndIf
+			; Army
+		ElseIf $iResult >= 15 Then
+			GUICtrlSetData($g_hTxtTotalCampForced, $iResult)
+			$g_iTotalCampForcedValue = $iResult
+
+			If $dbg = 1 Then Setlog($iResult)
+			If $dbg = 1 Then Setlog($g_iTotalSpellValue)
+			If $dbg = 1 Then Setlog($g_iTotalCampForcedValue)
+			UpdateTroopSize()
+		EndIf
 	Else
 		SetLog("DEBUG | ERROR on GetCurrentArmy", $COLOR_ERROR)
 	EndIf
-EndFunc
+EndFunc   ;==>UpdSam
 
 ; INFO ! ======================
-	;		; full & forced Total Camp values
-	;		$g_iTrainArmyFullTroopPct = Int(GUICtrlRead($g_hTxtFullTroop))
-	;		$g_bTotalCampForced = (GUICtrlRead($g_hChkTotalCampForced) = $GUI_CHECKED)
-	;		$g_iTotalCampForcedValue = Int(GUICtrlRead($g_hTxtTotalCampForced))
-	;		; spell capacity and forced flag
-	;		$g_iTotalSpellValue = GUICtrlRead($g_hTxtTotalCountSpell)
-	;		$g_bForceBrewSpells = (GUICtrlRead($g_hChkForceBrewBeforeAttack) = $GUI_CHECKED)
+;		; full & forced Total Camp values
+;		$g_iTrainArmyFullTroopPct = Int(GUICtrlRead($g_hTxtFullTroop))
+;		$g_bTotalCampForced = (GUICtrlRead($g_hChkTotalCampForced) = $GUI_CHECKED)
+;		$g_iTotalCampForcedValue = Int(GUICtrlRead($g_hTxtTotalCampForced))
+;		; spell capacity and forced flag
+;		$g_iTotalSpellValue = GUICtrlRead($g_hTxtTotalCountSpell)
+;		$g_bForceBrewSpells = (GUICtrlRead($g_hChkForceBrewBeforeAttack) = $GUI_CHECKED)
 ; ============

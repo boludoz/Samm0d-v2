@@ -124,22 +124,22 @@ Local $sTextTroops
 Local $sTextTroopsString
 Local $sGiants
 For $j = 0 To 2
-	For $i = 0 To UBound($MyTroops) - 1
-		$sTextTroopsString = IniRead($g_sProfileConfigPath, "MyTroops", $MyTroops[$i][0]&$j, 0 &"|"&$i + 1)
+	For $i = 0 To UBound($g_aMyTroops) - 1
+		$sTextTroopsString = IniRead($g_sProfileConfigPath, "MyTroops", $g_aMyTroops[$i][0]&$j, 0 &"|"&$i + 1)
 		If StringInStr($sTextTroopsString, "|") <> 0 Then
 		$sTextTroops = StringSplit($sTextTroopsString, "|", $STR_NOCOUNT)
-			$MyTroopsSetting[$j][$i][0] = Int($sTextTroops[0])
-			$MyTroopsSetting[$j][$i][1] = Int($sTextTroops[1])
+			$g_aMyTroopsSetting[$j][$i][0] = Int($sTextTroops[0])
+			$g_aMyTroopsSetting[$j][$i][1] = Int($sTextTroops[1])
 			Else
-			$MyTroopsSetting[$j][$i][0] = Int($sTextTroopsString)
-			$MyTroopsSetting[$j][$i][1] = $i + 1
+			$g_aMyTroopsSetting[$j][$i][0] = Int($sTextTroopsString)
+			$g_aMyTroopsSetting[$j][$i][1] = $i + 1
 		Endif
 	Next
 Next
 
-For $i = 0 To UBound($MyTroops) - 1
-	$MyTroops[$i][3] =  $MyTroopsSetting[$icmbTroopSetting][$i][0]
-	$MyTroops[$i][1] =  $MyTroopsSetting[$icmbTroopSetting][$i][1]
+For $i = 0 To UBound($g_aMyTroops) - 1
+	$g_aMyTroops[$i][3] =  $g_aMyTroopsSetting[$icmbTroopSetting][$i][0]
+	$g_aMyTroops[$i][1] =  $g_aMyTroopsSetting[$icmbTroopSetting][$i][1]
 Next
 
 ; Spells
@@ -151,27 +151,27 @@ Local $sTextSpells
 Local $sTextSpellsString
 
 For $j = 0 To 2
-	For $i = 0 To UBound($MySpells) - 1
-	 $sTextSpellsString = IniRead($g_sProfileConfigPath, "MySpells", $MySpells[$i][0]&$j, "0|"&$i + 1&"|0")
+	For $i = 0 To UBound($g_aMySpells) - 1
+	 $sTextSpellsString = IniRead($g_sProfileConfigPath, "MySpells", $g_aMySpells[$i][0]&$j, "0|"&$i + 1&"|0")
 	If Not StringInStr($sTextSpellsString, "|") = 0 Then
 	$sTextSpells = StringSplit($sTextSpellsString, "|", $STR_NOCOUNT)
-		$MySpellSetting[$j][$i][0] = Int($sTextSpells[0])
-		$MySpellSetting[$j][$i][1] = Int($sTextSpells[1])
-		$MySpellSetting[$j][$i][2] = Int($sTextSpells[2])
+		$g_aMySpellsetting[$j][$i][0] = Int($sTextSpells[0])
+		$g_aMySpellsetting[$j][$i][1] = Int($sTextSpells[1])
+		$g_aMySpellsetting[$j][$i][2] = Int($sTextSpells[2])
 		Else
-		$MySpellSetting[$j][$i][0] = Int($sTextSpellsString)
-		$MySpellSetting[$j][$i][1] = $i + 1
-		$MySpellSetting[$j][$i][2] = 0
+		$g_aMySpellsetting[$j][$i][0] = Int($sTextSpellsString)
+		$g_aMySpellsetting[$j][$i][1] = $i + 1
+		$g_aMySpellsetting[$j][$i][2] = 0
 		Endif
 	Next
 Next
 
 $g_bDoPrebrewspell = 0
-For $i = 0 To UBound($MySpells) - 1
-	Assign("ichkPre" & $MySpells[$i][0],  $MySpellSetting[$icmbTroopSetting][$i][2])
-	$g_bDoPrebrewspell = BitOR($g_bDoPrebrewspell, $MySpellSetting[$icmbTroopSetting][$i][2])
-	$MySpells[$i][3] =  $MySpellSetting[$icmbTroopSetting][$i][0]
-	$MySpells[$i][1] =  $MySpellSetting[$icmbTroopSetting][$i][1]
+For $i = 0 To UBound($g_aMySpells) - 1
+	Assign("ichkPre" & $g_aMySpells[$i][0],  $g_aMySpellsetting[$icmbTroopSetting][$i][2])
+	$g_bDoPrebrewspell = BitOR($g_bDoPrebrewspell, $g_aMySpellsetting[$icmbTroopSetting][$i][2])
+	$g_aMySpells[$i][3] =  $g_aMySpellsetting[$icmbTroopSetting][$i][0]
+	$g_aMySpells[$i][1] =  $g_aMySpellsetting[$icmbTroopSetting][$i][1]
 Next
 
 ; Sieges

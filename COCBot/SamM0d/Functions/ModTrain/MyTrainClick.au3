@@ -86,32 +86,34 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 EndFunc   ;==>findMultipleQuick
 
 Func TestLocateTroopButton($sTroopB = "Giant", $bIsBrewSpell = False)
-	Local $iSpace = 5
-	Local $b = LocateTroopButton($iSpace, $sTroopB, $bIsBrewSpell)
-	SetLog($g_iTroopButtonX & " " & $g_iTroopButtonY & " " & $iSpace & " " & $b)
+	Local $b = LocateTroopButton($sTroopB, $bIsBrewSpell)
+	SetLog($g_iTroopButtonX & " " & $g_iTroopButtonY &" " & $b)
 EndFunc   ;==>TestLocateTroopButton
 
-Func LocateTroopButton(ByRef $iSpace, $sTroopButton, $bIsBrewSpell = False)
+Func LocateTroopButton($sTroopButton, $bIsBrewSpell = False)
 	Local $aRegionForScan = "26,411,840,536"
 	Local $aButtonXY
-	
+
 	For $iB = 0 To 1
-		
+
 		If Not IsTrainPage() Then Return False
 
 		; Capture troops train region.
 		$aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\TrainButtons\", 1, $aRegionForScan, $sTroopButton, False)
-		
-		If not $bIsBrewSpell Then
-			For $iC = 0 To UBound($MyTroops) - 1
+
+		If not $bIsBrewSpell and $g_sSuperTActive = "" Then
+			For $iC = 0 To UBound($g_aMyTroops) - 1
 				If $aButtonXY = -1 Then ExitLoop
-				
-				If (StringInStr($aButtonXY[0][0], $MyTroops[$iC][0]) <> 0) Then
-					$iSpace = (StringInStr($aButtonXY[0][0], "Super") <> 0) ? ($MyTroops[$iC][5]) : ($MyTroops[$iC][6])
+
+				If (StringInStr($aButtonXY[0][0], $g_aMyTroops[$iC][0]) <> 0) Then
+					If (StringInStr($aButtonXY[0][0], "Super") <> 0) Then
+						$g_sSuperTActive = (StringTrimLeft($aButtonXY[0][0], 5))
+						SuperTroopsArray()
+					EndIf
 				EndIf
 			Next
 		EndIf
-		
+
 		; If is not bad findMultipleQuick result.
 		If $aButtonXY <> -1 Then
 

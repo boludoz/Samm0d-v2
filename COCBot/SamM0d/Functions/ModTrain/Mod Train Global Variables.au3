@@ -29,31 +29,18 @@ Global $bRestartCustomTrain = False
 
 Global $icmbTroopSetting = 0
 Global $icmbMyQuickTrain = 0
+
 Global $txtMyBarb, $txtMyArch, $txtMyGiant, $txtMyGobl, $txtMyWall, $txtMyBall, $txtMyWiza, $txtMyHeal, $txtMyDrag, $txtMyPekk, $txtMyBabyD, $txtMyMine, $txtMyEDrag, $txtMyYeti, _
 $txtMyMini, $txtMyHogs, $txtMyValk, $txtMyGole, $txtMyWitc, $txtMyLava, $txtMyBowl, $txtMyIceG
-Global $cmbMyBarbOrder, $cmbMyArchOrder, $cmbMyGiantOrder, $cmbMyGoblOrder, $cmbMyWallOrder, $cmbMyBallOrder, $cmbMyWizaOrder, $cmbMyHealOrder, $cmbMyDragOrder, $cmbMyPekkOrder, $cmbMyBabyDOrder, $cmbMyMineOrder, $cmbMyEDragOrder, _
-$cmbMyMiniOrder, $cmbMyHogsOrder, $cmbMyValkOrder, $cmbMyGoleOrder, $cmbMyWitcOrder, $cmbMyOrder, $cmbMyLavaOrder, $cmbMyBowlOrder, $cmbMyIceGOrder, $cmbMyYetiOrder
-
-Global $CurBarb = 0, $CurArch = 0, $CurGiant = 0, $CurGobl = 0, $CurWall = 0, $CurBall = 0, $CurWiza = 0, $CurHeal = 0
-Global $CurMini = 0, $CurHogs = 0, $CurValk = 0, $CurGole = 0, $CurWitc = 0, $CurLava = 0, $CurBowl = 0, $CurDrag = 0, $CurPekk = 0, $CurBabyD = 0, $CurMine = 0, $CurDrag = 0, $CurIceG = 0, $CurYeti = 0
-
-Global $OnQBarb = 0, $OnQArch = 0, $OnQGiant = 0, $OnQGobl = 0, $OnQWall = 0, $OnQBall = 0, $OnQWiza = 0, $OnQHeal = 0
-Global $OnQMini = 0, $OnQHogs = 0, $OnQValk = 0, $OnQGole = 0, $OnQWitc = 0, $OnQLava = 0, $OnQBowl = 0, $OnQDrag = 0, $OnQPekk = 0, $OnQBabyD = 0, $OnQMine = 0, $OnQEDrag = 0, $OnQIceG = 0, $OnQYeti = 0
-
-Global $OnTBarb = 0, $OnTArch = 0, $OnTGiant = 0, $OnTGobl = 0, $OnTWall = 0, $OnTBall = 0, $OnTWiza = 0, $OnTHeal = 0
-Global $OnTMini = 0, $OnTHogs = 0, $OnTValk = 0, $OnTGole = 0, $OnTWitc = 0, $OnTLava = 0, $OnTBowl = 0, $OnTDrag = 0, $OnTPekk = 0, $OnTBabyD = 0, $OnTMine = 0, $OnTEDrag = 0, $OnTIceG = 0, $OnTYeti = 0
-
-Global $ReadyBarb = 0, $ReadyArch = 0, $ReadyGiant = 0, $ReadyGobl = 0, $ReadyWall = 0, $ReadyBall = 0, $ReadyWiza = 0, $ReadyHeal = 0
-Global $ReadyMini = 0, $ReadyHogs = 0, $ReadyValk = 0, $ReadyGole = 0, $ReadyWitc = 0, $ReadyLava = 0, $ReadyBowl = 0, $ReadyDrag = 0, $ReadyPekk = 0, $ReadyBabyD = 0, $ReadyMine = 0, $ReadyEDrag = 0, $ReadyIceG = 0, $ReadyYeti = 0
 
 ; Ejercito|Tipo de tropa|Setting
-Global $MyTroopsSetting[3][22][2]= _
+Global $g_aMyTroopsSetting[3][22][2]= _
 [[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]], _
  [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]], _
  [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]]
 
 ; Ejercito|Tipo de tropa|Setting
-Global $MySpellSetting[3][11][3] = _
+Global $g_aMySpellsetting[3][11][3] = _
 		[[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], _
 		[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], _
 		[[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]]
@@ -108,38 +95,72 @@ Global $ichkPreSiegeStoneS
 
 Global $g_iMyTroopsSize = 0
 Global $iDarkFixTroop = 13
-Global $MyTroopsIcon[22] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, $eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnIceGolem]
-Global $MyTroops[22][7] = _
-		[["Barb", 1, 1, 0, 0, 5, 1], _
-		["Arch", 2, 1, 0, 0, 1, 1], _
-		["Giant", 3, 5, 16, 0, 10, 5], _
-		["Gobl", 4, 1, 0, 0, 3, 1], _
-		["Wall", 5, 2, 0, 0, 5, 2], _
-		["Ball", 6, 5, 0, 0, 5, 5], _
-		["Wiza", 7, 4, 0, 0, 4, 4], _
-		["Heal", 8, 14, 0, 0, 14, 14], _
-		["Drag", 9, 20, 0, 0, 20, 20], _
-		["Pekk", 10, 25, 0, 0, 25, 25], _
-		["BabyD", 11, 10, 0, 0, 10, 10], _
-		["Mine", 12, 6, 0, 0, 6, 6], _
-		["EDrag", 13, 30, 0, 0, 30, 30], _
-		["Yeti", 14, 18, 0, 0, 18, 18], _
-		["Mini", 15, 2, 0, 0, 2, 2], _
-		["Hogs", 16, 5, 0, 0, 5, 5], _
-		["Valk", 17, 8, 0, 0, 8, 8], _
-		["Gole", 18, 30, 0, 0, 30, 30], _
-		["Witc", 19, 12, 0, 0, 12, 12], _
-		["Lava", 20, 30, 0, 0, 30, 30], _
-		["Bowl", 21, 6, 0, 0, 6, 6], _
-		["IceG", 22, 15, 0, 0, 15, 15]]
+Global $g_aMyTroopsIcon[22] = [$eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, $eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnElectroDragon, $eIcnYeti, $eIcnMinion, $eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnIceGolem]
+Global $g_aMyTroops[22][5] = _
+		[["Barb", 1, 1, 0, 0], _
+		["Arch", 2, 1, 0, 0], _
+		["Giant", 3, 5, 16, 0], _
+		["Gobl", 4, 1, 0, 0], _
+		["Wall", 5, 2, 0, 0], _
+		["Ball", 6, 5, 0, 0], _
+		["Wiza", 7, 4, 0, 0], _
+		["Heal", 8, 14, 0, 0], _
+		["Drag", 9, 20, 0, 0], _
+		["Pekk", 10, 25, 0, 0], _
+		["BabyD", 11, 10, 0, 0], _
+		["Mine", 12, 6, 0, 0], _
+		["EDrag", 13, 30, 0, 0], _
+		["Yeti", 14, 18, 0, 0], _
+		["Mini", 15, 2, 0, 0], _
+		["Hogs", 16, 5, 0, 0], _
+		["Valk", 17, 8, 0, 0], _
+		["Gole", 18, 30, 0, 0], _
+		["Witc", 19, 12, 0, 0], _
+		["Lava", 20, 30, 0, 0], _
+		["Bowl", 21, 6, 0, 0], _
+		["IceG", 22, 15, 0, 0]]
+;name,order,size,unit quantity,train cost
+
+; Vars
+Global $cmbMyBarbOrder, $cmbMyArchOrder, $cmbMyGiantOrder, $cmbMyGoblOrder, $cmbMyWallOrder, $cmbMyBallOrder, $cmbMyWizaOrder, $cmbMyHealOrder, $cmbMyDragOrder, $cmbMyPekkOrder, $cmbMyBabyDOrder, $cmbMyMineOrder, $cmbMyEDragOrder, _
+$cmbMyMiniOrder, $cmbMyHogsOrder, $cmbMyValkOrder, $cmbMyGoleOrder, $cmbMyWitcOrder, $cmbMyOrder, $cmbMyLavaOrder, $cmbMyBowlOrder, $cmbMyIceGOrder, $cmbMyYetiOrder
+
+Global $CurBarb = 0, $CurArch = 0, $CurGiant = 0, $CurGobl = 0, $CurWall = 0, $CurBall = 0, $CurWiza = 0, $CurHeal = 0
+Global $CurMini = 0, $CurHogs = 0, $CurValk = 0, $CurGole = 0, $CurWitc = 0, $CurLava = 0, $CurBowl = 0, $CurDrag = 0, $CurPekk = 0, $CurBabyD = 0, $CurMine = 0, $CurDrag = 0, $CurIceG = 0, $CurYeti = 0
+
+Global $OnQBarb = 0, $OnQArch = 0, $OnQGiant = 0, $OnQGobl = 0, $OnQWall = 0, $OnQBall = 0, $OnQWiza = 0, $OnQHeal = 0
+Global $OnQMini = 0, $OnQHogs = 0, $OnQValk = 0, $OnQGole = 0, $OnQWitc = 0, $OnQLava = 0, $OnQBowl = 0, $OnQDrag = 0, $OnQPekk = 0, $OnQBabyD = 0, $OnQMine = 0, $OnQEDrag = 0, $OnQIceG = 0, $OnQYeti = 0
+
+Global $OnTBarb = 0, $OnTArch = 0, $OnTGiant = 0, $OnTGobl = 0, $OnTWall = 0, $OnTBall = 0, $OnTWiza = 0, $OnTHeal = 0
+Global $OnTMini = 0, $OnTHogs = 0, $OnTValk = 0, $OnTGole = 0, $OnTWitc = 0, $OnTLava = 0, $OnTBowl = 0, $OnTDrag = 0, $OnTPekk = 0, $OnTBabyD = 0, $OnTMine = 0, $OnTEDrag = 0, $OnTIceG = 0, $OnTYeti = 0
+
+Global $ReadyBarb = 0, $ReadyArch = 0, $ReadyGiant = 0, $ReadyGobl = 0, $ReadyWall = 0, $ReadyBall = 0, $ReadyWiza = 0, $ReadyHeal = 0
+Global $ReadyMini = 0, $ReadyHogs = 0, $ReadyValk = 0, $ReadyGole = 0, $ReadyWitc = 0, $ReadyLava = 0, $ReadyBowl = 0, $ReadyDrag = 0, $ReadyPekk = 0, $ReadyBabyD = 0, $ReadyMine = 0, $ReadyEDrag = 0, $ReadyIceG = 0, $ReadyYeti = 0
+
+; SuperTroops
 Global $g_aMySuperTroops[4][5] = _
-		[["SuperBarb", 1, 5, 0, 0], _
-		["SuperGiant", 3, 10, 0, 0], _
-		["SuperGobl", 4, 3, 0, 0], _
-		["SuperWall", 5, 8, 0, 0]]
+		[["SuperBarb", 23, 5, 0, 0], _
+		["SuperGiant", 24, 10, 0, 0], _
+		["SuperGobl", 25, 3, 0, 0], _
+		["SuperWall", 26, 8, 0, 0]]
 
 ;name,order,size,unit quantity,train cost
 
+;Global enum $eTrainWitc, $eTrainLava, $eTrainBowl, $eTrainIceG
+; Vars
+Global $cmbMySuperBarbOrder, $cmbMySuperGiantOrder, $cmbMySuperGoblOrder, $cmbMySuperWallOrder
+
+Global $CurSuperBarb = 0, $CurSuperGiant = 0, $CurSuperGobl = 0, $CurSuperWall = 0
+
+Global $OnQSuperBarb = 0, $OnQSuperGiant = 0, $OnQSuperGobl = 0, $OnQSuperWall = 0
+
+Global $OnTSuperBarb = 0, $OnTSuperGiant = 0, $OnTSuperGobl = 0, $OnTSuperWall = 0
+
+Global $ReadySuperBarb = 0, $ReadySuperGiant = 0, $ReadySuperGobl = 0, $ReadySuperWall = 0
+
+Global $eEventTroop1 = 51
+
+;
 Global $eEventTroop1 = 51
 Global $eEventTroop1 = 52
 Global $eEventSpell1 = 61
@@ -166,7 +187,7 @@ Global $OnTEventTroop2 = 0
 Global $OnTEventSpell1 = 0
 Global $OnTEventSpell2 = 0
 
-Global $MyTroopsButton[22][3] = _
+Global $g_aMyTroopsButton[22][3] = _
 		[["Barb", 0, 0], _
 		["Arch", 1, 0], _
 		["Giant", 0, 1], _
@@ -195,7 +216,7 @@ Global Enum $eTrainBarb, $eTrainArch, $eTrainGiant, $eTrainGobl, $eTrainWall, $e
 
 Global $iDarkFixSpell = 6
 Global Enum $eBrewLightning, $eBrewHeal, $eBrewRage, $eBrewJump, $eBrewFreeze, $eBrewClone, $eBrewPoison, $eBrewEarth, $eBrewHaste, $eBrewSkeleton, $eBrewBat
-Global $MySpellsButton[11][3] = _
+Global $g_aMySpellsButton[11][3] = _
 		[["Lightning", 0, 0], _
 		["Heal", 1, 0], _
 		["Rage", 0, 1], _
@@ -209,7 +230,7 @@ Global $MySpellsButton[11][3] = _
 		["Bat", 1, 4]]
 
 ; updated Jun 2018
-Global $MyTroopsCost[21][10] = _
+Global $g_aMyTroopsCost[21][10] = _
 		[[8, 25, 40, 60, 100, 150, 200, 250, 300], _                     ; Barbarian
 		[8, 50, 80, 120, 200, 300, 400, 500, 600], _                     ; Archer
 		[9, 250, 750, 1250, 1750, 2250, 3000, 3500, 4000, 4500], _         ; Giant
@@ -247,7 +268,7 @@ Global $chkForcePreBrewSpell, $ichkForcePreBrewSpell
 Global $cmbMyLightningSpellOrder, $cmbMyHealSpellOrder, $cmbMyRageSpellOrder, $cmbMyJumpSpellOrder, $cmbMyFreezeSpellOrder, $cmbMyCloneSpellOrder, $cmbMyPoisonSpellOrder, $cmbMyEarthSpellOrder, $cmbMyHasteSpellOrder, $cmbMySkeletonSpellOrder, $cmbMyBatSpellOrder
 
 Global $g_iMySpellsSize = 0
-Global $MySpells[11][6] = _
+Global $g_aMySpells[11][6] = _
 		[["Lightning", 1, 2, 0, 0, "LSpell"], _
 		["Heal", 2, 2, 0, 0, "HSpell"], _
 		["Rage", 3, 2, 0, 0, "RSpell"], _
@@ -261,7 +282,7 @@ Global $MySpells[11][6] = _
 		["Bat", 11, 1, 0, 0, "BtSpell"]]
 
 ; updated 28 Jun 2017
-Global $MySpellsCost[11][8] = _
+Global $g_aMySpellsCost[11][8] = _
 		[[7, 15000, 16500, 18000, 20000, 22000, 24000, 26000], _  ;LightningSpell
 		[7, 15000, 16500, 18000, 19000, 21000, 23000, 25000], _  ;HealSpell
 		[5, 23000, 25000, 27000, 30000, 33000], _                  ;RageSpell

@@ -643,18 +643,26 @@ Func DoVillageLoadSucess($iAcc)
 	For $i = 0 To UBound($g_avDTtroopsToBeUsed, 1) - 1
 		$g_avDTtroopsToBeUsed[$i][1] = 0
 	Next
-	For $i = 0 To UBound($MyTroops) - 1
-		Assign("cur" & $MyTroops[$i][0], 0)
-		Assign("OnQ" & $MyTroops[$i][0], 0)
-		Assign("OnT" & $MyTroops[$i][0], 0)
+	For $i = 0 To UBound($g_aMyTroops) - 1
+		Assign("cur" & $g_aMyTroops[$i][0], 0)
+		Assign("OnQ" & $g_aMyTroops[$i][0], 0)
+		Assign("OnT" & $g_aMyTroops[$i][0], 0)
 	Next
 
 	; reset Global variables for spells
-	For $i = 0 To UBound($MySpells) -1
-		Assign("Cur" & $MySpells[$i][0] & "Spell", 0)
-		Assign("OnQ" & $MySpells[$i][0] & "Spell", 0)
-		Assign("OnT" & $MySpells[$i][0] & "Spell", 0)
+	For $i = 0 To UBound($g_aMySpells) -1
+		Assign("Cur" & $g_aMySpells[$i][0] & "Spell", 0)
+		Assign("OnQ" & $g_aMySpells[$i][0] & "Spell", 0)
+		Assign("OnT" & $g_aMySpells[$i][0] & "Spell", 0)
 	Next
+	
+	; reset Global variables for Super Troops
+	For $i = 0 To UBound($g_aMySuperTroops) - 1
+		Assign("cur" & $g_aMySuperTroops[$i][0], 0)
+		Assign("OnQ" & $g_aMySuperTroops[$i][0], 0)
+		Assign("OnT" & $g_aMySuperTroops[$i][0], 0)
+	Next
+
 	;-----------------------------------------------------
 
 	;$iShouldRearm = (Random(0,1,1) = 0 ? 1 : 0)

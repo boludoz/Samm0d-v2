@@ -29,9 +29,9 @@ Func IsSearchModeActiveSamM0d($g_iMatchMode, $bDontCheckHeroes = False, $bNoLog 
 	Local $totalSpellsToBrew = 0
     Local $totalAvailableSpell = 0
 	;--- To Brew
-    For $i = 0 To UBound($MySpells)-1
-        $totalSpellsToBrew += $MySpells[$i][3] * $MySpells[$i][2]
-        $totalAvailableSpell += Eval("cur" & $MySpells[$i][0] & "Spell")
+    For $i = 0 To UBound($g_aMySpells)-1
+        $totalSpellsToBrew += $g_aMySpells[$i][3] * $g_aMySpells[$i][2]
+        $totalAvailableSpell += Eval("cur" & $g_aMySpells[$i][0] & "Spell")
     Next
 
 	If GetCurTotalSpell() = $totalSpellsToBrew And $g_abSearchSpellsWaitEnable[$g_iMatchMode] Then

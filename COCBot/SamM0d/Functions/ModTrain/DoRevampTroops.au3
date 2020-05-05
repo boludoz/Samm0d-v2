@@ -17,47 +17,49 @@
 Func DoRevampTroops($bDoPreTrain = False)
 	If _Sleep(500) Then Return
 	Local $bReVampFlag = False
-	Local $tempTroops = $MyTroops
+
+	Local $aTempTroops = $g_aMyTroops
+	SuperTroopsCorrectArray($aTempTroops) ; Super Mod
 
 	If $ichkMyTroopsOrder Then
-		_ArraySort($tempTroops, 0, 0, 0, 1)
+		_ArraySort($aTempTroops, 0, 0, 0, 1)
 	EndIf
 
-	For $i = 0 To UBound($tempTroops) - 1
-		If $g_iSamM0dDebug = 1 Then SetLog("$tempTroops[" & $i & "]: " & $tempTroops[$i][0] & " - " & $tempTroops[$i][1])
+	For $i = 0 To UBound($aTempTroops) - 1
+		If $g_iSamM0dDebug = 1 Then SetLog("$aTempTroops[" & $i & "]: " & $aTempTroops[$i][0] & " - " & $aTempTroops[$i][1])
 		; reset variable
-		Assign("Dif" & $tempTroops[$i][0], 0)
-		Assign("Add" & $tempTroops[$i][0], 0)
+		Assign("Dif" & $aTempTroops[$i][0], 0)
+		Assign("Add" & $aTempTroops[$i][0], 0)
 	Next
 
 	If $bDoPreTrain = False Then
-		For $i = 0 To UBound($tempTroops) - 1
-			Local $tempCurComp = $tempTroops[$i][3]
-			Local $tempCur = Eval("Cur" & $tempTroops[$i][0]) + Eval("OnT" & $tempTroops[$i][0])
+		For $i = 0 To UBound($aTempTroops) - 1
+			Local $tempCurComp = $aTempTroops[$i][3]
+			Local $tempCur = Eval("Cur" & $aTempTroops[$i][0]) + Eval("OnT" & $aTempTroops[$i][0])
 			If $g_iSamM0dDebug = 1 Then SetLog("$tempMyTroops: " & $tempCurComp)
 			If $g_iSamM0dDebug = 1 Then SetLog("$tempCur: " & $tempCur)
 			If $tempCurComp <> $tempCur Then
-				Assign("Dif" & $tempTroops[$i][0], $tempCurComp - $tempCur)
+				Assign("Dif" & $aTempTroops[$i][0], $tempCurComp - $tempCur)
 			EndIf
 		Next
 	Else
-		For $i = 0 To UBound($tempTroops) - 1
-			If $tempTroops[$i][3] <> Eval("OnQ" & $tempTroops[$i][0]) Then
-				Assign("Dif" & $tempTroops[$i][0], $tempTroops[$i][3] - Eval("OnQ" & $tempTroops[$i][0]))
+		For $i = 0 To UBound($aTempTroops) - 1
+			If $aTempTroops[$i][3] <> Eval("OnQ" & $aTempTroops[$i][0]) Then
+				Assign("Dif" & $aTempTroops[$i][0], $aTempTroops[$i][3] - Eval("OnQ" & $aTempTroops[$i][0]))
 			EndIf
 		Next
 	EndIf
 
-	For $i = 0 To UBound($tempTroops) - 1
-		If Eval("Dif" & $tempTroops[$i][0]) > 0 Then
-			If $g_iSamM0dDebug = 1 Then SetLog("Some troops haven't train: " & $tempTroops[$i][0])
-			If $g_iSamM0dDebug = 1 Then SetLog("Setting Qty Of " & $tempTroops[$i][0] & " troops: " & $tempTroops[$i][3])
-			Assign("Add" & $tempTroops[$i][0], Eval("Dif" & $tempTroops[$i][0]))
+	For $i = 0 To UBound($aTempTroops) - 1
+		If Eval("Dif" & $aTempTroops[$i][0]) > 0 Then
+			If $g_iSamM0dDebug = 1 Then SetLog("Some troops haven't train: " & $aTempTroops[$i][0])
+			If $g_iSamM0dDebug = 1 Then SetLog("Setting Qty Of " & $aTempTroops[$i][0] & " troops: " & $aTempTroops[$i][3])
+			Assign("Add" & $aTempTroops[$i][0], Eval("Dif" & $aTempTroops[$i][0]))
 			$bReVampFlag = True
-		ElseIf Eval("Dif" & $tempTroops[$i][0]) < 0 Then
-			If $g_iSamM0dDebug = 1 Then SetLog("Some troops over train: " & $tempTroops[$i][0])
-			If $g_iSamM0dDebug = 1 Then SetLog("Setting Qty Of " & $tempTroops[$i][0] & " troops: " & $tempTroops[$i][3])
-			If $g_iSamM0dDebug = 1 Then SetLog("Current Qty Of " & $tempTroops[$i][0] & " troops: " & $tempTroops[$i][3] - Eval("Dif" & $tempTroops[$i][0]))
+		ElseIf Eval("Dif" & $aTempTroops[$i][0]) < 0 Then
+			If $g_iSamM0dDebug = 1 Then SetLog("Some troops over train: " & $aTempTroops[$i][0])
+			If $g_iSamM0dDebug = 1 Then SetLog("Setting Qty Of " & $aTempTroops[$i][0] & " troops: " & $aTempTroops[$i][3])
+			If $g_iSamM0dDebug = 1 Then SetLog("Current Qty Of " & $aTempTroops[$i][0] & " troops: " & $aTempTroops[$i][3] - Eval("Dif" & $aTempTroops[$i][0]))
 		EndIf
 	Next
 
@@ -86,10 +88,10 @@ Func DoRevampTroops($bDoPreTrain = False)
 		EndIf
 
 
-		For $i = 0 To UBound($tempTroops) - 1
-			Local $iOnQQty = Eval("Add" & $tempTroops[$i][0])
+		For $i = 0 To UBound($aTempTroops) - 1
+			Local $iOnQQty = Eval("Add" & $aTempTroops[$i][0])
 			If $iOnQQty > 0 Then
-				SetLog($CustomTrain_MSG_5 & " " & GetTroopName(Eval("e" & $tempTroops[$i][0]), $iOnQQty) & " x" & $iOnQQty, $COLOR_ACTION)
+				SetLog($CustomTrain_MSG_5 & " " & GetTroopName(Eval("e" & $aTempTroops[$i][0]), $iOnQQty) & " x" & $iOnQQty, $COLOR_ACTION)
 			EndIf
 		Next
 
@@ -99,47 +101,47 @@ Func DoRevampTroops($bDoPreTrain = False)
 
 		SetLog("Elixir: " & $iCurElixir & "   Dark Elixir: " & $iCurDarkElixir & "   Gem: " & $iCurGemAmount, $COLOR_INFO)
 
-		For $i = 0 To UBound($tempTroops) - 1
-			Local $Troop4Add = Eval("Add" & $tempTroops[$i][0])
+		For $i = 0 To UBound($aTempTroops) - 1
+			Local $Troop4Add = Eval("Add" & $aTempTroops[$i][0])
 			If $Troop4Add > 0 And $iRemainTroopsCapacity > 0 Then
 				; locate troop button
-				If LocateTroopButton($tempTroops[$i][2], $tempTroops[$i][0], False) Then
+				If LocateTroopButton($aTempTroops[$i][0], False) Then
 					Local $fixRemain = 0
 					Local $iCost
 					; check train cost before click, incase use gem
 
 					If $ichkEnableMySwitch = 0 Then
-						If $tempTroops[$i][4] = 0 Then
+						If $aTempTroops[$i][4] = 0 Then
 							$iCost = getMyOcr(0, $g_iTroopButtonX - 55, $g_iTroopButtonY + 26, 68, 18, "troopcost", True, False, True)
-							If $iCost = 0 Or $iCost >= $MyTroopsCost[Eval("e" & $tempTroops[$i][0])][0] Then
+							If $iCost = 0 Or $iCost >= $g_aMyTroopsCost[Eval("e" & $aTempTroops[$i][0])][0] Then
 								; cannot read train cost, use max level train cost
-								$iCost = $MyTroopsCost[Eval("e" & $tempTroops[$i][0])][0]
+								$iCost = $g_aMyTroopsCost[Eval("e" & $aTempTroops[$i][0])][0]
 							EndIf
-							$MyTroops[Eval("e" & $tempTroops[$i][0])][4] = $iCost
+							$aTempTroops[Eval("e" & $aTempTroops[$i][0])][4] = $iCost
 						Else
-							$iCost = $tempTroops[$i][4]
+							$iCost = $aTempTroops[$i][4]
 						EndIf
 					Else
 						$iCost = getMyOcr(0, $g_iTroopButtonX - 55, $g_iTroopButtonY + 26, 68, 18, "troopcost", True, False, True)
-						If $iCost = 0 Or $iCost >= $MyTroopsCost[Eval("e" & $tempTroops[$i][0])][0] Then
+						If $iCost = 0 Or $iCost >= $g_aMyTroopsCost[Eval("e" & $aTempTroops[$i][0])][0] Then
 							; cannot read train cost, use max level train cost
-							$iCost = $MyTroopsCost[Eval("e" & $tempTroops[$i][0])][0]
+							$iCost = $g_aMyTroopsCost[Eval("e" & $aTempTroops[$i][0])][0]
 						EndIf
 					EndIf
 
 					If $g_iSamM0dDebug = 1 Then SetLog("$iCost: " & $iCost)
-					;Local $iBuildCost = (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? getMyOcrCurDEFromTrain() : getMyOcrCurElixirFromTrain())
-					Local $iBuildCost = (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? $iCurDarkElixir : $iCurElixir)
-					;SetLog($CustomTrain_MSG_11 & " " & (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir)  & ": " & $iBuildCost, (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
-					;SetLog($CustomTrain_MSG_12 & ": " & $iCost, (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+					;Local $iBuildCost = (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? getMyOcrCurDEFromTrain() : getMyOcrCurElixirFromTrain())
+					Local $iBuildCost = (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $iCurDarkElixir : $iCurElixir)
+					;SetLog($CustomTrain_MSG_11 & " " & (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir)  & ": " & $iBuildCost, (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+					;SetLog($CustomTrain_MSG_12 & ": " & $iCost, (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 
 					If $g_iSamM0dDebug = 1 Then SetLog("$iBuildCost: " & $iBuildCost)
 					If $g_iSamM0dDebug = 1 Then SetLog("Total need: " & ($Troop4Add * $iCost))
 					If ($Troop4Add * $iCost) > $iBuildCost Then
 						$bFlagOutOfResource = True
-						; use eval and not $i to compare because of maybe after array sort $tempTroops
-						Setlog($CustomTrain_MSG_8 & " " & (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & " " & $CustomTrain_MSG_9 & " " & GetTroopName(Eval("e" & $tempTroops[$i][0]), 0), $COLOR_ERROR)
-						SetLog("Current " & (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & ": " & $iBuildCost, $COLOR_ERROR)
+						; use eval and not $i to compare because of maybe after array sort $aTempTroops
+						Setlog($CustomTrain_MSG_8 & " " & (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & " " & $CustomTrain_MSG_9 & " " & GetTroopName(Eval("e" & $aTempTroops[$i][0]), 0), $COLOR_ERROR)
+						SetLog("Current " & (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & ": " & $iBuildCost, $COLOR_ERROR)
 						SetLog("Total need: " & $Troop4Add * $iCost, $COLOR_ERROR)
 					EndIf
 
@@ -151,51 +153,50 @@ Func DoRevampTroops($bDoPreTrain = False)
 						If Not ($g_bFullArmy = True) Then $g_bRestart = True ;If the army camp is full, If yes then use it to refill storages
 						Return ; We are out of Elixir stop training.
 					EndIf
-					; use eval and not $i to compare because of maybe after array sort $tempTroops
-					SetLog($CustomTrain_MSG_6 & " " & GetTroopName(Eval("e" & $tempTroops[$i][0]), $Troop4Add) & " x" & $Troop4Add & " " & $CustomTrain_MSG_7 & " " & (Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & " : " & ($Troop4Add * $iCost), (Eval("e" & $tempTroops[$i][0]) > 12 ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
-					If ($tempTroops[$i][2] * $Troop4Add) <= $iRemainTroopsCapacity Then
-					;If (Abs($g_aiTroopsMaxCamp[0] - $g_aiTroopsMaxCamp[1]) - Int($tempSpell * $tempTroops[$i][1])) <= $iRemainTroopsCapacity Then
+					; use eval and not $i to compare because of maybe after array sort $aTempTroops
+					SetLog($CustomTrain_MSG_6 & " " & GetTroopName(Eval("e" & $aTempTroops[$i][0]), $Troop4Add) & " x" & $Troop4Add & " " & $CustomTrain_MSG_7 & " " & (Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & " : " & ($Troop4Add * $iCost), (Eval("e" & $aTempTroops[$i][0]) > 12 ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+					If ($aTempTroops[$i][2] * $Troop4Add) <= $iRemainTroopsCapacity Then
+					;If (Abs($g_aiTroopsMaxCamp[0] - $g_aiTroopsMaxCamp[1]) - Int($tempSpell * $aTempTroops[$i][1])) <= $iRemainTroopsCapacity Then
 						If MyTrainClick($g_iTroopButtonX, $g_iTroopButtonY, $Troop4Add, $g_iTrainClickDelay, "#TT01") Then
-							If Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop Then
+							If Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop Then
 								$iCurDarkElixir -= ($Troop4Add * $iCost)
 							Else
 								$iCurElixir -= ($Troop4Add * $iCost)
 							EndIf
-							$iRemainTroopsCapacity -= ($tempTroops[$i][2] * $Troop4Add)
+							$iRemainTroopsCapacity -= ($aTempTroops[$i][2] * $Troop4Add)
 						EndIf
 					Else
-						Local $iReduceCap = Int($iRemainTroopsCapacity / $tempTroops[$i][2])
-						SetLog("Troops above cannot fit to max capicity, reduce to train " & GetTroopName(Eval("e" & $tempTroops[$i][0]), $iReduceCap) & " x" & $iReduceCap, $COLOR_ERROR)
+						Local $iReduceCap = Int($iRemainTroopsCapacity / $aTempTroops[$i][2])
+						SetLog("Troops above cannot fit to max capicity, reduce to train " & GetTroopName(Eval("e" & $aTempTroops[$i][0]), $iReduceCap) & " x" & $iReduceCap, $COLOR_ERROR)
 						If MyTrainClick($g_iTroopButtonX, $g_iTroopButtonY, $iReduceCap, $g_iTrainClickDelay, "#TT01") Then
-							If Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop Then
+							If Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop Then
 								$iCurDarkElixir -= ($iReduceCap * $iCost)
 							Else
 								$iCurElixir -= ($iReduceCap * $iCost)
 							EndIf
-							$fixRemain = $iRemainTroopsCapacity - ($iReduceCap * $tempTroops[$i][2])
-							$iRemainTroopsCapacity -= ($iRemainTroopsCapacity - ($iReduceCap * $tempTroops[$i][2]))
+							$fixRemain = $iRemainTroopsCapacity - ($iReduceCap * $aTempTroops[$i][2])
+							$iRemainTroopsCapacity -= ($iRemainTroopsCapacity - ($iReduceCap * $aTempTroops[$i][2]))
 						EndIf
 					EndIf
 					If $fixRemain > 0 Then
 ;~ 	 						CheckNeedSwipe($eArch)
 						SetLog("still got remain capacity, so train " & GetTroopName(Eval("eArch"), $fixRemain) & " x" & $fixRemain & " to fit it.", $COLOR_ERROR)
-						Local $i1s = 1
-						If LocateTroopButton($i1s, "Arch") Then
+						If LocateTroopButton("Arch") Then
 							If MyTrainClick($g_iTroopButtonX, $g_iTroopButtonY, $fixRemain, $g_iTrainClickDelay, "#TT01") Then
-								If Eval("e" & $tempTroops[$i][0]) > $iDarkFixTroop Then
-									$iCurDarkElixir -= ($fixRemain * $MyTroopsCost[$eArch][0])
+								If Eval("e" & $aTempTroops[$i][0]) > $iDarkFixTroop Then
+									$iCurDarkElixir -= ($fixRemain * $g_aMyTroopsCost[$eArch][0])
 								Else
-									$iCurElixir -= ($fixRemain * $MyTroopsCost[$eArch][0])
+									$iCurElixir -= ($fixRemain * $g_aMyTroopsCost[$eArch][0])
 								EndIf
 								$iRemainTroopsCapacity -= $fixRemain
 							EndIf
 						Else
-							SetLog("Cannot find button (1): " & $tempTroops[$i][0] & " for click", $COLOR_ERROR)
+							SetLog("Cannot find button (1): " & $aTempTroops[$i][0] & " for click", $COLOR_ERROR)
 						EndIf
 					EndIf
-					
+
 				Else
-					SetLog("Cannot find button (2): " & $tempTroops[$i][0] & " for click", $COLOR_ERROR)
+					SetLog("Cannot find button (2): " & $aTempTroops[$i][0] & " for click", $COLOR_ERROR)
 				EndIf
 
 				; reduce some speed

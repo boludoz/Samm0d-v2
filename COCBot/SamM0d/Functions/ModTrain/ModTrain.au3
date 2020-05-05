@@ -343,20 +343,21 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			EndIf
 		WEnd
 		
-		getMySpellCapacityMini()
 		ArrayCheckAvailableSpell() ; exbit
-		
+		getMySpellCapacityMini()
+
 		If $bDisableBrewSpell = False Then
 			; reset Global variables
-			For $i = 0 To UBound($MySpells) - 1
-				Assign("Cur" & $MySpells[$i][0] & "Spell", 0)
-				Assign("OnQ" & $MySpells[$i][0] & "Spell", 0)
-				Assign("OnT" & $MySpells[$i][0] & "Spell", 0)
-				Assign("Ready" & $MySpells[$i][0] & "Spell", 0)
+			For $i = 0 To UBound($g_aMySpells) - 1
+				Assign("Cur" & $g_aMySpells[$i][0] & "Spell", 0)
+				Assign("OnQ" & $g_aMySpells[$i][0] & "Spell", 0)
+				Assign("OnT" & $g_aMySpells[$i][0] & "Spell", 0)
+				Assign("Ready" & $g_aMySpells[$i][0] & "Spell", 0)
 			Next
 
 			If gotoBrewSpells() = False Then ExitLoop
-			If _Sleep(100) Then ExitLoop
+			If _Sleep(500) Then Return
+			
 			$iCount2 = 0
 			While IsQueueBlockByMsg($iCount2) ; 检查游戏上的讯息，是否有挡着训练界面， 最多30秒
 				If _Sleep(1000) Then ExitLoop
@@ -377,6 +378,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			Else
 				If CheckAvailableSpellUnit() Then
 					If CheckOnBrewUnit() Then
+
 						Local $iId = 0
 						Select
 							Case $g_iCurrentSpells >= $g_iMySpellsSize And $g_aiSpellsMaxCamp[0] >= $g_iMySpellsSize
@@ -423,24 +425,31 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 		EndIf
 
 		If gotoArmy() = False Then ExitLoop ; exbit
-		getMyArmyCapacityMini() ; exbit
+		If _Sleep(500) Then Return
+		
 		ArrayCheckAvailableUnit() ; exbit
+		getMyArmyCapacityMini() ; exbit
 
 		If $bDisableTrain = False Then
 			;====Reset the variable======
 			For $i = 0 To UBound($g_avDTtroopsToBeUsed, 1) - 1
 				$g_avDTtroopsToBeUsed[$i][1] = 0
 			Next
-			For $i = 0 To UBound($MyTroops) - 1
-				Assign("cur" & $MyTroops[$i][0], 0)
-				Assign("OnQ" & $MyTroops[$i][0], 0)
-				Assign("OnT" & $MyTroops[$i][0], 0)
-				Assign("Ready" & $MyTroops[$i][0], 0)
+
+			Local $aTempTroops = $g_aMyTroops
+			SuperTroopsCorrectArray($aTempTroops)
+
+			; reset Global variables for Super Troops
+			For $i = 0 To UBound($aTempTroops) - 1
+				Assign("cur" & $aTempTroops[$i][0], 0)
+				Assign("OnQ" & $aTempTroops[$i][0], 0)
+				Assign("OnT" & $aTempTroops[$i][0], 0)
+				Assign("Ready" & $aTempTroops[$i][0], 0)
 			Next
 			;============================
 
 			If gotoTrainTroops() = False Then ExitLoop
-			If _Sleep(100) Then ExitLoop
+			If _Sleep(500) Then Return
 			$iCount2 = 0
 			While IsQueueBlockByMsg($iCount2) ; 检查游戏上的讯息，是否有挡着训练界面， 最多30秒
 				If _Sleep(1000) Then ExitLoop

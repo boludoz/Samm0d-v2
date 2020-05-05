@@ -120,8 +120,8 @@ _Ini_Add("MyTroops", "Composition", $itempcmbTroopSetting)
 cmbTroopSetting()
 
 For $j = 0 To 2
-	For $i = 0 To UBound($MyTroops) - 1
-		_Ini_Add("MyTroops", $MyTroops[$i][0] & $j, $MyTroopsSetting[$j][$i][0] & "|" & $MyTroopsSetting[$j][$i][1])
+	For $i = 0 To UBound($g_aMyTroops) - 1
+		_Ini_Add("MyTroops", $g_aMyTroops[$i][0] & $j, $g_aMyTroopsSetting[$j][$i][0] & "|" & $g_aMyTroopsSetting[$j][$i][1])
 	Next
 Next
 
@@ -145,8 +145,8 @@ Else
 EndIf
 
 For $j = 0 To 2
-	For $i = 0 To UBound($MySpells) - 1
-		_Ini_Add("MySpells", $MySpells[$i][0] & $j, $MySpellSetting[$j][$i][0] & "|" & $MySpellSetting[$j][$i][1] & "|" & $MySpellSetting[$j][$i][2])
+	For $i = 0 To UBound($g_aMySpells) - 1
+		_Ini_Add("MySpells", $g_aMySpells[$i][0] & $j, $g_aMySpellsetting[$j][$i][0] & "|" & $g_aMySpellsetting[$j][$i][1] & "|" & $g_aMySpellsetting[$j][$i][2])
 	Next
 Next
 

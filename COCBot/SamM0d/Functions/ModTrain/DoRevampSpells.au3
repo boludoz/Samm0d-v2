@@ -18,50 +18,50 @@ Func DoRevampSpells($bDoPreTrain = False, $bDbg = False)
 	If _Sleep(500) Then Return
 	Local $bReVampFlag = False
 	; start brew
-	Local $tempSpells[UBound($MySpells)][5]
-	$tempSpells = $MySpells
+	Local $aTempSpells[UBound($g_aMySpells)][5]
+	$aTempSpells = $g_aMySpells
 
 	If $ichkMySpellsOrder Then
-		_ArraySort($tempSpells, 0, 0, 0, 1)
+		_ArraySort($aTempSpells, 0, 0, 0, 1)
 	EndIf
 
-	For $i = 0 To UBound($tempSpells) - 1
-		If $g_iSamM0dDebug = 1 Then SetLog("$tempSpells[" & $i & "]: " & $tempSpells[$i][0] & " - " & $tempSpells[$i][1])
+	For $i = 0 To UBound($aTempSpells) - 1
+		If $g_iSamM0dDebug = 1 Then SetLog("$aTempSpells[" & $i & "]: " & $aTempSpells[$i][0] & " - " & $aTempSpells[$i][1])
 		; reset variable
-		Assign("Dif" & $tempSpells[$i][0] & "Spell", 0)
-		Assign("Add" & $tempSpells[$i][0] & "Spell", 0)
+		Assign("Dif" & $aTempSpells[$i][0] & "Spell", 0)
+		Assign("Add" & $aTempSpells[$i][0] & "Spell", 0)
 	Next
 
 	If $bDoPreTrain = False Then
-		For $i = 0 To UBound($tempSpells) - 1
-			Local $tempCurComp = $tempSpells[$i][3]
-			Local $tempCur = Eval("Cur" & $tempSpells[$i][0] & "Spell") + Eval("OnT" & $tempSpells[$i][0] & "Spell")
+		For $i = 0 To UBound($aTempSpells) - 1
+			Local $tempCurComp = $aTempSpells[$i][3]
+			Local $tempCur = Eval("Cur" & $aTempSpells[$i][0] & "Spell") + Eval("OnT" & $aTempSpells[$i][0] & "Spell")
 			If $g_iSamM0dDebug = 1 Then SetLog("$tempMySpells: " & $tempCurComp)
 			If $g_iSamM0dDebug = 1 Then SetLog("$tempCur: " & $tempCur)
 			If $tempCurComp <> $tempCur Then
-				Assign("Dif" & $tempSpells[$i][0] & "Spell", $tempCurComp - $tempCur)
+				Assign("Dif" & $aTempSpells[$i][0] & "Spell", $tempCurComp - $tempCur)
 			EndIf
 		Next
 	Else
-		For $i = 0 To UBound($tempSpells) - 1
-			If Eval("ichkPre" & $tempSpells[$i][0]) = 1 Then
-				If $tempSpells[$i][3] <> Eval("OnQ" & $tempSpells[$i][0] & "Spell") Then
-					Assign("Dif" & $tempSpells[$i][0] & "Spell", $tempSpells[$i][3] - Eval("OnQ" & $tempSpells[$i][0] & "Spell"))
+		For $i = 0 To UBound($aTempSpells) - 1
+			If Eval("ichkPre" & $aTempSpells[$i][0]) = 1 Then
+				If $aTempSpells[$i][3] <> Eval("OnQ" & $aTempSpells[$i][0] & "Spell") Then
+					Assign("Dif" & $aTempSpells[$i][0] & "Spell", $aTempSpells[$i][3] - Eval("OnQ" & $aTempSpells[$i][0] & "Spell"))
 				EndIf
 			EndIf
 		Next
 	EndIf
 
-	For $i = 0 To UBound($tempSpells) - 1
-		If Eval("Dif" & $tempSpells[$i][0] & "Spell") > 0 Then
-			If $g_iSamM0dDebug = 1 Then SetLog("Some spells haven't train: " & $tempSpells[$i][0])
-			If $g_iSamM0dDebug = 1 Then SetLog("Setting Qty Of " & $tempSpells[$i][0] & " spells: " & $tempSpells[$i][3])
-			Assign("Add" & $tempSpells[$i][0] & "Spell", Eval("Dif" & $tempSpells[$i][0] & "Spell"))
+	For $i = 0 To UBound($aTempSpells) - 1
+		If Eval("Dif" & $aTempSpells[$i][0] & "Spell") > 0 Then
+			If $g_iSamM0dDebug = 1 Then SetLog("Some spells haven't train: " & $aTempSpells[$i][0])
+			If $g_iSamM0dDebug = 1 Then SetLog("Setting Qty Of " & $aTempSpells[$i][0] & " spells: " & $aTempSpells[$i][3])
+			Assign("Add" & $aTempSpells[$i][0] & "Spell", Eval("Dif" & $aTempSpells[$i][0] & "Spell"))
 			$bReVampFlag = True
-		ElseIf Eval("Dif" & $tempSpells[$i][0] & "Spell") < 0 Then
-			If $g_iSamM0dDebug = 1 Then SetLog("Some spells over train: " & $tempSpells[$i][0])
-			If $g_iSamM0dDebug = 1 Then SetLog("Setting Qty Of " & $tempSpells[$i][0] & " spells: " & $tempSpells[$i][3])
-			If $g_iSamM0dDebug = 1 Then SetLog("Current Qty Of " & $tempSpells[$i][0] & " spells: " & $tempSpells[$i][3] - Eval("Dif" & $tempSpells[$i][0] & "Spell"))
+		ElseIf Eval("Dif" & $aTempSpells[$i][0] & "Spell") < 0 Then
+			If $g_iSamM0dDebug = 1 Then SetLog("Some spells over train: " & $aTempSpells[$i][0])
+			If $g_iSamM0dDebug = 1 Then SetLog("Setting Qty Of " & $aTempSpells[$i][0] & " spells: " & $aTempSpells[$i][3])
+			If $g_iSamM0dDebug = 1 Then SetLog("Current Qty Of " & $aTempSpells[$i][0] & " spells: " & $aTempSpells[$i][3] - Eval("Dif" & $aTempSpells[$i][0] & "Spell"))
 		EndIf
 	Next
 
@@ -88,10 +88,10 @@ Func DoRevampSpells($bDoPreTrain = False, $bDbg = False)
 			EndIf
 		EndIf
 
-		For $i = 0 To UBound($tempSpells) - 1
-			Local $iOnQQty = Eval("Add" & $tempSpells[$i][0] & "Spell")
+		For $i = 0 To UBound($aTempSpells) - 1
+			Local $iOnQQty = Eval("Add" & $aTempSpells[$i][0] & "Spell")
 			If $iOnQQty > 0 Then
-				SetLog($CustomTrain_MSG_10 & " " & GetTroopName(Eval("enum" & $tempSpells[$i][0]) + $eLSpell, $iOnQQty) & " x" & $iOnQQty, $COLOR_ACTION)
+				SetLog($CustomTrain_MSG_10 & " " & GetTroopName(Eval("enum" & $aTempSpells[$i][0]) + $eLSpell, $iOnQQty) & " x" & $iOnQQty, $COLOR_ACTION)
 			EndIf
 		Next
 
@@ -101,48 +101,48 @@ Func DoRevampSpells($bDoPreTrain = False, $bDbg = False)
 
 		SetLog("Elixir: " & $iCurElixir & "   Dark Elixir: " & $iCurDarkElixir & "   Gem: " & $iCurGemAmount, $COLOR_INFO)
 
-		For $i = 0 To UBound($tempSpells) - 1
-			Local $tempSpell = Eval("Add" & $tempSpells[$i][0] & "Spell")
+		For $i = 0 To UBound($aTempSpells) - 1
+			Local $tempSpell = Eval("Add" & $aTempSpells[$i][0] & "Spell")
 			If $tempSpell > 0 And $iRemainSpellsCapacity > 0 Then
 
-				If LocateTroopButton($tempSpells[$i][2], $tempSpells[$i][0], True) Then
+				If LocateTroopButton($aTempSpells[$i][0], True) Then
 					Local $iCost
 					; check train cost before click, incase use gem
 
 					If $ichkEnableMySwitch = 0 Then
-						If $tempSpells[$i][4] = 0 Then
+						If $aTempSpells[$i][4] = 0 Then
 							$iCost = getMyOcr(0, $g_iTroopButtonX - 55, $g_iTroopButtonY + 26, 68, 18, "troopcost", True, False, True)
-							If $iCost = 0 Or $iCost >= $MySpellsCost[Eval("enum" & $tempSpells[$i][0])][0] Then
+							If $iCost = 0 Or $iCost >= $g_aMySpellsCost[Eval("enum" & $aTempSpells[$i][0])][0] Then
 								; cannot read train cost, use max level train cost
-								$iCost = $MySpellsCost[Eval("enum" & $tempSpells[$i][0])][0]
+								$iCost = $g_aMySpellsCost[Eval("enum" & $aTempSpells[$i][0])][0]
 							EndIf
-							$MySpells[Eval("enum" & $tempSpells[$i][0])][4] = $iCost
+							$g_aMySpells[Eval("enum" & $aTempSpells[$i][0])][4] = $iCost
 						Else
-							$iCost = $tempSpells[$i][4]
+							$iCost = $aTempSpells[$i][4]
 						EndIf
 					Else
 						$iCost = getMyOcr(0, $g_iTroopButtonX - 55, $g_iTroopButtonY + 26, 68, 18, "troopcost", True, False, True)
-						If $iCost = 0 Or $iCost >= $MySpellsCost[Eval("enum" & $tempSpells[$i][0])][0] Then
+						If $iCost = 0 Or $iCost >= $g_aMySpellsCost[Eval("enum" & $aTempSpells[$i][0])][0] Then
 							; cannot read train cost, use max level train cost
-							$iCost = $MySpellsCost[Eval("enum" & $tempSpells[$i][0])][0]
+							$iCost = $g_aMySpellsCost[Eval("enum" & $aTempSpells[$i][0])][0]
 						EndIf
 					EndIf
 
 					If $g_iSamM0dDebug = 1 Then SetLog("$iCost: " & $iCost)
-					;Local $iBuildCost = (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? getMyOcrCurDEFromTrain() : getMyOcrCurElixirFromTrain())
-					Local $iBuildCost = (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? $iCurDarkElixir : $iCurElixir)
+					;Local $iBuildCost = (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? getMyOcrCurDEFromTrain() : getMyOcrCurElixirFromTrain())
+					Local $iBuildCost = (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? $iCurDarkElixir : $iCurElixir)
 
 					If $g_iSamM0dDebug = 1 Then SetLog("$BuildCost: " & $iBuildCost)
 					If $g_iSamM0dDebug = 1 Then SetLog("Total need: " & ($tempSpell * $iCost))
 
-					;SetLog($CustomTrain_MSG_11 & " " & (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & ": " & $iBuildCost, (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
-					;SetLog($CustomTrain_MSG_13 & ": " & $iCost, (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+					;SetLog($CustomTrain_MSG_11 & " " & (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & ": " & $iBuildCost, (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+					;SetLog($CustomTrain_MSG_13 & ": " & $iCost, (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 
 					If ($tempSpell * $iCost) > $iBuildCost Then
 						$bFlagOutOfResource = True
-						; use eval and not $i to compare because of maybe after array sort $tempTroops
-						Setlog("Not enough " & (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? "Dark" : "") & " Elixir to brew " & GetTroopName(Eval("enum" & $tempSpells[$i][0]) + $eLSpell, 0), $COLOR_ERROR)
-						SetLog("Current " & (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? "Dark" : "") & " Elixir: " & $iBuildCost, $COLOR_ERROR)
+						; use eval and not $i to compare because of maybe after array sort $aTempTroops
+						Setlog("Not enough " & (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? "Dark" : "") & " Elixir to brew " & GetTroopName(Eval("enum" & $aTempSpells[$i][0]) + $eLSpell, 0), $COLOR_ERROR)
+						SetLog("Current " & (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? "Dark" : "") & " Elixir: " & $iBuildCost, $COLOR_ERROR)
 						SetLog("Total need: " & $tempSpell * $iCost, $COLOR_ERROR)
 					EndIf
 					If $bFlagOutOfResource Then
@@ -154,23 +154,23 @@ Func DoRevampSpells($bDoPreTrain = False, $bDbg = False)
 						Return ; We are out of Elixir stop training.
 					EndIf
 
-					SetLog($CustomTrain_MSG_14 & " " & GetTroopName(Eval("enum" & $tempSpells[$i][0]) + $eLSpell, $tempSpell) & " x" & $tempSpell & " with total " & (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & ": " & ($tempSpell * $iCost), (Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+					SetLog($CustomTrain_MSG_14 & " " & GetTroopName(Eval("enum" & $aTempSpells[$i][0]) + $eLSpell, $tempSpell) & " x" & $tempSpell & " with total " & (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? $CustomTrain_MSG_DarkElixir : $CustomTrain_MSG_Elixir) & ": " & ($tempSpell * $iCost), (Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 
-					If ($tempSpells[$i][2] * $tempSpell) <= $iRemainSpellsCapacity Then
+					If ($aTempSpells[$i][2] * $tempSpell) <= $iRemainSpellsCapacity Then
 						If MyTrainClick($g_iTroopButtonX, $g_iTroopButtonY, $tempSpell, $g_iTrainClickDelay, "#BS01", True) Then
-							If Eval("enum" & $tempSpells[$i][0]) > $iDarkFixSpell Then
+							If Eval("enum" & $aTempSpells[$i][0]) > $iDarkFixSpell Then
 								$iCurDarkElixir -= ($tempSpell * $iCost)
 							Else
 								$iCurElixir -= ($tempSpell * $iCost)
 							EndIf
-							$iRemainSpellsCapacity -= ($tempSpells[$i][2] * $tempSpell)
+							$iRemainSpellsCapacity -= ($aTempSpells[$i][2] * $tempSpell)
 						EndIf
 					Else
-						SetLog("Error: remaining space cannot fit to brew " & GetTroopName(Eval("enum" & $tempSpells[$i][0]) + $eLSpell, 0), $COLOR_ERROR)
+						SetLog("Error: remaining space cannot fit to brew " & GetTroopName(Eval("enum" & $aTempSpells[$i][0]) + $eLSpell, 0), $COLOR_ERROR)
 					EndIf
 
 				Else
-					SetLog("Cannot find button: " & $tempSpells[$i][0] & " for click", $COLOR_ERROR)
+					SetLog("Cannot find button: " & $aTempSpells[$i][0] & " for click", $COLOR_ERROR)
 				EndIf
 			EndIf
 		Next

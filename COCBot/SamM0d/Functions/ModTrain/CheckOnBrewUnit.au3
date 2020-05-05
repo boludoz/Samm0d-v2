@@ -18,12 +18,12 @@ Func CheckOnBrewUnit()
 	If $g_iSamM0dDebug = 1 Then SetLog("============Start CheckOnBrewUnit ============")
 	SetLog("Start check on brew unit...", $COLOR_INFO)
 	; reset variable
-	For $i = 0 To UBound($MySpells) - 1
-		Assign("OnT" & $MySpells[$i][0] & "Spell", 0)
-		Assign("OnQ" & $MySpells[$i][0] & "Spell", 0)
-		Assign("Ready" & $MySpells[$i][0] & "Spell", 0)
-		Assign("RemoveSpellUnitOfOnT" & $MySpells[$i][0], 0)
-		Assign("RemoveSpellUnitOfOnQ" & $MySpells[$i][0], 0)
+	For $i = 0 To UBound($g_aMySpells) - 1
+		Assign("OnT" & $g_aMySpells[$i][0] & "Spell", 0)
+		Assign("OnQ" & $g_aMySpells[$i][0] & "Spell", 0)
+		Assign("Ready" & $g_aMySpells[$i][0] & "Spell", 0)
+		Assign("RemoveSpellUnitOfOnT" & $g_aMySpells[$i][0], 0)
+		Assign("RemoveSpellUnitOfOnQ" & $g_aMySpells[$i][0], 0)
 	Next
 
 	Local $aiSpellInfo[11][4]
@@ -81,24 +81,24 @@ Func CheckOnBrewUnit()
 	EndIf
 
 	$bGotOnBrewFlag = False
-	For $i = 0 To UBound($MySpells) - 1
-		Local $itempTotal = Eval("cur" & $MySpells[$i][0] & "Spell") + Eval("OnT" & $MySpells[$i][0] & "Spell")
-		If Eval("OnT" & $MySpells[$i][0] & "Spell") > 0 Then
-			SetLog(" - No. of On Brew " & GetTroopName(Eval("enum" & $MySpells[$i][0]) + $eLSpell, Eval("OnT" & $MySpells[$i][0] & "Spell")) & ": " & Eval("OnT" & $MySpells[$i][0] & "Spell"), (Eval("enum" & $MySpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+	For $i = 0 To UBound($g_aMySpells) - 1
+		Local $itempTotal = Eval("cur" & $g_aMySpells[$i][0] & "Spell") + Eval("OnT" & $g_aMySpells[$i][0] & "Spell")
+		If Eval("OnT" & $g_aMySpells[$i][0] & "Spell") > 0 Then
+			SetLog(" - No. of On Brew " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnT" & $g_aMySpells[$i][0] & "Spell")) & ": " & Eval("OnT" & $g_aMySpells[$i][0] & "Spell"), (Eval("enum" & $g_aMySpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 			$bGotOnBrewFlag = True
 		EndIf
-		If $MySpells[$i][3] < $itempTotal Then
+		If $g_aMySpells[$i][3] < $itempTotal Then
 			If $ichkEnableDeleteExcessSpells = 1 And not BitAND($g_iTotalSpellValue - $g_iMySpellsSize = 1, $ichkForcePreBrewSpell = 1) = True Then ; MOD
-				SetLog("Error: " & GetTroopName(Eval("enum" & $MySpells[$i][0] + $eLSpell), Eval("OnT" & $MySpells[$i][0] & "Spell")) & " need " & $MySpells[$i][3] & " only, and i made " & $itempTotal)
-				Assign("RemoveSpellUnitOfOnT" & $MySpells[$i][0], $itempTotal - $MySpells[$i][3])
+				SetLog("Error: " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0] + $eLSpell), Eval("OnT" & $g_aMySpells[$i][0] & "Spell")) & " need " & $g_aMySpells[$i][3] & " only, and i made " & $itempTotal)
+				Assign("RemoveSpellUnitOfOnT" & $g_aMySpells[$i][0], $itempTotal - $g_aMySpells[$i][3])
 				$bDeletedExcess = True
 			EndIf
 		EndIf
 		If $itempTotal > 0 Then
-			$iAvailableCamp += $itempTotal * $MySpells[$i][2]
+			$iAvailableCamp += $itempTotal * $g_aMySpells[$i][2]
 		EndIf
-		If $MySpells[$i][3] > 0 Then
-			$iMySpellsCampSize += $MySpells[$i][3] * $MySpells[$i][2]
+		If $g_aMySpells[$i][3] > 0 Then
+			$iMySpellsCampSize += $g_aMySpells[$i][3] * $g_aMySpells[$i][2]
 		EndIf
 	Next
 
@@ -132,26 +132,26 @@ Func CheckOnBrewUnit()
 	Else
 		$bDeletedExcess = False
 		$bGotOnQueueFlag = False
-		For $i = 0 To UBound($MySpells) - 1
-			Local $itempTotal = Eval("OnQ" & $MySpells[$i][0] & "Spell")
+		For $i = 0 To UBound($g_aMySpells) - 1
+			Local $itempTotal = Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")
 			If $itempTotal > 0 Then
-				SetLog(" - No. of On Queue " & GetTroopName(Eval("enum" & $MySpells[$i][0]) + $eLSpell, Eval("OnQ" & $MySpells[$i][0] & "Spell")) & ": " & Eval("OnQ" & $MySpells[$i][0] & "Spell"), (Eval("enum" & $MySpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+				SetLog(" - No. of On Queue " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")) & ": " & Eval("OnQ" & $g_aMySpells[$i][0] & "Spell"), (Eval("enum" & $g_aMySpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 				$bGotOnQueueFlag = True
-				If Eval("ichkPre" & $MySpells[$i][0]) = 1 Then
-					If $MySpells[$i][3] < $itempTotal Then
+				If Eval("ichkPre" & $g_aMySpells[$i][0]) = 1 Then
+					If $g_aMySpells[$i][3] < $itempTotal Then
 						If $ichkEnableDeleteExcessSpells = 1 And not BitAND($g_iTotalSpellValue - $g_iMySpellsSize = 1, $ichkForcePreBrewSpell = 1) = True Then
-							SetLog("Error: " & GetTroopName(Eval("enum" & $MySpells[$i][0]) + $eLSpell, Eval("OnQ" & $MySpells[$i][0] & "Spell")) & " need " & $MySpells[$i][3] & " only, and i made " & $itempTotal)
-							Assign("RemoveSpellUnitOfOnQ" & $MySpells[$i][0], $itempTotal - $MySpells[$i][3])
+							SetLog("Error: " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")) & " need " & $g_aMySpells[$i][3] & " only, and i made " & $itempTotal)
+							Assign("RemoveSpellUnitOfOnQ" & $g_aMySpells[$i][0], $itempTotal - $g_aMySpells[$i][3])
 							$bDeletedExcess = True
 						EndIf
 					EndIf
-					$iMyPreBrewSpellSize += $itempTotal * $MySpells[$i][2]
+					$iMyPreBrewSpellSize += $itempTotal * $g_aMySpells[$i][2]
 				Else
-					SetLog("Error: " & GetTroopName(Eval("enum" & $MySpells[$i][0]) + $eLSpell, Eval("OnQ" & $MySpells[$i][0] & "Spell")) & " not needed to pre brew, remove all.")
-					Assign("RemoveSpellUnitOfOnQ" & $MySpells[$i][0], $itempTotal)
+					SetLog("Error: " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")) & " not needed to pre brew, remove all.")
+					Assign("RemoveSpellUnitOfOnQ" & $g_aMySpells[$i][0], $itempTotal)
 					$bDeletedExcess = True
 				EndIf
-				$iOnQueueCamp += $itempTotal * $MySpells[$i][2]
+				$iOnQueueCamp += $itempTotal * $g_aMySpells[$i][2]
 			EndIf
 		Next
 
@@ -217,30 +217,30 @@ Func CheckOnBrewUnit()
 			EndIf
 		Else
 			If $ichkMySpellsOrder Then
-				Local $tempSpells[10][5]
-				$tempSpells = $MySpells
-				_ArraySort($tempSpells, 0, 0, 0, 1)
-				For $i = 0 To UBound($tempSpells) - 1
-					If $tempSpells[$i][3] > 0 Then
-						$tempSpells[0][0] = $tempSpells[$i][0]
-						$tempSpells[0][3] = $tempSpells[$i][3]
+				Local $aTempSpells[10][5]
+				$aTempSpells = $g_aMySpells
+				_ArraySort($aTempSpells, 0, 0, 0, 1)
+				For $i = 0 To UBound($aTempSpells) - 1
+					If $aTempSpells[$i][3] > 0 Then
+						$aTempSpells[0][0] = $aTempSpells[$i][0]
+						$aTempSpells[0][3] = $aTempSpells[$i][3]
 						ExitLoop
 					EndIf
 				Next
 				_ArraySort($aiSpellInfo, 1, 0, 0, 2)
 				For $i = 0 To UBound($aiSpellInfo) - 1
 					If $aiSpellInfo[$i][3] = True Then
-						If $aiSpellInfo[$i][0] <> $tempSpells[0][0] Then
+						If $aiSpellInfo[$i][0] <> $aTempSpells[0][0] Then
 							SetLog("Pre-Brew Spell first slot: " & GetTroopName(Eval("enum" & $aiSpellInfo[$i][0]) + $eLSpell, $aiSpellInfo[$i][1]), $COLOR_ERROR)
-							SetLog("My first order spells: " & GetTroopName(Eval("enum" & $tempSpells[0][0]) + $eLSpell, $tempSpells[0][3]), $COLOR_ERROR)
+							SetLog("My first order spells: " & GetTroopName(Eval("enum" & $aTempSpells[0][0]) + $eLSpell, $aTempSpells[0][3]), $COLOR_ERROR)
 							SetLog("Remove and re-brew by order.", $COLOR_ERROR)
 							RemoveAllPreTrainTroops()
 							$g_bRestartCheckTroop = True
 							Return False
 						Else
-							If $aiSpellInfo[$i][1] < $tempSpells[0][3] Then
+							If $aiSpellInfo[$i][1] < $aTempSpells[0][3] Then
 								SetLog("Pre-Brew Spell first slot: " & GetTroopName(Eval("enum" & $aiSpellInfo[$i][0]) + $eLSpell, $aiSpellInfo[$i][1]) & " - Units: " & $aiSpellInfo[$i][1], $COLOR_ERROR)
-								SetLog("My first order spells: " & GetTroopName(Eval("enum" & $tempSpells[0][0]) + $eLSpell, $tempSpells[0][3]) & " - Units: " & $tempSpells[0][3], $COLOR_ERROR)
+								SetLog("My first order spells: " & GetTroopName(Eval("enum" & $aTempSpells[0][0]) + $eLSpell, $aTempSpells[0][3]) & " - Units: " & $aTempSpells[0][3], $COLOR_ERROR)
 								SetLog("Not enough quantity, remove and re-brew again.", $COLOR_ERROR)
 								RemoveAllPreTrainTroops()
 								$g_bRestartCheckTroop = True
@@ -255,18 +255,18 @@ Func CheckOnBrewUnit()
 	EndIf
 
 	If $g_abAttackTypeEnable[$DB] = True And $g_abSearchSpellsWaitEnable[$DB] = True Then
-		For $i = 0 To UBound($MySpells) -1
-			If Eval("Cur" & $MySpells[$i][0] & "Spell") < $MySpells[$i][3] Then
-				SETLOG(" Dead Base - Waiting " & GetTroopName($i + $eLSpell, $MySpells[$i][3] - Eval("Cur" & $MySpells[$i][0] & "Spell")) & _
+		For $i = 0 To UBound($g_aMySpells) -1
+			If Eval("Cur" & $g_aMySpells[$i][0] & "Spell") < $g_aMySpells[$i][3] Then
+				SETLOG(" Dead Base - Waiting " & GetTroopName($i + $eLSpell, $g_aMySpells[$i][3] - Eval("Cur" & $g_aMySpells[$i][0] & "Spell")) & _
 						" to brew finish before start next attack.", $COLOR_ACTION)
 			EndIf
 		Next
 	EndIf
 
 	If $g_abAttackTypeEnable[$LB] = True And $g_abSearchSpellsWaitEnable[$LB] = True Then
-		For $i = 0 To UBound($MySpells) -1
-			If Eval("Cur" & $MySpells[$i][0] & "Spell") < $MySpells[$i][3] Then
-				SETLOG(" Live Base - Waiting " & GetTroopName($i + $eLSpell + $eLSpell, $MySpells[$i][3] - Eval("Cur" & $MySpells[$i][0] & "Spell")) & _
+		For $i = 0 To UBound($g_aMySpells) -1
+			If Eval("Cur" & $g_aMySpells[$i][0] & "Spell") < $g_aMySpells[$i][3] Then
+				SETLOG(" Live Base - Waiting " & GetTroopName($i + $eLSpell + $eLSpell, $g_aMySpells[$i][3] - Eval("Cur" & $g_aMySpells[$i][0] & "Spell")) & _
 						" to brew finish before start next attack.", $COLOR_ACTION)
 			EndIf
 		Next

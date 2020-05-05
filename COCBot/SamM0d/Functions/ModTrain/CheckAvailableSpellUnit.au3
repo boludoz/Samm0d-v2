@@ -36,7 +36,7 @@ Func ArrayCheckAvailableSpell()
 			;Local $sSlot = ($vXWhiteSymbol[$i][1] - 23 >= 20) ? ($vXWhiteSymbol[$i][1] - 23) : (23) & "," & 340 & "," & $vXWhiteSymbol[$i][1]-7 & "," & 358
 			;If not IsArray(findMultipleQuick($g_sSamM0dImageLocation & "\Spells\IsTrainOrEmpty\", 1, $sSlot, "Is", True, True, 0)) Then
 			
-					Local $aFakeA[1][4] = [[$sTroopDummy, Int($aOnlyOne[$i2][1] - 40), Int($aOnlyOne[$i2][1] + 40), getMyOcrSoft(Int($aOnlyOne[$i2][1] + 3), 342, Int($aOnlyOne[$i2][1] + 35), 342+19, Default, "SpellQTY", True)]]
+					Local $aFakeA[1][4] = [[$sTroopDummy, Int($aOnlyOne[$i2][1] - 40), Int($aOnlyOne[$i2][1] + 40), getMyOcrSoft(Int($aOnlyOne[$i2][1] -5), 342, Int($aOnlyOne[$i2][1] + 35), 342+19, Default, "SpellQTY", True)]]
 					
 					If $aOnlyOne[$i2][1] <= $aFakeA[0][1] And $aOnlyOne[$i2][1] >= $aFakeA[0][2] Then $aFakeA[0][0] = ""
 					
@@ -61,8 +61,8 @@ Func CheckAvailableSpellUnit()
 	SetLog("Start check available spell unit...", $COLOR_INFO)
 
 	; reset variable
-	For $i = 0 To UBound($MySpells) - 1
-		Assign("cur" & $MySpells[$i][0] & "Spell", 0)
+	For $i = 0 To UBound($g_aMySpells) - 1
+		Assign("cur" & $g_aMySpells[$i][0] & "Spell", 0)
 	Next
 	For $i = 0 To 6
 		Assign("RemSpellSlot" & $i + 1, 0)
@@ -71,6 +71,7 @@ Func CheckAvailableSpellUnit()
 	Local $aiSpellsInfo[7][3]
 	Local $AvailableCamp = 0
 	Local $bDeletedExcess = False
+	
 	Local $aSlotAuto = $g_vIntercomCheckAvailableSpellUnit
 	
 	;_ArrayDisplay($aSlotAuto)
@@ -81,7 +82,7 @@ Func CheckAvailableSpellUnit()
 			$aiSpellsInfo[$i][2] = $i + 1
 			Setlog("Detected: " & $aSlotAuto[$i][0], $COLOR_INFO)
 		Else
-			SetLog("Error: Cannot detect what spells on slot: " & $i + 1, $COLOR_ERROR)
+			SetLog("Error: Cannot detect what spells on slot: " & Abs(11 - $i), $COLOR_ERROR)
 			ContinueLoop
 		EndIf
 
@@ -93,13 +94,13 @@ Func CheckAvailableSpellUnit()
 			SetLog(" - No. of Available " & GetTroopName(Eval("enum" & $aiSpellsInfo[$i][0]) + $eLSpell, $aiSpellsInfo[$i][1]) & ": " & $aiSpellsInfo[$i][1], (Eval("enum" & $aiSpellsInfo[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 			Assign("cur" & $aiSpellsInfo[$i][0] & "Spell", $aiSpellsInfo[$i][1])
 
-			$AvailableCamp += ($aiSpellsInfo[$i][1] * $MySpells[Eval("enum" & $aiSpellsInfo[$i][0])][2])
+			$AvailableCamp += ($aiSpellsInfo[$i][1] * $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][2])
 
 			If $ichkEnableDeleteExcessSpells = 1 Then
-				If $aiSpellsInfo[$i][1] > $MySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3] Then
+				If $aiSpellsInfo[$i][1] > $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3] Then
 					$bDeletedExcess = True
-					SetLog(" >>> excess: " & $aiSpellsInfo[$i][1] - $MySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3], $COLOR_RED)
-					Assign("RemSpellSlot" & $aiSpellsInfo[$i][2], $aiSpellsInfo[$i][1] - $MySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3])
+					SetLog(" >>> excess: " & $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3], $COLOR_RED)
+					Assign("RemSpellSlot" & $aiSpellsInfo[$i][2], $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3])
 					If $g_iSamM0dDebug = 1 Then SetLog("Set Remove Slot: " & $aiSpellsInfo[$i][2])
 				EndIf
 			EndIf
