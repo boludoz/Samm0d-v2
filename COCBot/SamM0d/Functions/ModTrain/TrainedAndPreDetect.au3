@@ -15,12 +15,12 @@
 Func GetTrainedAndPreDetect($sMode = "Troops", $bTest = False)
 	Global $aIsTraining[0][4]
 	Global $aIsPreTraining[0][4]
-	
+
 	TrainedAndPreDetect($sMode)
-	
+
 	Local $aFullConcat = $aIsTraining
 	_ArrayAdd($aFullConcat, $aIsPreTraining)
-	If $bTest = True Then ;_ArrayDisplay($aFullConcat)
+	If $bTest = True Then _ArrayDisplay($aFullConcat)
 	Return (UBound($aFullConcat) <> 0) ? ($aFullConcat) : (-1)
 EndFunc
 
@@ -39,7 +39,7 @@ Func TrainedAndPreDetect($sMode = "Troops")
 	;While 1
 	;If _Sleep(Random(500,1000,1)) Then Return
 		$vDeleteWhiteSymbol = findMultipleQuick($g_sSamM0dImageLocation & "\Siege\Sprites\", 0, "17,190,842,199", "DeleteW", True, True, 25)
-		
+
 			If IsArray($vDeleteWhiteSymbol) Then
 
 				For $i = 0 To UBound($vDeleteWhiteSymbol) - 1
@@ -53,13 +53,13 @@ Func TrainedAndPreDetect($sMode = "Troops")
 
 					; x1 = -50 / y1 = 59 / x2 = 12 / y2 = -6
 					$sTmpBrew = Int($vDeleteWhiteSymbol[$i][1] - 50) & "," & Int($vDeleteWhiteSymbol[$i][2] + 59) & "," & Int($vDeleteWhiteSymbol[$i][1] + 12) & "," & Int($vDeleteWhiteSymbol[$i][2] - 6)
-					
+
 					If ($sMode = "Train") Then
 						$aReadyTroopsDel = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\Train\", 0, $sTmpBrew)
 					ElseIf ($sMode = "Spells") Then
 						$aReadyTroopsDel = findMultipleQuick($g_sSamM0dImageLocation & "\Spells\Brew\", 0, $sTmpBrew)
 					EndIf
-					
+
 					$aTmpArray[1] = $iQty
 
 					If IsArray($aReadyTroopsDel) Then
@@ -69,17 +69,17 @@ Func TrainedAndPreDetect($sMode = "Troops")
 					EndIf
 					; Name, qty, IsPre, IsReady
 					Local $sIsReady = $vDeleteWhiteSymbol[$i][1] - 5 & "," & 240 & "," & $vDeleteWhiteSymbol[$i][1] + 20 & "," & 248
-					
+
 					Local $aMatrix[1][4] = [[$aTmpArray[0], $aTmpArray[1], False, IsArray(findMultipleQuick($g_sSamM0dImageLocation & "\" & $sMode & "\Ready\", 1, $sIsReady)) = True]]
 					_ArrayAdd($aIsTraining, $aMatrix)
 				Next
 
 			EndIf
-				
+
 
 
 		$vDeleteRedSymbol = findMultipleQuick($g_sSamM0dImageLocation & "\Siege\Sprites\", 0, "17,190,842,199", "DeleteR", True, True, 25)
-		
+
 		If IsArray($vDeleteRedSymbol) Then
 
 			For $i = 0 To UBound($vDeleteRedSymbol) - 1
@@ -103,10 +103,10 @@ Func TrainedAndPreDetect($sMode = "Troops")
 				Else
 					$aTmpArray[0] = "NotRecognized"
 				EndIf
-				
+
 				; Name, qty, IsPre, IsReady
 				Local $sIsReady = $vDeleteRedSymbol[$i][1] - 5 & "," & 240 & "," & $vDeleteRedSymbol[$i][1] + 20 & "," & 248
-                
+
 				Local $aMatrix[1][4] = [[$aTmpArray[0], $aTmpArray[1], True, IsArray(findMultipleQuick($g_sSamM0dImageLocation & "\" & $sMode & "\Ready\", 1, $sIsReady)) = True ]]
 				_ArrayAdd($aIsPreTraining, $aMatrix)
 			Next
