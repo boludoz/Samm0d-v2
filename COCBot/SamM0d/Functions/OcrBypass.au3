@@ -80,17 +80,6 @@ Func CheckAutoCamp() ; Only first Run and th5 + (Then every time he does the tro
 						If $aClock[$i][1] > $aClockX[$i2] And $aClock[$i][1] < $aClockX[$i2 + 1] Then
 							SetLog("- " & $aClockUbi[$i2] & " Is active", $Color_info)
 							SuperTroopsArray($aClockUbi[$i2])
-;~ 							For $i3 = 0 To UBound($g_aMyTroops) - 1
-;~ 								If (StringInStr($g_aMyTroops[$i3][0], $aClockUbi[$i2]) <> 0) Then
-;~ 									$g_aMyTroops[$i3][2] = $g_aMyTroops[$i3][5]
-;~ 									For $i4 = 0 To UBound($g_aMySuperTroops) - 1
-;~ 										If (StringInStr($g_aMySuperTroops[$i4][0], $g_aMyTroops[$i3][0]) <> 0) Then
-;~ 											$g_aMyTroops[$i3][3] = Floor(Int($g_aMyTroops[$i3][3] / Int($g_aMySuperTroops[$i4][2] / $g_aMyTroops[$i3][2]))) + ($g_aMyTroops[$i3][0] = "Giant") ? (2) : (0)
-;~ 											UpdateTroopSize()
-;~ 										EndIf
-;~ 									Next
-;~ 								EndIf
-;~ 							Next
 						EndIf
 					Next
 				Next

@@ -157,7 +157,7 @@ Global $OnTSuperBarb = 0, $OnTSuperGiant = 0, $OnTSuperGobl = 0, $OnTSuperWall =
 
 Global $ReadySuperBarb = 0, $ReadySuperGiant = 0, $ReadySuperGobl = 0, $ReadySuperWall = 0
 
-Global $eSuperBarb = $eSuperBarb, $eSuperGiant = $eSuperBarb + 1, $eSuperGobl = $eSuperBarb + 2, $eSuperWall = $eSuperBarb + 3
+Global $eSuperGobl = $eSuperBarb + 2 ; fix super gobl
 
 Global $g_aMyTroopsButton[22][3] = _
 		[["Barb", 0, 0], _

@@ -34,20 +34,11 @@ Func ArrayCheckAvailableUnit()
 		Local $sTroopDummy = $aOnlyOne[$i2][0]
 	
 		For $i = 0 To UBound($vXWhiteSymbol) -1
-			;Local $sSlot = ($vXWhiteSymbol[$i][1] - 23 >= 20) ? ($vXWhiteSymbol[$i][1] - 23) : (23) & "," & 195 & "," & $vXWhiteSymbol[$i][1]-7 & "," & 215
-			;If not IsArray(findMultipleQuick($g_sSamM0dImageLocation & "\Troops\IsTrainOrEmpty\", 1, $sSlot, "Is", True, True, 0)) Then
+			Local $aFakeA[1][4] = [[$sTroopDummy, Int($aOnlyOne[$i2][1] - 40), Int($aOnlyOne[$i2][1] + 40), getMyOcrSoft(Int($aOnlyOne[$i2][1] - 43), 193, Int($aOnlyOne[$i2][1] + 42), 215, Default, "armyqty", True)]]
+			If $aOnlyOne[$i2][1] <= $aFakeA[0][1] And $aOnlyOne[$i2][1] >= $aFakeA[0][2] Then $aFakeA[0][0] = ""
 			
-					Local $aFakeA[1][4] = [[$sTroopDummy, Int($aOnlyOne[$i2][1] - 40), Int($aOnlyOne[$i2][1] + 40), getMyOcrSoft(Int($aOnlyOne[$i2][1] - 43), 195, Int($aOnlyOne[$i2][1] + 38), 214, Default, "armyqty", True)]]
-					If $aOnlyOne[$i2][1] <= $aFakeA[0][1] And $aOnlyOne[$i2][1] >= $aFakeA[0][2] Then $aFakeA[0][0] = ""
-					
-					_ArrayAdd($vArray, $aFakeA)
-					ExitLoop
-				
-			;	Else
-			;		Setlog("Troops check finished", $COLOR_INFO)
-			;		ExitLoop 2
-			;	
-			;EndIf
+			_ArrayAdd($vArray, $aFakeA)
+			ExitLoop
 		Next
 	Next
 	$g_vIntercomCheckAvailableUnit = (UBound($vArray) > 0) ? ($vArray) :($vReturn)
@@ -60,7 +51,7 @@ Func CheckAvailableUnit()
 
 	Local $aTempTroops = $g_aMyTroops
 	SuperTroopsCorrectArray($aTempTroops)
-	
+	;_ArrayDisplay($aTempTroops)
 	; reset variable
 	For $i = 0 To UBound($aTempTroops) - 1
 		Assign("cur" & $aTempTroops[$i][0], 0)
@@ -77,58 +68,63 @@ Func CheckAvailableUnit()
 	Local $iTroopIndex = -1
 	Local $sTroopName = ""
 
-	;_ArrayDisplay($aSlotAuto)
-	For $i = 0 To UBound($aSlotAuto) - 1
+	For $i = 0 To 6
+	
+		If $i <= (UBound($aSlotAuto) - 1) Then 
 
-		If $aSlotAuto[$i][0] <> "" Then
-			$aiTroopsInfo[$i][0] = $aSlotAuto[$i][0] ; objectname
-			$aiTroopsInfo[$i][2] = $i + 1
-			Setlog("Detected: " & $aSlotAuto[$i][0], $COLOR_INFO)
-		Else
-			SetLog("Error: Cannot detect what troops on slot: " & $i + 1, $COLOR_ERROR)
-			ContinueLoop
-		EndIf
-
-		$aiTroopsInfo[$i][1] = $aSlotAuto[$i][3] ;getMyOcrSoft($aSlotAuto[$i][1], 196, $aSlotAuto[$i][2], 215, Default, "SpellQTY", True)
-
-		;_ArrayDisplay($aiSpellsInfo)
-
-		If $aiTroopsInfo[$i][1] <> 0 Then
-			$iTroopIndex = TroopIndexLookup($aiTroopsInfo[$i][0])
-			$sTroopName = GetTroopName($iTroopIndex, $aiTroopsInfo[$i][1])
-
-			SetLog(" - No. of Available " & $sTroopName & ": " & $aiTroopsInfo[$i][1], ($iTroopIndex > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
-			Assign("cur" & $aiTroopsInfo[$i][0], $aiTroopsInfo[$i][1])
-
-			; assign variable for drop trophy troops type
-			For $j = 0 To UBound($g_avDTtroopsToBeUsed) - 1
-				If $g_avDTtroopsToBeUsed[$j][0] = $aiTroopsInfo[$i][0] Then
-					$g_avDTtroopsToBeUsed[$j][1] = $aiTroopsInfo[$i][1]
-					ExitLoop
-				EndIf
-			Next
-
-			$AvailableCamp += ($aiTroopsInfo[$i][1] * $aTempTroops[Eval("e" & $aiTroopsInfo[$i][0])][2])
-
-			If $ichkEnableDeleteExcessTroops = 1 Then
-				If $aiTroopsInfo[$i][1] > $aTempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3] Then
-					$bDeletedExcess = True
-					SetLog(" >>> excess: " & $aiTroopsInfo[$i][1] - $aTempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3], $COLOR_RED)
-					Assign("RemSlot" & $aiTroopsInfo[$i][2], $aiTroopsInfo[$i][1] - $aTempTroops[Eval("e" & $aiTroopsInfo[$i][0])][3])
-					If $g_iSamM0dDebug = 1 Then SetLog("Set Remove Slot: " & $aiTroopsInfo[$i][2])
-				EndIf
+			If $aSlotAuto[$i][0] <> "NotRecognized" Then
+				$aiTroopsInfo[$i][0] = $aSlotAuto[$i][0] ; objectname
+				$aiTroopsInfo[$i][1] = $aSlotAuto[$i][3]
+				Setlog("Detected: " & $aSlotAuto[$i][0], $COLOR_INFO)
+				$aiTroopsInfo[$i][2] = $i + 1
+			Else
+				$aiTroopsInfo[$i][0] = $aSlotAuto[$i][0] ; objectname
+				$aiTroopsInfo[$i][2] = $i + 1
+				SetLog("Error: Cannot detect what spells on slot: " & $i + 1, $COLOR_ERROR)
+				ContinueLoop
 			EndIf
 
-			; assign variable for drop trophy troops type
-			For $j = 0 To UBound($g_avDTtroopsToBeUsed) - 1
-				If $g_avDTtroopsToBeUsed[$j][0] = $aiTroopsInfo[$i][0] Then
-					$g_avDTtroopsToBeUsed[$j][1] = $aiTroopsInfo[$i][1]
-					ExitLoop
+			If $aiTroopsInfo[$i][1] <> 0 Or $aSlotAuto[$i][0] <> "NotRecognized" Then
+				;$iTroopIndex = TroopIndexLookup($aiTroopsInfo[$i][0])
+				;$sTroopName = GetTroopName($iTroopIndex, $aiTroopsInfo[$i][1])
+
+				;SetLog(" - No. of Available " & $sTroopName & ": " & $aiTroopsInfo[$i][1], ($iTroopIndex > $iDarkFixTroop ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
+				Assign("cur" & $aiTroopsInfo[$i][0], $aiTroopsInfo[$i][1])
+
+				; assign variable for drop trophy troops type
+				For $j = 0 To UBound($g_avDTtroopsToBeUsed) - 1
+					If $g_avDTtroopsToBeUsed[$j][0] = $aiTroopsInfo[$i][0] Then
+						$g_avDTtroopsToBeUsed[$j][1] = $aiTroopsInfo[$i][1]
+						ExitLoop
+					EndIf
+				Next
+				
+				_ArrayDisplay($aTempTroops)
+				Local $iLink = Number(SearchMulti($aTempTroops, $aiTroopsInfo[$i][0]))
+				Setlog("Slot troop " & $iLink)
+				
+				$AvailableCamp += ($aiTroopsInfo[$i][1] * $aTempTroops[$iLink][2])
+
+				If $ichkEnableDeleteExcessTroops = 1 Then
+					If $aiTroopsInfo[$i][1] > $aTempTroops[$iLink][3] Then
+						$bDeletedExcess = True
+						SetLog(" >>> excess: " & $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3], $COLOR_RED)
+						Assign("RemSlot" & $aiTroopsInfo[$i][2], $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3])
+						If $g_iSamM0dDebug = 1 Then SetLog("Set Remove Slot: " & $aiTroopsInfo[$i][2])
+					EndIf
 				EndIf
-			Next
-		Else
-			SetLog("Error detect quantity no. On Troop: " & GetTroopName(Eval("e" & $aiTroopsInfo[$i][0]), $aiTroopsInfo[$i][1]), $COLOR_RED)
-			ExitLoop
+
+				; assign variable for drop trophy troops type
+				For $j = 0 To UBound($g_avDTtroopsToBeUsed) - 1
+					If $g_avDTtroopsToBeUsed[$j][0] = $aiTroopsInfo[$i][0] Then
+						$g_avDTtroopsToBeUsed[$j][1] = $aiTroopsInfo[$i][1]
+						ExitLoop
+					EndIf
+				Next
+			Else
+				;SetLog("Error detect quantity no. On Troop: " & GetTroopName(Eval("e" & $aiTroopsInfo[$i][0]), $aiTroopsInfo[$i][1]), $COLOR_RED)
+				ExitLoop
+			EndIf
 		EndIf
 	Next
 

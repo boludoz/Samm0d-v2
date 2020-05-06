@@ -343,8 +343,8 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			EndIf
 		WEnd
 		
-		ArrayCheckAvailableSpell() ; exbit
 		getMySpellCapacityMini()
+		ArrayCheckAvailableSpell() ; exbit
 
 		If $bDisableBrewSpell = False Then
 			; reset Global variables
@@ -425,19 +425,19 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 		EndIf
 
 		If gotoArmy() = False Then ExitLoop ; exbit
-		If _Sleep(500) Then Return
+		If _Sleep(1000) Then Return
 		
-		ArrayCheckAvailableUnit() ; exbit
+		Local $aTempTroops = $g_aMyTroops
+		SuperTroopsCorrectArray($aTempTroops)
+		
 		getMyArmyCapacityMini() ; exbit
+		ArrayCheckAvailableUnit() ; exbit
 
 		If $bDisableTrain = False Then
 			;====Reset the variable======
 			For $i = 0 To UBound($g_avDTtroopsToBeUsed, 1) - 1
 				$g_avDTtroopsToBeUsed[$i][1] = 0
 			Next
-
-			Local $aTempTroops = $g_aMyTroops
-			SuperTroopsCorrectArray($aTempTroops)
 
 			; reset Global variables for Super Troops
 			For $i = 0 To UBound($aTempTroops) - 1

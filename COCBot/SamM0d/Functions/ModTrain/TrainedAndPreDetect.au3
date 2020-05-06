@@ -57,7 +57,7 @@ Func TrainedAndPreDetect($sMode = "Troops")
 					If ($sMode = "Train") Then
 						$aReadyTroopsDel = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\Train\", 0, $sTmpBrew)
 					ElseIf ($sMode = "Spells") Then
-						$aReadyTroopsDel = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\Brew\", 0, $sTmpBrew)
+						$aReadyTroopsDel = findMultipleQuick($g_sSamM0dImageLocation & "\Spells\Brew\", 0, $sTmpBrew)
 					EndIf
 					
 					$aTmpArray[1] = $iQty
@@ -115,3 +115,4 @@ Func TrainedAndPreDetect($sMode = "Troops")
 		;ExitLoop
 	;WEnd
 EndFunc
+
