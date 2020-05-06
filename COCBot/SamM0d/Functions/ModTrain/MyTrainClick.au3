@@ -99,7 +99,7 @@ Func LocateTroopButton($sTroopButton, $bIsBrewSpell = False)
 		If Not IsTrainPage() Then Return False
 
 		; Capture troops train region.
-		$aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\TrainButtons\", 0, $aRegionForScan, $sTroopButton, False)
+		$aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\TrainButtons\", 1, $aRegionForScan, $sTroopButton, False)
 
 
 		; If is not bad findMultipleQuick result.
@@ -120,7 +120,6 @@ Func LocateTroopButton($sTroopButton, $bIsBrewSpell = False)
 					EndIf
 				Next
 			EndIf
-			
 			Return True
 
 		ElseIf $iB = 0 Then

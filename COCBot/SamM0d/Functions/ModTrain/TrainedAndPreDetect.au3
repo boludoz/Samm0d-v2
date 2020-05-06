@@ -20,7 +20,7 @@ Func GetTrainedAndPreDetect($sMode = "Troops", $bTest = False)
 	
 	Local $aFullConcat = $aIsTraining
 	_ArrayAdd($aFullConcat, $aIsPreTraining)
-	If $bTest = True Then _ArrayDisplay($aFullConcat)
+	If $bTest = True Then ;_ArrayDisplay($aFullConcat)
 	Return (UBound($aFullConcat) <> 0) ? ($aFullConcat) : (-1)
 EndFunc
 

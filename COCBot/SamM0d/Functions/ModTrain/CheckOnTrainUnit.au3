@@ -43,7 +43,7 @@ Func CheckOnTrainUnit()
 
 	; Name, qty, IsPre, IsReady
 	Local $aSumPreTra = GetTrainedAndPreDetect("Troops")
-	;_ArrayDisplay($aSumPreTra)
+	;;_ArrayDisplay($aSumPreTra)
 	If IsArray($aSumPreTra) Then
 		For $i = UBound($aSumPreTra) -1 To 0 Step -1
 

@@ -51,7 +51,7 @@ Func CheckAvailableUnit()
 
 	Local $aTempTroops = $g_aMyTroops
 	SuperTroopsCorrectArray($aTempTroops)
-	;_ArrayDisplay($aTempTroops)
+	;;_ArrayDisplay($aTempTroops)
 	; reset variable
 	For $i = 0 To UBound($aTempTroops) - 1
 		Assign("cur" & $aTempTroops[$i][0], 0)
@@ -99,7 +99,7 @@ Func CheckAvailableUnit()
 					EndIf
 				Next
 				
-				_ArrayDisplay($aTempTroops)
+				;;_ArrayDisplay($aTempTroops)
 				Local $iLink = Number(SearchMulti($aTempTroops, $aiTroopsInfo[$i][0]))
 				Setlog("Slot troop " & $iLink)
 				

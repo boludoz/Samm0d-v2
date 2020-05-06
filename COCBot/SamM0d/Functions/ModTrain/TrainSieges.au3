@@ -17,7 +17,7 @@ Global $g_bAlmostOneReady = False
 Func TrainSiegesM()
 return 
 	Local $tempSieges = $MySieges
-	;_ArrayDisplay($tempSieges)
+	;;_ArrayDisplay($tempSieges)
 	;Local $aOcrSg[2] = [63, 545]
 
 	Local $aCapMedium = CapacitySieges()
@@ -152,7 +152,7 @@ return
 							$aTmpArray[0] = "NotRecognized"
 							;ExitLoop
 						EndIf
-						;_ArrayDisplay($aTmpArray)
+						;;_ArrayDisplay($aTmpArray)
 						Local $aMatrix[1][2] = [[$aTmpArray[0], $aTmpArray[1]]]
 						_ArrayAdd($aIsTraining, $aMatrix)
 					Next
@@ -193,7 +193,7 @@ return
 					$aTmpArray[0] = "NotRecognized"
 					;ExitLoop
 				EndIf
-				;_ArrayDisplay($aTmpArray)
+				;;_ArrayDisplay($aTmpArray)
 				Local $aMatrix[1][2] = [[$aTmpArray[0], $aTmpArray[1]]]
 				_ArrayAdd($aIsPreTraining, $aMatrix)
 			Next
@@ -268,7 +268,7 @@ return
 			EndIf
 		Next
 		
-		_ArrayDisplay($aIsTotal)
+		;_ArrayDisplay($aIsTotal)
 		Return -23
 		;Bits pre brew here.
 		;...
@@ -447,7 +447,7 @@ Func asd123()
 				;ExitLoop
 			EndIf
 
-			_ArrayDisplay($aTmpArray)
+			;_ArrayDisplay($aTmpArray)
 		Next
 
 	EndIf

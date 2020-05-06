@@ -58,7 +58,7 @@ Func ModTrain($ForcePreTrain = False)
 		; 读取造兵剩余时间
 		CheckIfArmyIsReadyMod($bFullArmyCC, $iTotalSpellsToBrew, $bFullArmyHero, $aHeroesRegenTime)
 		;Setlog($bFullArmyCC & " " & $iTotalSpellsToBrew & " " & $bFullArmyHero)
-		;_ArrayDisplay($aHeroesRegenTime)
+		;;_ArrayDisplay($aHeroesRegenTime)
 		;getArmySpellTime()
 		If _Sleep(50) Then Return
 		; getArmyTroopTime() 读取后会保存造兵时间在变量 $g_aiTimeTrain[0]
