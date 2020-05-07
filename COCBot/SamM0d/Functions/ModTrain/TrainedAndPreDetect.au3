@@ -54,7 +54,7 @@ Func TrainedAndPreDetect($sMode = "Troops")
 					; x1 = -50 / y1 = 59 / x2 = 12 / y2 = -6
 					$sTmpBrew = Int($vDeleteWhiteSymbol[$i][1] - 50) & "," & Int($vDeleteWhiteSymbol[$i][2] + 59) & "," & Int($vDeleteWhiteSymbol[$i][1] + 12) & "," & Int($vDeleteWhiteSymbol[$i][2] - 6)
 
-					If ($sMode = "Train") Then
+					If ($sMode = "Troops") Then
 						$aReadyTroopsDel = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\Train\", 0, $sTmpBrew)
 					ElseIf ($sMode = "Spells") Then
 						$aReadyTroopsDel = findMultipleQuick($g_sSamM0dImageLocation & "\Spells\Brew\", 0, $sTmpBrew)

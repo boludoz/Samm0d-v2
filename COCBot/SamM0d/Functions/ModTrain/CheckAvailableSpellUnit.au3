@@ -33,7 +33,7 @@ Func ArrayCheckAvailableSpell()
 		Local $sTroopDummy = $aOnlyOne[$i2][0]
 	
 		For $i = 0 To UBound($vXWhiteSymbol) -1
-			Local $aFakeA[1][4] = [[$sTroopDummy, Int($aOnlyOne[$i2][1] - 40), Int($aOnlyOne[$i2][1] + 40), getMyOcrSoft(Int($aOnlyOne[$i2][1]  -35), 342, Int($aOnlyOne[$i2][1] + 35), 342+19, Default, "SpellQTY", True)]]
+			Local $aFakeA[1][4] = [[$sTroopDummy, Int($aOnlyOne[$i2][1] - 40), Int($aOnlyOne[$i2][1] + 40), getMyOcrSoft(Int($aOnlyOne[$i2][1] -5), 342, Int($aOnlyOne[$i2][1] + 35), 342+19, Default, "SpellQTY", True)]]
 			
 			If $aOnlyOne[$i2][1] <= $aFakeA[0][1] And $aOnlyOne[$i2][1] >= $aFakeA[0][2] Then $aFakeA[0][0] = ""
 			
