@@ -79,23 +79,50 @@ Func CheckOnBrewUnit()
 		SetLog("No Army On Brew.", $COLOR_ERROR)
 		Return True
 	EndIf
-
+	
+	; Algorithm for not delete spells if lower than brew and it is unbalanced ej 5 ls. 
+	
+	If $ichkEnableDeleteExcessSpells = 1 And $ichkForcePreBrewSpell = 1 Then ; MOD
+		Local $iFix = 0
+		Local $bExeption = True
+		Local $iLast = 0
+		
+		For $i = 0 To UBound($g_aMySpells) - 1
+			
+			If $g_aMySpells[$i][3] > 0 Then
+					If $g_aMySpells[$iLast][2] <> $g_aMySpells[$i][2] Then 
+						$bExeption = False
+						ExitLoop
+					EndIf
+				Else
+				ContinueLoop
+			EndIf
+			
+			$iLast = $i
+			
+			$iFix += $g_aMySpells[$i][3] * $g_aMySpells[$i][2]
+			
+			$aiSpellInfo[$i][0] 
+		Next 
+		
+	EndIf
+	
 	$bGotOnBrewFlag = False
 	For $i = 0 To UBound($g_aMySpells) - 1
-		Local $itempTotal = Eval("cur" & $g_aMySpells[$i][0] & "Spell") + Eval("OnT" & $g_aMySpells[$i][0] & "Spell")
+		Local $iTempTotal = Eval("cur" & $g_aMySpells[$i][0] & "Spell") + Eval("OnT" & $g_aMySpells[$i][0] & "Spell")
 		If Eval("OnT" & $g_aMySpells[$i][0] & "Spell") > 0 Then
 			SetLog(" - No. of On Brew " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnT" & $g_aMySpells[$i][0] & "Spell")) & ": " & Eval("OnT" & $g_aMySpells[$i][0] & "Spell"), (Eval("enum" & $g_aMySpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 			$bGotOnBrewFlag = True
 		EndIf
-		If $g_aMySpells[$i][3] < $itempTotal Then
-			If $ichkEnableDeleteExcessSpells = 1 And not BitAND($g_iTotalSpellValue - $g_iMySpellsSize = 1, $ichkForcePreBrewSpell = 1) = True Then ; MOD
-				SetLog("Error: " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0] + $eLSpell), Eval("OnT" & $g_aMySpells[$i][0] & "Spell")) & " need " & $g_aMySpells[$i][3] & " only, and i made " & $itempTotal)
-				Assign("RemoveSpellUnitOfOnT" & $g_aMySpells[$i][0], $itempTotal - $g_aMySpells[$i][3])
+		If $g_aMySpells[$i][3] < $iTempTotal and not $bExeption Then
+			If $ichkEnableDeleteExcessSpells = 1 Then
+				SetLog("Error: " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0] + $eLSpell), Eval("OnT" & $g_aMySpells[$i][0] & "Spell")) & " need " & $g_aMySpells[$i][3] & " only, and i made " & $iTempTotal)
+				Assign("RemoveSpellUnitOfOnT" & $g_aMySpells[$i][0], $iTempTotal - $g_aMySpells[$i][3])
 				$bDeletedExcess = True
 			EndIf
 		EndIf
-		If $itempTotal > 0 Then
-			$iAvailableCamp += $itempTotal * $g_aMySpells[$i][2]
+		If $iTempTotal > 0 Then
+			$iAvailableCamp += $iTempTotal * $g_aMySpells[$i][2]
 		EndIf
 		If $g_aMySpells[$i][3] > 0 Then
 			$iMySpellsCampSize += $g_aMySpells[$i][3] * $g_aMySpells[$i][2]
@@ -133,25 +160,25 @@ Func CheckOnBrewUnit()
 		$bDeletedExcess = False
 		$bGotOnQueueFlag = False
 		For $i = 0 To UBound($g_aMySpells) - 1
-			Local $itempTotal = Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")
-			If $itempTotal > 0 Then
+			Local $iTempTotal = Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")
+			If $iTempTotal > 0 Then
 				SetLog(" - No. of On Queue " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")) & ": " & Eval("OnQ" & $g_aMySpells[$i][0] & "Spell"), (Eval("enum" & $g_aMySpells[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 				$bGotOnQueueFlag = True
 				If Eval("ichkPre" & $g_aMySpells[$i][0]) = 1 Then
-					If $g_aMySpells[$i][3] < $itempTotal Then
-						If $ichkEnableDeleteExcessSpells = 1 And not BitAND($g_iTotalSpellValue - $g_iMySpellsSize = 1, $ichkForcePreBrewSpell = 1) = True Then
-							SetLog("Error: " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")) & " need " & $g_aMySpells[$i][3] & " only, and i made " & $itempTotal)
-							Assign("RemoveSpellUnitOfOnQ" & $g_aMySpells[$i][0], $itempTotal - $g_aMySpells[$i][3])
+					If $g_aMySpells[$i][3] < $iTempTotal and not $bExeption Then ; MOD
+						If $ichkEnableDeleteExcessSpells = 1 Then
+							SetLog("Error: " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")) & " need " & $g_aMySpells[$i][3] & " only, and i made " & $iTempTotal)
+							Assign("RemoveSpellUnitOfOnQ" & $g_aMySpells[$i][0], $iTempTotal - $g_aMySpells[$i][3])
 							$bDeletedExcess = True
 						EndIf
 					EndIf
-					$iMyPreBrewSpellSize += $itempTotal * $g_aMySpells[$i][2]
+					$iMyPreBrewSpellSize += $iTempTotal * $g_aMySpells[$i][2]
 				Else
 					SetLog("Error: " & GetTroopName(Eval("enum" & $g_aMySpells[$i][0]) + $eLSpell, Eval("OnQ" & $g_aMySpells[$i][0] & "Spell")) & " not needed to pre brew, remove all.")
-					Assign("RemoveSpellUnitOfOnQ" & $g_aMySpells[$i][0], $itempTotal)
+					Assign("RemoveSpellUnitOfOnQ" & $g_aMySpells[$i][0], $iTempTotal)
 					$bDeletedExcess = True
 				EndIf
-				$iOnQueueCamp += $itempTotal * $g_aMySpells[$i][2]
+				$iOnQueueCamp += $iTempTotal * $g_aMySpells[$i][2]
 			EndIf
 		Next
 
@@ -217,8 +244,7 @@ Func CheckOnBrewUnit()
 			EndIf
 		Else
 			If $ichkMySpellsOrder Then
-				Local $aTempSpells[10][5]
-				$aTempSpells = $g_aMySpells
+				Local $aTempSpells = $g_aMySpells
 				_ArraySort($aTempSpells, 0, 0, 0, 1)
 				For $i = 0 To UBound($aTempSpells) - 1
 					If $aTempSpells[$i][3] > 0 Then

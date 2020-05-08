@@ -35,7 +35,8 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 		$aCoords = StringSplit($aArrays[2], "|", 2)
 		For $iCoords = 0 To UBound($aCoords) - 1
 			$aCommaCoord = StringSplit($aCoords[$iCoords], ",", 2)
-
+			
+			
 			If $sOnlyFind <> Default And $sOnlyFind <> "" Then
 				If $bExactFind Then
 					If StringCompare($sOnlyFind, $aArrays[0]) <> 0 Then ContinueLoop
@@ -52,7 +53,7 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 		Next
 	Next
 
-	If $iDistance2check > 0 And UBound($aAllResults) > 0 Then
+	If $iDistance2check <> 0 And UBound($aAllResults) > 0 Then
 		; Sort by X axis
 		_ArraySort($aAllResults, 0, 0, 0, 1)
 
@@ -68,12 +69,12 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 				For $j = 0 To UBound($aAllResults) - 1
 					If $j > UBound($aAllResults) - 1 Then ExitLoop
 					Local $SingleCoordinate[4] = [$aAllResults[$j][0], $aAllResults[$j][1], $aAllResults[$j][2], $aAllResults[$j][3]]
-					If $LastCoordinate[1] <> $SingleCoordinate[1] Or $LastCoordinate[2] <> $SingleCoordinate[2] Then
-						If $SingleCoordinate[1] < $LastCoordinate[1] + $iD2Check And $SingleCoordinate[1] > $LastCoordinate[1] - $iD2Check Then
+					If $LastCoordinate[1] <> $SingleCoordinate[1] Then
+						If Abs($SingleCoordinate[1] - $LastCoordinate[1]) < $iD2Check Then
 							_ArrayDelete($aAllResults, $j)
 						EndIf
 					Else
-						If $LastCoordinate[1] = $SingleCoordinate[1] And $LastCoordinate[2] = $SingleCoordinate[2] And $LastCoordinate[3] <> $SingleCoordinate[3] Then
+						If $LastCoordinate[1] = $SingleCoordinate[1] And $LastCoordinate[2] = $SingleCoordinate[2] And ($LastCoordinate[0] <> $SingleCoordinate[0])  Then
 							_ArrayDelete($aAllResults, $j)
 						EndIf
 					EndIf
