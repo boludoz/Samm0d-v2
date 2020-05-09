@@ -82,7 +82,7 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 							_ArrayDelete($aAllResults, $j)
 						EndIf
 					Else
-						If $LastCoordinate[1] = $SingleCoordinate[1] And $LastCoordinate[2] = $SingleCoordinate[2] And $LastCoordinate[3] <> $SingleCoordinate[3] Then
+						If $LastCoordinate[1] = $SingleCoordinate[1] And $LastCoordinate[2] = $SingleCoordinate[2] And BitOr($LastCoordinate[3] <> $SingleCoordinate[3], $LastCoordinate[0] <> $SingleCoordinate[0]) > 0 Then
 							; SetDebugLog(" - removed equal level : " & _ArrayToString($SingleCoordinate))
 							_ArrayDelete($aAllResults, $j)
 						EndIf

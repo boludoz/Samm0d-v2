@@ -55,7 +55,7 @@ Func CheckAutoCamp() ; Only first Run and th5 + (Then every time he does the tro
 	$g_sSuperTActive = ""
 
 	; Capture troops train region.
-	Local $aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\SuperT\", 0, "0, 149, 281, 297", "SuperT", True)
+	Local $aButtonXY = findMultipleQuick($g_sSamM0dImageLocation & "\SuperT\", 1, "10, 180, 168, 247", "SuperT", True)
 	Local $aClockUbi[5] = ["Gobl", "Barb", "Wall", "Giant"]
 	Local $aClockX[6] = [0, 284, 426, 570, 711]
 

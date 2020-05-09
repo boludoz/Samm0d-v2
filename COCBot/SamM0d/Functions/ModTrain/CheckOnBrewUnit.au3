@@ -47,7 +47,7 @@ Func CheckOnBrewUnit()
 				SetLog("Error: Cannot detect what Spells on slot: " & $i + 1, $COLOR_ERROR)
 				$aiSpellInfo[$i][0] = "NotRecognized"
 				$aiSpellInfo[$i][1] = $aSumPreTra[$i][1]
-				$aiSpellInfo[$i][2] = $i + 1 
+				$aiSpellInfo[$i][2] = $i + 1
 				$aiSpellInfo[$i][3] = $aSumPreTra[$i][2]
 				ContinueLoop
 			EndIf
@@ -56,7 +56,7 @@ Func CheckOnBrewUnit()
 
 				$aiSpellInfo[$i][0] = $aSumPreTra[$i][0] ; Name
 				$aiSpellInfo[$i][1] = $aSumPreTra[$i][1] ; Qty
-				$aiSpellInfo[$i][2] = $i + 1 
+				$aiSpellInfo[$i][2] = $i + 1
 				;SetLog($aiSpellInfo[$i][2] & " : " & "Slot", $COLOR_INFO)
 				$aiSpellInfo[$i][3] = $aSumPreTra[$i][2] ;IsQueueSpell
 				If $aSumPreTra[$i][2] Then
@@ -79,34 +79,34 @@ Func CheckOnBrewUnit()
 		SetLog("No Army On Brew.", $COLOR_ERROR)
 		Return True
 	EndIf
-	
-	; Algorithm for not delete spells if lower than brew and it is unbalanced ej 5 ls. 
-	
+
+	; Algorithm for not delete spells if lower than brew and it is unbalanced ej 5 ls.
+
 	If $ichkEnableDeleteExcessSpells = 1 And $ichkForcePreBrewSpell = 1 Then ; MOD
 		Local $iFix = 0
 		Local $bExeption = True
 		Local $iLast = 0
-		
+
 		For $i = 0 To UBound($g_aMySpells) - 1
-			
+
 			If $g_aMySpells[$i][3] > 0 Then
-					If $g_aMySpells[$iLast][2] <> $g_aMySpells[$i][2] Then 
+					If $g_aMySpells[$iLast][2] <> $g_aMySpells[$i][2] Then
 						$bExeption = False
 						ExitLoop
 					EndIf
 				Else
 				ContinueLoop
 			EndIf
-			
+
 			$iLast = $i
-			
+
 			$iFix += $g_aMySpells[$i][3] * $g_aMySpells[$i][2]
-			
-			$aiSpellInfo[$i][0] 
-		Next 
-		
+
+;~ 			$aiSpellInfo[$i][0]
+		Next
+
 	EndIf
-	
+
 	$bGotOnBrewFlag = False
 	For $i = 0 To UBound($g_aMySpells) - 1
 		Local $iTempTotal = Eval("cur" & $g_aMySpells[$i][0] & "Spell") + Eval("OnT" & $g_aMySpells[$i][0] & "Spell")
