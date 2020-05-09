@@ -82,9 +82,10 @@ Func CheckOnBrewUnit()
 
 	; Algorithm for not delete spells if lower than brew and it is unbalanced ej 5 ls.
 
+	Local $bExeption = True
+	
 	If $ichkEnableDeleteExcessSpells = 1 And $ichkForcePreBrewSpell = 1 Then ; MOD
 		Local $iFix = 0
-		Local $bExeption = True
 		Local $iLast = 0
 
 		For $i = 0 To UBound($g_aMySpells) - 1
