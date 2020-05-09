@@ -20,7 +20,7 @@ Func GetTrainedAndPreDetect($sMode = "Troops", $bTest = False)
 	Local $iQty
 	Local $aReadyTroopsDel
 	Local $sTmpBrew = ""
-	Local $aTmpArray[2]
+	Local $aTmpArray[3]
 	Local $aIsTraining[0][5]
 	Local $iTotal = 0
 
@@ -51,7 +51,8 @@ Func GetTrainedAndPreDetect($sMode = "Troops", $bTest = False)
 			$aReadyTroopsDel = findMultipleQuick($sTIn, 1, $sTmpBrew)
 
 			$aTmpArray[1] = $iQty
-
+			$aTmpArray[2] = $vDelete[$i][1]
+			
 			If IsArray($aReadyTroopsDel) Then
 				$aTmpArray[0] = $aReadyTroopsDel[0][0]
 			Else
@@ -60,7 +61,7 @@ Func GetTrainedAndPreDetect($sMode = "Troops", $bTest = False)
 			; Name, qty, IsPre, IsReady
 			Local $sIsReady = $vDelete[$i][1] - 5 & "," & 240 & "," & $vDelete[$i][1] + 20 & "," & 248
 
-			Local $aMatrix[1][5] = [[$aTmpArray[0], $aTmpArray[1], False, False, $aReadyTroopsDel[0][1] ]]
+			Local $aMatrix[1][5] = [[$aTmpArray[0], $aTmpArray[1], False, False, $aTmpArray[2] ]]
 			_ArrayAdd($aIsTraining, $aMatrix)
 			
 			_ArrayDelete($vDelete, $i)
@@ -84,6 +85,8 @@ Func GetTrainedAndPreDetect($sMode = "Troops", $bTest = False)
 		
 				$aTmpArray[1] = $iQty
 		
+				$aTmpArray[0] = $vDelete[$i][1]
+				
 				If IsArray($aReadyTroopsDel) Then
 					$aTmpArray[0] = $aReadyTroopsDel[0][0]
 				Else
@@ -93,7 +96,7 @@ Func GetTrainedAndPreDetect($sMode = "Troops", $bTest = False)
 				; Name, qty, IsPre, IsReady
 				Local $sIsReady = $vDelete[$i][1] - 5 & "," & 240 & "," & $vDelete[$i][1] + 20 & "," & 248
 		
-				Local $aMatrix[1][5] = [[$aTmpArray[0], $aTmpArray[1], True, IsArray(findMultipleQuick($g_sSamM0dImageLocation & "\" & $sMode & "\Ready\", 1, $sIsReady)) = True, $aReadyTroopsDel[0][1]]]
+				Local $aMatrix[1][5] = [[$aTmpArray[0], $aTmpArray[1], True, IsArray(findMultipleQuick($g_sSamM0dImageLocation & "\" & $sMode & "\Ready\", 1, $sIsReady)) = True, $aTmpArray[2] ]]
 				_ArrayAdd($aIsTraining, $aMatrix)
 			Next
 		EndIf
