@@ -28,7 +28,7 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 	; Result [X][0] = NAME , [x][1] = Xaxis , [x][2] = Yaxis , [x][3] = Level
 	Local $aAllResults[0][4]
 
-	Local $aArrays = "", $aCoords, $aCommaCoord
+	Local $aArrays = "", $aCoords, $aCommaCoord, $aPreCommaCoord
 
 	For $i = 0 To UBound($aResult) - 1
 		$aArrays = $aResult[$i] ; should be return objectname,objectpoints,objectlevel
@@ -44,7 +44,7 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 					If StringInStr($aArrays[0], $sOnlyFind) = 0 Then ContinueLoop
 				EndIf
 			EndIf
-
+			
 			; Inspired in Chilly-chill
 			Local $aTmpResults[1][4] = [[$aArrays[0], Int($aCommaCoord[0]), Int($aCommaCoord[1]), Int($aArrays[1])]]
 			If $iCount >= $iQuantity2Match And Not $iQuantity2Match = 0 Then ContinueLoop
@@ -52,15 +52,18 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 			$iCount += 1
 		Next
 	Next
-
-	If $iDistance2check <> 0 And UBound($aAllResults) > 0 Then
+	
+	; Sort by X axis
+	_ArraySort($aAllResults, 0, 0, 0, 1)
+	If $iDistance2check > 0 And UBound($aAllResults) > 0 Then
 		; Sort by X axis
 		_ArraySort($aAllResults, 0, 0, 0, 1)
 
 		; Distance in pixels to check if is a duplicated detection , for deploy point will be 5
-		Local $iD2Check = $iDistance2check
+		Local $D2Check = $iDistance2check
 
 		; check if is a double Detection, near in 10px
+		Local $Dime = 0
 		For $i = 0 To UBound($aAllResults) - 1
 			If $i > UBound($aAllResults) - 1 Then ExitLoop
 			Local $LastCoordinate[4] = [$aAllResults[$i][0], $aAllResults[$i][1], $aAllResults[$i][2], $aAllResults[$i][3]]
@@ -68,13 +71,19 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 			If UBound($aAllResults) > 1 Then
 				For $j = 0 To UBound($aAllResults) - 1
 					If $j > UBound($aAllResults) - 1 Then ExitLoop
+					; SetDebugLog("$j: " & $j)
+					; SetDebugLog("UBound($aAllResults) -1: " & UBound($aAllResults) - 1)
 					Local $SingleCoordinate[4] = [$aAllResults[$j][0], $aAllResults[$j][1], $aAllResults[$j][2], $aAllResults[$j][3]]
-					If $LastCoordinate[1] <> $SingleCoordinate[1] Then
-						If Abs($SingleCoordinate[1] - $LastCoordinate[1]) < $iD2Check Then
+					; SetDebugLog(" - Comparing with: " & _ArrayToString($SingleCoordinate))
+					If $LastCoordinate[1] <> $SingleCoordinate[1] Or $LastCoordinate[2] <> $SingleCoordinate[2] Then
+						If Int($SingleCoordinate[1]) < Int($LastCoordinate[1]) + $D2Check And Int($SingleCoordinate[1]) > Int($LastCoordinate[1]) - $D2Check And _
+								Int($SingleCoordinate[2]) < Int($LastCoordinate[2]) + $D2Check And Int($SingleCoordinate[2]) > Int($LastCoordinate[2]) - $D2Check Then
+							; SetDebugLog(" - removed : " & _ArrayToString($SingleCoordinate))
 							_ArrayDelete($aAllResults, $j)
 						EndIf
 					Else
-						If $LastCoordinate[1] = $SingleCoordinate[1] And $LastCoordinate[2] = $SingleCoordinate[2] And ($LastCoordinate[0] <> $SingleCoordinate[0])  Then
+						If $LastCoordinate[1] = $SingleCoordinate[1] And $LastCoordinate[2] = $SingleCoordinate[2] And $LastCoordinate[3] <> $SingleCoordinate[3] Then
+							; SetDebugLog(" - removed equal level : " & _ArrayToString($SingleCoordinate))
 							_ArrayDelete($aAllResults, $j)
 						EndIf
 					EndIf
@@ -82,7 +91,7 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 			EndIf
 		Next
 	EndIf
-
+	
 	Return (UBound($aAllResults) > 0) ? ($aAllResults) : (-1)
 EndFunc   ;==>findMultipleQuick
 

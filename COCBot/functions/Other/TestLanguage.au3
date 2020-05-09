@@ -15,6 +15,11 @@
 ; ===============================================================================================================================
 
 Func TestLanguage()
+	If $g_bSkipLocateExc Then ; mod
+		SetLog("Skip TestLanguage.", $COLOR_INFO)
+		Return
+	EndIf
+	
 	If Not $g_bRunState Then Return
 	; test the word "Attack!" on the Attack Button in the lower left corner
 	If getOcrLanguage($aDetectLang[0], $aDetectLang[1]) = "english" Then
@@ -22,7 +27,7 @@ Func TestLanguage()
 		Return True
 	ElseIf Not ChangeLanguage() Then
 		SetLog("Language setting is Wrong: Change CoC language to English!", $COLOR_ERROR)
-		btnStop()
+		;btnStop()
 	EndIf
 EndFunc
 

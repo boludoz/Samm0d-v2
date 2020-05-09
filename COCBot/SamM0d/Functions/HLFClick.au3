@@ -471,7 +471,7 @@ EndFunc
 Func RemoveTrainTroops($iSlot, $iCount)
 	Local $iLoopCount = 0
 	While $iLoopCount < $iCount
-		HMLPureClick(Random(118 + (Abs( Abs($iSlot - 1) - 10) * 70.5)-2, 118 + (Abs( Abs($iSlot - 1) - 10) * 70.5)+2, 1), Random(200,204,1),1,0,"#RTS")
+		HMLPureClick(Random(118 + (Abs( $iSlot - 10) * 70.5)-2, 118 + (Abs( $iSlot - 10) * 70.5)+2, 1), Random(200,204,1),1,0,"#RTS")
 		If _Sleep(Random(($g_iTrainClickDelay*90)/100, ($g_iTrainClickDelay*110)/100, 1), False) Then ExitLoop
 		$iLoopCount += 1
 	WEnd

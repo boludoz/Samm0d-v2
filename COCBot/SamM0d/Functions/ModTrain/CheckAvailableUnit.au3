@@ -20,11 +20,11 @@ Global $g_vIntercomCheckAvailableUnit = -1
 Func ArrayCheckAvailableUnit()
 	$g_vIntercomCheckAvailableUnit = -1
 	Local $vReturn = -1
-	Local $vXWhiteSymbol = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\IsTrainOrEmpty\", 0, "18,194,589,216", "x", True, True, 10)
+	Local $vXWhiteSymbol = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\IsTrainOrEmpty\", 0, "18,194,589,216", "x", True, True, 25)
 	If not IsArray($vXWhiteSymbol) Then Return $vReturn
 
 	Local $sDirectory = $g_sSamM0dImageLocation & "\Troops\"
-	Local $aOnlyOne = findMultipleQuick($sDirectory, 0, "22,196,587,291", Default, False, True, 40, False)
+	Local $aOnlyOne = findMultipleQuick($sDirectory, 0, "22,196,587,291", Default, False, True, 25, False)
 	If not IsArray($aOnlyOne) Then Return $vReturn
 
 	Local $vArray[0][4]
