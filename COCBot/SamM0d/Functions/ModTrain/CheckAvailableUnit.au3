@@ -51,13 +51,10 @@ Func CheckAvailableUnit()
 
 	Local $aTempTroops = $g_aMyTroops
 	SuperTroopsCorrectArray($aTempTroops)
-	;;_ArrayDisplay($aTempTroops)
+
 	; reset variable
 	For $i = 0 To UBound($aTempTroops) - 1
 		Assign("cur" & $aTempTroops[$i][0], 0)
-	Next
-	For $i = 0 To 6
-		Assign("RemSlot" & $i + 1, 0)
 	Next
 
 	Local $aiTroopsInfo[7][3]
@@ -67,8 +64,10 @@ Func CheckAvailableUnit()
 	Local $aSlotAuto = $g_vIntercomCheckAvailableUnit
 	Local $iTroopIndex = -1
 	Local $sTroopName = ""
-
-	For $i = 0 To 6
+	
+	Local $aArraySuperDel[0][2] ; Name - Exceess
+	
+	For $i = 0 To UBound($aSlotAuto) -1
 	
 		If $i <= (UBound($aSlotAuto) - 1) Then 
 
@@ -84,7 +83,7 @@ Func CheckAvailableUnit()
 				ContinueLoop
 			EndIf
 
-			If $aiTroopsInfo[$i][1] <> 0 Or $aSlotAuto[$i][0] <> "NotRecognized" Then
+			If $aiTroopsInfo[$i][1] <> 0 Or $aiTroopsInfo[$i][0] <> "NotRecognized" Then
 				;$iTroopIndex = TroopIndexLookup($aiTroopsInfo[$i][0])
 				;$sTroopName = GetTroopName($iTroopIndex, $aiTroopsInfo[$i][1])
 
@@ -108,8 +107,11 @@ Func CheckAvailableUnit()
 				If $ichkEnableDeleteExcessTroops = 1 Then
 					If $aiTroopsInfo[$i][1] > $aTempTroops[$iLink][3] Then
 						$bDeletedExcess = True
-						SetLog(" >>> excess: " & $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3], $COLOR_RED)
-						Assign("RemSlot" & $aiTroopsInfo[$i][2], $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3])
+						SetLog(" >>> Excess: " & $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3], $COLOR_RED)
+
+						Local $aArraySuperDelFake[1][2] = [$aiTroopsInfo[$i][0], $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3]]
+						_ArrayAdd($aArraySuperDel, $aArraySuperDelFake)
+
 						If $g_iSamM0dDebug = 1 Then SetLog("Set Remove Slot: " & $aiTroopsInfo[$i][2])
 					EndIf
 				EndIf
@@ -138,55 +140,61 @@ Func CheckAvailableUnit()
 
 	If $bDeletedExcess Then
 		$bDeletedExcess = False
+		
 		If gotoTrainTroops() = False Then Return
 		If Not _ColorCheck(_GetPixelColor(823, 175 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 20) Then
-			SetLog(" >>> stop train troops.", $COLOR_RED)
+			SetLog(" >>> Stop train troops.", $COLOR_RED)
 			RemoveAllTroopAlreadyTrain()
 			Return False
 		EndIf
 
 		If gotoArmy() = False Then Return
-		SetLog(" >>> remove excess troops.", $COLOR_RED)
-		If WaitforPixel($aButtonEditArmy2[4], $aButtonEditArmy2[5], $aButtonEditArmy2[4] + 1, $aButtonEditArmy2[5] + 1, Hex($aButtonEditArmy2[6], 6), $aButtonEditArmy2[7], 20) Then
-			Click($aButtonEditArmy2[0], $aButtonEditArmy2[1], 1, 0, "#EditArmy")
-		Else
-			Return False
+		SetLog(" >>> Remove excess troops.", $COLOR_RED)
+		
+		If Not _CheckPixel($aButtonEditArmy, True) Then ; If no 'Edit Army' Button found in army tab to edit troops
+			SetLog("Cannot find/verify 'Edit Army' Button in Army tab", $COLOR_WARNING)
+			Return False ; Exit function
 		EndIf
+		
+		If Not $g_bRunState Then Return
+		ClickP($aButtonEditArmy, 1) ; Click Edit Army Button
+		If _Sleep(150) Then Return
 
-		If WaitforPixel($aButtonEditCancel[4], $aButtonEditCancel[5], $aButtonEditCancel[4] + 1, $aButtonEditCancel[5] + 1, Hex($aButtonEditCancel[6], 6), $aButtonEditCancel[7], 20) Then
-			For $i = 10 To 0 Step -1
-				Local $RemoveSlotQty = Eval("RemSlot" & $i + 1)
-				If $g_iSamM0dDebug = 1 Then SetLog($i & " $RemoveSlotQty: " & $RemoveSlotQty)
-				If $RemoveSlotQty > 0 Then
-					Local $iRx = (80 + ($g_iArmy_Av_Troop_Slot_Width * $i))
-					Local $iRy = 240 + $g_iMidOffsetY
-					For $j = 1 To $RemoveSlotQty
-						Click(Random($iRx - 2, $iRx + 2, 1), Random($iRy - 2, $iRy + 2, 1))
-						If _Sleep($g_iTrainClickDelay) Then Return
+		For $i2 = 0 To UBound($aArraySuperDel) -1
+		
+			Local $vReturn = False
+			Local $vDelete = findMultipleQuick($g_sSamM0dImageLocation & "\CustomT\Army\", 0, "16, 406, 526, 426", "Delete", True, True, 25)
+			If not IsArray($vDelete) Then Return $vReturn
+			
+			Local $aDel[2] = [($vDelete[$i2][1] - 50), ($vDelete[$i2][1]+ 10)]
+			
+			For $i = 0 To UBound($vDelete) -1
+				
+					Local $aOnlyOne = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\", 0, "22,196,587,291", Default, False, True, 25, False)
+					If not IsArray($aOnlyOne) Then Return $vReturn
+					
+					For $i3 To UBound($aOnlyOne) - 1
+					
+						If $aArraySuperDel[$i2][0] Then 
+							Click($vDelete[$i][1], $vDelete[$i][2], $aArraySuperDel[$i][1])
+							_ArrayDelete($aArraySuperDel, $i2)
+						EndIf
+						
 					Next
-					Assign("RemSlot" & $i + 1, 0)
-				EndIf
-			Next
-		Else
-			Return False
-		EndIf
+					
+				Next
+		Next
 
-		If WaitforPixel($aButtonEditOkay[4], $aButtonEditOkay[5], $aButtonEditOkay[4] + 1, $aButtonEditOkay[5] + 1, Hex($aButtonEditOkay[6], 6), $aButtonEditOkay[7], 20) Then
-			Click($aButtonEditOkay[0], $aButtonEditOkay[1], 1, 0, "#EditArmyOkay")
-		Else
-			Return False
-		EndIf
+		If Not $g_bRunState Then Return 
+		ClickP($aButtonRemoveTroopsOK1, 1) ; Click on 'Okay' button to save changes
 
 		ClickOkay()
 		$g_bRestartCheckTroop = True
-		If WaitforPixel($aButtonEditArmy2[4], $aButtonEditArmy2[5], $aButtonEditArmy2[4] + 1, $aButtonEditArmy2[5] + 1, Hex($aButtonEditArmy2[6], 6), $aButtonEditArmy2[7], 20) Then
-			Return False
-		Else
-			If _Sleep(1000) Then Return False
-		EndIf
+		
+		If _CheckPixel($aButtonEditArmy, True) Or _Sleep(500) Then Return False
+		
 		Return False
 	EndIf
+	
 	Return True
-
-	Return False
 EndFunc   ;==>CheckAvailableUnit

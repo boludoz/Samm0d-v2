@@ -55,9 +55,6 @@ Func CheckAvailableSpellUnit()
 	For $i = 0 To UBound($g_aMySpells) - 1
 		Assign("cur" & $g_aMySpells[$i][0] & "Spell", 0)
 	Next
-	For $i = 0 To 6
-		Assign("RemSpellSlot" & $i + 1, 0)
-	Next
 
 	Local $aiSpellsInfo[7][3]
 	Local $AvailableCamp = 0
@@ -65,7 +62,9 @@ Func CheckAvailableSpellUnit()
 	
 	Local $aSlotAuto = $g_vIntercomCheckAvailableSpellUnit
 	
-	For $i = 0 To 6
+	Local $aArraySuperDel[0][2] ; Name - Exceess
+	
+	For $i = 0 To UBound($aSlotAuto) -1
 		
 		If $i <= (UBound($aSlotAuto) - 1) Then 
 		
@@ -81,7 +80,7 @@ Func CheckAvailableSpellUnit()
 				ContinueLoop
 			EndIf
 
-			If $aiSpellsInfo[$i][1] <> 0 Then
+			If $aiSpellsInfo[$i][1] <> 0 Or $aiSpellsInfo[$i][0] <> "NotRecognized"Then
 				SetLog(" - No. of Available " & GetTroopName(Eval("enum" & $aiSpellsInfo[$i][0]) + $eLSpell, $aiSpellsInfo[$i][1]) & ": " & $aiSpellsInfo[$i][1], (Eval("enum" & $aiSpellsInfo[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 				Assign("cur" & $aiSpellsInfo[$i][0] & "Spell", $aiSpellsInfo[$i][1])
 
@@ -90,8 +89,11 @@ Func CheckAvailableSpellUnit()
 				If $ichkEnableDeleteExcessSpells = 1 Then
 					If $aiSpellsInfo[$i][1] > $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3] Then
 						$bDeletedExcess = True
-						SetLog(" >>> excess: " & $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3], $COLOR_RED)
-						Assign("RemSpellSlot" & $aiSpellsInfo[$i][2], $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3])
+						SetLog(" >>> Excess: " & $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3], $COLOR_RED)
+						
+						Local $aArraySuperDelFake[1][2] = [$aiSpellsInfo[$i][0], $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3]]
+						_ArrayAdd($aArraySuperDel, $aArraySuperDelFake)
+
 						If $g_iSamM0dDebug = 1 Then SetLog("Set Remove Slot: " & $aiSpellsInfo[$i][2])
 					EndIf
 				EndIf
@@ -112,55 +114,41 @@ Func CheckAvailableSpellUnit()
 
 			If gotoBrewSpells() = False Then Return False
 			If Not _ColorCheck(_GetPixelColor(823, 175 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 20) Then
-				SetLog(" >>> stop brew spell.", $COLOR_RED)
+				SetLog(" >>> Stop brew spell.", $COLOR_RED)
 				RemoveAllTroopAlreadyTrain()
 				Return False
 			EndIf
 
 			If gotoArmy() = False Then Return
-			SetLog(" >>> remove excess spells.", $COLOR_RED)
+			SetLog(" >>> Remove excess troops.", $COLOR_RED)
 			
-			If WaitforPixel($aButtonEditArmy2[4], $aButtonEditArmy2[5], $aButtonEditArmy2[4] + 1, $aButtonEditArmy2[5] + 1, Hex($aButtonEditArmy2[6], 6), $aButtonEditArmy2[7], 20) Then
-				Click($aButtonEditArmy2[0], $aButtonEditArmy2[1], 1, 0, "#EditArmy")
-			Else
-				Return
+			If Not _CheckPixel($aButtonEditArmy, True) Then ; If no 'Edit Army' Button found in army tab to edit troops
+				SetLog("Cannot find/verify 'Edit Army' Button in Army tab", $COLOR_WARNING)
+				Return False ; Exit function
 			EndIf
+			
+			If Not $g_bRunState Then Return
+			ClickP($aButtonEditArmy, 1) ; Click Edit Army Button
+			If _Sleep(150) Then Return
 
-			If WaitforPixel($aButtonEditCancel[4], $aButtonEditCancel[5], $aButtonEditCancel[4] + 1, $aButtonEditCancel[5] + 1, Hex($aButtonEditCancel[6], 6), $aButtonEditCancel[7], 20) Then
-				For $i = 6 To 0 Step -1
-					Local $RemoveSlotQty = Eval("RemSpellSlot" & $i + 1)
-					If $g_iSamM0dDebug = 1 Then SetLog($i & " $RemoveSlotQty: " & $RemoveSlotQty)
-					If $RemoveSlotQty > 0 Then
-						Local $iRx = (80 + ($g_iArmy_Av_Spell_Slot_Width * $i))
-						Local $iRy = 386 + $g_iMidOffsetY
-						For $j = 1 To $RemoveSlotQty
-							Click(Random($iRx - 2, $iRx + 2, 1), Random($iRy - 2, $iRy + 2, 1))
-							If _Sleep($g_iTrainClickDelay) Then Return
-						Next
-						Assign("RemSpellSlot" & $i + 1, 0)
-					EndIf
-				Next
-			Else
-				Return
-			EndIf
+			Local $vReturn = False
+			Local $vDelete = findMultipleQuick($g_sSamM0dImageLocation & "\CustomT\Army\", 0, "18, 261, 583, 281", "Delete", True, True, 25)
+			If not IsArray($vDelete) Then Return $vReturn
 
-			If WaitforPixel($aButtonEditOkay[4], $aButtonEditOkay[5], $aButtonEditOkay[4] + 1, $aButtonEditOkay[5] + 1, Hex($aButtonEditOkay[6], 6), $aButtonEditOkay[7], 20) Then
-				Click($aButtonEditOkay[0], $aButtonEditOkay[1], 1, 0, "#EditArmyOkay")
-			Else
-				Return
-			EndIf
+			Local $aOnlyOne = findMultipleQuick($g_sSamM0dImageLocation & "\Spells\", 0, "20,339,524,433", Default, False, True, 40, False)
+			If not IsArray($aOnlyOne) Then Return $vReturn
 
+
+			If Not $g_bRunState Then Return 
+			ClickP($aButtonRemoveTroopsOK1, 1) ; Click on 'Okay' button to save changes
+	
 			ClickOkay()
 			$g_bRestartCheckTroop = True
-
-			If WaitforPixel($aButtonEditArmy2[4], $aButtonEditArmy2[5], $aButtonEditArmy2[4] + 1, $aButtonEditArmy2[5] + 1, Hex($aButtonEditArmy2[6], 6), $aButtonEditArmy2[7], 20) Then
-				Return False
-			Else
-				If _Sleep(1000) Then Return False
-			EndIf
+			
+			If _CheckPixel($aButtonEditArmy, True) Or _Sleep(500) Then Return False
+			
 			Return False
-		EndIf
-		Return True
 	EndIf
-	Return False
+	
+	Return True
 EndFunc   ;==>CheckAvailableSpellUnit

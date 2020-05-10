@@ -356,11 +356,11 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			Next
 
 			If gotoBrewSpells() = False Then ExitLoop
-			If _Sleep(500) Then Return
+			If _Sleep(100) Then Return
 			
 			$iCount2 = 0
 			While IsQueueBlockByMsg($iCount2) ; 检查游戏上的讯息，是否有挡着训练界面， 最多30秒
-				If _Sleep(1000) Then ExitLoop
+				If _Sleep(100) Then ExitLoop
 				$iCount2 += 1
 				If $iCount2 >= 30 Then
 					ExitLoop
@@ -425,7 +425,7 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 		EndIf
 
 		If gotoArmy() = False Then ExitLoop ; exbit
-		If _Sleep(1000) Then Return
+		If _Sleep(100) Then Return
 		
 		Local $aTempTroops = $g_aMyTroops
 		SuperTroopsCorrectArray($aTempTroops)
@@ -449,10 +449,10 @@ Func TroopsAndSpellsChecker($bDisableTrain = True, $bDisableBrewSpell = True, $b
 			;============================
 
 			If gotoTrainTroops() = False Then ExitLoop
-			If _Sleep(500) Then Return
+			If _Sleep(100) Then Return
 			$iCount2 = 0
 			While IsQueueBlockByMsg($iCount2) ; 检查游戏上的讯息，是否有挡着训练界面， 最多30秒
-				If _Sleep(1000) Then ExitLoop
+				If _Sleep(100) Then ExitLoop
 				$iCount2 += 1
 				If $iCount2 >= 30 Then
 					ExitLoop
