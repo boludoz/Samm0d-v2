@@ -80,7 +80,7 @@ Func CheckAvailableSpellUnit()
 				ContinueLoop
 			EndIf
 
-			If $aiSpellsInfo[$i][1] <> 0 Or $aiSpellsInfo[$i][0] <> "NotRecognized"Then
+			If $aiSpellsInfo[$i][1] <> 0 And $aiSpellsInfo[$i][0] <> "NotRecognized" Then
 				SetLog(" - No. of Available " & GetTroopName(Eval("enum" & $aiSpellsInfo[$i][0]) + $eLSpell, $aiSpellsInfo[$i][1]) & ": " & $aiSpellsInfo[$i][1], (Eval("enum" & $aiSpellsInfo[$i][0]) > $iDarkFixSpell ? $COLOR_DARKELIXIR : $COLOR_ELIXIR))
 				Assign("cur" & $aiSpellsInfo[$i][0] & "Spell", $aiSpellsInfo[$i][1])
 
@@ -91,12 +91,16 @@ Func CheckAvailableSpellUnit()
 						$bDeletedExcess = True
 						SetLog(" >>> Excess: " & $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3], $COLOR_RED)
 						
-						Local $aArraySuperDelFake[1][2] = [$aiSpellsInfo[$i][0], $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3]]
+						Local $aArraySuperDelFake[1][2] = [[$aiSpellsInfo[$i][0], $aiSpellsInfo[$i][1] - $g_aMySpells[Eval("enum" & $aiSpellsInfo[$i][0])][3]]]
 						_ArrayAdd($aArraySuperDel, $aArraySuperDelFake)
-
+						; _ArrayDisplay($aArraySuperDel)
 						If $g_iSamM0dDebug = 1 Then SetLog("Set Remove Slot: " & $aiSpellsInfo[$i][2])
 					EndIf
 				EndIf
+			ElseIf $aiSpellsInfo[$i][0] = "NotRecognized" Then
+				Local $aArraySuperDelFake[1][2] = [[$aiSpellsInfo[$i][0], $aiSpellsInfo[$i][1]]]
+				_ArrayAdd($aArraySuperDel, $aArraySuperDelFake)
+				; _ArrayDisplay($aArraySuperDel)
 			Else
 				SetLog("Error detect quantity no. On Spell: " & GetTroopName(Eval("enum" & $aiSpellsInfo[$i][0]) + $eLSpell, $aiSpellsInfo[$i][1]), $COLOR_RED)
 				ExitLoop
@@ -109,16 +113,16 @@ Func CheckAvailableSpellUnit()
 		$g_bRestartCheckTroop = True
 		Return False
 	Else
-		If $bDeletedExcess = True Then
+		If $bDeletedExcess Then
 			$bDeletedExcess = False
-
-			If gotoBrewSpells() = False Then Return False
+			
+			If gotoTrainTroops() = False Then Return
 			If Not _ColorCheck(_GetPixelColor(823, 175 + $g_iMidOffsetY, True), Hex(0xCFCFC8, 6), 20) Then
-				SetLog(" >>> Stop brew spell.", $COLOR_RED)
+				SetLog(" >>> Stop train troops.", $COLOR_RED)
 				RemoveAllTroopAlreadyTrain()
 				Return False
 			EndIf
-
+	
 			If gotoArmy() = False Then Return
 			SetLog(" >>> Remove excess troops.", $COLOR_RED)
 			
@@ -130,15 +134,46 @@ Func CheckAvailableSpellUnit()
 			If Not $g_bRunState Then Return
 			ClickP($aButtonEditArmy, 1) ; Click Edit Army Button
 			If _Sleep(150) Then Return
+			
+			; Restaurante pobre
+			For $i2 = UBound($aArraySuperDel) -1 To 0 Step -1
+				Local $vReturn = False
+				Local $vDelete = findMultipleQuick($g_sSamM0dImageLocation & "\CustomT\Army\", 0, "20, 406, 526, 426", "Delete", True, True, 25)
+				; _ArrayDisplay($vDelete)
+				If IsArray($vDelete) Then
+					For $i = UBound($vDelete) -1 To 0 Step -1
+				
+						Local $aDel[2] = [($vDelete[$i][1] - 57) ? ($vDelete[$i][1] - 57) : (0), $vDelete[$i][1] + 13]
+						; _ArrayDisplay($aDel)
+						Local $sArea = $aDel[0] & "," & 335 & "," & $aDel[1] & "," & 438
+						;Setlog($sArea)
+						Local $aOnlyOne = findMultipleQuick($g_sSamM0dImageLocation & "\Spells\", 0, $sArea, Default, False, True, 5, False)
+						; _ArrayDisplay($aOnlyOne)
 
-			Local $vReturn = False
-			Local $vDelete = findMultipleQuick($g_sSamM0dImageLocation & "\CustomT\Army\", 0, "18, 261, 583, 281", "Delete", True, True, 25)
-			If not IsArray($vDelete) Then Return $vReturn
-
-			Local $aOnlyOne = findMultipleQuick($g_sSamM0dImageLocation & "\Spells\", 0, "20,339,524,433", Default, False, True, 40, False)
-			If not IsArray($aOnlyOne) Then Return $vReturn
-
-
+						If not IsArray($aOnlyOne) And $aArraySuperDel[$i2][0] = "NotRecognized" Then
+							Click($vDelete[$i][1] + Random(0, 2, 1), $vDelete[$i][2] + Random(0, 2, 1), $aArraySuperDel[$i2][1])
+							; _ArrayDisplay($vDelete, $i)
+							If UBound($vDelete) - 1 < 1 Then ExitLoop 3
+							; _ArrayDisplay($aArraySuperDel, $i2)
+							If UBound($aArraySuperDel) - 1 < 1 Then ExitLoop 3
+							ContinueLoop 3
+						ElseIf IsArray($aOnlyOne) Then
+							For $i3 = UBound($aOnlyOne) - 1 To 0 Step -1
+								If $aArraySuperDel[$i2][0] = $aOnlyOne[$i3][0] Then 
+									Click($vDelete[$i][1] + Random(0, 2, 1), $vDelete[$i][2] + Random(0, 2, 1), $aArraySuperDel[$i2][1])
+									; _ArrayDisplay($vDelete, $i)
+									If UBound($vDelete) - 1 < 1 Then ExitLoop 3
+									; _ArrayDisplay($aArraySuperDel, $i2)
+									If UBound($aArraySuperDel) - 1 < 1 Then ExitLoop 3
+									ContinueLoop 3
+								EndIf
+							Next
+						EndIf
+						
+					Next
+				EndIf
+			Next
+	
 			If Not $g_bRunState Then Return 
 			ClickP($aButtonRemoveTroopsOK1, 1) ; Click on 'Okay' button to save changes
 	
@@ -148,7 +183,7 @@ Func CheckAvailableSpellUnit()
 			If _CheckPixel($aButtonEditArmy, True) Or _Sleep(500) Then Return False
 			
 			Return False
+		EndIf
 	EndIf
-	
 	Return True
 EndFunc   ;==>CheckAvailableSpellUnit

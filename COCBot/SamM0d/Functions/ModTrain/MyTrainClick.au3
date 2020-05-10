@@ -20,7 +20,7 @@
 Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "0,0,860,732", $sOnlyFind = Default, $bExactFind = False, $bForceCapture = True, $iDistance2check = 25, $bDebugLog = False, $iLevel = 1,  $iMaxLevel = 1000)
 	FuncEnter(findMultipleQuick)
 	Local $sSearchDiamond = IsArray($saiArea2SearchOri) ? GetDiamondFromArray($saiArea2SearchOri) : GetDiamondFromRect($saiArea2SearchOri)
-	Local $aResult = findMultiple($sDirectory, $sSearchDiamond, $sSearchDiamond, $iLevel, $iMaxLevel, $iQuantity2Match, "objectname,objectlevel,objectpoints", $bForceCapture)
+	Local $aResult = findMultiple($sDirectory, $sSearchDiamond, $sSearchDiamond, $iLevel, $iMaxLevel, ($sOnlyFind = Default) ? ($iQuantity2Match) : (100), "objectname,objectlevel,objectpoints", $bForceCapture)
 	If Not IsArray($aResult) Then Return -1
 
 	Local $iCount = 0
@@ -47,7 +47,7 @@ Func findMultipleQuick($sDirectory, $iQuantity2Match = 0, $saiArea2SearchOri = "
 			
 			; Inspired in Chilly-chill
 			Local $aTmpResults[1][4] = [[$aArrays[0], Int($aCommaCoord[0]), Int($aCommaCoord[1]), Int($aArrays[1])]]
-			If $iCount >= $iQuantity2Match And Not $iQuantity2Match = 0 Then ContinueLoop
+			If $iCount >= $iQuantity2Match And Not $iQuantity2Match = 0 Then ExitLoop 2
 			_ArrayAdd($aAllResults, $aTmpResults)
 			$iCount += 1
 		Next

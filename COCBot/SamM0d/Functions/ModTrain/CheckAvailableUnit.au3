@@ -83,7 +83,7 @@ Func CheckAvailableUnit()
 				ContinueLoop
 			EndIf
 
-			If $aiTroopsInfo[$i][1] <> 0 Or $aiTroopsInfo[$i][0] <> "NotRecognized" Then
+			If $aiTroopsInfo[$i][1] <> 0 And $aiTroopsInfo[$i][0] <> "NotRecognized" Then
 				;$iTroopIndex = TroopIndexLookup($aiTroopsInfo[$i][0])
 				;$sTroopName = GetTroopName($iTroopIndex, $aiTroopsInfo[$i][1])
 
@@ -98,7 +98,7 @@ Func CheckAvailableUnit()
 					EndIf
 				Next
 				
-				;;_ArrayDisplay($aTempTroops)
+				;;; _ArrayDisplay($aTempTroops)
 				Local $iLink = Number(SearchMulti($aTempTroops, $aiTroopsInfo[$i][0]))
 				Setlog("Slot troop " & $iLink)
 				
@@ -109,7 +109,7 @@ Func CheckAvailableUnit()
 						$bDeletedExcess = True
 						SetLog(" >>> Excess: " & $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3], $COLOR_RED)
 
-						Local $aArraySuperDelFake[1][2] = [$aiTroopsInfo[$i][0], $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3]]
+						Local $aArraySuperDelFake[1][2] = [[$aiTroopsInfo[$i][0], $aiTroopsInfo[$i][1] - $aTempTroops[$iLink][3]]]
 						_ArrayAdd($aArraySuperDel, $aArraySuperDelFake)
 
 						If $g_iSamM0dDebug = 1 Then SetLog("Set Remove Slot: " & $aiTroopsInfo[$i][2])
@@ -123,6 +123,9 @@ Func CheckAvailableUnit()
 						ExitLoop
 					EndIf
 				Next
+			ElseIf $aiTroopsInfo[$i][0] = "NotRecognized" Then
+				Local $aArraySuperDelFake[1][2] = [[$aiTroopsInfo[$i][0], $aiTroopsInfo[$i][1]]]
+				_ArrayAdd($aArraySuperDel, $aArraySuperDelFake)
 			Else
 				;SetLog("Error detect quantity no. On Troop: " & GetTroopName(Eval("e" & $aiTroopsInfo[$i][0]), $aiTroopsInfo[$i][1]), $COLOR_RED)
 				ExitLoop
@@ -159,30 +162,43 @@ Func CheckAvailableUnit()
 		If Not $g_bRunState Then Return
 		ClickP($aButtonEditArmy, 1) ; Click Edit Army Button
 		If _Sleep(150) Then Return
-
-		For $i2 = 0 To UBound($aArraySuperDel) -1
 		
+		; Restaurante pobre
+		For $i2 = UBound($aArraySuperDel) -1 To 0 Step -1
 			Local $vReturn = False
-			Local $vDelete = findMultipleQuick($g_sSamM0dImageLocation & "\CustomT\Army\", 0, "16, 406, 526, 426", "Delete", True, True, 25)
-			If not IsArray($vDelete) Then Return $vReturn
-			
-			Local $aDel[2] = [($vDelete[$i2][1] - 50), ($vDelete[$i2][1]+ 10)]
-			
-			For $i = 0 To UBound($vDelete) -1
+			Local $vDelete = findMultipleQuick($g_sSamM0dImageLocation & "\CustomT\Army\", 0, "19, 261, 583, 280", "Delete", True, True, 25)
+			If IsArray($vDelete) Then
+				For $i = UBound($vDelete) -1 To 0 Step -1
 				
-					Local $aOnlyOne = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\", 0, "22,196,587,291", Default, False, True, 25, False)
-					If not IsArray($aOnlyOne) Then Return $vReturn
+					Local $aDel[2] = [($vDelete[$i][1] - 57) ? ($vDelete[$i][1] - 57) : (0), $vDelete[$i][1] + 13]
+					; _ArrayDisplay($aDel)
+					Local $sArea = $aDel[0] & "," & 189 & "," & $aDel[1] & "," & 292
+					;Setlog($sArea)
+					Local $aOnlyOne = findMultipleQuick($g_sSamM0dImageLocation & "\Troops\", 0, $sArea, Default, False, True, 5, False)
+					; _ArrayDisplay($aOnlyOne)
 					
-					For $i3 To UBound($aOnlyOne) - 1
-					
-						If $aArraySuperDel[$i2][0] Then 
-							Click($vDelete[$i][1], $vDelete[$i][2], $aArraySuperDel[$i][1])
-							_ArrayDelete($aArraySuperDel, $i2)
-						EndIf
-						
-					Next
+					If not IsArray($aOnlyOne) And $aArraySuperDel[$i2][0] = "NotRecognized" Then
+						Click($vDelete[$i][1] + Random(0, 2, 1), $vDelete[$i][2] + Random(0, 2, 1), $aArraySuperDel[$i2][1])
+						; _ArrayDisplay($aArraySuperDel, $i2)
+						If UBound($aArraySuperDel) - 1 < 1 Then ExitLoop 3
+						; _ArrayDisplay($vDelete, $i)
+						If UBound($vDelete) - 1 < 1 Then ExitLoop 3
+						ContinueLoop 3
+					ElseIf IsArray($aOnlyOne) Then
+						For $i3 = UBound($aOnlyOne) - 1 To 0 Step -1
+							If $aArraySuperDel[$i2][0] = $aOnlyOne[$i3][0] Then 
+								Click($vDelete[$i][1] + Random(0, 2, 1), $vDelete[$i][2] + Random(0, 2, 1), $aArraySuperDel[$i2][1])
+								; _ArrayDisplay($aArraySuperDel, $i2)
+								If UBound($aArraySuperDel) - 1 < 1 Then ExitLoop 3
+								; _ArrayDisplay($vDelete, $i)
+								If UBound($vDelete) - 1 < 1 Then ExitLoop 3
+								ContinueLoop 3
+							EndIf
+						Next
+					EndIf
 					
 				Next
+			EndIf
 		Next
 
 		If Not $g_bRunState Then Return 
