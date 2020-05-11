@@ -20,10 +20,17 @@ Func dropHeroes($iX, $iY, $iKingSlotNumber = -1, $iQueenSlotNumber = -1, $iWarde
 	If $g_bDebugSetlog Then SetDebugLog("dropHeroes $iKingSlotNumber " & $iKingSlotNumber & " $iQueenSlotNumber " & $iQueenSlotNumber & " $iWardenSlotNumber " & $iWardenSlotNumber & " $iChampionSlotNumber " & $iChampionSlotNumber & " matchmode " & $g_iMatchMode, $COLOR_DEBUG)
 	If _Sleep($DELAYDROPHEROES1) Then Return
 	
-	Local $bDropKing = True
-	Local $bDropQueen = True
-	Local $bDropWarden = True
-	Local $bDropChampion = True
+	; mod
+	Local $bDropKing = False
+	Local $bDropQueen = False
+	Local $bDropWarden = False
+	Local $bDropChampion = False
+
+	If $iKingSlotNumber <> -1 Then $bDropKing = True
+	If $iQueenSlotNumber <> -1 Then $bDropQueen = True
+	If $iWardenSlotNumber <> -1 Then $bDropWarden = True
+	If $iChampionSlotNumber <> -1 Then $bDropChampion = True
+	
 	#cs
 	Local $bDropKing = False
 	Local $bDropQueen = False
