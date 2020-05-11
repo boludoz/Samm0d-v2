@@ -13,7 +13,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 Func AddIdleTime()
-	If $g_bSkipLocateExc Then Return
+	If $g_bSkipLocateExc and $g_bRunState Then Return
 	If Not $g_bTrainAddRandomDelayEnable Then Return
 
 	Local $iTimeToWait = Random(_Min($g_iTrainAddRandomDelayMin, $g_iTrainAddRandomDelayMax), _Max($g_iTrainAddRandomDelayMin, $g_iTrainAddRandomDelayMax), 1)

@@ -71,7 +71,7 @@ InitializeBot()
 MainLoop(CheckPrerequisites())
 
 Func UpdateBotTitle()
-	Local $sTitle = "My Bot " & $g_sBotVersion & " @Samkie M0d v20.05.10 19:27 hs"
+	Local $sTitle = "My Bot " & $g_sBotVersion & " @Samkie M0d v20.05.10 22:55 hs"
 	Local $sConsoleTitle ; Console title has also Android Emulator Name
 	If $g_sBotTitle = "" Then
 		$g_sBotTitle = $sTitle

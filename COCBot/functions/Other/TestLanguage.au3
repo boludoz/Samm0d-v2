@@ -15,7 +15,7 @@
 ; ===============================================================================================================================
 
 Func TestLanguage()
-	If $g_bSkipLocateExc Then ; mod
+	If $g_bSkipLocateExc and $g_bRunState Then ; mod 
 		SetLog("Skip TestLanguage.", $COLOR_INFO)
 		Return
 	EndIf
