@@ -62,7 +62,6 @@ Func ParseAttackCSV($debug = False)
 				Next
 			Next
 		EndIf
-		_ArrayDisplay($aLines)
 		#EndRegion - Mod
 
 		; Read in lines of text until the EOF is reached
