@@ -42,7 +42,7 @@ Func BotDetectFirstTime()
 
 	If Number($g_iTownHallLevel) < 2 Then
 		Local $aTownHallLevel = GetTownHallLevel(True) ; Get the Users TH level
-		If IsArray($aTownHallLevel) Then $g_iTownHallLevel < 1 ; Check for error finding TH level, and reset to zero if yes
+		If IsArray($aTownHallLevel) Then $g_iTownHallLevel = 1 ; Check for error finding TH level, and reset to zero if yes
 	EndIf
 
 	If Number($g_iTownHallLevel) > 1 And Number($g_iTownHallLevel) < 6 Then
