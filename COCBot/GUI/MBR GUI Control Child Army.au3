@@ -263,7 +263,7 @@ Func TotalSpellCountClick()
 	_GUI_Value_STATE("HIDE", $groupListSpells)
 	$g_iTownHallLevel = Int($g_iTownHallLevel)
 
-	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupLightning)
 	Else
 		For $i = 0 To $eSpellCount - 1
@@ -273,7 +273,7 @@ Func TotalSpellCountClick()
 		GUICtrlSetData($g_hTxtTotalCountSpell, 0)
 	EndIf
 
-	If $g_iTownHallLevel > 5 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 5 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupHeal)
 	Else
 		For $i = $eSpellRage To $eSpellBat
@@ -282,7 +282,7 @@ Func TotalSpellCountClick()
 		Next
 	EndIf
 
-	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupRage)
 	Else
 		For $i = $eSpellJump To $eSpellBat
@@ -291,7 +291,7 @@ Func TotalSpellCountClick()
 		Next
 	EndIf
 
-	If $g_iTownHallLevel > 7 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 7 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupPoison)
 		_GUI_Value_STATE("SHOW", $groupEarthquake)
 	Else
@@ -309,7 +309,7 @@ Func TotalSpellCountClick()
 		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellBat], 0)
 	EndIf
 
-	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupJump)
 		_GUI_Value_STATE("SHOW", $groupFreeze)
 		_GUI_Value_STATE("SHOW", $groupHaste)
@@ -321,7 +321,7 @@ Func TotalSpellCountClick()
 		GUICtrlSetData($g_ahLblTrainArmySpellLevel[$eSpellBat], 0)
 	EndIf
 
-	If $g_iTownHallLevel > 9 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 9 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupClone)
 		_GUI_Value_STATE("SHOW", $groupBat)
 	EndIf

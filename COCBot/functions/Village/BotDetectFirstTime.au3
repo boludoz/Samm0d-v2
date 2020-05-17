@@ -28,13 +28,13 @@ Func BotDetectFirstTime()
 		If UBound($PixelTHHere) > 0 Then
 			Local $pixel = $PixelTHHere[0]
 			$g_aiTownHallPos[0] = $pixel[0]
-			$g_aiTownHallPos[1] = $pixel[1] + 25
+			$g_aiTownHallPos[1] = $pixel[1]
 			If $g_bDebugSetlog Then SetDebugLog("DLLc# Townhall: (" & $g_aiTownHallPos[0] & "," & $g_aiTownHallPos[1] & ")", $COLOR_ERROR)
 		EndIf
 		If $g_aiTownHallPos[1] = "" Or $g_aiTownHallPos[1] = -1 Then
 			imglocTHSearch(True, True) ; search th on myvillage
-			$g_aiTownHallPos[0] = $g_iTHx
-			$g_aiTownHallPos[1] = $g_iTHy + 25
+			$g_aiTownHallPos[0] = $g_iTHx + 17
+			$g_aiTownHallPos[1] = $g_iTHy + 17
 			If $g_bDebugSetlog Then SetDebugLog("OldDDL Townhall: (" & $g_aiTownHallPos[0] & "," & $g_aiTownHallPos[1] & ")", $COLOR_ERROR)
 		EndIf
 		SetLog("Townhall: (" & $g_aiTownHallPos[0] & "," & $g_aiTownHallPos[1] & ")", $COLOR_DEBUG)
@@ -42,7 +42,7 @@ Func BotDetectFirstTime()
 
 	If Number($g_iTownHallLevel) < 2 Then
 		Local $aTownHallLevel = GetTownHallLevel(True) ; Get the Users TH level
-		If IsArray($aTownHallLevel) Then $g_iTownHallLevel = 0 ; Check for error finding TH level, and reset to zero if yes
+		If IsArray($aTownHallLevel) Then $g_iTownHallLevel < 1 ; Check for error finding TH level, and reset to zero if yes
 	EndIf
 
 	If Number($g_iTownHallLevel) > 1 And Number($g_iTownHallLevel) < 6 Then

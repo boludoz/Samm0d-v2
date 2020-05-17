@@ -77,7 +77,7 @@ Func ReadBuildingConfig()
 		$locationsInvalid = True
 	EndIf
 
-	IniReadS($g_iTownHallLevel, $g_sProfileBuildingPath, "other", "LevelTownHall", 0, "int")
+	IniReadS($g_iTownHallLevel, $g_sProfileBuildingPath, "other", "LevelTownHall", 13, "int")
     If $g_iTownHallLevel > 13 Then $g_iTownHallLevel = 13
 
 	If $locationsInvalid = False Then
@@ -1033,10 +1033,10 @@ Func ReadConfig_600_29_DB()
 	IniReadS($g_aiAttackAlgorithm[$DB], $g_sProfileConfigPath, "attack", "DBAtkAlgorithm", 0, "int")
 	IniReadS($g_aiAttackTroopSelection[$DB], $g_sProfileConfigPath, "attack", "DBSelectTroop", 0, "int")
 	Local $temp1, $temp2, $temp3, $temp4
-	IniReadS($temp1, $g_sProfileConfigPath, "attack", "DBKingAtk", $eHeroNone)
-	IniReadS($temp2, $g_sProfileConfigPath, "attack", "DBQueenAtk", $eHeroNone)
-	IniReadS($temp3, $g_sProfileConfigPath, "attack", "DBWardenAtk", $eHeroNone)
-	IniReadS($temp4, $g_sProfileConfigPath, "attack", "DBChampionAtk", $eHeroNone)
+	IniReadS($temp1, $g_sProfileConfigPath, "attack", "DBKingAtk_", $eHeroKing)
+	IniReadS($temp2, $g_sProfileConfigPath, "attack", "DBQueenAtk_", $eHeroQueen)
+	IniReadS($temp3, $g_sProfileConfigPath, "attack", "DBWardenAtk_", $eHeroWarden)
+	IniReadS($temp4, $g_sProfileConfigPath, "attack", "DBChampionAtk_", $eHeroChampion)
 	$g_aiAttackUseHeroes[$DB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
 	IniReadS($g_abAttackDropCC[$DB], $g_sProfileConfigPath, "attack", "DBDropCC", False, "Bool")
 	IniReadS($g_abAttackUseLightSpell[$DB], $g_sProfileConfigPath, "attack", "DBLightSpell", False, "Bool")
@@ -1078,10 +1078,10 @@ Func ReadConfig_600_29_LB()
 	IniReadS($g_aiAttackAlgorithm[$LB], $g_sProfileConfigPath, "attack", "ABAtkAlgorithm", 0, "int")
 	IniReadS($g_aiAttackTroopSelection[$LB], $g_sProfileConfigPath, "attack", "ABSelectTroop", 0, "int")
 	Local $temp1, $temp2, $temp3, $temp4
-	IniReadS($temp1, $g_sProfileConfigPath, "attack", "ABKingAtk", $eHeroNone)
-	IniReadS($temp2, $g_sProfileConfigPath, "attack", "ABQueenAtk", $eHeroNone)
-	IniReadS($temp3, $g_sProfileConfigPath, "attack", "ABWardenAtk", $eHeroNone)
-	IniReadS($temp4, $g_sProfileConfigPath, "attack", "ABChampionAtk", $eHeroNone)
+	IniReadS($temp1, $g_sProfileConfigPath, "attack", "ABKingAtk_", $eHeroKing)
+	IniReadS($temp2, $g_sProfileConfigPath, "attack", "ABQueenAtk_", $eHeroQueen)
+	IniReadS($temp3, $g_sProfileConfigPath, "attack", "ABWardenAtk_", $eHeroWarden)
+	IniReadS($temp4, $g_sProfileConfigPath, "attack", "ABChampionAtk_", $eHeroChampion)
 	$g_aiAttackUseHeroes[$LB] = BitOR(Int($temp1), Int($temp2), Int($temp3), Int($temp4))
 	IniReadS($g_abAttackDropCC[$LB], $g_sProfileConfigPath, "attack", "ABDropCC", False, "Bool")
 	IniReadS($g_abAttackUseLightSpell[$LB], $g_sProfileConfigPath, "attack", "ABLightSpell", False, "Bool")

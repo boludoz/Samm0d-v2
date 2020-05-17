@@ -426,7 +426,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetBkColor($txtNumBatSpell, $COLOR_RED)
 	EndIf
 	$g_iTownHallLevel = Int($g_iTownHallLevel)
-	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupMyLightning)
 	Else
 		GUICtrlSetData($txtNumLightningSpell, 0)
@@ -442,7 +442,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetData($txtNumBatSpell, 0)
 		GUICtrlSetData($txtTotalCountSpell2, 0)
 	EndIf
-	If $g_iTownHallLevel > 5 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 5 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupMyHeal)
 	Else
 		GUICtrlSetData($txtNumRageSpell, 0)
@@ -455,7 +455,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetData($txtNumSkeletonSpell, 0)
 		GUICtrlSetData($txtNumBatSpell, 0)
 	EndIf
-	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupMyRage)
 	Else
 		GUICtrlSetData($txtNumJumpSpell, 0)
@@ -467,7 +467,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetData($txtNumSkeletonSpell, 0)
 		GUICtrlSetData($txtNumBatSpell, 0)
 	EndIf
-	If $g_iTownHallLevel > 7 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 7 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupMyPoison)
 		_GUI_Value_STATE("SHOW", $groupMyEarthquake)
 	Else
@@ -478,7 +478,7 @@ Func lblMyTotalCountSpell()
 		GUICtrlSetData($txtNumSkeletonSpell, 0)
 		GUICtrlSetData($txtNumBatSpell, 0)
 	EndIf
-	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupMyJumpSpell)
 		_GUI_Value_STATE("SHOW", $groupMyFreeze)
 		_GUI_Value_STATE("SHOW", $groupMyHaste)
@@ -486,7 +486,7 @@ Func lblMyTotalCountSpell()
 	Else
 		GUICtrlSetData($txtNumCloneSpell, 0)
 	EndIf
-	If $g_iTownHallLevel > 9 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 9 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupMyClone)
 		_GUI_Value_STATE("SHOW", $groupMyBat)
 	EndIf
@@ -997,7 +997,7 @@ Func lblMyTotalCountSiege()
 
 	$g_iTownHallLevel = Int($g_iTownHallLevel)
 
-	If $g_iTownHallLevel > 11 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 11 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupMyWallW)
 		_GUI_Value_STATE("SHOW", $groupMyBattleB)
 		_GUI_Value_STATE("SHOW", $groupMyStoneS)
@@ -1007,7 +1007,7 @@ Func lblMyTotalCountSiege()
 		GUICtrlSetData($txtNumSiegeStoneSSiege, 0)
 	EndIf
 
-	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel = 0 Then
+	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel < 1 Then
 		_GUI_Value_STATE("SHOW", $groupMySiegeB)
 	Else
 		GUICtrlSetData($txtNumSiegeSiegeBSiege, 0)

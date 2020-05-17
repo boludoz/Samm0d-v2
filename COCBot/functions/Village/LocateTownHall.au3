@@ -18,11 +18,11 @@ Func LocateTownHall($bLocationOnly = False, $bCollect = True)
 	Local $sMsgBoxText, $MsgBox, $bGotTHLevel, $sLocMsg
 	Local $iStupid = 0, $iSilly = 0, $sErrorText = ""
 
-	If $g_bSkipLocateExc and $g_bRunState Then
+	If $g_bSkipLocateExc and $g_bIsReallyOn Then
 		$g_aiTownHallPos[0] = -1
 		$g_aiTownHallPos[1] = -1
 		SetLog("Quick Town Hall...", $COLOR_INFO)
-	Return False
+		Return False
 	EndIf
 	
 	WinGetAndroidHandle()

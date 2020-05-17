@@ -832,7 +832,7 @@ Func runBot() ;Bot that runs everything in order
 						EndIf
 					EndIf
 				EndIf
-				If $g_iTownHallLevel = 0 Then BotDetectFirstTime()
+				If $g_iTownHallLevel < 1 Then BotDetectFirstTime()
 			Else
 				If _Sleep($DELAYRUNBOT1) Then Return
 				checkMainScreen(False)

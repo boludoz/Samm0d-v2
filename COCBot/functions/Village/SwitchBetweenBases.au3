@@ -30,6 +30,8 @@ Func SwitchBetweenBases($bCheckMainScreen = True, $bGoTo = Default)
 			
 			If UBound($aButtonCoords) > 1 Then $bIsIn = True
 			SetLog("Is in " & $bGoTo & "? " & $bIsIn, $COLOR_INFO)
+			
+			If $bIsIn Then Return True
 		EndIf			
 	
 		Select

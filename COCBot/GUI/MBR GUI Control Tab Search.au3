@@ -237,7 +237,7 @@ Func chkABActivateCamps()
 EndFunc   ;==>chkABActivateCamps
 
 Func chkDBKingWait()
-	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel = 0 Then ; Must be TH7 or above to have King
+	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel < 1 Then ; Must be TH7 or above to have King
 		_GUI_Value_STATE("ENABLE", $g_hChkDBKingWait & "#" & $g_hChkDBKingAttack)
 	Else
 		GUICtrlSetState($g_hChkDBKingWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -246,7 +246,7 @@ Func chkDBKingWait()
 EndFunc   ;==>chkDBKingWait
 
 Func chkDBQueenWait()
-	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then ; Must be TH9 or above to have Queen
+	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel < 1 Then ; Must be TH9 or above to have Queen
 		_GUI_Value_STATE("ENABLE", $g_hChkDBQueenWait & "#" & $g_hChkDBQueenAttack)
 	Else
 		GUICtrlSetState($g_hChkDBQueenWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -255,7 +255,7 @@ Func chkDBQueenWait()
 EndFunc   ;==>chkDBQueenWait
 
 Func chkDBWardenWait()
-	If $g_iTownHallLevel > 10 Or $g_iTownHallLevel = 0 Then ; Must be TH11 to have warden
+	If $g_iTownHallLevel > 10 Or $g_iTownHallLevel < 1 Then ; Must be TH11 to have warden
 		_GUI_Value_STATE("ENABLE", $g_hChkDBWardenWait & "#" & $g_hChkDBWardenAttack)
 	Else
 		GUICtrlSetState($g_hChkDBWardenWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -264,7 +264,7 @@ Func chkDBWardenWait()
 EndFunc   ;==>chkDBWardenWait
 
 Func chkDBChampionWait()
-	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel = 0 Then ; Must be TH13 to have Champion
+	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel < 1 Then ; Must be TH13 to have Champion
 		_GUI_Value_STATE("ENABLE", $g_hChkDBChampionWait & "#" & $g_hChkDBChampionAttack)
 	Else
 		GUICtrlSetState($g_hChkDBChampionWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -273,7 +273,7 @@ Func chkDBChampionWait()
 EndFunc   ;==>chkDBChampionWait
 
 Func chkABKingWait()
-	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel = 0 Then ; Must be TH7 or above to have King
+	If $g_iTownHallLevel > 6 Or $g_iTownHallLevel < 1 Then ; Must be TH7 or above to have King
 		_GUI_Value_STATE("ENABLE", $g_hChkABKingWait & "#" & $g_hChkABKingAttack)
 	Else
 		GUICtrlSetState($g_hChkABKingWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -282,7 +282,7 @@ Func chkABKingWait()
 EndFunc   ;==>chkABKingWait
 
 Func chkABQueenWait()
-	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel = 0 Then ; Must be TH9 or above to have Queen
+	If $g_iTownHallLevel > 8 Or $g_iTownHallLevel < 1 Then ; Must be TH9 or above to have Queen
 		_GUI_Value_STATE("ENABLE", $g_hChkABQueenWait & "#" & $g_hChkABQueenAttack)
 	Else
 		GUICtrlSetState($g_hChkABQueenWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -291,7 +291,7 @@ Func chkABQueenWait()
 EndFunc   ;==>chkABQueenWait
 
 Func chkABWardenWait()
-	If $g_iTownHallLevel > 10 Or $g_iTownHallLevel = 0 Then ; Must be TH11 to have warden
+	If $g_iTownHallLevel > 10 Or $g_iTownHallLevel < 1 Then ; Must be TH11 to have warden
 		_GUI_Value_STATE("ENABLE", $g_hChkABWardenWait & "#" & $g_hChkABWardenAttack)
 	Else
 		GUICtrlSetState($g_hChkABWardenWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -300,7 +300,7 @@ Func chkABWardenWait()
 EndFunc   ;==>chkABWardenWait
 
 Func chkABChampionWait()
-	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel = 0 Then ; Must be TH13 to have Champion
+	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel < 1 Then ; Must be TH13 to have Champion
 		_GUI_Value_STATE("ENABLE", $g_hChkABChampionWait & "#" & $g_hChkABChampionAttack)
 	Else
 		GUICtrlSetState($g_hChkABChampionWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))
@@ -309,7 +309,7 @@ Func chkABChampionWait()
 EndFunc   ;==>chkABChampionWait
 
 Func chkDBSpellsWait()
-	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel = 0 Then ; Must be TH5+ to have spells
+	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel < 1 Then ; Must be TH5+ to have spells
 		For $i = $g_hPicDBLightSpellWait To $g_hPicDBHasteSpellWait
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next
@@ -333,7 +333,7 @@ Func chkDBSpellsWait()
 EndFunc   ;==>chkDBSpellsWait
 
 Func chkABSpellsWait()
-	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel = 0 Then ; Must be TH5+ to have spells
+	If $g_iTownHallLevel > 4 Or $g_iTownHallLevel < 1 Then ; Must be TH5+ to have spells
 		For $i = $g_hPicABLightSpellWait To $g_hPicABHasteSpellWait
 			GUICtrlSetState($i, $GUI_ENABLE)
 		Next

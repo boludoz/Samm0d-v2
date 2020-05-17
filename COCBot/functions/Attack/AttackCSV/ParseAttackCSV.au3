@@ -38,7 +38,33 @@ Func ParseAttackCSV($debug = False)
 	Local $value1 = "", $value2 = "", $value3 = "", $value4 = "", $value5 = "", $value6 = "", $value7 = "", $value8 = "", $value9 = ""
 	If FileExists($g_sCSVAttacksPath & "\" & $filename & ".csv") Then
 	Local $aLines = FileReadToArray($g_sCSVAttacksPath & "\" & $filename & ".csv")
-				
+
+		#Region - Mod
+		Local $saHeros[0][3]
+		For $iMod = 0 To UBound($aLines) -1
+			For $iMod2 = 0 To UBound($g_asHeroShortNames) -1
+				If StringInStr($aLines[$iMod], $g_asHeroShortNames[$iMod2]) > 0 Then
+					Local $aTmpHeros[1][3] = [[$iMod, $aLines[$iMod], $g_asHeroShortNames[$iMod2]]]
+					_ArrayAdd($saHeros, $aTmpHeros)
+				EndIf
+			Next
+		Next
+
+		If UBound($saHeros) > 0 Then
+			For $iMod4 = 0 To UBound($g_asHeroShortNames) -1
+				For $iMod3 = 0 To UBound($saHeros) -1
+					If StringInStr($saHeros[$iMod3][2], $g_asHeroShortNames[$iMod4]) > 1 Then ExitLoop
+					If Not (UBound($g_asHeroShortNames) -1 = $iMod4) Then ContinueLoop
+
+					Local $sString = StringReplace($saHeros[0][1], $saHeros[0][2], $g_asHeroShortNames[$iMod4])
+					_ArrayInsert($aLines, $saHeros[0][0], $sString, 0, -1, -1,  $ARRAYFILL_FORCE_STRING)
+					ContinueLoop 2
+				Next
+			Next
+		EndIf
+		_ArrayDisplay($aLines)
+		#EndRegion - Mod
+
 		; Read in lines of text until the EOF is reached
 		For $iLine = 0 To UBound($aLines) - 1
 			$line = $aLines[$iLine]
@@ -112,7 +138,7 @@ Func ParseAttackCSV($debug = False)
 							EndSwitch
 							If CheckCsvValues("MAKE", 1, $value1) And CheckCsvValues("MAKE", 5, $value5) Then
 								$sTargetVectors = StringReplace($sTargetVectors, $value3, "", Default, $STR_NOCASESENSEBASIC) ; if re-making a vector, must remove from target vector string
-								If CheckCsvValues("MAKE", 8, $value8) Then ; Vector is targeted towards building 
+								If CheckCsvValues("MAKE", 8, $value8) Then ; Vector is targeted towards building
 									; new field definitions:
 									; $side = target side string
 									; value3 = Drop points can be 1,3,5,7... ODD number Only e.g if 5=[2, 1, 0, -1, -2] will Add tiles to left and right to make drop point 3 would be exact positon of building
@@ -399,9 +425,9 @@ Func ParseAttackCSV($debug = False)
 												$bFoundCC = True
 											EndIf
 										ElseIf ($iTroopKind = $eKing And Not $g_bDropKing) Or ($iTroopKind = $eQueen And Not $g_bDropQueen) Or ($iTroopKind = $eWarden And Not $g_bDropWarden) Or ($iTroopKind = $eChampion And Not $g_bDropChampion) Then
-											
+
 											Local $bFoundHero = False
-											
+
 											Select
 												Case BitAnd(($iTroopKind = $eKing), not $bRemainDropKing)
 													$bFoundHero = True
@@ -416,14 +442,14 @@ Func ParseAttackCSV($debug = False)
 													$bFoundHero = True
 													$bRemainDropChampion = True
 											EndSelect
-								
+
 											If $bFoundHero Then
 												Setlog("- Remain hero drop: " & GetTroopName($iTroopKind, 0), $COLOR_INFO)
 												DropTroopFromINI($value1, $index1, $index2, $indexArray, 1, 1, GetTroopName($iTroopKind, 1, True), $delaypoints1, $delaypoints2, $delaydrop1, $delaydrop2, $sleepdrop1, $sleepdrop2, $sleepbeforedrop1, $sleepbeforedrop2, $debug)
 												CheckHeroesHealth()
 												If _Sleep($DELAYALGORITHM_ALLTROOPS5) Then Return
 											EndIf
-											
+
 										EndIf
 									Next
 									#EndRegion - Custom remain - Team AIO Mod++

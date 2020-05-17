@@ -21,10 +21,10 @@ Global $bTempDisAddIdleTime = False ;disable add train idle when train finish so
 Global $ichkMyTroopsOrder = 0
 Global $g_sSamM0dImageLocation = @ScriptDir & "\COCBot\SamM0d\Images"
 Global $ichkDisablePretrainTroops = 0
-Global $g_bDoPrebrewspell = 0
-Global $ichkEnableDeleteExcessTroops = 0
-Global $ichkForcePreTrainTroops = 0
-Global $itxtForcePreTrainStrength = 95
+Global $g_bDoPrebrewspell = 1
+Global $ichkEnableDeleteExcessTroops = 1
+Global $ichkForcePreTrainTroops = 1
+Global $itxtForcePreTrainStrength = 25
 Global $bRestartCustomTrain = False
 
 Global $icmbTroopSetting = 0
@@ -235,8 +235,8 @@ Global $ReadyLightningSpell = 0, $ReadyHealSpell = 0, $ReadyRageSpell = 0, $Read
 Global $chkPreLightning, $chkPreHeal, $chkPreRage, $chkPreJump, $chkPreFreeze, $chkPreClone, $chkPrePoison, $chkPreEarth, $chkPreHaste, $chkPreSkeleton, $chkPreBat
 
 Global $chkMySpellsOrder, $ichkMySpellsOrder
-Global $chkEnableDeleteExcessSpells, $ichkEnableDeleteExcessSpells
-Global $chkForcePreBrewSpell, $ichkForcePreBrewSpell
+Global $chkEnableDeleteExcessSpells, $ichkEnableDeleteExcessSpells = 1
+Global $chkForcePreBrewSpell, $ichkForcePreBrewSpell = 1
 Global $cmbMyLightningSpellOrder, $cmbMyHealSpellOrder, $cmbMyRageSpellOrder, $cmbMyJumpSpellOrder, $cmbMyFreezeSpellOrder, $cmbMyCloneSpellOrder, $cmbMyPoisonSpellOrder, $cmbMyEarthSpellOrder, $cmbMyHasteSpellOrder, $cmbMySkeletonSpellOrder, $cmbMyBatSpellOrder
 
 Global $g_iMySpellsSize = 0
