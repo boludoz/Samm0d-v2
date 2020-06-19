@@ -330,7 +330,7 @@ Func OcrForceCaptureRegion($bForce = Default)
 	Return $wasForce
 EndFunc   ;==>OcrForceCaptureRegion
 
-Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = Default, $bImgLoc = Default, $bForceCaptureRegion = Default)
+Func _getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = Default, $bImgLoc = Default, $bForceCaptureRegion = Default)
 	If $removeSpace = Default Then $removeSpace = False
 	If $bImgLoc = Default Then $bImgLoc = False
 	If $bForceCaptureRegion = Default Then $bForceCaptureRegion = $g_bOcrForceCaptureRegion
@@ -368,6 +368,19 @@ Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpa
 		$result = StringStripWS($result, BitOR($STR_STRIPLEADING, $STR_STRIPTRAILING, $STR_STRIPSPACES))
 	EndIf
 	Return $result
+EndFunc   ;==>getOcrAndCapture
+
+Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = Default, $bImgLoc = Default, $bForceCaptureRegion = Default)
+	Local $iTry = 0
+	Local $iMax = ($g_bDnAIO <> True) ? (8) : (0)
+	
+	While 1
+		$g_sGetOcrMod = _getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace, $bImgLoc, $bForceCaptureRegion)
+		If $iMax = $iTry Or not StringIsSpace($g_sGetOcrMod) Then Return $g_sGetOcrMod
+		$iTry += 1
+		If _Sleep(250) Then Return
+	Wend
+	Return ""
 EndFunc   ;==>getOcrAndCapture
 
 Func getOcr(ByRef Const $_hHBitmap, $language)

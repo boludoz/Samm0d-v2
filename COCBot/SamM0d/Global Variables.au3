@@ -12,6 +12,9 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+; Ocr fix.
+Global $g_sGetOcrMod = "", $g_bDnAIO = False
+
 ; Super troops mod
 Global $g_sSuperTActive = ""
 
