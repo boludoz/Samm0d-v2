@@ -40,7 +40,7 @@ Func GetTownHallLevel($bFirstTime = False)
 		EndIf
 		If $aTHInfo[2] <> "" Then
 			$g_iTownHallLevel = $aTHInfo[2] ; grab building level from building info array
-			If $g_iTownHallLevel > 12 Then $g_iTownHallLevel = 12
+			If $g_iTownHallLevel > $g_iMaxTownHallLevel Then $g_iTownHallLevel = $g_iMaxTownHallLevel ; Custom Samm0d
 			SetLog("Your Town Hall Level read as: " & $g_iTownHallLevel, $COLOR_SUCCESS)
 			saveConfig()
 		Else

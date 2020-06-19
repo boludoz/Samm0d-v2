@@ -264,7 +264,7 @@ Func chkDBWardenWait()
 EndFunc   ;==>chkDBWardenWait
 
 Func chkDBChampionWait()
-	If $g_iTownHallLevel > 12 Or $g_iTownHallLevel < 1 Then ; Must be TH13 to have Champion
+    If $g_iTownHallLevel > 12 Or $g_iTownHallLevel < 1 Then ; Must be TH13 to have Champion
 		_GUI_Value_STATE("ENABLE", $g_hChkDBChampionWait & "#" & $g_hChkDBChampionAttack)
 	Else
 		GUICtrlSetState($g_hChkDBChampionWait, BitOR($GUI_DISABLE, $GUI_UNCHECKED))

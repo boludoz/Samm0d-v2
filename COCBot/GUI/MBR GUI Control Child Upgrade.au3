@@ -236,7 +236,7 @@ Func ResetStarLabUpgradeTime()
 EndFunc   ;==>ResetLabUpgradeTime
 
 Func chkUpgradeKing()
-	If $g_iTownHallLevel > 6 Then ; Must be TH7 or above to have King
+    If ($g_iTownHallLevel > 6 Or $g_iTownHallLevel < 1) Then
 		If GUICtrlRead($g_hCmbBoostBarbarianKing) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeKing, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkUpgradeKing, $GUI_UNCHECKED)
@@ -269,7 +269,7 @@ Func chkUpgradeKing()
 EndFunc   ;==>chkUpgradeKing
 
 Func chkUpgradeQueen()
-	If $g_iTownHallLevel > 8 Then ; Must be TH9 or above to have Queen
+    If ($g_iTownHallLevel > 8 Or $g_iTownHallLevel < 1) Then
 		If GUICtrlRead($g_hCmbBoostArcherQueen) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkUpgradeQueen, $GUI_UNCHECKED)
@@ -301,7 +301,7 @@ Func chkUpgradeQueen()
 EndFunc   ;==>chkUpgradeQueen
 
 Func chkUpgradeWarden()
-	If $g_iTownHallLevel > 10 Then ; Must be TH11 to have warden
+    If ($g_iTownHallLevel > 10 Or $g_iTownHallLevel < 1) Then
 		If GUICtrlRead($g_hCmbBoostWarden) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkUpgradeWarden, $GUI_UNCHECKED)
@@ -333,7 +333,7 @@ Func chkUpgradeWarden()
 EndFunc   ;==>chkUpgradeWarden
 
 Func chkUpgradeChampion()
-	If $g_iTownHallLevel > 12 Then ; Must be TH13 to have Champion
+    If ($g_iTownHallLevel > 12 Or $g_iTownHallLevel < 1) Then
 		If GUICtrlRead($g_hCmbBoostChampion) > 0 Then
 			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_DISABLE)
 			GUICtrlSetState($g_hChkUpgradeChampion, $GUI_UNCHECKED)

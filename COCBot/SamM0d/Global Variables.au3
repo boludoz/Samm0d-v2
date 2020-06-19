@@ -12,6 +12,9 @@
 ; Link ..........: https://github.com/MyBotRun/MyBot/wiki
 ; Example .......: No
 ; ===============================================================================================================================
+; Max TH.
+Global $g_iMaxTownHallLevel = 13
+
 ; Ocr fix.
 Global $g_sGetOcrMod = "", $g_bDnAIO = False
 
