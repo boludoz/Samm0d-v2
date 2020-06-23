@@ -20,4 +20,4 @@
 #Au3Stripper_On
 
 Global $g_sBotVersion = "v7.8.3" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
-Global $g_sModVersion = " @Samkie M0d v20.06.19 16:49 hs" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()
+Global $g_sModVersion = " @Samkie M0d v20.06.23 18:13 hs" ;~ Don't add more here, but below. Version can't be longer than vX.y.z because it is also used in Checkversion()

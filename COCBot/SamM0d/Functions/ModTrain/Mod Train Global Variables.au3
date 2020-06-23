@@ -241,7 +241,7 @@ Global $cmbMyLightningSpellOrder, $cmbMyHealSpellOrder, $cmbMyRageSpellOrder, $c
 
 Global $g_iMySpellsSize = 0
 Global $g_aMySpells[11][6] = _
-		[["Lightning", 1, 2, 0, 0, "LSpell"], _
+		[["Lightning", 1, 1, 0, 0, "LSpell"], _
 		["Heal", 2, 2, 0, 0, "HSpell"], _
 		["Rage", 3, 2, 0, 0, "RSpell"], _
 		["Jump", 4, 2, 0, 0, "JSpell"], _

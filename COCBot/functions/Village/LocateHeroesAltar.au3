@@ -412,7 +412,7 @@ EndFunc   ;==>LocateChampionAltar
 Func _LocateChampionAltar($bCollect = True)
 	Local $stext, $MsgBox, $iSilly = 0, $iStupid = 0, $sErrorText = "", $sInfo
 
-    If Not ($g_iTownHallLevel >= 13 Or $g_iTownHallLevel < 1) Then ; Must be TH13 to have Champion
+    If Not ($g_iTownHallLevel < 13 And not $g_iTownHallLevel < 1) Then ; Must be TH13 to have Champion
 		SetLog("Royal Champion requires TH13! Stop locating Altar", $COLOR_ERROR)
 		Return
 	EndIf
