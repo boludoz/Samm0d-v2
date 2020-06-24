@@ -469,12 +469,20 @@ Func RemoveAllPreTrainTroops()
 EndFunc
 
 Func RemoveTrainTroops($iSlot, $iCount)
-	Local $iLoopCount = 0
-	While $iLoopCount < $iCount
-		HMLPureClick(Random(118 + (Abs( $iSlot - 10) * 70.5)-2, 118 + (Abs( $iSlot - 10) * 70.5)+2, 1), Random(200,204,1),1,0,"#RTS")
-		If _Sleep(Random(($g_iTrainClickDelay*90)/100, ($g_iTrainClickDelay*110)/100, 1), False) Then ExitLoop
-		$iLoopCount += 1
-	WEnd
+	Local $vf = findMultipleQuick($g_sSamM0dImageLocation & "\Siege\Sprites\", 0, "17,190,842,199", "Delete", False, True, 50)
+	If ($vf = -1) Then Return False
+
+	For $i = UBound($vf) -1 To 0 Step -1
+		If Not ($iSlot = $i) Then ContinueLoop
+		Local $iLoopCount = 0
+		While ($iLoopCount < $iCount)
+			HMLPureClick(Random(Int($vf[$i][1] - 2), Int($vf[$i][1] + 2), 1), Random(200,204,1),1,0,"#RTS")
+			If _Sleep(Random(($g_iTrainClickDelay*90)/100, ($g_iTrainClickDelay*110)/100, 1), False) Then Return
+			$iLoopCount += 1
+		WEnd	
+		ExitLoop	
+	Next
+	
 EndFunc
 
 Func RemoveCCTroops($iSlot, $iCount)

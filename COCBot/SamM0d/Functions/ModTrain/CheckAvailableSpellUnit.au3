@@ -143,7 +143,7 @@ Func CheckAvailableSpellUnit()
 				If IsArray($vDelete) Then
 					For $i = UBound($vDelete) -1 To 0 Step -1
 				
-						Local $aDel[2] = [($vDelete[$i][1] - 57) ? ($vDelete[$i][1] - 57) : (0), $vDelete[$i][1] + 13]
+						Local $aDel[2] = [($vDelete[$i][1] - 57) ? ($vDelete[$i][1] - 57) : (0), $vDelete[$i][2] + 13]
 						; _ArrayDisplay($aDel)
 						Local $sArea = $aDel[0] & "," & 335 & "," & $aDel[1] & "," & 438
 						;Setlog($sArea)
