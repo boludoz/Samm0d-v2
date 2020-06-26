@@ -79,7 +79,7 @@ Func CheckAvailableUnit()
 			Else
 				$aiTroopsInfo[$i][0] = $aSlotAuto[$i][0] ; objectname
 				$aiTroopsInfo[$i][2] = $i + 1
-				SetLog("Error: Cannot detect what spells on slot: " & $i + 1, $COLOR_ERROR)
+				SetLog("Error: Cannot detect what troops on slot: " & $i + 1, $COLOR_ERROR)
 				ContinueLoop
 			EndIf
 

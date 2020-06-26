@@ -339,7 +339,7 @@ Func getTrainArmyCapacityMini($bShowLog = True)
 	$g_aiTroopsMaxCamp[0] = 0
 	$g_aiTroopsMaxCamp[1] = 0
 
-	$sArmyInfo = getMyOcrTrainArmyOrBrewSpellCap()
+	$sArmyInfo = getArmyCapacityOnTrainTroops(48, 160)
 	If $g_iSamM0dDebug = 1 Then Setlog("getTrainArmyCapacityMini $sArmyInfo = " & $sArmyInfo, $COLOR_DEBUG)
 	$aTempSize = StringSplit($sArmyInfo, "#", $STR_NOCOUNT)
 	If IsArray($aTempSize) Then
@@ -441,7 +441,7 @@ Func getBrewSpellCapacityMini($bShowLog = True)
 	$g_aiSpellsMaxCamp[0] = 0
 	$g_aiSpellsMaxCamp[1] = 0
 
-	$sSpellInfo = getMyOcrTrainArmyOrBrewSpellCap()
+	$sSpellInfo = getArmyCapacityOnTrainTroops(48, 160)
 	If $g_iSamM0dDebug = 1 Then Setlog("getBrewSpellCapacityMini $sSpellInfo = " & $sSpellInfo, $COLOR_DEBUG)
 	$aTempSize = StringSplit($sSpellInfo, "#", $STR_NOCOUNT)
 	If IsArray($aTempSize) Then

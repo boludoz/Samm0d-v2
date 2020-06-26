@@ -330,7 +330,7 @@ Func OcrForceCaptureRegion($bForce = Default)
 	Return $wasForce
 EndFunc   ;==>OcrForceCaptureRegion
 
-Func _getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = Default, $bImgLoc = Default, $bForceCaptureRegion = Default)
+Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = Default, $bImgLoc = Default, $bForceCaptureRegion = Default)
 	If $removeSpace = Default Then $removeSpace = False
 	If $bImgLoc = Default Then $bImgLoc = False
 	If $bForceCaptureRegion = Default Then $bForceCaptureRegion = $g_bOcrForceCaptureRegion
@@ -370,18 +370,6 @@ Func _getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSp
 	Return $result
 EndFunc   ;==>getOcrAndCapture
 
-Func getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace = Default, $bImgLoc = Default, $bForceCaptureRegion = Default)
-	Local $iTry = 0
-	Local $iMax = ($g_bDnAIO <> True) ? (8) : (0)
-	
-	While 1
-		$g_sGetOcrMod = _getOcrAndCapture($language, $x_start, $y_start, $width, $height, $removeSpace, $bImgLoc, $bForceCaptureRegion)
-		If $iMax = $iTry Or not StringIsSpace($g_sGetOcrMod) Then Return $g_sGetOcrMod
-		$iTry += 1
-		If _Sleep(250) Then Return
-	Wend
-	Return ""
-EndFunc   ;==>getOcrAndCapture
 
 Func getOcr(ByRef Const $_hHBitmap, $language)
 	Local $result = DllCallMyBot("ocr", "ptr", $_hHBitmap, "str", $language, "int", $g_bDebugOcr ? 1 : 0)
